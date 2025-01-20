@@ -1,0 +1,50 @@
+.icon-angle-down {
+    line-height: inherit;
+
+    &:before {
+        content: url("data:image/svg+xml,%3Csvg width='25' height='25' viewBox='0 0 25 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11.5208 13.4792H0.75V11.5208H11.5208V0.75H13.4792V11.5208H24.25V13.4792H13.4792V24.25H11.5208V13.4792Z' fill='%23004238'/%3E%3C/svg%3E");
+    }
+}
+
+
+.accordion {
+    .toggle {
+        height: 25px;
+        left: inherit;
+        right: 35px;
+        margin-right: 5px;
+        margin-left: 5px;
+        position: absolute;
+        top: calc(50% - 21px);
+        transform-origin: 50% 47%;
+        width: 25px;
+    }
+
+    .active {
+        > .toggle {
+            transform: rotate(-45deg);
+        }
+    };
+}
+
+.accordion-item {
+    background-color: #FFFFFF;
+    border-radius: 50px;
+    margin-bottom: 15px;
+}
+
+.accordion-title {
+    height: 100px;
+    padding: .6em 45px .6em 45px;
+    display: flex;
+    align-items: center;
+    border: none;
+    font-weight: 700;
+
+    &.active {
+        background-color: transparent;
+        border-color: inherit;
+        color: inherit;
+    }
+}
+

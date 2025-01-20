@@ -1,0 +1,85 @@
+# Application
+web/app/plugins/*
+!web/app/plugins/.gitkeep
+web/app/mu-plugins/*/
+web/app/upgrade
+web/app/uploads/*
+!web/app/uploads/.gitkeep
+web/app/cache/*
+
+# Plugins to keep
+!web/app/mu-plugins/gravityforms
+!web/app/mu-plugins/gravityformsmailchimp
+!web/app/mu-plugins/gravity-slider-fields
+!web/app/mu-plugins/wordpress-multisite-media-sync
+!web/app/mu-plugins/wp-multisite-content-copier-pro
+!web/app/plugins/multisite-language-switcher
+!web/app/plugins/advanced-custom-fields-pro
+
+# WordPress
+web/wp
+web/.htaccess
+web/.htpasswd
+
+# Logs
+*.log
+
+# Dotenv
+.env
+.env.*
+!.env.example
+env
+
+# Composer
+/vendor
+auth.json
+
+# WP-CLI
+wp-cli.local.yml
+
+# Theme
+web/app/themes/rebranding/node_modules
+!web/app/themes/*/acf-json/*
+!web/app/themes/*/acf-json/index.php
+
+# Public compiled css and js
+web/app/themes/rebranding/style.css
+web/app/themes/rebranding/mix-manifest.json
+
+# Distributed assets.
+web/app/themes/rebranding/dist/fonts/*
+web/app/themes/rebranding/dist/css/*
+web/app/themes/rebranding/dist/js/*
+
+# Apple
+.DS_Store
+.idea
+
+#php-storm
+.idea
+
+# Updraft / Backups
+web/app/updraft/*
+uploads.zip
+
+# Wordfence
+web/app/wflogs/*
+
+# PHP CS Fixer
+.php-cs-fixer.cache
+
+# Smush
+web/app/smush-webp/*
+
+# WP Rocket
+!web/app/plugins/wp-rocket
+web/app/wp-rocket-config/*
+web/app/advanced-cache.php
+web/app/cache/*
+
+# Ignore cached translation files
+*.po~
+*.pot~
+
+# DO NOT PUT ANYTHING ELSE BELOW THIS LINE.
+!.gitkeep

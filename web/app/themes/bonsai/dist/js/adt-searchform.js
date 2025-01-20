@@ -1,0 +1,304 @@
+/******/ (() => { // webpackBootstrap
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./assets/js/adt-searchform.js":
+/*!*************************************!*\
+  !*** ./assets/js/adt-searchform.js ***!
+  \*************************************/
+/***/ (() => {
+
+jQuery(document).ready(function ($) {
+  $('.co2-form input[name="switch-one"]').on('change', function () {
+    var isChecked = $(this).is(':checked');
+    if (isChecked) {
+      var value = $(this).val();
+      $('input.search').attr('placeholder', 'Find footprint by ' + value);
+    }
+  });
+  var productTitleArray = [];
+  var productContentArray = [];
+  var productCodeArray = [];
+  var productUuidArray = [];
+  $(searchform.products).each(function () {
+    productTitleArray.push(this.title);
+    productContentArray.push(this.content);
+    productCodeArray.push(this.code);
+    productUuidArray.push(this.uuid);
+  });
+  var words = productTitleArray;
+  var $input = $('#autocomplete-input');
+  var $suggestionsWrapper = $('#suggestions-wrapper');
+  var $suggestions = $('#suggestions');
+  var currentIndex = -1; // To track the currently marked suggestion
+  var suggestionSelected = false; // Tracks if a suggestion was selected
+
+  $input.on('input', function () {
+    var query = $input.val().toLowerCase();
+    var matches = words.filter(function (word) {
+      return word.toLowerCase().includes(query);
+    });
+    $suggestions.empty();
+    currentIndex = -1; // Reset the index when typing
+    suggestionSelected = false; // Reset the selection state
+
+    if (matches.length > 0 && query) {
+      $(this).css('border-radius', '50px 50px 0 0');
+      $(this).css('border-bottom', 'none');
+      $suggestionsWrapper.show();
+      matches.forEach(function (match) {
+        var $div = $('<div>').text(match).addClass('suggestion-item').on('click', function () {
+          $input.val(match);
+          $suggestionsWrapper.hide();
+        });
+        $suggestions.append($div);
+      });
+    } else {
+      $(this).css('border-radius', '50px');
+      $(this).css('border-bottom', '1px solid #ddd');
+      $suggestionsWrapper.hide();
+    }
+  });
+  $input.on('keydown', function (e) {
+    var $items = $suggestions.find('.suggestion-item');
+    if ($items.length > 0) {
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        currentIndex = (currentIndex + 1) % $items.length; // Move down
+        markCurrentItem($items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        currentIndex = (currentIndex - 1 + $items.length) % $items.length; // Move up
+        markCurrentItem($items);
+      } else if (e.key === 'Enter') {
+        if (currentIndex >= 0) {
+          e.preventDefault(); // Prevent form submission when selecting a suggestion
+          var selectedText = $items.eq(currentIndex).text();
+          $input.val(selectedText);
+          $suggestionsWrapper.hide();
+          $($input).css('border-radius', '50px');
+          $($input).css('border-bottom', '1px solid #ddd');
+          suggestionSelected = true; // Mark a suggestion as selected
+        } else if (suggestionSelected) {
+          suggestionSelected = false; // Allow form submission on next Enter press
+        }
+      }
+    }
+  });
+  $(document).on('click', function (e) {
+    if (!$(e.target).is($input)) {
+      $suggestionsWrapper.hide();
+      $($input).css('border-radius', '50px');
+      $($input).css('border-bottom', '1px solid #ddd');
+    }
+  });
+  function markCurrentItem($items) {
+    $items.removeClass('highlight'); // Remove highlight from all items
+    if (currentIndex >= 0) {
+      $items.eq(currentIndex).addClass('highlight'); // Highlight the current item
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./assets/scss/style.scss":
+/*!********************************!*\
+  !*** ./assets/scss/style.scss ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./assets/scss/adt-searchform.scss":
+/*!*****************************************!*\
+  !*** ./assets/scss/adt-searchform.scss ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./assets/scss/adt-blog-posts.scss":
+/*!*****************************************!*\
+  !*** ./assets/scss/adt-blog-posts.scss ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./assets/scss/adt-issues.scss":
+/*!*************************************!*\
+  !*** ./assets/scss/adt-issues.scss ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		// no baseURI
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"/dist/js/adt-searchform": 0,
+/******/ 			"dist/css/adt-issues": 0,
+/******/ 			"dist/css/adt-blog-posts": 0,
+/******/ 			"dist/css/adt-searchform": 0,
+/******/ 			"style": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunklca_aau"] = self["webpackChunklca_aau"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	__webpack_require__.O(undefined, ["dist/css/adt-issues","dist/css/adt-blog-posts","dist/css/adt-searchform","style"], () => (__webpack_require__("./assets/js/adt-searchform.js")))
+/******/ 	__webpack_require__.O(undefined, ["dist/css/adt-issues","dist/css/adt-blog-posts","dist/css/adt-searchform","style"], () => (__webpack_require__("./assets/scss/style.scss")))
+/******/ 	__webpack_require__.O(undefined, ["dist/css/adt-issues","dist/css/adt-blog-posts","dist/css/adt-searchform","style"], () => (__webpack_require__("./assets/scss/adt-searchform.scss")))
+/******/ 	__webpack_require__.O(undefined, ["dist/css/adt-issues","dist/css/adt-blog-posts","dist/css/adt-searchform","style"], () => (__webpack_require__("./assets/scss/adt-blog-posts.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["dist/css/adt-issues","dist/css/adt-blog-posts","dist/css/adt-searchform","style"], () => (__webpack_require__("./assets/scss/adt-issues.scss")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
