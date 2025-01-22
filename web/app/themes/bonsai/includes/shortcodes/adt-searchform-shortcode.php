@@ -157,9 +157,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div class="col-inner">
                         <p class="product-title">Aluminium</p>
                         <div class="product-tag-wrapper">
-                            <span class="product-tag">Cradle To Gate</span>
-                            <span class="product-tag">Australia</span>
-                            <span class="product-tag">2016</span>
+                            <span class="product-tag footprint-type">Cradle To Gate</span>
+                            <span class="product-tag country">Australia</span>
+                            <span class="product-tag year">2016</span>
                             <span class="product-tag">GWP100</span>
                         </div>
                         <div class="unit-select-wrapper">
@@ -212,9 +212,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <div class="choices">
                                 <p class="product-title">Aluminium</p>
                                 <div class="product-tag-wrapper">
-                                    <span class="product-tag">Cradle To Gate</span>
-                                    <span class="product-tag">Australia</span>
-                                    <span class="product-tag">2016</span>
+                                    <span class="product-tag footprint-type">Cradle To Gate</span>
+                                    <span class="product-tag country">Australia</span>
+                                    <span class="product-tag year">2016</span>
                                     <span class="product-tag">GWP100</span>
                                 </div>
                                 <div class="unit-select-wrapper">

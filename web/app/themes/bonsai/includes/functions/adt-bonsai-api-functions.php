@@ -286,3 +286,74 @@ function adt_get_product_recipe()
 
 add_action('wp_ajax_adt_get_product_recipe', 'adt_get_product_recipe');
 add_action('wp_ajax_nopriv_adt_get_product_recipe', 'adt_get_product_recipe');
+
+function adt_get_product_footprint()
+{
+    $productName = $_POST['title'];
+    $productCode = $_POST['code'];
+    $productUuid = $_POST['uuid'];
+    $chosenCountry = $_POST['footprint_location'];
+    $chosenType = $_POST['footprint_type'];
+    // Everything if from year 2016, but this might get updated.
+    $chosenYear = $_POST['footprint_year'];
+
+    // API URL
+    $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry;
+
+    // Make the API request
+    $response = wp_remote_get($url);
+
+    // Check for errors
+    if (is_wp_error($response)) {
+        return 'Error: ' . $response->get_error_message();
+    }
+
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return 'No footprints found or an error occurred.';
+    }
+
+    if (array_key_exists('detail', $result)) {
+        return 'Error: ' . $result['detail'];
+    }
+
+    // get newest version of the footprint.
+    $footprints = $result['results'];
+    $versionArray = [];
+
+    foreach ($footprints as $footprint) {
+        $versionArray[] = $footprint['version'];
+        $footprintTitle = $footprint['description'];
+    }
+
+    $newestVersion = adt_get_newest_version($versionArray);
+
+    // Get the footprint with the newest version
+    $chosenFootprint = [];
+
+    foreach ($footprints as $footprint) {
+        if ($footprint['version'] === $newestVersion) {
+            $chosenFootprint[] = $footprint;
+        }
+    }
+
+    $data = [
+        'title' => $footprintTitle,
+        'all_data' => $chosenFootprint,
+    ];
+
+    wp_send_json_success($data);
+}
+
+add_action('wp_ajax_adt_get_product_footprint', 'adt_get_product_footprint');
+add_action('wp_ajax_nopriv_adt_get_product_footprint', 'adt_get_product_footprint');
+
+function adt_get_newest_version(array $versions): string
+{
+    usort($versions, 'version_compare');
+    return end($versions);
+}

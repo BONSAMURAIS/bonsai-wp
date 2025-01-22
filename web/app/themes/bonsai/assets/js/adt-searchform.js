@@ -43,6 +43,8 @@ jQuery(document).ready(function($){
     const $suggestions = $('#suggestions');
     let currentIndex = -1; // To track the currently marked suggestion
     let suggestionSelected = false; // Tracks if a suggestion was selected
+    // Get default chosen values
+    let chosenValuesArray = adt_get_chosen_values();
 
         
     $input.on('input', function () {
@@ -70,7 +72,10 @@ jQuery(document).ready(function($){
                         $input.attr('data-uuid', match.uuid); // Set the product UUID as data attribute
                         $suggestionsWrapper.hide();
 
-                        adt_get_product_info(match.word, match.code, match.uuid);
+                        // Update chosen values
+                        chosenValuesArray = adt_get_chosen_values();
+
+                        adt_get_product_info(match.word, match.code, match.uuid, chosenValuesArray);
                     });
                 $suggestions.append($div);
             });
@@ -106,9 +111,10 @@ jQuery(document).ready(function($){
 
                     suggestionSelected = true; // Mark a suggestion as selected
 
-                    console.log($input.val());
+                    // Update chosen values
+                    chosenValuesArray = adt_get_chosen_values();
 
-                    adt_get_product_info(selectedText, $input.data('code'), $input.data('uuid'));
+                    adt_get_product_info(selectedText, $input.data('code'), $input.data('uuid'), chosenValuesArray);
                 } else if (suggestionSelected) {
                     suggestionSelected = false; // Allow form submission on next Enter press
                 }
@@ -133,25 +139,94 @@ jQuery(document).ready(function($){
 });
 
 
-function adt_get_product_info(productTitle, productCode, productUuid) 
+function adt_get_product_info(productTitle, productCode, productUuid, chosenValues) 
 {
+    productInfo = [];
+
     jQuery.ajax({
         type: 'POST',
         url: localize._ajax_url,
         data: {
             _ajax_nonce: localize._ajax_nonce,
-            action: 'adt_get_product_recipe',
+            action: 'adt_get_product_footprint',
             title: productTitle,
             code: productCode,
             uuid: productUuid,
+            footprint_location: chosenValues['footprint_location'],
+            footprint_type: chosenValues['footprint_type'],
+            footprint_year: chosenValues['footprint_year'],
         },
         beforeSend: function() {
             
         },
         success: (response) => {
-            console.log(response);
+            let dataArray = response.data;
+
+            localStorage.setItem("footprint_data", dataArray.all_data);
+
+            console.log(dataArray);
+            
+            jQuery('p.product-title').each(function() {
+                jQuery(this).text(dataArray.title);
+            });
         }
     });
 
-    return productInfo;
+    // jQuery.ajax({
+    //     type: 'POST',
+    //     url: localize._ajax_url,
+    //     data: {
+    //         _ajax_nonce: localize._ajax_nonce,
+    //         action: 'adt_get_product_recipe',
+    //         title: productTitle,
+    //         code: productCode,
+    //         uuid: productUuid,
+    //     },
+    //     beforeSend: function() {
+            
+    //     },
+    //     success: (response) => {
+    //         console.log(response);
+    //     }
+    // });
+
+    // return productInfo;
+}
+
+function adt_get_chosen_values()
+{
+    let chosenArray = [];
+
+    chosenArray['footprint_type'] = jQuery('#footprint-type').val();
+    chosenArray['footprint_location'] = jQuery('#location').val();
+    chosenArray['footprint_year'] = jQuery('#year').val();
+
+    adt_update_tags();
+
+    return chosenArray;
+}
+
+function adt_update_tags()
+{
+    let typeValue = jQuery('#footprint-type option:selected').val();
+    let type = 'Cradle to gate';
+
+    if (typeValue === 'market') {
+        type = 'Cradle to consumer';
+    }
+
+    let country = jQuery('#location option:selected').text();
+    let year = jQuery('#year option:selected').text();
+
+    jQuery('.product-tag.footprint-type').each(function() {
+        jQuery(this).text(type);
+    });
+
+    jQuery('.product-tag.country').each(function() {
+        jQuery(this).text(country);
+    });
+
+    jQuery('.product-tag.year').each(function() {
+        jQuery(this).text(year);
+    });
 }
