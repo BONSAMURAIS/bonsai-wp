@@ -38,18 +38,18 @@ auth.json
 wp-cli.local.yml
 
 # Theme
-web/app/themes/rebranding/node_modules
+web/app/themes/bonsai/node_modules
 !web/app/themes/*/acf-json/*
 !web/app/themes/*/acf-json/index.php
 
 # Public compiled css and js
-web/app/themes/rebranding/style.css
-web/app/themes/rebranding/mix-manifest.json
+web/app/themes/bonsai/style.css
+web/app/themes/bonsai/mix-manifest.json
 
 # Distributed assets.
-web/app/themes/rebranding/dist/fonts/*
-web/app/themes/rebranding/dist/css/*
-web/app/themes/rebranding/dist/js/*
+web/app/themes/bonsai/dist/fonts/*
+web/app/themes/bonsai/dist/css/*
+web/app/themes/bonsai/dist/js/*
 
 # Apple
 .DS_Store

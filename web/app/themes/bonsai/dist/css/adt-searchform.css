@@ -431,13 +431,23 @@ form.co2-form {
   display: flex;
   gap: 10px;
   align-items: center;
+  /* Remove arrows in Chrome, Safari, Edge, and Opera */
+  /* Remove arrows in Firefox */
 }
 .unit-select-wrapper > * {
   flex: 1 1 33%;
   text-align: left;
 }
-.unit-select-wrapper select {
+.unit-select-wrapper select, .unit-select-wrapper input[type=number] {
   border-color: #E8EDED;
+}
+.unit-select-wrapper input[type=number]::-webkit-inner-spin-button,
+.unit-select-wrapper input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.unit-select-wrapper input[type=number] {
+  -moz-appearance: textfield;
 }
 
 .tooltip-wrapper {
@@ -456,7 +466,7 @@ form.co2-form {
   left: 0;
 }
 
-select {
+select, input[type=number] {
   -webkit-appearance: none;
   width: 100%;
   background: white;
@@ -472,16 +482,16 @@ select {
   color: black;
   margin: 0 10px 0 0;
 }
-select:required:invalid {
+select:required:invalid, input[type=number]:required:invalid {
   color: #5A667F;
 }
-select option {
+select option, input[type=number] option {
   color: #223254;
 }
-select option[value=""][disabled] {
+select option[value=""][disabled], input[type=number] option[value=""][disabled] {
   display: none;
 }
-select:focus {
+select:focus, input[type=number]:focus {
   outline: none;
   box-shadow: none;
 }

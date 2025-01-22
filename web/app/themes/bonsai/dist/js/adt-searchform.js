@@ -148,10 +148,17 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
     beforeSend: function beforeSend() {},
     success: function success(response) {
       var dataArray = response.data;
-      localStorage.setItem("footprint_data", dataArray.all_data);
-      console.log(dataArray);
+      localStorage.setItem("footprint_data", JSON.stringify(dataArray));
       jQuery('p.product-title').each(function () {
         jQuery(this).text(dataArray.title);
+      });
+      var element = '';
+      jQuery('.search-result').each(function () {
+        element = jQuery(this);
+        jQuery(dataArray.all_data).each(function (i) {
+          // console.log(dataArray.all_data[i].id);
+          jQuery(element).attr('data-set-' + i, dataArray.all_data[i].id);
+        });
       });
     }
   });
@@ -200,6 +207,17 @@ function adt_update_tags() {
   });
   jQuery('.product-tag.year').each(function () {
     jQuery(this).text(year);
+  });
+}
+function adt_change_data_set() {
+  var dataArray = JSON.parse(localStorage.getItem("footprint_data"));
+  jQuery('.search-result').each(function () {
+    var element = jQuery(this);
+    jQuery(dataArray.all_data).each(function (i) {
+      if (dataArray.all_data[i].id == dataSet) {
+        jQuery(element).attr('data-set-' + i, dataSet);
+      }
+    });
   });
 }
 
