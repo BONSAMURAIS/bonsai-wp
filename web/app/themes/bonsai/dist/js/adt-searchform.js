@@ -15,6 +15,19 @@ jQuery(document).ready(function ($) {
       $('input.search').attr('placeholder', 'Find footprint by ' + value);
     }
   });
+  $('input[name="switch-two"]').on('change', function () {
+    var isChecked = $(this).is(':checked');
+    if (isChecked) {
+      var value = $(this).val();
+      if (value == 'advanced') {
+        $('.search-result.advanced').css('display', 'flex');
+        $('.search-result.basic').hide();
+      } else {
+        $('.search-result.basic').css('display', 'flex');
+        $('.search-result.advanced').hide();
+      }
+    }
+  });
   var productTitleArray = [];
   var productContentArray = [];
   var productCodeArray = [];
@@ -34,8 +47,14 @@ jQuery(document).ready(function ($) {
 
   $input.on('input', function () {
     var query = $input.val().toLowerCase();
-    var matches = words.filter(function (word) {
-      return word.toLowerCase().includes(query);
+    var matches = words.map(function (word, index) {
+      return {
+        word: word,
+        code: productCodeArray[index],
+        uuid: productUuidArray[index]
+      };
+    }).filter(function (item) {
+      return item.word.toLowerCase().includes(query);
     });
     $suggestions.empty();
     currentIndex = -1; // Reset the index when typing
@@ -46,9 +65,12 @@ jQuery(document).ready(function ($) {
       $(this).css('border-bottom', 'none');
       $suggestionsWrapper.show();
       matches.forEach(function (match) {
-        var $div = $('<div>').text(match).addClass('suggestion-item').on('click', function () {
-          $input.val(match);
+        var $div = $('<div>').text(match.word).addClass('suggestion-item').attr('data-code', match.code).attr('data-uuid', match.uuid).on('click', function () {
+          $input.val(match.word);
+          $input.attr('data-code', match.code); // Set the product code as data attribute
+          $input.attr('data-uuid', match.uuid); // Set the product UUID as data attribute
           $suggestionsWrapper.hide();
+          adt_get_product_info(match.word, match.code, match.uuid);
         });
         $suggestions.append($div);
       });
@@ -74,10 +96,15 @@ jQuery(document).ready(function ($) {
           e.preventDefault(); // Prevent form submission when selecting a suggestion
           var selectedText = $items.eq(currentIndex).text();
           $input.val(selectedText);
+          $input.attr('data-code', $items.eq(currentIndex).data('code'));
+          $input.attr('data-uuid', $items.eq(currentIndex).data('uuid'));
           $suggestionsWrapper.hide();
           $($input).css('border-radius', '50px');
           $($input).css('border-bottom', '1px solid #ddd');
           suggestionSelected = true; // Mark a suggestion as selected
+
+          console.log($input.val());
+          adt_get_product_info(selectedText, $input.data('code'), $input.data('uuid'));
         } else if (suggestionSelected) {
           suggestionSelected = false; // Allow form submission on next Enter press
         }
@@ -98,6 +125,24 @@ jQuery(document).ready(function ($) {
     }
   }
 });
+function adt_get_product_info(productTitle, productCode, productUuid) {
+  jQuery.ajax({
+    type: 'POST',
+    url: localize._ajax_url,
+    data: {
+      _ajax_nonce: localize._ajax_nonce,
+      action: 'adt_get_product_recipe',
+      title: productTitle,
+      code: productCode,
+      uuid: productUuid
+    },
+    beforeSend: function beforeSend() {},
+    success: function success(response) {
+      console.log(response);
+    }
+  });
+  return productInfo;
+}
 
 /***/ }),
 

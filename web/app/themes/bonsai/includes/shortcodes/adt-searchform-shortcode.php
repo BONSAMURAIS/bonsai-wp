@@ -5,8 +5,13 @@ defined('ABSPATH') || exit;
 add_shortcode( 'adt_searchform', function($atts) {
     wp_enqueue_style('adt-searchform-style', content_url('/themes/bonsai/dist/css/adt-searchform.css'));
     wp_enqueue_script('adt-searchform-script', content_url('/themes/bonsai/dist/js/adt-searchform.js'), ['jquery']);
+    wp_localize_script('adt-searchform-script', 'localize', [
+        '_ajax_url'   => admin_url('admin-ajax.php'),
+        '_ajax_nonce' => wp_create_nonce('_ajax_nonce'),
+    ]);
     
     $productsArray = adt_get_all_products();
+    $locationsArray = adt_get_locations();
 
     wp_localize_script('adt-searchform-script', 'searchform', [
         'products' => $productsArray,
@@ -21,7 +26,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <div class="switch-field-container">
                     <input type="radio" id="radio-one" name="switch-one" value="product" checked/>
                     <label for="radio-one">Product</label>
-                    <input type="radio" id="radio-two" name="switch-one" value="country" />
+                    <input type="radio" id="radio-two" name="switch-one" value="country" disabled />
                     <label for="radio-two">Country</label>
                 </div>
             </div>
@@ -70,8 +75,8 @@ add_shortcode( 'adt_searchform', function($atts) {
         </div>
         <div class="text-center">
             <div class="is-divider divider clearfix" style="
-                margin-top:30px;
-                margin-bottom:30px;
+                margin-top:50px;
+                margin-bottom:50px;
                 max-width:75%;
                 height:1px;
                 background-color: #E8EDED;
@@ -88,20 +93,237 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
             </div>
             <div class="select-wrapper">
-                <select id="footprint-type">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                </select>
-                <select id="location">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                </select>
-                <select id="year">
-                    <option value="2016">2016</option>
-                    <option value="2025">2025</option>
-                </select>
+                <div>
+                    <label class="select" for="footprint-type">
+                        <select id="footprint-type">
+                            <option value="product">Cradle to gate (i.e. production)</option>
+                            <option value="market">Cradle to consumer (i.e., markets)</option>
+                            <option value="unknown" disabled="">Cradle to grave</option>
+                        </select>
+                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                        </svg>
+                    </label>
+                    <div class="tooltip">
+                        <a href="#info-footprint">
+                            Read more about Footprint type
+                        </a>
+                        <?= do_shortcode('[lightbox id="info-footprint" width="600px" padding="20px"][block id="footprint-info-popup"][/lightbox]') ?>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="select" for="location">
+                        <select id="location">
+                            <?php foreach($locationsArray as $location): ?>
+                                <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
+                            <?php endforeach; ?>
+                        </select>
+                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                        </svg>
+                    </label>
+                    <div class="tooltip">
+                        <a href="#info-location">
+                            Read more about Location
+                        </a>
+                        <?= do_shortcode('[lightbox id="info-location" width="600px" padding="20px"][block id="location-info-popup"][/lightbox]') ?>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="select" for="year">
+                        <select id="year">
+                            <option value="2016">2016</option>
+                            <option value="2025">2025</option>
+                        </select>
+                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                        </svg>
+                    </label>    
+                    <div class="tooltip">
+                        <a href="#info-year">
+                            Read more about Year
+                        </a>
+                        <?= do_shortcode('[lightbox id="info-year" width="600px" padding="20px"][block id="year-info-popup"][/lightbox]') ?>
+                    </div>
+                </div>
+            </div>
+            <div class="error-message text-left">
+                <p class="mb-0">Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type. m ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
+            </div>
+            <div class="row align-equal search-result basic" style="display: flex;">
+                <div class="col medium-6 small-12 large-6">
+                    <div class="col-inner">
+                        <p class="product-title">Aluminium</p>
+                        <div class="product-tag-wrapper">
+                            <span class="product-tag">Cradle To Gate</span>
+                            <span class="product-tag">Australia</span>
+                            <span class="product-tag">2016</span>
+                            <span class="product-tag">GWP100</span>
+                        </div>
+                        <div class="unit-select-wrapper">
+                            <label class="select" for="amount">
+                                <select id="amount">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                                </svg>
+                            </label>
+                            <label class="select" for="unit">
+                                <select id="unit">
+                                    <option value="kg">kg</option>
+                                    <option value="g">g</option>
+                                    <option value="ton">ton</option>
+                                </select>
+                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                                </svg>
+                            </label>
+                            <p>equal</p>
+                        </div>
+                        <p class="product-result">5.91</p>
+                        <p class="product-result-unit">kg CO2eq</p>
+                        <div class="tooltip-wrapper">
+                            <a href="#info-product">
+                                Read more about the result
+                            </a>
+                            <?= do_shortcode('[lightbox id="info-product" width="600px" padding="20px"][block id="product-result-info-popup"][/lightbox]') ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col medium-6 small-12 large-6">
+                    <div class="col-inner">
+                        <a href="#" class="">
+                            <p class="primary-text add">+</p>
+                            <p>Add to comparison</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-equal search-result advanced" style="display: none;">
+                <div class="col medium-12 small-12 large-12">
+                    <div class="col-inner">
+                        <div class="calculation-wrapper">
+                            <div class="choices">
+                                <p class="product-title">Aluminium</p>
+                                <div class="product-tag-wrapper">
+                                    <span class="product-tag">Cradle To Gate</span>
+                                    <span class="product-tag">Australia</span>
+                                    <span class="product-tag">2016</span>
+                                    <span class="product-tag">GWP100</span>
+                                </div>
+                                <div class="unit-select-wrapper">
+                                    <label class="select" for="amount">
+                                        <select id="amount">
+                                            <option value="1">1</option>
+                                            <option value="2">2</option>
+                                            <option value="3">3</option>
+                                        </select>
+                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                                        </svg>
+                                    </label>
+                                    <label class="select" for="unit">
+                                        <select id="unit">
+                                            <option value="kg">kg</option>
+                                            <option value="g">g</option>
+                                            <option value="ton">ton</option>
+                                        </select>
+                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                                        </svg>
+                                    </label>
+                                    <p>equal</p>
+                                </div>
+                            </div>
+                            <div class="calculation-result">
+                                <p class="product-result">5.91</p>
+                                <p class="product-result-unit">kg CO2eq</p>
+                            </div>
+                        </div>
+                        <p class="big-font">Where do emissions for 1kg come from?</p>
+
+                        <table class="emissions-table">
+                            <thead>
+                                <tr>
+                                    <th>Inputs</th>
+                                    <th>Country</th>
+                                    <th>Input</th>
+                                    <th>
+                                        Emissions
+                                        <span>[kg CO2eq]</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><a href="#">Electricity (market for)</a></td>
+                                    <td>AU</td>
+                                    <td>0.37 MJ</td>
+                                    <td>0.2,1</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">Heat for non-ferrous metals (market for)</a></td>
+                                    <td>AU</td>
+                                    <td>0.37 MJ</td>
+                                    <td>0.2,1</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">Other land transportation services (market for)</a></td>
+                                    <td>AU</td>
+                                    <td>0.37 MJ</td>
+                                    <td>0.2,1</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="#">Petroleum coke (market for)</a></td>
+                                    <td>AU</td>
+                                    <td>0.37 MJ</td>
+                                    <td>0.2,1</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">Sum of not-displayed inputs</td>
+                                    <td>0.118</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="result-buttons">
+                            <div class="go-back text-left show-for-small">
+                                <a href="#" class="button primary lowercase" style="border-radius:99px; font-size:10px;">
+                                    <i class="icon-angle-left" aria-hidden="true"></i>
+                                    <span>Go back</span>
+                                </a>
+                            </div>
+                            <div class="download text-right hide-for-small">
+                                <a href="#" class="button grey lowercase" style="border-radius:99px;">
+                                    <span>Download</span>
+                                    <i class="icon-dribbble" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-wrapper">
+                            <a href="#info-product">
+                                Read more about the result
+                            </a>
+                            <?= do_shortcode('[lightbox id="info-product" width="600px" padding="20px"][block id="product-result-info-popup"][/lightbox]') ?>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col medium-12 small-12 large-12">
+                    <div class="col-inner">
+                        <a href="#" class="">
+                            <p class="primary-text add">+</p>
+                            <p>Add to comparison</p>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
