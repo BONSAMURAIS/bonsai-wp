@@ -148,9 +148,26 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <?= do_shortcode('[lightbox id="info-year" width="600px" padding="20px"][block id="year-info-popup"][/lightbox]') ?>
                     </div>
                 </div>
+
+                <div>
+                    <label class="select" for="climate-metric">
+                        <select id="climate-metric">
+                            <option value="gwp100">GWP100</option>
+                        </select>
+                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                        </svg>
+                    </label>    
+                    <div class="tooltip">
+                        <a href="#info-climate-metric">
+                            Read more about climate metric
+                        </a>
+                        <?= do_shortcode('[lightbox id="info-climate-metric" width="600px" padding="20px"][block id="climate-metric-info-popup"][/lightbox]') ?>
+                    </div>
+                </div>
             </div>
-            <div class="error-message text-left">
-                <p class="mb-0">Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type. m ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor</p>
+            <div class="error-message text-left" style="display: none;">
+                <?= do_shortcode('[block id="nothing-found-error-message"]') ?>
             </div>
             <div class="row align-equal search-result basic" style="display: flex;">
                 <div class="col medium-6 small-12 large-6">
@@ -191,12 +208,10 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
 
                 <div class="col medium-6 small-12 large-6">
-                    <div class="col-inner">
-                        <a href="#" class="">
-                            <p class="primary-text add">+</p>
-                            <p>Add to comparison</p>
-                        </a>
-                    </div>
+                    <a href="#" class="col-inner">
+                        <p class="primary-text add">+</p>
+                        <p>Add to comparison</p>
+                    </a>
                 </div>
             </div>
             <div class="row align-equal search-result advanced" style="display: none;">
@@ -311,12 +326,10 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
 
                 <div class="col medium-12 small-12 large-12">
-                    <div class="col-inner">
-                        <a href="#" class="">
-                            <p class="primary-text add">+</p>
-                            <p>Add to comparison</p>
-                        </a>
-                    </div>
+                    <a href="#" class="col-inner">
+                        <p class="primary-text add">+</p>
+                        <p>Add to comparison</p>
+                    </a>
                 </div>
             </div>
         </div>

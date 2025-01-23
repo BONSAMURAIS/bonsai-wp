@@ -343,6 +343,8 @@ function adt_get_product_footprint()
 
     $data = [
         'title' => $footprintTitle,
+        'flow_code' => $productCode,
+        'uuid' => $productUuid,
         'all_data' => $chosenFootprint,
     ];
 

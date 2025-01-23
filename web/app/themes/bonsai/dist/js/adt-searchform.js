@@ -109,7 +109,7 @@ jQuery(document).ready(function ($) {
 
           // Update chosen values
           chosenValuesArray = adt_get_chosen_values();
-          adt_get_product_info(selectedText, $input.data('code'), $input.data('uuid'), chosenValuesArray);
+          adt_get_product_info(selectedText, $input.attr('data-code'), $input.attr('data-uuid'), chosenValuesArray);
         } else if (suggestionSelected) {
           suggestionSelected = false; // Allow form submission on next Enter press
         }
@@ -129,9 +129,16 @@ jQuery(document).ready(function ($) {
       $items.eq(currentIndex).addClass('highlight'); // Highlight the current item
     }
   }
+  $('.co2-form-result > .select-wrapper select').on('change', function () {
+    var jsonObject = localStorage.getItem("footprint_data");
+    jsonObject = JSON.parse(jsonObject);
+    var chosenValues = adt_get_chosen_values();
+    adt_get_product_info(jsonObject.title, jsonObject.flow_code, jsonObject.uuid, chosenValues);
+  });
 });
 function adt_get_product_info(productTitle, productCode, productUuid, chosenValues) {
   productInfo = [];
+  console.log(chosenValues);
   jQuery.ajax({
     type: 'POST',
     url: localize._ajax_url,
@@ -148,18 +155,22 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
     beforeSend: function beforeSend() {},
     success: function success(response) {
       var dataArray = response.data;
+
+      // Error message
+      if (!dataArray.title) {
+        jQuery('.error-message').slideDown('fast');
+        return;
+      } else {
+        jQuery('.error-message').slideUp('fast');
+      }
       localStorage.setItem("footprint_data", JSON.stringify(dataArray));
-      jQuery('p.product-title').each(function () {
-        jQuery(this).text(dataArray.title);
-      });
-      var element = '';
-      jQuery('.search-result').each(function () {
-        element = jQuery(this);
-        jQuery(dataArray.all_data).each(function (i) {
-          // console.log(dataArray.all_data[i].id);
-          jQuery(element).attr('data-set-' + i, dataArray.all_data[i].id);
-        });
-      });
+      var compareButtons = jQuery('.search-result .col:last-child').find('a.col-inner');
+      if (compareButtons.length > 0) {
+        adt_update_original_info(dataArray);
+      } else {
+        adt_update_comparison_info(dataArray);
+      }
+      adt_show_search_results();
     }
   });
 
@@ -188,10 +199,9 @@ function adt_get_chosen_values() {
   chosenArray['footprint_type'] = jQuery('#footprint-type').val();
   chosenArray['footprint_location'] = jQuery('#location').val();
   chosenArray['footprint_year'] = jQuery('#year').val();
-  adt_update_tags();
   return chosenArray;
 }
-function adt_update_tags() {
+function adt_update_tags(boxToUpdate) {
   var typeValue = jQuery('#footprint-type option:selected').val();
   var type = 'Cradle to gate';
   if (typeValue === 'market') {
@@ -199,13 +209,17 @@ function adt_update_tags() {
   }
   var country = jQuery('#location option:selected').text();
   var year = jQuery('#year option:selected').text();
-  jQuery('.product-tag.footprint-type').each(function () {
+  var whichChild = ':first-child';
+  if (boxToUpdate === 'comparison') {
+    whichChild = ':last-child';
+  }
+  jQuery('.search-result > .col' + whichChild + ' .product-tag.footprint-type').each(function () {
     jQuery(this).text(type);
   });
-  jQuery('.product-tag.country').each(function () {
+  jQuery('.search-result > .col' + whichChild + ' .product-tag.country').each(function () {
     jQuery(this).text(country);
   });
-  jQuery('.product-tag.year').each(function () {
+  jQuery('.search-result > .col' + whichChild + ' .product-tag.year').each(function () {
     jQuery(this).text(year);
   });
 }
@@ -218,6 +232,71 @@ function adt_change_data_set() {
         jQuery(element).attr('data-set-' + i, dataSet);
       }
     });
+  });
+}
+function adt_update_original_info(dataArray) {
+  localStorage.getItem("footprint_data");
+  adt_update_tags('original');
+  jQuery('.search-result .col:first-child p.product-title').each(function () {
+    jQuery(this).text(dataArray.title);
+  });
+  var element = '';
+  jQuery('.search-result .col:first-child').each(function () {
+    element = jQuery(this);
+    jQuery(element).find('select#unit').empty();
+    jQuery(dataArray.all_data).each(function (i) {
+      var unit = 'kg';
+      if (dataArray.all_data[i].unit_reference === 'Meuro') {
+        unit = 'EUR';
+      } else if (dataArray.all_data[i].unit_reference === 'tonnes') {
+        unit = 'kg';
+      }
+      jQuery(element).attr('data-set-' + i, dataArray.all_data[i].id);
+      jQuery(element).find('select#unit').append('<option value="' + dataArray.all_data[i].unit_reference + '">' + unit + '</option>');
+    });
+  });
+}
+
+// Comparison code
+jQuery(document).ready(function ($) {
+  $('a:has(.add)').click(function (e) {
+    e.preventDefault();
+    $('.search-result').each(function () {
+      var original = $(this).find('.col:first-child');
+      var clone = original.clone();
+      $(this).find('.col:last-child').remove();
+      original.after(clone);
+    });
+  });
+});
+function adt_update_comparison_info(dataArray) {
+  localStorage.getItem("footprint_data");
+  adt_update_tags('comparison');
+  jQuery('.search-result .col:last-child p.product-title').each(function () {
+    jQuery(this).text(dataArray.title);
+  });
+  var element = '';
+  jQuery('.search-result .col:last-child').each(function () {
+    element = jQuery(this);
+    jQuery(element).find('select#unit').empty();
+    jQuery(dataArray.all_data).each(function (i) {
+      var unit = 'kg';
+      if (dataArray.all_data[i].unit_reference === 'Meuro') {
+        unit = 'EUR';
+      } else if (dataArray.all_data[i].unit_reference === 'tonnes') {
+        unit = 'kg';
+      }
+      jQuery(element).attr('data-set-' + i, dataArray.all_data[i].id);
+      jQuery(element).find('select#unit').append('<option value="' + dataArray.all_data[i].unit_reference + '">' + unit + '</option>');
+    });
+  });
+}
+
+// Animations
+function adt_show_search_results() {
+  jQuery('.co2-form-wrapper .text-center:has(.divider)').show();
+  jQuery('.co2-form-result').slideDown('slow', function () {
+    // Might need something happening here
   });
 }
 
