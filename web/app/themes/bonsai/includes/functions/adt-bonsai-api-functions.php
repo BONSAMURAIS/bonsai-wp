@@ -105,22 +105,24 @@ function adt_get_old_bonsai_product_list() {
     // Parse the JSON response
     $products = json_decode($body, true);
 
-    echo '<pre>';
-    var_dump($products);
-    echo '</pre>';
-    exit;
-
+    
     foreach ($products as $product) {
         $uuid = $product['uuid'];
+        $code = $product['code'];
         
         if (empty($uuid)) {
             continue;
         }
-
+        
         $postId = $wpdb->get_var($wpdb->prepare(
-            "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'adt_uuid' AND meta_value = %s",
-            $uuid
+            "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'adt_code' AND meta_value = %s",
+            $code
         ));
+        
+        echo '<pre>';
+        var_dump($postId);
+        var_dump($product);
+        echo '</pre>';
 
         $post_data = [
             'post_title'   => $product['name'],
@@ -354,6 +356,7 @@ function adt_get_product_footprint()
 add_action('wp_ajax_adt_get_product_footprint', 'adt_get_product_footprint');
 add_action('wp_ajax_nopriv_adt_get_product_footprint', 'adt_get_product_footprint');
 
+// Maybe use version_compare instead PHP function
 function adt_get_newest_version(array $versions): string
 {
     usort($versions, 'version_compare');

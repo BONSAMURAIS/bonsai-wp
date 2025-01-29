@@ -63,6 +63,10 @@ jQuery(document).ready(function ($) {
 
     if (matches.length > 0 && query) {
       $(this).css('border-radius', '50px 50px 0 0');
+      var screenWidth = $(window).width();
+      if (screenWidth < 768) {
+        $(this).css('border-radius', '22.5px 22.5px 0 0');
+      }
       $(this).css('border-bottom', 'none');
       $suggestionsWrapper.show();
       matches.forEach(function (match) {
@@ -193,6 +197,26 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
   // });
 
   // return productInfo;
+
+  // Save the data to wp_adt_popular_searches
+  jQuery.ajax({
+    type: 'POST',
+    url: localize._ajax_url,
+    data: {
+      _ajax_nonce: localize._ajax_nonce,
+      action: 'adt_log_popular_search',
+      search_phrase: productTitle,
+      product_code: productCode,
+      product_uuid: productUuid,
+      footprint_location: chosenValues['footprint_location'],
+      footprint_type: chosenValues['footprint_type'],
+      footprint_year: chosenValues['footprint_year']
+    },
+    beforeSend: function beforeSend() {},
+    success: function success(response) {
+      console.log(response.data);
+    }
+  });
 }
 function adt_get_chosen_values() {
   var chosenArray = [];

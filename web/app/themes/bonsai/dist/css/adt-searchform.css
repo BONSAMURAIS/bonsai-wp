@@ -204,10 +204,20 @@ form.co2-form {
   border-radius: 0 0 50px 50px;
   overflow-y: auto;
 }
+@media only screen and (max-width: 468px) {
+  #suggestions-wrapper {
+    border-radius: 0 0 22.5px 22.5px;
+  }
+}
 #suggestions-wrapper .search-history {
   padding: 10px 0;
   margin: 0 30px;
   border-top: 1px solid #E8EDED;
+}
+@media only screen and (max-width: 468px) {
+  #suggestions-wrapper .search-history {
+    margin: 0 15px;
+  }
 }
 #suggestions-wrapper .search-history p {
   display: flex;
@@ -222,10 +232,22 @@ form.co2-form {
 #suggestions-wrapper .search-history ul {
   display: flex;
 }
+@media screen and (max-width: 468px) {
+  #suggestions-wrapper .search-history ul {
+    overflow-x: scroll;
+    margin: 0;
+  }
+}
 #suggestions-wrapper .search-history ul .button {
   margin: 0 15px 0 0;
   display: flex;
   align-items: center;
+}
+@media only screen and (max-width: 468px) {
+  #suggestions-wrapper .search-history ul .button {
+    margin: 0 5px 0 0;
+    font-size: 10px;
+  }
 }
 #suggestions-wrapper .search-history ul .button.is-outline {
   border: 1px solid #004238;
@@ -255,6 +277,12 @@ form.co2-form {
   padding: 10px 30px;
   font-size: 24px;
 }
+@media only screen and (max-width: 468px) {
+  #suggestions .suggestion-item {
+    font-size: 15px;
+    padding: 5px 20px;
+  }
+}
 #suggestions .suggestion-item:hover {
   background-color: #f0f0f0;
 }
@@ -273,11 +301,43 @@ form.co2-form {
   flex-basis: 25%;
   max-width: 25%;
 }
+.select-wrapper > *:nth-child(1) {
+  flex-basis: 30%;
+  max-width: 30%;
+}
+.select-wrapper > *:nth-child(2) {
+  flex-basis: 25%;
+  max-width: 25%;
+}
+.select-wrapper > *:nth-child(3) {
+  flex-basis: 20%;
+  max-width: 20%;
+}
+.select-wrapper > *:nth-child(4) {
+  flex-basis: 25%;
+  max-width: 25%;
+}
 @media only screen and (max-width: 468px) {
   .select-wrapper {
     flex-direction: column;
   }
   .select-wrapper > * {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+  .select-wrapper > *:nth-child(1) {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+  .select-wrapper > *:nth-child(2) {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+  .select-wrapper > *:nth-child(3) {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+  .select-wrapper > *:nth-child(4) {
     flex-basis: 100%;
     max-width: 100%;
   }
