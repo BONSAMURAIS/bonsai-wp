@@ -168,6 +168,7 @@ form.co2-form {
 }
 .most-popular-container > * {
   margin-bottom: 0;
+  flex-wrap: nowrap;
 }
 .most-popular-container ul {
   display: flex;
@@ -182,6 +183,11 @@ form.co2-form {
   border: 1px solid black;
   color: black;
   margin: 0 10px 0 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* number of lines to show */
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 @media only screen and (max-width: 468px) {
   .most-popular-container ul li button {

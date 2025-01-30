@@ -88,8 +88,12 @@ function adt_get_bonsai_product_list() {
         update_post_meta($postId, 'adt_code', $product['code']);
         update_post_meta($postId, 'adt_characteristic_unit', $product['characteristic_unit']);
         update_post_meta($postId, 'adt_uuid', $product['uuid']);
+        update_post_meta($postId, 'adt_flowtype', $product['flow_type']);
     }
 }
+
+// add_action('template_redirect', s'adt_get_bonsai_product_list');
+
 
 function adt_get_old_bonsai_product_list() {
     global $wpdb;
@@ -119,11 +123,6 @@ function adt_get_old_bonsai_product_list() {
             $code
         ));
         
-        echo '<pre>';
-        var_dump($postId);
-        var_dump($product);
-        echo '</pre>';
-
         $post_data = [
             'post_title'   => $product['name'],
             'post_content' => $product['description'],
@@ -139,12 +138,10 @@ function adt_get_old_bonsai_product_list() {
 
         update_post_meta($postId, 'adt_code', $product['code']);
         update_post_meta($postId, 'adt_uuid', $product['uuid']);
+        update_post_meta($postId, 'adt_characteristic_unit', $product['characteristic_unit']);
         update_post_meta($postId, 'adt_flowtype', $product['flow_type']);
     }
 }
-
-// add_action('template_redirect', 'adt_get_old_bonsai_product_list');
-
 
 function adt_get_bonsai_footprint_list() {
     global $wpdb;

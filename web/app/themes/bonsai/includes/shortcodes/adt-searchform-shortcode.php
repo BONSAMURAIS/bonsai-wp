@@ -12,6 +12,7 @@ add_shortcode( 'adt_searchform', function($atts) {
     
     $productsArray = adt_get_all_products();
     $locationsArray = adt_get_locations();
+    $popularSearches = adt_get_popular_searches();
 
     wp_localize_script('adt-searchform-script', 'searchform', [
         'products' => $productsArray,
@@ -66,10 +67,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <!-- By other searches -->
                 <p>Most popular:</p>
                 <ul>
-                    <li><button>Chicken</button></li>
-                    <li><button>Almonds</button></li>
-                    <li><button>Aluminium</button></li>
-                    <li><button>Beef</button></li>
+                    <?php foreach ($popularSearches as $popularSearch): ?>
+                        <li><button><?= $popularSearch->search_phrase ?></button></li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </div>

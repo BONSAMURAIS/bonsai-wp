@@ -78,3 +78,17 @@ function adt_log_popular_search()
 
 add_action('wp_ajax_adt_log_popular_search', 'adt_log_popular_search');
 add_action('wp_ajax_nopriv_adt_log_popular_search', 'adt_log_popular_search');
+
+/**
+ * Get the popular searches.
+ */
+function adt_get_popular_searches(): array
+{
+    global $wpdb;
+
+    $popularSearches = $wpdb->get_results(
+        "SELECT * FROM {$wpdb->prefix}adt_popular_searches ORDER BY amount_searched DESC LIMIT 4"
+    );
+
+    return $popularSearches;
+}
