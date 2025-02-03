@@ -68,7 +68,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <p>Most popular:</p>
                 <ul>
                     <?php foreach ($popularSearches as $popularSearch): ?>
-                        <li><button><?= $popularSearch->search_phrase ?></button></li>
+                        <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-choices="<?= $popularSearch->chosen_values ?>"><?= $popularSearch->search_phrase ?></button></li>
                     <?php endforeach; ?>
                 </ul>
             </div>
@@ -84,90 +84,98 @@ add_shortcode( 'adt_searchform', function($atts) {
             </div>
         </div>
         <div class="co2-form-result">
-            <div class="switch-field-wrapper-basic">
-                <div class="switch-field-container">
-                    <input type="radio" id="basic-choice" name="switch-two" value="basic" checked/>
-                    <label for="basic-choice">Basic</label>
-                    <input type="radio" id="advanced-choice" name="switch-two" value="advanced" />
-                    <label for="advanced-choice">Advanced</label>
-                </div>
-            </div>
-            <div class="select-wrapper">
-                <div>
-                    <label class="select" for="footprint-type">
-                        <select id="footprint-type">
-                            <option value="product">Cradle to gate (i.e. production)</option>
-                            <option value="market">Cradle to consumer (i.e., markets)</option>
-                            <option value="unknown" disabled="">Cradle to grave</option>
-                        </select>
-                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                        </svg>
-                    </label>
-                    <div class="tooltip">
-                        <a href="#info-footprint">
-                            Read more about Footprint type
-                        </a>
-                        <?= do_shortcode('[lightbox id="info-footprint" width="600px" padding="20px"][block id="footprint-info-popup"][/lightbox]') ?>
+            <div id="co2-form-result-header" class="col medium-12 small-12 large-12">
+                <div class="row">
+                    <div class="col medium-6 small-12 large-6">
+                        <h3>Footprint</h3>
+                    </div>
+                    <div class="switch-field-wrapper-basic col medium-6 small-12 large-6">
+                        <div class="switch-field-container">
+                            <input type="radio" id="basic-choice" name="switch-two" value="basic" checked/>
+                            <label for="basic-choice">Basic</label>
+                            <input type="radio" id="advanced-choice" name="switch-two" value="advanced" />
+                            <label for="advanced-choice">Advanced</label>
+                        </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="select-wrapper col medium-12 small-12 large-12">
+                        <div>
+                            <div class="tooltip">
+                                <a href="#info-footprint">
+                                    Footprint type
+                                </a>
+                                <?= do_shortcode('[lightbox id="info-footprint" width="600px" padding="20px"][block id="footprint-info-popup"][/lightbox]') ?>
+                            </div>
+                            <label class="select" for="footprint-type">
+                                <select id="footprint-type">
+                                    <option value="product">Cradle to gate (i.e. production)</option>
+                                    <option value="market">Cradle to consumer (i.e., markets)</option>
+                                </select>
+                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                                </svg>
+                            </label>
+                        </div>
 
-                <div>
-                    <label class="select" for="location">
-                        <select id="location">
-                            <?php foreach($locationsArray as $location): ?>
-                                <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                        </svg>
-                    </label>
-                    <div class="tooltip">
-                        <a href="#info-location">
-                            Read more about Location
-                        </a>
-                        <?= do_shortcode('[lightbox id="info-location" width="600px" padding="20px"][block id="location-info-popup"][/lightbox]') ?>
-                    </div>
-                </div>
-                
-                <div>
-                    <label class="select" for="year">
-                        <select id="year">
-                            <option value="2016">2016</option>
-                            <option value="2025">2025</option>
-                        </select>
-                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                        </svg>
-                    </label>    
-                    <div class="tooltip">
-                        <a href="#info-year">
-                            Read more about Year
-                        </a>
-                        <?= do_shortcode('[lightbox id="info-year" width="600px" padding="20px"][block id="year-info-popup"][/lightbox]') ?>
-                    </div>
-                </div>
+                        <div>
+                            <div class="tooltip">
+                                <a href="#info-location">
+                                    Location
+                                </a>
+                                <?= do_shortcode('[lightbox id="info-location" width="600px" padding="20px"][block id="location-info-popup"][/lightbox]') ?>
+                            </div>
+                            <label class="select" for="location">
+                                <select id="location">
+                                    <?php foreach($locationsArray as $location): ?>
+                                        <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                                </svg>
+                            </label>
+                        </div>
+                        
+                        <div>
+                            <div class="tooltip">
+                                <a href="#info-year">
+                                    Year
+                                </a>
+                                <?= do_shortcode('[lightbox id="info-year" width="600px" padding="20px"][block id="year-info-popup"][/lightbox]') ?>
+                            </div>
+                            <label class="select" for="year">
+                                <select id="year">
+                                    <option value="2016">2016</option>
+                                    <option value="2025">2025</option>
+                                </select>
+                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                                </svg>
+                            </label>    
+                        </div>
 
-                <div>
-                    <label class="select" for="climate-metric">
-                        <select id="climate-metric">
-                            <option value="gwp100">GWP100</option>
-                        </select>
-                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                        </svg>
-                    </label>    
-                    <div class="tooltip">
-                        <a href="#info-climate-metric">
-                            Read more about climate metric
-                        </a>
-                        <?= do_shortcode('[lightbox id="info-climate-metric" width="600px" padding="20px"][block id="climate-metric-info-popup"][/lightbox]') ?>
+                        <div>
+                            <div class="tooltip">
+                                <a href="#info-climate-metric">
+                                    Climate metric
+                                </a>
+                                <?= do_shortcode('[lightbox id="info-climate-metric" width="600px" padding="20px"][block id="climate-metric-info-popup"][/lightbox]') ?>
+                            </div>
+                            <label class="select" for="climate-metric">
+                                <select id="climate-metric">
+                                    <option value="gwp100">GWP100</option>
+                                </select>
+                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                                </svg>
+                            </label>    
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="error-message text-left" style="display: none;">
-                <?= do_shortcode('[block id="nothing-found-error-message"]') ?>
+                <div class="error-message text-left" style="display: none;">
+                    <?= do_shortcode('[block id="nothing-found-error-message"]') ?>
+                </div>
             </div>
             <div class="row align-equal search-result basic" style="display: flex;">
                 <div class="col medium-6 small-12 large-6">
@@ -187,7 +195,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 </svg> -->
                             </label>
                             <label class="select" for="unit">
-                                <select id="unit">
+                                <select id="unit" class="unit">
                                     <option value="kg">kg</option>
                                 </select>
                                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -238,7 +246,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                         </svg>
                                     </label>
                                     <label class="select" for="unit">
-                                        <select id="unit">
+                                        <select id="unit" class="unit">
                                             <option value="kg">kg</option>
                                             <option value="g">g</option>
                                             <option value="ton">ton</option>

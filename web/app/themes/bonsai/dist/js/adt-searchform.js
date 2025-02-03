@@ -133,16 +133,22 @@ jQuery(document).ready(function ($) {
       $items.eq(currentIndex).addClass('highlight'); // Highlight the current item
     }
   }
-  $('.co2-form-result > .select-wrapper select').on('change', function () {
+  $('.co2-form-result #co2-form-result-header .select-wrapper select').on('change', function () {
     var jsonObject = localStorage.getItem("footprint_data");
     jsonObject = JSON.parse(jsonObject);
     var chosenValues = adt_get_chosen_values();
     adt_get_product_info(jsonObject.title, jsonObject.flow_code, jsonObject.uuid, chosenValues);
   });
+  $('.most-popular-container ul li button').on('click', function () {
+    var productTitle = $(this).text();
+    var productCode = $(this).data('code');
+    var productUuid = $(this).data('uuid');
+    var chosenValues = adt_get_chosen_values();
+    adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
+  });
 });
 function adt_get_product_info(productTitle, productCode, productUuid, chosenValues) {
   productInfo = [];
-  console.log(chosenValues);
   jQuery.ajax({
     type: 'POST',
     url: localize._ajax_url,
@@ -192,7 +198,6 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
 
   //     },
   //     success: (response) => {
-  //         console.log(response);
   //     }
   // });
 
@@ -213,9 +218,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
       footprint_year: chosenValues['footprint_year']
     },
     beforeSend: function beforeSend() {},
-    success: function success(response) {
-      console.log(response.data);
-    }
+    success: function success(response) {}
   });
 }
 function adt_get_chosen_values() {
@@ -266,17 +269,57 @@ function adt_update_original_info(dataArray) {
   });
   var element = '';
   jQuery('.search-result .col:first-child').each(function () {
+    // This loops over the basic and advanced search result
     element = jQuery(this);
-    jQuery(element).find('select#unit').empty();
+    jQuery(element).find('select.unit').empty();
     jQuery(dataArray.all_data).each(function (i) {
       var unit = 'kg';
       if (dataArray.all_data[i].unit_reference === 'Meuro') {
         unit = 'EUR';
-      } else if (dataArray.all_data[i].unit_reference === 'tonnes') {
+      }
+      if (dataArray.all_data[i].unit_reference === 'tonnes') {
         unit = 'kg';
       }
       jQuery(element).attr('data-set-' + i, dataArray.all_data[i].id);
-      jQuery(element).find('select#unit').append('<option value="' + dataArray.all_data[i].unit_reference + '">' + unit + '</option>');
+      jQuery(element).find('select.unit').append('<option value="' + dataArray.all_data[i].unit_reference + '">' + unit + '</option>');
+    });
+    var defualtValue = jQuery(element).find('select.unit').val();
+    if (defualtValue === 'Meuro') {
+      var numberValueInCurrency = dataArray.all_data[1].value;
+      numberValueInCurrency = numberValueInCurrency.toFixed(2);
+      jQuery(element).find('.product-result').text(numberValueInCurrency);
+      jQuery(element).find('.product-result-unit').text('price CO2eq'); // ???
+    }
+    if (defualtValue === 'tonnes') {
+      // Number in tonnes. It has to be converted to kg
+      var numberValueInWeight = dataArray.all_data[0].value;
+      // Overwriting Number with the new value in kg
+      numberValueInWeight = numberValueInWeight * 1000;
+      numberValueInWeight = numberValueInWeight.toFixed(2);
+      jQuery(element).find('.product-result').text(numberValueInWeight);
+      jQuery(element).find('.product-result-unit').text('kg CO2eq');
+    }
+    jQuery(element).find('select.unit').on('change', function () {
+      var chosenValue = jQuery(this).val();
+      jQuery('.search-result .col:first-child select.unit').each(function () {
+        jQuery(this).val(chosenValue);
+        var newElement = jQuery(this).closest('.col-inner');
+        if (chosenValue === 'Meuro') {
+          var _numberValueInCurrency = dataArray.all_data[1].value;
+          _numberValueInCurrency = _numberValueInCurrency.toFixed(2);
+          jQuery(newElement).find('.product-result').text(_numberValueInCurrency);
+          jQuery(newElement).find('.product-result-unit').text('price CO2eq'); // ???
+        }
+        if (chosenValue === 'tonnes') {
+          // Number in tonnes. It has to be converted to kg
+          var _numberValueInWeight = dataArray.all_data[0].value;
+          // Overwriting Number with the new value in kg
+          _numberValueInWeight = _numberValueInWeight * 1000;
+          _numberValueInWeight = _numberValueInWeight.toFixed(2);
+          jQuery(newElement).find('.product-result').text(_numberValueInWeight);
+          jQuery(newElement).find('.product-result-unit').text('kg CO2eq');
+        }
+      });
     });
   });
 }
@@ -302,7 +345,7 @@ function adt_update_comparison_info(dataArray) {
   var element = '';
   jQuery('.search-result .col:last-child').each(function () {
     element = jQuery(this);
-    jQuery(element).find('select#unit').empty();
+    jQuery(element).find('select.unit').empty();
     jQuery(dataArray.all_data).each(function (i) {
       var unit = 'kg';
       if (dataArray.all_data[i].unit_reference === 'Meuro') {
@@ -311,7 +354,46 @@ function adt_update_comparison_info(dataArray) {
         unit = 'kg';
       }
       jQuery(element).attr('data-set-' + i, dataArray.all_data[i].id);
-      jQuery(element).find('select#unit').append('<option value="' + dataArray.all_data[i].unit_reference + '">' + unit + '</option>');
+      jQuery(element).find('select.unit').append('<option value="' + dataArray.all_data[i].unit_reference + '">' + unit + '</option>');
+    });
+    var defualtValue = jQuery(element).find('select.unit').val();
+    console.log(defualtValue);
+    if (defualtValue === 'Meuro') {
+      var numberValueInCurrency = dataArray.all_data[1].value;
+      numberValueInCurrency = numberValueInCurrency.toFixed(2);
+      jQuery(element).find('.product-result').text(numberValueInCurrency);
+      jQuery(element).find('.product-result-unit').text('price CO2eq'); // ???
+    }
+    if (defualtValue === 'tonnes') {
+      // Number in tonnes. It has to be converted to kg
+      var numberValueInWeight = dataArray.all_data[0].value;
+      // Overwriting Number with the new value in kg
+      numberValueInWeight = numberValueInWeight * 1000;
+      numberValueInWeight = numberValueInWeight.toFixed(2);
+      jQuery(element).find('.product-result').text(numberValueInWeight);
+      jQuery(element).find('.product-result-unit').text('kg CO2eq');
+    }
+    jQuery(element).find('select.unit').on('change', function () {
+      var chosenValue = jQuery(this).val();
+      jQuery('.search-result .col:last-child select.unit').each(function () {
+        jQuery(this).val(chosenValue);
+        var newElement = jQuery(this).closest('.col-inner');
+        if (chosenValue === 'Meuro') {
+          var _numberValueInCurrency2 = dataArray.all_data[1].value;
+          _numberValueInCurrency2 = _numberValueInCurrency2.toFixed(2);
+          jQuery(newElement).find('.product-result').text(_numberValueInCurrency2);
+          jQuery(newElement).find('.product-result-unit').text('price CO2eq'); // ???
+        }
+        if (chosenValue === 'tonnes') {
+          // Number in tonnes. It has to be converted to kg
+          var _numberValueInWeight2 = dataArray.all_data[0].value;
+          // Overwriting Number with the new value in kg
+          _numberValueInWeight2 = _numberValueInWeight2 * 1000;
+          _numberValueInWeight2 = _numberValueInWeight2.toFixed(2);
+          jQuery(newElement).find('.product-result').text(_numberValueInWeight2);
+          jQuery(newElement).find('.product-result-unit').text('kg CO2eq');
+        }
+      });
     });
   });
 }
