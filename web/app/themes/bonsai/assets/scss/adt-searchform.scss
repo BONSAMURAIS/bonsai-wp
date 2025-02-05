@@ -670,7 +670,7 @@ label.select {
 
 // Animations
 .co2-form-result {
-    // display: none;
+    display: none;
 }
 
 #co2-form-result-header {
@@ -694,7 +694,25 @@ label.select {
 .co2-form-wrapper {
     .text-center {
         &:has(.divider) {
-            // display: none;
+            display: none;
         }
+    }
+}
+
+span.close-god-damn {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background-color: $secondary;
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &::before {
+        content: "x";
+        color: white;
     }
 }

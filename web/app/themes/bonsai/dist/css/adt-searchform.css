@@ -586,6 +586,10 @@ label.select svg {
   left: 0px;
 }
 
+.co2-form-result {
+  display: none;
+}
+
 #co2-form-result-header {
   background-color: #F9F9F9;
   padding: 30px 20px;
@@ -600,4 +604,25 @@ label.select svg {
   color: #004238;
   text-align: left;
   font-weight: 400;
+}
+
+.co2-form-wrapper .text-center:has(.divider) {
+  display: none;
+}
+
+span.close-god-damn {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  background-color: #004238;
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+span.close-god-damn::before {
+  content: "x";
+  color: white;
 }

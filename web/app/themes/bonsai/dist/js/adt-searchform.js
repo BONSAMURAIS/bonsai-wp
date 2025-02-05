@@ -299,16 +299,25 @@ function adt_update_original_info(dataArray) {
       jQuery(element).find('.product-result').text(numberValueInWeight);
       jQuery(element).find('.product-result-unit').text('kg CO2eq');
     }
+    var defaultValue = parseFloat(jQuery('.product-result', element).text());
     jQuery(element).find('select.unit').on('change', function () {
       var chosenValue = jQuery(this).val();
+
+      // Reset number in .amount field when changing the unit
+      jQuery('.search-result .col:first-child .amount').each(function () {
+        jQuery(this).val('1');
+      });
       jQuery('.search-result .col:first-child select.unit').each(function () {
         jQuery(this).val(chosenValue);
         var newElement = jQuery(this).closest('.col-inner');
         if (chosenValue === 'Meuro') {
           var _numberValueInCurrency = dataArray.all_data[1].value;
           _numberValueInCurrency = _numberValueInCurrency.toFixed(2);
+          var numberInput = jQuery('.amount', newElement).val();
+          console.log(numberInput);
           jQuery(newElement).find('.product-result').text(_numberValueInCurrency);
           jQuery(newElement).find('.product-result-unit').text('price CO2eq'); // ???
+          defaultValue = parseFloat(jQuery('.product-result', newElement).text());
         }
         if (chosenValue === 'tonnes') {
           // Number in tonnes. It has to be converted to kg
@@ -316,9 +325,27 @@ function adt_update_original_info(dataArray) {
           // Overwriting Number with the new value in kg
           _numberValueInWeight = _numberValueInWeight * 1000;
           _numberValueInWeight = _numberValueInWeight.toFixed(2);
+          var _numberInput = jQuery('.amount', newElement).val();
+          console.log(_numberInput);
           jQuery(newElement).find('.product-result').text(_numberValueInWeight);
           jQuery(newElement).find('.product-result-unit').text('kg CO2eq');
+          defaultValue = parseFloat(jQuery('.product-result', newElement).text());
         }
+      });
+    });
+
+    // This changes the number foreach input in the .amount field
+    jQuery('.amount', element).each(function () {
+      var inputElement = jQuery(this).closest('.col-inner');
+      jQuery('.amount', inputElement).on('input', function () {
+        var numberInput = jQuery(this).val();
+        var calculatedValue = defaultValue * numberInput;
+        jQuery('.search-result .col:first-child .amount').each(function () {
+          jQuery(this).val(numberInput);
+        });
+        jQuery('.search-result .col:first-child .product-result').each(function () {
+          jQuery(this).text(calculatedValue);
+        });
       });
     });
   });
@@ -331,8 +358,15 @@ jQuery(document).ready(function ($) {
     $('.search-result').each(function () {
       var original = $(this).find('.col:first-child');
       var clone = original.clone();
-      $(this).find('.col:last-child').remove();
       original.after(clone);
+      clone.append('<span class="close-god-damn"></span>');
+      $('a:has(.add)').closest('.col').css('display', 'none');
+      $('.close-god-damn').click(function () {
+        $('.close-god-damn').each(function () {
+          $(this).closest('.col').remove();
+        });
+        $('a:has(.add)').closest('.col').css('display', 'flex');
+      });
     });
   });
 });
@@ -405,6 +439,28 @@ function adt_show_search_results() {
     // Might need something happening here
   });
 }
+
+// Download CSV
+jQuery(document).ready(function ($) {
+  $(".download .button").click(function (e) {
+    e.preventDefault();
+    var csvContent = "";
+    $(this).closest('.col-inner').find('.emissions-table tr').each(function () {
+      var rowData = [];
+      $(this).find("th, td").each(function () {
+        rowData.push($(this).text());
+      });
+      csvContent += rowData.join(",") + "\n";
+    });
+    var blob = new Blob([csvContent], {
+      type: "text/csv"
+    });
+    var url = URL.createObjectURL(blob);
+    var a = $("<a></a>").attr("href", url).attr("download", "table_data.csv").appendTo("body");
+    a[0].click();
+    a.remove();
+  });
+});
 
 /***/ }),
 

@@ -359,8 +359,15 @@ function adt_update_original_info(dataArray)
             jQuery(element).find('.product-result-unit').text('kg CO2eq');
         }
 
+        let defaultValue = parseFloat(jQuery('.product-result', element).text());
+
         jQuery(element).find('select.unit').on('change', function() {
             let chosenValue = jQuery(this).val();
+
+            // Reset number in .amount field when changing the unit
+            jQuery('.search-result .col:first-child .amount').each(function(){
+                jQuery(this).val('1');
+            });
             
             jQuery('.search-result .col:first-child select.unit').each(function(){
                 jQuery(this).val(chosenValue);
@@ -370,9 +377,13 @@ function adt_update_original_info(dataArray)
                 if (chosenValue === 'Meuro') {
                     let numberValueInCurrency = dataArray.all_data[1].value;
                     numberValueInCurrency = numberValueInCurrency.toFixed(2);
+
+                    let numberInput = jQuery('.amount', newElement).val();
+                    console.log(numberInput);
     
                     jQuery(newElement).find('.product-result').text(numberValueInCurrency);
                     jQuery(newElement).find('.product-result-unit').text('price CO2eq'); // ???
+                    defaultValue = parseFloat(jQuery('.product-result', newElement).text());
                 }
     
                 if (chosenValue === 'tonnes') {
@@ -381,13 +392,36 @@ function adt_update_original_info(dataArray)
                     // Overwriting Number with the new value in kg
                     numberValueInWeight = numberValueInWeight * 1000;
                     numberValueInWeight = numberValueInWeight.toFixed(2);
+
+                    let numberInput = jQuery('.amount', newElement).val();
+                    console.log(numberInput);
     
                     jQuery(newElement).find('.product-result').text(numberValueInWeight);
                     jQuery(newElement).find('.product-result-unit').text('kg CO2eq');
+                    defaultValue = parseFloat(jQuery('.product-result', newElement).text());
                 }
             });
         });
+
+        // This changes the number foreach input in the .amount field
+        jQuery('.amount', element).each(function() {
+            let inputElement = jQuery(this).closest('.col-inner');
+
+            jQuery('.amount', inputElement).on('input', function() {
+                let numberInput = jQuery(this).val();
+                let calculatedValue = defaultValue * numberInput;
+                
+                jQuery('.search-result .col:first-child .amount').each(function(){
+                    jQuery(this).val(numberInput);
+                });
+
+                jQuery('.search-result .col:first-child .product-result').each(function(){
+                    jQuery(this).text(calculatedValue);
+                });
+            });
+        });
     });
+
 }
 
 // Comparison code
@@ -399,8 +433,17 @@ jQuery(document).ready(function($){
             let original = $(this).find('.col:first-child');
             let clone = original.clone();
             
-            $(this).find('.col:last-child').remove();
             original.after(clone);
+            clone.append('<span class="close-god-damn"></span>');
+            $('a:has(.add)').closest('.col').css('display', 'none');
+
+            $('.close-god-damn').click(function(){
+                $('.close-god-damn').each(function(){
+                    $(this).closest('.col').remove();
+                });
+
+                $('a:has(.add)').closest('.col').css('display', 'flex');
+            });
         });
     });
 });
@@ -495,3 +538,32 @@ function adt_show_search_results()
         // Might need something happening here
     });
 }
+
+// Download CSV
+jQuery(document).ready(function ($) {
+    $(".download .button").click(function (e) {
+        e.preventDefault();
+        
+        let csvContent = "";
+        
+        $(this).closest('.col-inner').find('.emissions-table tr').each(function () {
+            let rowData = [];
+            
+            $(this).find("th, td").each(function () {
+                rowData.push($(this).text());
+            });
+
+            csvContent += rowData.join(",") + "\n";
+        });
+
+        let blob = new Blob([csvContent], { type: "text/csv" });
+        let url = URL.createObjectURL(blob);
+        let a = $("<a></a>")
+            .attr("href", url)
+            .attr("download", "table_data.csv")
+            .appendTo("body");
+
+        a[0].click();
+        a.remove();
+    });
+});
