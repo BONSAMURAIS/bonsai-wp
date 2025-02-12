@@ -146,6 +146,7 @@ jQuery(document).ready(function ($) {
     var chosenValues = adt_get_chosen_values();
     adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
   });
+  adt_download_recipe_csv();
 });
 function adt_get_product_info(productTitle, productCode, productUuid, chosenValues) {
   productInfo = [];
@@ -174,7 +175,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
         jQuery('.error-message').slideUp('fast');
       }
       localStorage.setItem("footprint_data", JSON.stringify(dataArray));
-      var compareButtons = jQuery('.search-result .col:last-child').find('a.col-inner');
+      var compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
       if (compareButtons.length > 0) {
         adt_update_original_info(dataArray);
       } else {
@@ -238,7 +239,7 @@ function adt_update_tags(boxToUpdate) {
   var year = jQuery('#year option:selected').text();
   var whichChild = ':first-child';
   if (boxToUpdate === 'comparison') {
-    whichChild = ':last-child';
+    whichChild = ':nth-child(2)';
   }
   jQuery('.search-result > .col' + whichChild + ' .product-tag.footprint-type').each(function () {
     jQuery(this).text(type);
@@ -332,6 +333,7 @@ function adt_update_original_info(dataArray) {
           defaultValue = parseFloat(jQuery('.product-result', newElement).text());
         }
       });
+      adt_update_recipe(dataArray, 'original', true);
     });
 
     // This changes the number foreach input in the .amount field
@@ -346,9 +348,11 @@ function adt_update_original_info(dataArray) {
         jQuery('.search-result .col:first-child .product-result').each(function () {
           jQuery(this).text(calculatedValue);
         });
+        adt_update_recipe(dataArray, 'original');
       });
     });
   });
+  adt_update_recipe(dataArray, 'original');
 }
 
 // Comparison code
@@ -368,16 +372,17 @@ jQuery(document).ready(function ($) {
         $('a:has(.add)').closest('.col').css('display', 'flex');
       });
     });
+    adt_download_recipe_csv();
   });
 });
 function adt_update_comparison_info(dataArray) {
   localStorage.getItem("footprint_data");
   adt_update_tags('comparison');
-  jQuery('.search-result .col:last-child p.product-title').each(function () {
+  jQuery('.search-result .col:nth-child(2) p.product-title').each(function () {
     jQuery(this).text(dataArray.title);
   });
   var element = '';
-  jQuery('.search-result .col:last-child').each(function () {
+  jQuery('.search-result .col:nth-child(2)').each(function () {
     element = jQuery(this);
     jQuery(element).find('select.unit').empty();
     jQuery(dataArray.all_data).each(function (i) {
@@ -409,7 +414,7 @@ function adt_update_comparison_info(dataArray) {
     }
     jQuery(element).find('select.unit').on('change', function () {
       var chosenValue = jQuery(this).val();
-      jQuery('.search-result .col:last-child select.unit').each(function () {
+      jQuery('.search-result .col:nth-child(2) select.unit').each(function () {
         jQuery(this).val(chosenValue);
         var newElement = jQuery(this).closest('.col-inner');
         if (chosenValue === 'Meuro') {
@@ -428,8 +433,100 @@ function adt_update_comparison_info(dataArray) {
           jQuery(newElement).find('.product-result-unit').text('kg CO2eq');
         }
       });
+      adt_update_recipe(dataArray, 'comparison', true);
     });
   });
+  adt_update_recipe(dataArray, 'comparison');
+}
+function adt_update_recipe(dataArray, boxToUpdate) {
+  var isChanged = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
+  var tableMarkup = '';
+  var whichChild = 'first-child';
+  var recipeArray = dataArray.recipe;
+
+  // Get the amount and unit of the product
+  var amount = jQuery('.search-result .col:' + whichChild + ' .amount').val();
+  var unit = jQuery('.search-result .col:' + whichChild + ' select.unit').val();
+  var chosenCountry = jQuery('select#location').val();
+  // Just get the version from the currently available data
+  var newestVersion = dataArray.recipe[0].version;
+  console.log(recipeArray);
+
+  // Convert the tonnes amount to kg
+  if (unit === 'tonnes') {
+    amount = amount * 1000;
+  }
+
+  // <th>Inputs</th> <!-- flow_input -->
+  // <th>Country</th> <!-- region_inflow -->
+  // <th>Input</th> <!-- value_inflow + unit_inflow -->
+  // <th>Emissions<span>[kg CO2eq]</span></th> <!-- value_emission + unit_emission -->
+  jQuery.each(recipeArray, function (index, recipe) {
+    tableMarkup += '<tr>';
+    tableMarkup += '<td><a href="#">' + recipe.flow_input + '</a></td>';
+    tableMarkup += '<td>' + recipe.region_inflow + '</td>';
+    if (unit === 'tonnes') {
+      var valueInflow = recipe.value_inflow * 1000;
+      var valueEmission = recipe.value_emission * 1000;
+      valueInflow = valueInflow.toFixed(2);
+      valueEmission = valueEmission.toFixed(2);
+      tableMarkup += '<td>' + valueInflow + '</td>';
+      tableMarkup += '<td>' + valueEmission + '</td>';
+    } else {
+      tableMarkup += '<td>' + recipe.value_inflow + '</td>';
+      tableMarkup += '<td>' + recipe.value_emission + '</td>';
+    }
+    tableMarkup += '</tr>';
+  });
+  if (boxToUpdate === 'comparison') {
+    whichChild = 'nth-child(2)';
+  }
+
+  // Insert new markup here
+  jQuery('.search-result > .col:' + whichChild + ' .emissions-table tbody').html(tableMarkup);
+
+  // If unit is changed, then get new information from API
+  // let newTableMarkup = '';
+
+  // console.log(isChanged);
+  // if (isChanged) {
+  //     jQuery.ajax({
+  //         type: 'POST',
+  //         url: localize._ajax_url,
+  //         data: {
+  //             _ajax_nonce: localize._ajax_nonce,
+  //             action: 'adt_get_updated_recipe_info',
+  //             unitInflow: unit,
+  //             productCode: dataArray.flow_code,
+  //             country: chosenCountry,
+  //             version: newestVersion,
+  //         },
+  //         beforeSend: function() {
+  //             jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html('');
+  //         },
+  //         success: (response) => {
+  //             let newRecipeArray = response.data;
+
+  //             console.log(newRecipeArray);
+
+  //             jQuery.each(newRecipeArray, function(index, recipe) {
+  //                 newTableMarkup += '<tr>';
+  //                 newTableMarkup += '<td><a href="#">' + recipe.flow_input + '</a></td>';
+  //                 newTableMarkup += '<td>' + recipe.region_inflow + '</td>';
+  //                 newTableMarkup += '<td>' + recipe.value_inflow + '</td>';
+  //                 newTableMarkup += '<td>' + recipe.value_emission + '</td>';
+  //                 newTableMarkup += '</tr>';
+  //             });
+
+  //             if (boxToUpdate === 'comparison') {
+  //                 whichChild = 'nth-child(2)';
+  //             }
+
+  //             // Insert new markup here
+  //             jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(newTableMarkup);
+  //         }
+  //     });
+  // }
 }
 
 // Animations
@@ -441,26 +538,28 @@ function adt_show_search_results() {
 }
 
 // Download CSV
-jQuery(document).ready(function ($) {
-  $(".download .button").click(function (e) {
-    e.preventDefault();
-    var csvContent = "";
-    $(this).closest('.col-inner').find('.emissions-table tr').each(function () {
-      var rowData = [];
-      $(this).find("th, td").each(function () {
-        rowData.push($(this).text());
+function adt_download_recipe_csv() {
+  jQuery(".download .button").each(function () {
+    jQuery(this).click(function (e) {
+      e.preventDefault();
+      var csvContent = "";
+      jQuery(this).closest('.col-inner').find('.emissions-table tr').each(function () {
+        var rowData = [];
+        jQuery(this).find("th, td").each(function () {
+          rowData.push(jQuery(this).text());
+        });
+        csvContent += rowData.join(",") + "\n";
       });
-      csvContent += rowData.join(",") + "\n";
+      var blob = new Blob([csvContent], {
+        type: "text/csv"
+      });
+      var url = URL.createObjectURL(blob);
+      var a = jQuery("<a></a>").attr("href", url).attr("download", "table_data.csv").appendTo("body");
+      a[0].click();
+      a.remove();
     });
-    var blob = new Blob([csvContent], {
-      type: "text/csv"
-    });
-    var url = URL.createObjectURL(blob);
-    var a = $("<a></a>").attr("href", url).attr("download", "table_data.csv").appendTo("body");
-    a[0].click();
-    a.remove();
   });
-});
+}
 
 /***/ }),
 

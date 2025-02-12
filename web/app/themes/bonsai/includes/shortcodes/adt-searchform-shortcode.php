@@ -264,10 +264,10 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <table class="emissions-table">
                             <thead>
                                 <tr>
-                                    <th>Inputs</th>
-                                    <th>Country</th>
-                                    <th>Input</th>
-                                    <th>Emissions<span>[kg CO2eq]</span></th>
+                                    <th>Inputs</th> <!-- flow_input -->
+                                    <th>Country</th> <!-- region_inflow -->
+                                    <th>Input</th> <!-- value_inflow + unit_inflow -->
+                                    <th>Emissions<span>[kg CO2eq]</span></th> <!-- value_emission + unit_emission -->
                                 </tr>
                             </thead>
                             <tbody>

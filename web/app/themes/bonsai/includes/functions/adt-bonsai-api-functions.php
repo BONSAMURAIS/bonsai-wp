@@ -60,6 +60,8 @@ function adt_get_bonsai_product_list() {
         }
     }
 
+    $updatedPostIds = [];
+
     foreach ($products as $product) {
         $uuid = $product['uuid'];
         
@@ -85,14 +87,21 @@ function adt_get_bonsai_product_list() {
 
         $postId = wp_insert_post($post_data);
 
+        $updatedPostIds[] = $postId;
+
         update_post_meta($postId, 'adt_code', $product['code']);
         update_post_meta($postId, 'adt_characteristic_unit', $product['characteristic_unit']);
         update_post_meta($postId, 'adt_uuid', $product['uuid']);
-        update_post_meta($postId, 'adt_flowtype', $product['flow_type']);
+
+        if (array_key_exists('flow_type', $product)) {
+            update_post_meta($postId, 'adt_flowtype', $product['flow_type']);
+        }
     }
+
+    adt_delete_old_bonsai_products($updatedPostIds);
 }
 
-// add_action('template_redirect', s'adt_get_bonsai_product_list');
+// add_action('template_redirect', 'adt_get_bonsai_product_list');
 
 
 function adt_get_old_bonsai_product_list() {
@@ -165,11 +174,12 @@ function adt_get_bonsai_footprint_list() {
     // Parse the JSON response
     $result = json_decode($body, true);
 
+    $updatedPostIds = [];
+
     echo '<pre>';
     var_dump($result);
     echo '</pre>';
     exit;
-
 
     foreach ($result as $product) {
         $uuid = $product['uuid'];
@@ -196,9 +206,28 @@ function adt_get_bonsai_footprint_list() {
 
         $postId = wp_insert_post($post_data);
 
+        $updatedPostIds[] = $postId;
+
         update_post_meta($postId, 'adt_code', $product['code']);
         update_post_meta($postId, 'adt_characteristic_unit', $product['characteristic_unit']);
         update_post_meta($postId, 'adt_uuid', $product['uuid']);
+    }
+}
+
+function adt_delete_old_bonsai_products(array $updatedPostIds) 
+{
+    $args = array(
+        'post_type'      => 'product',
+        'posts_per_page' => -1,
+        'fields'         => 'ids', // Only retrieve IDs
+    );
+    
+    $products = get_posts($args);
+
+    $productsToDelete = array_diff($products, $updatedPostIds);
+
+    foreach ($productsToDelete as $productId) {
+        wp_delete_post($productId, true);
     }
 }
 
@@ -245,15 +274,44 @@ function adt_get_locations(): array
     return $locations;
 }
 
-function adt_get_product_recipe()
+function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion): array
 {
-    $productName = $_POST['title'];
-    $productCode = $_POST['code'];
-    $productUuid = $_POST['uuid'];
+    // Get the whole recipe list for the product
+    $recipeUrl = 'https://lca.aau.dk/api/recipes/?flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion;
 
-    // API URL
-    $url = "https://lca.aau.dk/api/recipes/".$productUuid."/";
+    // Make the API request
+    $recipeResponse = wp_remote_get($recipeUrl);
 
+    // Check for errors
+    if (is_wp_error($recipeResponse)) {
+        return [
+            'error' => $recipeResponse->get_error_message()
+        ];
+    }
+
+    // Retrieve and decode the recipeResponse body
+    $recipeBody = wp_remote_retrieve_body($recipeResponse);
+    $recipeResult = json_decode($recipeBody, true);
+
+    // Handle potential errors in the recipeResponse
+    if (empty($recipeResult)) {
+        return [
+            'error' => 'No recipes found or an error occurred.'
+        ];
+    }
+
+    return $recipeResult;
+}
+
+function adt_get_updated_recipe_info()
+{
+    $unitInflow = $_POST['unitInflow'];
+    $productCode = $_POST['productCode'];
+    $chosenCountry = $_POST['country'];
+    $newestVersion = $_POST['version'];
+
+    // Need unitInflow
+    $url = 'https://lca.aau.dk/api/recipes/?unit_inflow='.$unitInflow.'&flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion;
     // Make the API request
     $response = wp_remote_get($url);
 
@@ -266,25 +324,21 @@ function adt_get_product_recipe()
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
 
-    echo '<pre>';
-    var_dump($result);
-    echo '</pre>';
-
     // Handle potential errors in the response
     if (empty($result)) {
-        return 'No locations found or an error occurred.';
+        return 'No footprints found or an error occurred.';
     }
 
     if (array_key_exists('detail', $result)) {
         return 'Error: ' . $result['detail'];
     }
 
-    // Extract locations from the response
-    $locations = $result['results'];
+    wp_send_json_success($result);
 }
 
-add_action('wp_ajax_adt_get_product_recipe', 'adt_get_product_recipe');
-add_action('wp_ajax_nopriv_adt_get_product_recipe', 'adt_get_product_recipe');
+add_action('wp_ajax_adt_get_updated_recipe_info', 'adt_get_updated_recipe_info');
+add_action('wp_ajax_nopriv_adt_get_updated_recipe_info', 'adt_get_updated_recipe_info');
+
 
 function adt_get_product_footprint()
 {
@@ -340,11 +394,14 @@ function adt_get_product_footprint()
         }
     }
 
+    $recipeData = adt_get_product_recipe($productCode, $chosenCountry, $newestVersion);
+
     $data = [
         'title' => $footprintTitle,
         'flow_code' => $productCode,
         'uuid' => $productUuid,
         'all_data' => $chosenFootprint,
+        'recipe' => $recipeData,
     ];
 
     wp_send_json_success($data);
