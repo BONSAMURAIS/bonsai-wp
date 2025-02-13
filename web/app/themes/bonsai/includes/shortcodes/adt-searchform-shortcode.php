@@ -10,7 +10,7 @@ add_shortcode( 'adt_searchform', function($atts) {
         '_ajax_nonce' => wp_create_nonce('_ajax_nonce'),
     ]);
     
-    $productsArray = adt_get_all_products();
+    $productsArray = adt_get_all_products_by_footprint();
     $locationsArray = adt_get_locations();
     $popularSearches = adt_get_popular_searches();
 
@@ -23,12 +23,47 @@ add_shortcode( 'adt_searchform', function($atts) {
 
     <div class="co2-form-wrapper">
         <form class="co2-form">
-            <div class="switch-field-wrapper">
-                <div class="switch-field-container">
-                    <input type="radio" id="radio-one" name="switch-one" value="product" checked/>
-                    <label for="radio-one">Product</label>
-                    <input type="radio" id="radio-two" name="switch-one" value="country" disabled />
-                    <label for="radio-two">Country</label>
+            <div class="row align-bottom">
+                <div class="col medium-6 small-12 large-6 pb-0 text-left">
+                    <div class="tooltip">
+                        <a href="#info-footprint">
+                            Footprint
+                        </a>
+                        <?= do_shortcode('[lightbox id="info-footprint" width="600px" padding="20px"][block id="footprint-info-popup"][/lightbox]') ?>
+                    </div>
+                    <div class="switch-field-wrapper">
+                        <div class="switch-field-container">
+                            <input type="radio" id="radio-one" name="switch-one" value="product" checked/>
+                            <label for="radio-one">Product</label>
+                            <input type="radio" id="radio-two" name="switch-one" value="person" disabled />
+                            <label for="radio-two">Person</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col medium-6 small-12 large-6 pb-0 text-right">
+                    <div class="tooltip">
+                        <a href="#info-footprint-type">
+                            Footprint type
+                        </a>
+                        <?= do_shortcode('[lightbox id="info-footprint-type" width="600px" padding="20px"][block id="footprint-info-popup"][/lightbox]') ?>
+                    </div>
+                    <div id="footprint-type" class="select">
+                        <div class="radio-choice">
+                            <input type="radio" id="production" name="footprint_type" value="product" checked/>
+                            <label for="production">Cradle to gate</label>
+                        </div>
+                        <div class="radio-choice">
+                            <input type="radio" id="market" name="footprint_type" value="market" />
+                            <label for="market">Cradle to consumer</label>
+                        </div>
+                        <!-- <select id="footprint-type">
+                            <option value="product">Cradle to gate (i.e. production)</option>
+                            <option value="market">Cradle to consumer (i.e., markets)</option>
+                        </select>
+                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                        </svg> -->
+                    </div>
                 </div>
             </div>
 
@@ -102,24 +137,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div class="select-wrapper col medium-12 small-12 large-12">
                         <div>
                             <div class="tooltip">
-                                <a href="#info-footprint">
-                                    Footprint type
-                                </a>
-                                <?= do_shortcode('[lightbox id="info-footprint" width="600px" padding="20px"][block id="footprint-info-popup"][/lightbox]') ?>
-                            </div>
-                            <label class="select" for="footprint-type">
-                                <select id="footprint-type">
-                                    <option value="product">Cradle to gate (i.e. production)</option>
-                                    <option value="market">Cradle to consumer (i.e., markets)</option>
-                                </select>
-                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                                </svg>
-                            </label>
-                        </div>
-
-                        <div>
-                            <div class="tooltip">
                                 <a href="#info-location">
                                     Location
                                 </a>
@@ -147,7 +164,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <label class="select" for="year">
                                 <select id="year">
                                     <option value="2016">2016</option>
-                                    <option value="2025">2025</option>
                                 </select>
                                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>

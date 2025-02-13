@@ -74,9 +74,19 @@ function adt_get_bonsai_product_list() {
             $uuid
         ));
 
+        $postContent = $product['description'];
+
+        if (!$postContent) {
+            $postContent = $product['name'];
+        }
+
+        if ($postContent === null) {
+            $postContent = 'Is not available?';
+        }
+
         $post_data = [
             'post_title'   => $product['name'],
-            'post_content' => $product['description'],
+            'post_content' => $postContent,
             'post_status'  => 'publish',
             'post_type'    => 'product',
         ];
@@ -93,12 +103,25 @@ function adt_get_bonsai_product_list() {
         update_post_meta($postId, 'adt_characteristic_unit', $product['characteristic_unit']);
         update_post_meta($postId, 'adt_uuid', $product['uuid']);
 
+        // flow types
+        // market M_
+        // product C_ and EF_
+        $codePrefix = adt_get_prefix($product['code']);
+
+        if ($codePrefix === 'M') {
+            update_post_meta($postId, 'adt_flowtype', 'market');
+        } 
+        
+        if ($codePrefix === 'C' || $codePrefix === 'EF') {
+            update_post_meta($postId, 'adt_flowtype', 'product');
+        }
+
         if (array_key_exists('flow_type', $product)) {
             update_post_meta($postId, 'adt_flowtype', $product['flow_type']);
         }
     }
 
-    adt_delete_old_bonsai_products($updatedPostIds);
+    // adt_delete_old_bonsai_products($updatedPostIds);
 }
 
 // add_action('template_redirect', 'adt_get_bonsai_product_list');
@@ -342,7 +365,6 @@ add_action('wp_ajax_nopriv_adt_get_updated_recipe_info', 'adt_get_updated_recipe
 
 function adt_get_product_footprint()
 {
-    $productName = $_POST['title'];
     $productCode = $_POST['code'];
     $productUuid = $_POST['uuid'];
     $chosenCountry = $_POST['footprint_location'];

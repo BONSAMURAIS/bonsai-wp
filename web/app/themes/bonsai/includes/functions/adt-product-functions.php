@@ -48,7 +48,7 @@ add_action('init', function(){
 
 });
 
-function adt_get_all_products(): array
+function adt_get_all_products_by_footprint(): array
 {
     $args = [
         'post_type' => 'product',

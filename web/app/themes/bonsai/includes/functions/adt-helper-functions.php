@@ -163,3 +163,11 @@ function adt_debug_hook(string $hook): array
 
     return $hooks;
 }
+
+function adt_get_prefix($str) {
+    $pos = strpos($str, "_"); // Find the underscore position
+    if ($pos !== false) {
+        return substr($str, 0, $pos); // Extract everything before the underscore
+    }
+    return $str; // Return the full string if no underscore is found
+}
