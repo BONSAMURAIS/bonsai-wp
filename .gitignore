@@ -47,9 +47,10 @@ web/app/themes/bonsai/style.css
 web/app/themes/bonsai/mix-manifest.json
 
 # Distributed assets.
-web/app/themes/bonsai/dist/fonts/*
-web/app/themes/bonsai/dist/css/*
-web/app/themes/bonsai/dist/js/*
+/web/app/themes/bonsai/dist/fonts/*
+/web/app/themes/bonsai/dist/css/*
+/web/app/themes/bonsai/dist/js/*
+/web/app/themes/bonsai/dist/*
 
 # Apple
 .DS_Store
