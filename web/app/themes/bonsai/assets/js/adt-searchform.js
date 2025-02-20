@@ -320,6 +320,8 @@ function adt_update_original_info(dataArray)
 {
     localStorage.getItem("footprint_data");
 
+    console.log(dataArray);
+
     adt_update_tags('original');
 
     jQuery('.search-result .col:first-child p.product-title').each(function() {
@@ -333,8 +335,10 @@ function adt_update_original_info(dataArray)
         element = jQuery(this);
         jQuery(element).find('select.unit').empty();
 
+        // More Units: kWh, MJ, TJ, tonne, Meuro, item.
+        // 1 TJ = 1,000,000 MJ (1 million MJ).
         jQuery(dataArray.all_data).each(function(i) {
-            let unit = 'kg';
+            let unit = dataArray.all_data[i].unit_reference;
 
             if (dataArray.all_data[i].unit_reference === 'Meuro') {
                 unit = 'EUR';
@@ -363,7 +367,6 @@ function adt_update_original_info(dataArray)
             // Number in tonnes. It has to be converted to kg
             let numberValueInWeight = dataArray.all_data[0].value;
             // Overwriting Number with the new value in kg
-            numberValueInWeight = numberValueInWeight * 1000;
             numberValueInWeight = numberValueInWeight.toFixed(2);
 
             jQuery(element).find('.product-result').text(numberValueInWeight);
@@ -401,7 +404,6 @@ function adt_update_original_info(dataArray)
                     // Number in tonnes. It has to be converted to kg
                     let numberValueInWeight = dataArray.all_data[0].value;
                     // Overwriting Number with the new value in kg
-                    numberValueInWeight = numberValueInWeight * 1000;
                     numberValueInWeight = numberValueInWeight.toFixed(2);
 
                     let numberInput = jQuery('.amount', newElement).val();
@@ -438,7 +440,7 @@ function adt_update_original_info(dataArray)
         });
     });
 
-    // adt_update_recipe(dataArray, 'original');
+    adt_update_recipe(dataArray, 'original');
 }
 
 // Comparison code
@@ -464,10 +466,11 @@ jQuery(document).ready(function($){
         });
 
         adt_download_recipe_csv();
+        adt_update_comparison_info();
     });
 });
 
-function adt_update_comparison_info(dataArray)
+function adt_update_comparison_info(dataArray = null)
 {
     localStorage.getItem("footprint_data");
 
@@ -480,6 +483,7 @@ function adt_update_comparison_info(dataArray)
 
     var element = '';
     jQuery('.search-result .col:nth-child(2)').each(function() {
+        // This loops over the basic and advanced search result
         element = jQuery(this);
         jQuery(element).find('select.unit').empty();
 
@@ -510,15 +514,21 @@ function adt_update_comparison_info(dataArray)
             // Number in tonnes. It has to be converted to kg
             let numberValueInWeight = dataArray.all_data[0].value;
             // Overwriting Number with the new value in kg
-            numberValueInWeight = numberValueInWeight * 1000;
             numberValueInWeight = numberValueInWeight.toFixed(2);
 
             jQuery(element).find('.product-result').text(numberValueInWeight);
             jQuery(element).find('.product-result-unit').text('kg CO2eq');
         }
 
+        let defaultValue = parseFloat(jQuery('.product-result', element).text());
+
         jQuery(element).find('select.unit').on('change', function() {
             let chosenValue = jQuery(this).val();
+
+            // Reset number in .amount field when changing the unit
+            jQuery('.search-result .col:nth-child(2) .amount').each(function(){
+                jQuery(this).val('1');
+            });
             
             jQuery('.search-result .col:nth-child(2) select.unit').each(function(){
                 jQuery(this).val(chosenValue);
@@ -528,24 +538,52 @@ function adt_update_comparison_info(dataArray)
                 if (chosenValue === 'Meuro') {
                     let numberValueInCurrency = dataArray.all_data[1].value;
                     numberValueInCurrency = numberValueInCurrency.toFixed(2);
+
+                    let numberInput = jQuery('.amount', newElement).val();
+                    // console.log(numberInput);
     
                     jQuery(newElement).find('.product-result').text(numberValueInCurrency);
                     jQuery(newElement).find('.product-result-unit').text('price CO2eq'); // ???
+                    defaultValue = parseFloat(jQuery('.product-result', newElement).text());
                 }
     
                 if (chosenValue === 'tonnes') {
                     // Number in tonnes. It has to be converted to kg
                     let numberValueInWeight = dataArray.all_data[0].value;
                     // Overwriting Number with the new value in kg
-                    numberValueInWeight = numberValueInWeight * 1000;
                     numberValueInWeight = numberValueInWeight.toFixed(2);
+
+                    let numberInput = jQuery('.amount', newElement).val();
+                    // console.log(numberInput);
     
                     jQuery(newElement).find('.product-result').text(numberValueInWeight);
                     jQuery(newElement).find('.product-result-unit').text('kg CO2eq');
+                    defaultValue = parseFloat(jQuery('.product-result', newElement).text());
                 }
             });
 
             // adt_update_recipe(dataArray, 'comparison', true);
+        });
+
+        // This changes the number foreach input in the .amount field
+        jQuery('.amount', element).each(function() {
+            let inputElement = jQuery(this).closest('.col-inner');
+
+            jQuery('.amount', inputElement).on('input', function() {
+                console.log('test');
+                let numberInput = jQuery(this).val();
+                let calculatedValue = defaultValue * numberInput;
+                
+                jQuery('.search-result .col:nth-child(2) .amount').each(function(){
+                    jQuery(this).val(numberInput);
+                });
+
+                jQuery('.search-result .col:nth-child(2) .product-result').each(function(){
+                    jQuery(this).text(calculatedValue);
+                });
+                
+                // adt_update_recipe(dataArray, 'comparison');
+            });
         });
     });
 
@@ -568,9 +606,9 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
     // console.log(dataArray);
 
     // Convert the tonnes amount to kg
-    if (unit === 'tonnes') {
-        amount = amount * 1000;
-    }
+    // if (unit === 'tonnes') {
+    //     amount = amount;
+    // }
 
     jQuery.each(recipeArray, function(index, recipe) {
         // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
@@ -594,19 +632,8 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
                 tableMarkup += '<tr>';
                 tableMarkup += '<td><a href="#" data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + dataArray.title + '</a></td>';
                 tableMarkup += '<td>' + recipe.region_inflow + '</td>';
-                if (unit === 'tonnes') {
-                    let valueInflow = recipe.value_inflow * 1000;
-                    let valueEmission = recipe.value_emission * 1000;
-        
-                    valueInflow = valueInflow.toFixed(2);
-                    valueEmission = valueEmission.toFixed(2);
-        
-                    tableMarkup += '<td>' + valueInflow + '</td>';
-                    tableMarkup += '<td>' + valueEmission + '</td>';
-                } else {
-                    tableMarkup += '<td>' + recipe.value_inflow + '</td>';
-                    tableMarkup += '<td>' + recipe.value_emission + '</td>';
-                }
+                tableMarkup += '<td>' + recipe.value_inflow + '</td>';
+                tableMarkup += '<td>' + recipe.value_emission + '</td>';
                 tableMarkup += '</tr>';
 
                 // Insert new markup here

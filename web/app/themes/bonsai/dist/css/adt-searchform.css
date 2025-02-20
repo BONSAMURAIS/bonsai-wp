@@ -732,9 +732,9 @@ label.select svg {
   display: block;
 }
 
-span.close-god-damn {
+span.adt-close {
   position: absolute;
-  right: 20px;
+  right: 35px;
   top: 20px;
   background-color: #004238;
   height: 30px;
@@ -744,9 +744,13 @@ span.close-god-damn {
   justify-content: center;
   align-items: center;
 }
-span.close-god-damn::before {
-  content: "x";
-  color: white;
+span.adt-close::before {
+  content: url("data:image/svg+xml,%3Csvg width='14px' height='14px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 12H20M12 4V20' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  height: 23px;
+  rotate: 45deg;
+}
+span.adt-close:hover {
+  cursor: pointer;
 }
 
 .share-icon {

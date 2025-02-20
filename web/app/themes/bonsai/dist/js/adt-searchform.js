@@ -260,6 +260,7 @@ function adt_change_data_set() {
 }
 function adt_update_original_info(dataArray) {
   localStorage.getItem("footprint_data");
+  console.log(dataArray);
   adt_update_tags('original');
   jQuery('.search-result .col:first-child p.product-title').each(function () {
     jQuery(this).text(dataArray.title);
@@ -270,8 +271,11 @@ function adt_update_original_info(dataArray) {
     // This loops over the basic and advanced search result
     element = jQuery(this);
     jQuery(element).find('select.unit').empty();
+
+    // More Units: kWh, MJ, TJ, tonne, Meuro, item.
+    // 1 TJ = 1,000,000 MJ (1 million MJ).
     jQuery(dataArray.all_data).each(function (i) {
-      var unit = 'kg';
+      var unit = dataArray.all_data[i].unit_reference;
       if (dataArray.all_data[i].unit_reference === 'Meuro') {
         unit = 'EUR';
       }
@@ -292,7 +296,6 @@ function adt_update_original_info(dataArray) {
       // Number in tonnes. It has to be converted to kg
       var numberValueInWeight = dataArray.all_data[0].value;
       // Overwriting Number with the new value in kg
-      numberValueInWeight = numberValueInWeight * 1000;
       numberValueInWeight = numberValueInWeight.toFixed(2);
       jQuery(element).find('.product-result').text(numberValueInWeight);
       jQuery(element).find('.product-result-unit').text('kg CO2eq');
@@ -322,7 +325,6 @@ function adt_update_original_info(dataArray) {
           // Number in tonnes. It has to be converted to kg
           var _numberValueInWeight = dataArray.all_data[0].value;
           // Overwriting Number with the new value in kg
-          _numberValueInWeight = _numberValueInWeight * 1000;
           _numberValueInWeight = _numberValueInWeight.toFixed(2);
           var _numberInput = jQuery('.amount', newElement).val();
           // console.log(numberInput);
@@ -353,8 +355,7 @@ function adt_update_original_info(dataArray) {
       });
     });
   });
-
-  // adt_update_recipe(dataArray, 'original');
+  adt_update_recipe(dataArray, 'original');
 }
 
 // Comparison code
@@ -375,9 +376,11 @@ jQuery(document).ready(function ($) {
       });
     });
     adt_download_recipe_csv();
+    adt_update_comparison_info();
   });
 });
-function adt_update_comparison_info(dataArray) {
+function adt_update_comparison_info() {
+  var dataArray = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
   localStorage.getItem("footprint_data");
   adt_update_tags('comparison');
   jQuery('.search-result .col:nth-child(2) p.product-title').each(function () {
@@ -386,6 +389,7 @@ function adt_update_comparison_info(dataArray) {
   });
   var element = '';
   jQuery('.search-result .col:nth-child(2)').each(function () {
+    // This loops over the basic and advanced search result
     element = jQuery(this);
     jQuery(element).find('select.unit').empty();
     jQuery(dataArray.all_data).each(function (i) {
@@ -409,34 +413,64 @@ function adt_update_comparison_info(dataArray) {
       // Number in tonnes. It has to be converted to kg
       var numberValueInWeight = dataArray.all_data[0].value;
       // Overwriting Number with the new value in kg
-      numberValueInWeight = numberValueInWeight * 1000;
       numberValueInWeight = numberValueInWeight.toFixed(2);
       jQuery(element).find('.product-result').text(numberValueInWeight);
       jQuery(element).find('.product-result-unit').text('kg CO2eq');
     }
+    var defaultValue = parseFloat(jQuery('.product-result', element).text());
     jQuery(element).find('select.unit').on('change', function () {
       var chosenValue = jQuery(this).val();
+
+      // Reset number in .amount field when changing the unit
+      jQuery('.search-result .col:nth-child(2) .amount').each(function () {
+        jQuery(this).val('1');
+      });
       jQuery('.search-result .col:nth-child(2) select.unit').each(function () {
         jQuery(this).val(chosenValue);
         var newElement = jQuery(this).closest('.col-inner');
         if (chosenValue === 'Meuro') {
           var _numberValueInCurrency2 = dataArray.all_data[1].value;
           _numberValueInCurrency2 = _numberValueInCurrency2.toFixed(2);
+          var numberInput = jQuery('.amount', newElement).val();
+          // console.log(numberInput);
+
           jQuery(newElement).find('.product-result').text(_numberValueInCurrency2);
           jQuery(newElement).find('.product-result-unit').text('price CO2eq'); // ???
+          defaultValue = parseFloat(jQuery('.product-result', newElement).text());
         }
         if (chosenValue === 'tonnes') {
           // Number in tonnes. It has to be converted to kg
           var _numberValueInWeight2 = dataArray.all_data[0].value;
           // Overwriting Number with the new value in kg
-          _numberValueInWeight2 = _numberValueInWeight2 * 1000;
           _numberValueInWeight2 = _numberValueInWeight2.toFixed(2);
+          var _numberInput2 = jQuery('.amount', newElement).val();
+          // console.log(numberInput);
+
           jQuery(newElement).find('.product-result').text(_numberValueInWeight2);
           jQuery(newElement).find('.product-result-unit').text('kg CO2eq');
+          defaultValue = parseFloat(jQuery('.product-result', newElement).text());
         }
       });
 
       // adt_update_recipe(dataArray, 'comparison', true);
+    });
+
+    // This changes the number foreach input in the .amount field
+    jQuery('.amount', element).each(function () {
+      var inputElement = jQuery(this).closest('.col-inner');
+      jQuery('.amount', inputElement).on('input', function () {
+        console.log('test');
+        var numberInput = jQuery(this).val();
+        var calculatedValue = defaultValue * numberInput;
+        jQuery('.search-result .col:nth-child(2) .amount').each(function () {
+          jQuery(this).val(numberInput);
+        });
+        jQuery('.search-result .col:nth-child(2) .product-result').each(function () {
+          jQuery(this).text(calculatedValue);
+        });
+
+        // adt_update_recipe(dataArray, 'comparison');
+      });
     });
   });
 
@@ -458,9 +492,10 @@ function adt_update_recipe(dataArray, boxToUpdate) {
   // console.log(dataArray);
 
   // Convert the tonnes amount to kg
-  if (unit === 'tonnes') {
-    amount = amount * 1000;
-  }
+  // if (unit === 'tonnes') {
+  //     amount = amount;
+  // }
+
   jQuery.each(recipeArray, function (index, recipe) {
     // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
 
@@ -480,17 +515,8 @@ function adt_update_recipe(dataArray, boxToUpdate) {
         tableMarkup += '<tr>';
         tableMarkup += '<td><a href="#" data-code="' + recipe.flow_input + '" data-uuid="' + recipe.id + '" data-country="' + recipe.region_inflow + '">' + dataArray.title + '</a></td>';
         tableMarkup += '<td>' + recipe.region_inflow + '</td>';
-        if (unit === 'tonnes') {
-          var valueInflow = recipe.value_inflow * 1000;
-          var valueEmission = recipe.value_emission * 1000;
-          valueInflow = valueInflow.toFixed(2);
-          valueEmission = valueEmission.toFixed(2);
-          tableMarkup += '<td>' + valueInflow + '</td>';
-          tableMarkup += '<td>' + valueEmission + '</td>';
-        } else {
-          tableMarkup += '<td>' + recipe.value_inflow + '</td>';
-          tableMarkup += '<td>' + recipe.value_emission + '</td>';
-        }
+        tableMarkup += '<td>' + recipe.value_inflow + '</td>';
+        tableMarkup += '<td>' + recipe.value_emission + '</td>';
         tableMarkup += '</tr>';
 
         // Insert new markup here
@@ -583,9 +609,9 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
   var $input = jQuery('#autocomplete-input');
   var $suggestionsWrapper = jQuery('#suggestions-wrapper');
   var $suggestions = jQuery('#suggestions');
-  var currentIndex = -1; // To track the currently marked suggestion
-  var suggestionSelected = false; // Tracks if a suggestion was selected
-  // Get default chosen values
+  var $submitBtn = jQuery('.search-input-wrapper button'); // Ensure this ID matches your button's ID
+  var currentIndex = -1;
+  var suggestionSelected = false;
   var chosenValuesArray = adt_get_chosen_values();
   $input.on('input', function () {
     var query = $input.val().toLowerCase();
@@ -599,33 +625,19 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
       return item.word.toLowerCase().includes(query);
     });
     $suggestions.empty();
-    currentIndex = -1; // Reset the index when typing
-    suggestionSelected = false; // Reset the selection state
-
+    currentIndex = -1;
+    suggestionSelected = false;
     if (matches.length > 0 && query) {
-      jQuery(this).css('border-radius', '50px 50px 0 0');
-      var screenWidth = jQuery(window).width();
-      if (screenWidth < 768) {
-        jQuery(this).css('border-radius', '22.5px 22.5px 0 0');
-      }
-      jQuery(this).css('border-bottom', 'none');
+      jQuery(this).css('border-radius', '50px 50px 0 0').css('border-bottom', 'none');
       $suggestionsWrapper.show();
       matches.forEach(function (match) {
         var $div = jQuery('<div>').text(match.word).addClass('suggestion-item').attr('data-code', match.code).attr('data-uuid', match.uuid).on('click', function () {
-          $input.val(match.word);
-          $input.attr('data-code', match.code); // Set the product code as data attribute
-          $input.attr('data-uuid', match.uuid); // Set the product UUID as data attribute
-          $suggestionsWrapper.hide();
-
-          // Update chosen values
-          chosenValuesArray = adt_get_chosen_values();
-          adt_get_product_info(match.word, match.code, match.uuid, chosenValuesArray);
+          selectSuggestion(match.word, match.code, match.uuid);
         });
         $suggestions.append($div);
       });
     } else {
-      jQuery(this).css('border-radius', '50px');
-      jQuery(this).css('border-bottom', '1px solid #ddd');
+      jQuery(this).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
       $suggestionsWrapper.hide();
     }
   });
@@ -634,45 +646,51 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     if ($items.length > 0) {
       if (e.key === 'ArrowDown') {
         e.preventDefault();
-        currentIndex = (currentIndex + 1) % $items.length; // Move down
+        currentIndex = (currentIndex + 1) % $items.length;
         markCurrentItem($items);
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
-        currentIndex = (currentIndex - 1 + $items.length) % $items.length; // Move up
+        currentIndex = (currentIndex - 1 + $items.length) % $items.length;
         markCurrentItem($items);
       } else if (e.key === 'Enter') {
+        e.preventDefault();
         if (currentIndex >= 0) {
-          e.preventDefault(); // Prevent form submission when selecting a suggestion
-          var selectedText = $items.eq(currentIndex).text();
-          $input.val(selectedText);
-          $input.attr('data-code', $items.eq(currentIndex).data('code'));
-          $input.attr('data-uuid', $items.eq(currentIndex).data('uuid'));
-          $suggestionsWrapper.hide();
-          jQuery($input).css('border-radius', '50px');
-          jQuery($input).css('border-bottom', '1px solid #ddd');
-          suggestionSelected = true; // Mark a suggestion as selected
-
-          // Update chosen values
-          chosenValuesArray = adt_get_chosen_values();
-          adt_get_product_info(selectedText, $input.attr('data-code'), $input.attr('data-uuid'), chosenValuesArray);
-        } else if (suggestionSelected) {
-          suggestionSelected = false; // Allow form submission on next Enter press
+          var selectedItem = $items.eq(currentIndex);
+          selectSuggestion(selectedItem.text(), selectedItem.data('code'), selectedItem.data('uuid'));
+        } else if (!suggestionSelected && $items.length > 0) {
+          var firstItem = $items.eq(0);
+          selectSuggestion(firstItem.text(), firstItem.data('code'), firstItem.data('uuid'));
         }
       }
+    }
+  });
+  $submitBtn.on('click', function (e) {
+    e.preventDefault();
+    var $items = $suggestions.find('.suggestion-item');
+    if (!suggestionSelected && $items.length > 0) {
+      var firstItem = $items.eq(0);
+      selectSuggestion(firstItem.text(), firstItem.data('code'), firstItem.data('uuid'));
     }
   });
   jQuery(document).on('click', function (e) {
     if (!jQuery(e.target).is($input)) {
       $suggestionsWrapper.hide();
-      jQuery($input).css('border-radius', '50px');
-      jQuery($input).css('border-bottom', '1px solid #ddd');
+      jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
     }
   });
   function markCurrentItem($items) {
-    $items.removeClass('highlight'); // Remove highlight from all items
+    $items.removeClass('highlight');
     if (currentIndex >= 0) {
-      $items.eq(currentIndex).addClass('highlight'); // Highlight the current item
+      $items.eq(currentIndex).addClass('highlight');
     }
+  }
+  function selectSuggestion(text, code, uuid) {
+    $input.val(text).attr('data-code', code).attr('data-uuid', uuid);
+    $suggestionsWrapper.hide();
+    jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
+    suggestionSelected = true;
+    chosenValuesArray = adt_get_chosen_values();
+    adt_get_product_info(text, code, uuid, chosenValuesArray);
   }
 }
 function adt_switch_between_recipe_items() {

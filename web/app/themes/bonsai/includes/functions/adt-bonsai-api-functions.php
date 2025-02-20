@@ -394,10 +394,10 @@ function adt_get_product_footprint()
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
-
+    
     // If cache exists, return the cached data
     if ($cachedFootprints !== false) {
-        if (array_key_exists($productCode, $cachedFootprints)) {
+        if (array_key_exists($productCode, $cachedFootprints) && $cachedFootprints[$productCode]['chosen_country'] === $chosenCountry) {
             wp_send_json_success($cachedFootprints[$productCode]);
             die();
         }
@@ -452,6 +452,7 @@ function adt_get_product_footprint()
     $data = [
         'title' => $footprintTitle,
         'flow_code' => $productCode,
+        'chosen_country' => $chosenCountry,
         'uuid' => $productUuid,
         'all_data' => $chosenFootprint,
         'recipe' => $recipeData,
