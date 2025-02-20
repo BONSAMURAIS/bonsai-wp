@@ -707,15 +707,15 @@ function adt_download_recipe_csv()
     });
 }
 
-function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray)
+function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray) 
 {
     const words = productTitleArray;
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
     const $suggestions = jQuery('#suggestions');
-    let currentIndex = -1; // To track the currently marked suggestion
-    let suggestionSelected = false; // Tracks if a suggestion was selected
-    // Get default chosen values
+    const $submitBtn = jQuery('.search-input-wrapper button'); // Ensure this ID matches your button's ID
+    let currentIndex = -1;
+    let suggestionSelected = false;
     let chosenValuesArray = adt_get_chosen_values();
 
     $input.on('input', function () {
@@ -724,19 +724,13 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
             .map((word, index) => ({ word, code: productCodeArray[index], uuid: productUuidArray[index] }))
             .filter(item => item.word.toLowerCase().includes(query));
         $suggestions.empty();
-        currentIndex = -1; // Reset the index when typing
-        suggestionSelected = false; // Reset the selection state
+        currentIndex = -1;
+        suggestionSelected = false;
 
         if (matches.length > 0 && query) {
-            jQuery(this).css('border-radius', '50px 50px 0 0');
-
-            var screenWidth = jQuery(window).width();
-            if (screenWidth < 768) {
-                jQuery(this).css('border-radius', '22.5px 22.5px 0 0');
-            }
-
-            jQuery(this).css('border-bottom', 'none');
+            jQuery(this).css('border-radius', '50px 50px 0 0').css('border-bottom', 'none');
             $suggestionsWrapper.show();
+
             matches.forEach(match => {
                 const $div = jQuery('<div>')
                     .text(match.word)
@@ -744,76 +738,71 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
                     .attr('data-code', match.code)
                     .attr('data-uuid', match.uuid)
                     .on('click', function () {
-                        $input.val(match.word);
-                        $input.attr('data-code', match.code); // Set the product code as data attribute
-                        $input.attr('data-uuid', match.uuid); // Set the product UUID as data attribute
-                        $suggestionsWrapper.hide();
-
-                        // Update chosen values
-                        chosenValuesArray = adt_get_chosen_values();
-
-                        adt_get_product_info(match.word, match.code, match.uuid, chosenValuesArray);
-
+                        selectSuggestion(match.word, match.code, match.uuid);
                     });
                 $suggestions.append($div);
             });
         } else {
-            jQuery(this).css('border-radius', '50px');
-            jQuery(this).css('border-bottom', '1px solid #ddd');
-
+            jQuery(this).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
             $suggestionsWrapper.hide();
         }
     });
 
-    $input.on('keydown', function(e) {
+    $input.on('keydown', function (e) {
         const $items = $suggestions.find('.suggestion-item');
         if ($items.length > 0) {
             if (e.key === 'ArrowDown') {
                 e.preventDefault();
-                currentIndex = (currentIndex + 1) % $items.length; // Move down
+                currentIndex = (currentIndex + 1) % $items.length;
                 markCurrentItem($items);
             } else if (e.key === 'ArrowUp') {
                 e.preventDefault();
-                currentIndex = (currentIndex - 1 + $items.length) % $items.length; // Move up
+                currentIndex = (currentIndex - 1 + $items.length) % $items.length;
                 markCurrentItem($items);
             } else if (e.key === 'Enter') {
+                e.preventDefault();
                 if (currentIndex >= 0) {
-                    e.preventDefault(); // Prevent form submission when selecting a suggestion
-                    const selectedText = $items.eq(currentIndex).text();
-                    $input.val(selectedText);
-                    $input.attr('data-code', $items.eq(currentIndex).data('code'));
-                    $input.attr('data-uuid', $items.eq(currentIndex).data('uuid'));
-                    $suggestionsWrapper.hide();
-                    jQuery($input).css('border-radius', '50px');
-                    jQuery($input).css('border-bottom', '1px solid #ddd');
-
-                    suggestionSelected = true; // Mark a suggestion as selected
-
-                    // Update chosen values
-                    chosenValuesArray = adt_get_chosen_values();
-
-                    adt_get_product_info(selectedText, $input.attr('data-code'), $input.attr('data-uuid'), chosenValuesArray);
-
-                    } else if (suggestionSelected) {
-                    suggestionSelected = false; // Allow form submission on next Enter press
+                    const selectedItem = $items.eq(currentIndex);
+                    selectSuggestion(selectedItem.text(), selectedItem.data('code'), selectedItem.data('uuid'));
+                } else if (!suggestionSelected && $items.length > 0) {
+                    const firstItem = $items.eq(0);
+                    selectSuggestion(firstItem.text(), firstItem.data('code'), firstItem.data('uuid'));
                 }
             }
         }
     });
 
-    jQuery(document).on('click', function(e) {
+    $submitBtn.on('click', function (e) {
+        e.preventDefault();
+        
+        const $items = $suggestions.find('.suggestion-item');
+        if (!suggestionSelected && $items.length > 0) {
+            const firstItem = $items.eq(0);
+            selectSuggestion(firstItem.text(), firstItem.data('code'), firstItem.data('uuid'));
+        }
+    });
+
+    jQuery(document).on('click', function (e) {
         if (!jQuery(e.target).is($input)) {
             $suggestionsWrapper.hide();
-            jQuery($input).css('border-radius', '50px');
-            jQuery($input).css('border-bottom', '1px solid #ddd');
+            jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
         }
     });
 
     function markCurrentItem($items) {
-        $items.removeClass('highlight'); // Remove highlight from all items
+        $items.removeClass('highlight');
         if (currentIndex >= 0) {
-            $items.eq(currentIndex).addClass('highlight'); // Highlight the current item
+            $items.eq(currentIndex).addClass('highlight');
         }
+    }
+
+    function selectSuggestion(text, code, uuid) {
+        $input.val(text).attr('data-code', code).attr('data-uuid', uuid);
+        $suggestionsWrapper.hide();
+        jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
+        suggestionSelected = true;
+        chosenValuesArray = adt_get_chosen_values();
+        adt_get_product_info(text, code, uuid, chosenValuesArray);
     }
 }
 
