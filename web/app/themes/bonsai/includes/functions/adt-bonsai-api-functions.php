@@ -121,7 +121,7 @@ function adt_get_bonsai_product_list() {
         }
     }
 
-    // adt_delete_old_bonsai_products($updatedPostIds);
+    adt_delete_old_bonsai_products($updatedPostIds);
 }
 
 // add_action('template_redirect', 'adt_get_bonsai_product_list');
@@ -326,12 +326,27 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion): a
     return $recipeResult;
 }
 
+
+/**
+ * Get the data for each recipe item.
+ * Use transient to store and get data, as a form of caching.
+ * This will make sure we do not make too many requests to the API.
+ */
 function adt_get_updated_recipe_info()
 {
+    
     $unitInflow = $_POST['unitInflow'];
     $productCode = $_POST['productCode'];
     $chosenCountry = $_POST['country'];
     $newestVersion = $_POST['version'];
+
+    // Check if the data is already cached
+    $cachedRecipe = get_transient('adt_recipe_cache');
+    
+    // If cache exists, return the cached data
+    if ($cachedRecipe !== false) {
+        return $cachedRecipe;
+    }
 
     // Need unitInflow
     $url = 'https://lca.aau.dk/api/recipes/?unit_inflow='.$unitInflow.'&flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion;
@@ -356,6 +371,11 @@ function adt_get_updated_recipe_info()
         return 'Error: ' . $result['detail'];
     }
 
+    $locations = $result;
+
+    // Cache the locations for 24 hour (86400 seconds)
+    set_transient('adt_recipe_cache', $locations, 86400);
+
     wp_send_json_success($result);
 }
 
@@ -371,6 +391,17 @@ function adt_get_product_footprint()
     $chosenType = $_POST['footprint_type'];
     // Everything if from year 2016, but this might get updated.
     $chosenYear = $_POST['footprint_year'];
+
+    // Check if the data is already cached
+    $cachedFootprints = get_transient('adt_recipe_cache');
+
+    // If cache exists, return the cached data
+    if ($cachedFootprints !== false) {
+        if (array_key_exists($productCode, $cachedFootprints)) {
+            wp_send_json_success($cachedFootprints[$productCode]);
+            die();
+        }
+    }
 
     // API URL
     $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry;
@@ -393,7 +424,7 @@ function adt_get_product_footprint()
     }
 
     if (array_key_exists('detail', $result)) {
-        return 'Error: ' . $result['detail'];
+        wp_send_json_error(['error' => $result['detail']], 503);
     }
 
     // get newest version of the footprint.
@@ -425,6 +456,13 @@ function adt_get_product_footprint()
         'all_data' => $chosenFootprint,
         'recipe' => $recipeData,
     ];
+
+    $cachedFootprintArray = [
+        $productCode => $data,
+    ];
+
+    // Cache the locations for 24 hour (86400 seconds)
+    set_transient('adt_recipe_cache', $cachedFootprintArray, 86400);
 
     wp_send_json_success($data);
 }

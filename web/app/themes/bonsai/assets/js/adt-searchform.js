@@ -102,6 +102,72 @@ jQuery(document).ready(function($){
     });
 
     adt_download_recipe_csv();
+
+    $('.share-icon').on('click', function() {
+        let productTitle = $('.search-result.basic .col:first-child p.product-title').text();
+        console.log(productTitle);
+        let productFootprint = $('input[name="switch-one"]').val();
+        let FootprintView = $('input[name="switch-two"]').val();
+        let productFootprintType = $('.search-result > .col:first-child .product-tag.footprint-type').attr('data-type');
+        let productCode = $('.search-result .col:first-child p.product-title').data('code');
+        let country = $('.search-result > .col:first-child .product-tag.country').attr('data-country');
+        let year = $('.search-result > .col:first-child .product-tag.year').attr('data-year');
+        let climateMetrics = $('.search-result > .col:first-child .product-tag.climate-metrics').attr('data-climate-metrics');
+        let chosenAmount = $('.search-result > .col:first-child #amount').val();
+        let chosenUnit = $('.search-result > .col:first-child #unit').val();
+
+        let doesItCompare = false;
+
+        $('.search-result').each(function(){
+            if($(this).find('.adt-close').length > 0) {
+                doesItCompare = true;
+            }
+        });
+
+        let productTitleCompare = '';
+        let productCodeCompare = '';
+        let countryCompare = '';
+        let yearCompare = '';
+        let climateMetricsCompare = '';
+        let chosenAmountCompare = '';
+        let chosenUnitCompare = '';
+
+        if (doesItCompare) {
+            productTitleCompare = $('.search-result.basic .col:nth-child(2) p.product-title').text();
+            productCodeCompare = $('.search-result .col:nth-child(2) p.product-title').data('code');
+            countryCompare = $('.search-result > .col:nth-child(2) .product-tag.country').attr('data-country');
+            yearCompare = $('.search-result > .col:nth-child(2) .product-tag.year').attr('data-year');
+            climateMetricsCompare = $('.search-result > .col:nth-child(2) .product-tag.climate-metrics').attr('data-climate-metrics');
+            chosenAmountCompare = $('.search-result > .col:nth-child(2) #amount').val();
+            chosenUnitCompare = $('.search-result > .col:nth-child(2) #unit').val();
+        }
+
+        data = {
+            title: productTitle,
+            content: productTitle,
+            footprint: productFootprint,
+            footprint_type: productFootprintType,
+            product_code: productCode,
+            footprint_country: country,
+            footprint_year: year,
+            footprint_climate_metrics: climateMetrics,
+            amount_chosen: chosenAmount,
+            unit_chosen: chosenUnit,
+            title_compared: productTitleCompare,
+            content_compared: productTitleCompare,
+            footprint_compared: productFootprint,
+            footprint_type_compared: productFootprintType,
+            product_code_compared: productCodeCompare,
+            footprint_country_compared: countryCompare,
+            footprint_year_compared: yearCompare,
+            footprint_climate_metrics_compared: climateMetricsCompare,
+            amount_chosen_compared: chosenAmountCompare,
+            unit_chosen_compared: chosenUnitCompare,
+            footprint_view: FootprintView,
+        };
+
+        adt_save_search_history_on_click(data);
+    });
 });
 
 
@@ -128,8 +194,6 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
         success: (response) => {
             let dataArray = response.data;
 
-            console.log(dataArray);
-
             // Error message
             if (!dataArray.title) {
                 jQuery('.error-message').slideDown('fast');
@@ -149,30 +213,19 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
 
             adt_show_search_results();
 
+            jQuery('#initial-error-message').slideUp('fast');
+
             jQuery('html, body').animate({
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
             }, 500); // 500ms = 0.5 second animation time
+
+        },
+        error: (response) => {
+            // Request was throttled
+            jQuery('#initial-error-message').html('<p>'+response.responseJSON?.data.error+'</p>');
+            jQuery('#initial-error-message').slideDown('fast');
         }
     });
-
-    // jQuery.ajax({
-    //     type: 'POST',
-    //     url: localize._ajax_url,
-    //     data: {
-    //         _ajax_nonce: localize._ajax_nonce,
-    //         action: 'adt_get_product_recipe',
-    //         title: productTitle,
-    //         code: productCode,
-    //         uuid: productUuid,
-    //     },
-    //     beforeSend: function() {
-            
-    //     },
-    //     success: (response) => {
-    //     }
-    // });
-
-    // return productInfo;
 
     // Save the data to wp_adt_popular_searches
     jQuery.ajax({
@@ -209,7 +262,7 @@ function adt_get_chosen_values()
 
 function adt_update_tags(boxToUpdate)
 {
-    let typeValue = jQuery('#footprint-type option:selected').val();
+    let typeValue = jQuery('#footprint-type input[name="footprint_type"]').val();
     let type = 'Cradle to gate';
     
     if (typeValue === 'market') {
@@ -217,7 +270,10 @@ function adt_update_tags(boxToUpdate)
     }
     
     let country = jQuery('#location option:selected').text();
+    let countryVal = jQuery('#location option:selected').val();
     let year = jQuery('#year option:selected').text();
+    let climateMetrics = jQuery('#climate-metric option:selected').text();
+    let climateMetricsVal = jQuery('#climate-metric').val();
     
     let whichChild = ':first-child';
     
@@ -227,14 +283,22 @@ function adt_update_tags(boxToUpdate)
 
     jQuery('.search-result > .col'+whichChild+' .product-tag.footprint-type').each(function() {
         jQuery(this).text(type);
+        jQuery(this).attr('data-type', typeValue);
     });
 
     jQuery('.search-result > .col'+whichChild+' .product-tag.country').each(function() {
         jQuery(this).text(country);
+        jQuery(this).attr('data-country', countryVal);
     });
 
     jQuery('.search-result > .col'+whichChild+' .product-tag.year').each(function() {
         jQuery(this).text(year);
+        jQuery(this).attr('data-year', year);
+    });
+
+    jQuery('.search-result > .col'+whichChild+' .product-tag.climate-metrics').each(function() {
+        jQuery(this).text(climateMetrics);
+        jQuery(this).attr('data-climate-metrics', climateMetricsVal);
     });
 }
 
@@ -260,6 +324,7 @@ function adt_update_original_info(dataArray)
 
     jQuery('.search-result .col:first-child p.product-title').each(function() {
         jQuery(this).text(dataArray.title);
+        jQuery(this).attr('data-code', dataArray.flow_code);
     });
 
     var element = '';
@@ -325,7 +390,7 @@ function adt_update_original_info(dataArray)
                     numberValueInCurrency = numberValueInCurrency.toFixed(2);
 
                     let numberInput = jQuery('.amount', newElement).val();
-                    console.log(numberInput);
+                    // console.log(numberInput);
     
                     jQuery(newElement).find('.product-result').text(numberValueInCurrency);
                     jQuery(newElement).find('.product-result-unit').text('price CO2eq'); // ???
@@ -340,7 +405,7 @@ function adt_update_original_info(dataArray)
                     numberValueInWeight = numberValueInWeight.toFixed(2);
 
                     let numberInput = jQuery('.amount', newElement).val();
-                    console.log(numberInput);
+                    // console.log(numberInput);
     
                     jQuery(newElement).find('.product-result').text(numberValueInWeight);
                     jQuery(newElement).find('.product-result-unit').text('kg CO2eq');
@@ -348,7 +413,7 @@ function adt_update_original_info(dataArray)
                 }
             });
 
-            adt_update_recipe(dataArray, 'original', true);
+            // adt_update_recipe(dataArray, 'original', true);
         });
 
         // This changes the number foreach input in the .amount field
@@ -367,13 +432,13 @@ function adt_update_original_info(dataArray)
                     jQuery(this).text(calculatedValue);
                 });
                 
-                adt_update_recipe(dataArray, 'original');
+                // adt_update_recipe(dataArray, 'original');
             });
             
         });
     });
 
-    adt_update_recipe(dataArray, 'original');
+    // adt_update_recipe(dataArray, 'original');
 }
 
 // Comparison code
@@ -386,11 +451,11 @@ jQuery(document).ready(function($){
             let clone = original.clone();
             
             original.after(clone);
-            clone.append('<span class="close-god-damn"></span>');
+            clone.append('<span class="adt-close"></span>');
             $('a:has(.add)').closest('.col').css('display', 'none');
 
-            $('.close-god-damn').click(function(){
-                $('.close-god-damn').each(function(){
+            $('.adt-close').click(function(){
+                $('.adt-close').each(function(){
                     $(this).closest('.col').remove();
                 });
 
@@ -410,6 +475,7 @@ function adt_update_comparison_info(dataArray)
 
     jQuery('.search-result .col:nth-child(2) p.product-title').each(function() {
         jQuery(this).text(dataArray.title);
+        jQuery(this).attr('data-code', dataArray.flow_code);
     });
 
     var element = '';
@@ -479,11 +545,11 @@ function adt_update_comparison_info(dataArray)
                 }
             });
 
-            adt_update_recipe(dataArray, 'comparison', true);
+            // adt_update_recipe(dataArray, 'comparison', true);
         });
     });
 
-    adt_update_recipe(dataArray, 'comparison');
+    // adt_update_recipe(dataArray, 'comparison');
 }
 
 function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
@@ -497,30 +563,18 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
     let unit = jQuery('.search-result .col:'+whichChild+' select.unit').val();
     let chosenCountry = jQuery('select#location').val();
     // Just get the version from the currently available data
-    let newestVersion = dataArray.recipe[0].version;
+    // let newestVersion = dataArray.recipe[0].version;
 
-    console.log(dataArray);
+    // console.log(dataArray);
 
     // Convert the tonnes amount to kg
     if (unit === 'tonnes') {
         amount = amount * 1000;
     }
 
-    // <th>Inputs</th> <!-- flow_input -->
-    // <th>Country</th> <!-- region_inflow -->
-    // <th>Input</th> <!-- value_inflow + unit_inflow -->
-    // <th>Emissions<span>[kg CO2eq]</span></th> <!-- value_emission + unit_emission -->
-
-    // Button 
-    // <button 
-    // data-code="M_Pines" 
-    // data-uuid="dbcd7e97-b343-40b7-85db-8b5e51c00b99" 
-    // data-choices="{" footprint_type":="" "product",="" "footprint_year":="" "2016",="" "footprint_location":="" "at"}"="">
-    // pineapples
-    // </button>
-
     jQuery.each(recipeArray, function(index, recipe) {
         // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
+
         jQuery.ajax({
             type: 'POST',
             url: localize._ajax_url,
@@ -537,14 +591,8 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
             success: (response) => {
                 let dataArray = response.data;
 
-                console.log(dataArray);
-    
-                jQuery('html, body').animate({
-                    scrollTop: jQuery(".co2-form-result").offset().top - 90
-                }, 500); // 500ms = 0.5 second animation time
-
                 tableMarkup += '<tr>';
-                tableMarkup += '<td><a href="#" data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + recipe.flow_input + '</a></td>';
+                tableMarkup += '<td><a href="#" data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + dataArray.title + '</a></td>';
                 tableMarkup += '<td>' + recipe.region_inflow + '</td>';
                 if (unit === 'tonnes') {
                     let valueInflow = recipe.value_inflow * 1000;
@@ -560,6 +608,11 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
                     tableMarkup += '<td>' + recipe.value_emission + '</td>';
                 }
                 tableMarkup += '</tr>';
+
+                // Insert new markup here
+                jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
+
+                adt_switch_between_recipe_items();
             }
         });
         
@@ -568,9 +621,6 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
     if (boxToUpdate === 'comparison') {
         whichChild = 'nth-child(2)';
     }
-
-    // Insert new markup here
-    jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
 
     // If unit is changed, then get new information from API
     // let newTableMarkup = '';
@@ -765,4 +815,62 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
             $items.eq(currentIndex).addClass('highlight'); // Highlight the current item
         }
     }
+}
+
+function adt_switch_between_recipe_items()
+{
+    jQuery('.emissions-table a').on('click', function(e) {
+        e.preventDefault();
+
+        let productTitle = jQuery(this).text();
+        let productCode = jQuery(this).data('code');
+        let productUuid = jQuery(this).data('uuid');
+        let chosenValues = adt_get_chosen_values();
+        chosenValues['footprint_location'] = jQuery(this).data('country');
+
+        console.log('Make sure this only run once!');
+        // adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
+    });
+}
+
+function adt_save_search_history_on_click(data)
+{
+    let dummyData = {
+        amount_chosen: "1",
+        amount_chosen_compared: "2",
+        content: "Cauliflowers and broccoli, market of",
+        content_compared: "Cucumbers and gherkins, market of",
+        footprint: "product",
+        footprint_climate_metrics: "gwp100",
+        footprint_climate_metrics_compared: "gwp100",
+        footprint_compared: "product",
+        footprint_country: "AT",
+        footprint_country_compared: "DK",
+        footprint_type: "product",
+        footprint_type_compared: "product",
+        footprint_year: "2016",
+        footprint_year_compared: "2016",
+        product_code: "M_Cauli",
+        product_code_compared: "M_Cucus",
+        title: "Cauliflowers and broccoli, market of",
+        title_compared: "Cucumbers and gherkins, market of",
+        unit_chosen: "tonnes",
+        unit_chosen_compared: "Meuro",
+    };
+
+    jQuery.ajax({
+        type: 'POST',
+        url: localize._ajax_url,
+        data: {
+            _ajax_nonce: localize._ajax_nonce,
+            action: 'adt_save_shared_search',
+            data: data,
+        },
+        beforeSend: function() {
+            
+        },
+        success: (response) => {
+            console.log(response);
+        }
+    });
 }

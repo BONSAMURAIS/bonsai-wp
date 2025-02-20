@@ -6,6 +6,10 @@ form.co2-form {
   margin: 0;
 }
 
+div#initial-error-message {
+  color: #CC3300;
+}
+
 #footprint-type {
   display: flex;
   justify-content: flex-end;
@@ -301,6 +305,7 @@ form.co2-form {
 }
 #suggestions-wrapper .search-history ul {
   display: flex;
+  gap: 10px;
 }
 @media screen and (max-width: 468px) {
   #suggestions-wrapper .search-history ul {
@@ -311,6 +316,7 @@ form.co2-form {
 #suggestions-wrapper .search-history ul .button {
   display: flex;
   align-items: center;
+  margin: 0;
 }
 @media only screen and (max-width: 468px) {
   #suggestions-wrapper .search-history ul .button {
@@ -368,6 +374,35 @@ form.co2-form {
 }
 .select-wrapper select {
   background-color: transparent;
+}
+.select-wrapper select, .select-wrapper input[type=number] {
+  -webkit-appearance: none;
+  width: 100%;
+  background: white;
+  box-shadow: 0 1px 3px -2px #9098A9;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 400;
+  transition: all 150ms ease;
+  padding: 0px 20px;
+  border-radius: 50px;
+  border: 1px solid black;
+  color: black;
+  margin: 0 10px 0 0;
+}
+.select-wrapper select:required:invalid, .select-wrapper input[type=number]:required:invalid {
+  color: #5A667F;
+}
+.select-wrapper select option, .select-wrapper input[type=number] option {
+  color: #223254;
+}
+.select-wrapper select option[value=""][disabled], .select-wrapper input[type=number] option[value=""][disabled] {
+  display: none;
+}
+.select-wrapper select:focus, .select-wrapper input[type=number]:focus {
+  outline: none;
+  box-shadow: none;
 }
 .select-wrapper > * {
   flex-basis: 33%;
@@ -613,6 +648,45 @@ label.select svg {
   top: calc(50% - 8px);
 }
 
+.single-shared_searches select, .single-shared_searches input[type=number] {
+  -webkit-appearance: none;
+  width: 100%;
+  background: white;
+  box-shadow: 0 1px 3px -2px #9098A9;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 400;
+  transition: all 150ms ease;
+  padding: 0px 20px;
+  border-radius: 50px;
+  border: 1px solid black;
+  color: black;
+  margin: 0 10px 0 0;
+}
+.single-shared_searches select:required:invalid, .single-shared_searches input[type=number]:required:invalid {
+  color: #5A667F;
+}
+.single-shared_searches select option, .single-shared_searches input[type=number] option {
+  color: #223254;
+}
+.single-shared_searches select option[value=""][disabled], .single-shared_searches input[type=number] option[value=""][disabled] {
+  display: none;
+}
+.single-shared_searches select:focus, .single-shared_searches input[type=number]:focus {
+  outline: none;
+  box-shadow: none;
+}
+.single-shared_searches label.select {
+  position: relative;
+  margin-bottom: 0;
+}
+.single-shared_searches label.select svg {
+  position: absolute;
+  right: 10px;
+  top: calc(50% - 8px);
+}
+
 .error-message {
   position: relative;
   padding-left: 30px;
@@ -651,6 +725,13 @@ label.select svg {
   display: none;
 }
 
+.single-shared_searches .co2-form-wrapper .text-center:has(.divider) {
+  display: block;
+}
+.single-shared_searches .co2-form-result {
+  display: block;
+}
+
 span.close-god-damn {
   position: absolute;
   right: 20px;
@@ -666,4 +747,29 @@ span.close-god-damn {
 span.close-god-damn::before {
   content: "x";
   color: white;
+}
+
+.share-icon {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  margin: 0 15px;
+}
+.share-icon:hover {
+  cursor: pointer;
+}
+.share-icon p {
+  font-size: 12px;
+}
+.share-icon svg {
+  height: 15px;
+  width: 15px;
+}
+
+.col-inner .most-popular-container ul li {
+  margin-left: 0;
+}
+.col-inner .most-popular-container ul li:first-of-type {
+  margin-left: 10px;
 }

@@ -10,8 +10,10 @@ require_once "includes/functions/adt-bonsai-api-functions.php";
 require_once "includes/functions/adt-product-functions.php";
 require_once "includes/functions/adt-search-functions.php";
 require_once "includes/functions/adt-footprint-functions.php";
+require_once "includes/functions/adt-share-functions.php";
 
 // Shortcodes
 require_once "includes/shortcodes/adt-navigation-shortcode.php";
 require_once "includes/shortcodes/adt-searchform-shortcode.php";
 require_once "includes/shortcodes/adt-issues-shortcode.php";
+

@@ -35,7 +35,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <div class="switch-field-container">
                             <input type="radio" id="radio-one" name="switch-one" value="product" checked/>
                             <label for="radio-one">Product</label>
-                            <input type="radio" id="radio-two" name="switch-one" value="person" disabled />
+                            <input type="radio" id="radio-two" name="switch-one" value="person" />
                             <label for="radio-two">Person</label>
                         </div>
                     </div>
@@ -69,6 +69,7 @@ add_shortcode( 'adt_searchform', function($atts) {
 
             <div class="search-input-wrapper">
                 <input class="search" type="text" id="autocomplete-input" placeholder="Find footprint by product">
+                <div id="initial-error-message" style="display: none;"></div>
                 <div id="suggestions-wrapper" style="display: none;">
                     <div class="search-history">
                         <!-- Users current search history -->
@@ -188,6 +189,16 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </label>    
                         </div>
                     </div>
+                    <div id="share-wrapper">
+                        <div class="share-icon">
+                            <div>
+                                <p class="pb-0 mb-0">Share search</p>
+                            </div>
+                            <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 13V17.5C20 20.5577 16 20.5 12 20.5C8 20.5 4 20.5577 4 17.5V13M12 3L12 15M12 3L16 7M12 3L8 7" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                    </div>
                 </div>
                 <div class="error-message text-left" style="display: none;">
                     <?= do_shortcode('[block id="nothing-found-error-message"]') ?>
@@ -201,7 +212,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <span class="product-tag footprint-type">Cradle To Gate</span>
                             <span class="product-tag country">Australia</span>
                             <span class="product-tag year">2016</span>
-                            <span class="product-tag">GWP100</span>
+                            <span class="product-tag climate-metrics">GWP100</span>
                         </div>
                         <div class="unit-select-wrapper">
                             <label class="select" for="amount">
