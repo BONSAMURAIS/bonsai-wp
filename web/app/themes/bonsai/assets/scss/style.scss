@@ -122,6 +122,14 @@ footer {
     }
 }
 
+.button, 
+button, 
+input[type=button], 
+input[type=reset], 
+input[type=submit] {
+    font-weight: 400;
+}
+
 @media only screen and (max-width: 468px) {
     .mobile-right {
         float: right;
