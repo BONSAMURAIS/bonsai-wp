@@ -84,3 +84,5 @@ web/app/cache/*
 
 # DO NOT PUT ANYTHING ELSE BELOW THIS LINE.
 !.gitkeep
+web/app/themes/bonsai/dist/js/adt-searchform.js
+web/app/themes/bonsai/dist/css/adt-searchform.css

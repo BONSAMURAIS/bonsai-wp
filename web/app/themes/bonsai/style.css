@@ -191,6 +191,15 @@ footer .img img {
   width: 200px;
 }
 
+.button,
+button,
+input[type=button],
+input[type=reset],
+input[type=submit],
+label, legend {
+  font-weight: 400;
+}
+
 @media only screen and (max-width: 468px) {
   .mobile-right {
     float: right;
