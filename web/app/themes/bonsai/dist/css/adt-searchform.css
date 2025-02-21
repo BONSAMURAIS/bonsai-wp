@@ -142,7 +142,7 @@ div#initial-error-message {
 .search-input-wrapper button {
   position: absolute;
   right: 15px;
-  height: 100%;
+  height: 100px;
   margin: 0;
 }
 .search-input-wrapper button svg {

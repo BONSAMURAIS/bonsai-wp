@@ -32,7 +32,7 @@ jQuery(document).ready(function ($) {
   var productContentArray = [];
   var productCodeArray = [];
   var productUuidArray = [];
-  var chosenFootprintType = $('#footprint-type input[name="footprint_type"]').val();
+  var chosenFootprintType = $('#footprint-type input[name="footprint_type"]:checked').val();
   $(searchform.products).each(function () {
     if (chosenFootprintType === "product" && this.code.includes("M_")) {
       return true;
@@ -165,9 +165,11 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
       // Error message
       if (!dataArray.title) {
         jQuery('.error-message').slideDown('fast');
+        jQuery('#initial-error-message').slideDown('fast');
         return;
       } else {
         jQuery('.error-message').slideUp('fast');
+        jQuery('#initial-error-message').slideUp('fast');
       }
       localStorage.setItem("footprint_data", JSON.stringify(dataArray));
       var compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
@@ -326,6 +328,7 @@ function adt_update_original_info(dataArray) {
           var _numberValueInWeight = dataArray.all_data[0].value;
           // Overwriting Number with the new value in kg
           _numberValueInWeight = _numberValueInWeight.toFixed(2);
+          console.log(_numberValueInWeight);
           var _numberInput = jQuery('.amount', newElement).val();
           // console.log(numberInput);
 
@@ -498,32 +501,42 @@ function adt_update_recipe(dataArray, boxToUpdate) {
 
   jQuery.each(recipeArray, function (index, recipe) {
     // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
+    tableMarkup += '<tr>';
+    tableMarkup += '<td><a href="#" data-code="' + recipe.flow_input + '" data-uuid="' + recipe.id + '" data-country="' + recipe.region_inflow + '">' + recipe.flow_input + '</a></td>';
+    tableMarkup += '<td>' + recipe.region_inflow + '</td>';
+    tableMarkup += '<td>' + recipe.value_inflow + '</td>';
+    tableMarkup += '<td>' + recipe.value_emission + '</td>';
+    tableMarkup += '</tr>';
 
-    jQuery.ajax({
-      type: 'POST',
-      url: localize._ajax_url,
-      data: {
-        _ajax_nonce: localize._ajax_nonce,
-        action: 'adt_get_product_footprint',
-        code: recipe.flow_input,
-        uuid: recipe.id,
-        footprint_location: recipe.region_inflow
-      },
-      beforeSend: function beforeSend() {},
-      success: function success(response) {
-        var dataArray = response.data;
-        tableMarkup += '<tr>';
-        tableMarkup += '<td><a href="#" data-code="' + recipe.flow_input + '" data-uuid="' + recipe.id + '" data-country="' + recipe.region_inflow + '">' + dataArray.title + '</a></td>';
-        tableMarkup += '<td>' + recipe.region_inflow + '</td>';
-        tableMarkup += '<td>' + recipe.value_inflow + '</td>';
-        tableMarkup += '<td>' + recipe.value_emission + '</td>';
-        tableMarkup += '</tr>';
+    // jQuery.ajax({
+    //     type: 'POST',
+    //     url: localize._ajax_url,
+    //     data: {
+    //         _ajax_nonce: localize._ajax_nonce,
+    //         action: 'adt_get_product_footprint',
+    //         code: recipe.flow_input,
+    //         uuid: recipe.id,
+    //         footprint_location: recipe.region_inflow,
+    //     },
+    //     beforeSend: function() {
 
-        // Insert new markup here
-        jQuery('.search-result > .col:' + whichChild + ' .emissions-table tbody').html(tableMarkup);
-        adt_switch_between_recipe_items();
-      }
-    });
+    //     },
+    //     success: (response) => {
+    //         let dataArray = response.data;
+
+    //         tableMarkup += '<tr>';
+    //         tableMarkup += '<td><a href="#" data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + dataArray.title + '</a></td>';
+    //         tableMarkup += '<td>' + recipe.region_inflow + '</td>';
+    //         tableMarkup += '<td>' + recipe.value_inflow + '</td>';
+    //         tableMarkup += '<td>' + recipe.value_emission + '</td>';
+    //         tableMarkup += '</tr>';
+
+    //         // Insert new markup here
+    //         jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
+
+    //         adt_switch_between_recipe_items();
+    //     }
+    // });
   });
   if (boxToUpdate === 'comparison') {
     whichChild = 'nth-child(2)';
