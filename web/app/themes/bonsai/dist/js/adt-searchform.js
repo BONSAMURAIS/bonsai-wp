@@ -288,16 +288,22 @@ function adt_update_original_info(dataArray) {
     var defualtValue = jQuery(element).find('select.unit').val();
     if (defualtValue === 'Meuro') {
       var numberValueInCurrency = dataArray.all_data[1].value;
-      numberValueInCurrency = numberValueInCurrency.toFixed(2);
-      jQuery(element).find('.product-result').text(numberValueInCurrency);
+      var formatted = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(numberValueInCurrency);
+      jQuery(element).find('.product-result').text(formatted);
       jQuery(element).find('.product-result-unit').text('price CO2eq'); // ???
     }
     if (defualtValue === 'tonnes') {
       // Number in tonnes. It has to be converted to kg
       var numberValueInWeight = dataArray.all_data[0].value;
       // Overwriting Number with the new value in kg
-      numberValueInWeight = numberValueInWeight.toFixed(2);
-      jQuery(element).find('.product-result').text(numberValueInWeight);
+      var _formatted = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(numberValueInWeight);
+      jQuery(element).find('.product-result').text(_formatted);
       jQuery(element).find('.product-result-unit').text('kg CO2eq');
     }
     var defaultValue = parseFloat(jQuery('.product-result', element).text());
@@ -313,11 +319,14 @@ function adt_update_original_info(dataArray) {
         var newElement = jQuery(this).closest('.col-inner');
         if (chosenValue === 'Meuro') {
           var _numberValueInCurrency = dataArray.all_data[1].value;
-          _numberValueInCurrency = _numberValueInCurrency.toFixed(2);
+          var _formatted2 = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }).format(_numberValueInCurrency);
           var numberInput = jQuery('.amount', newElement).val();
           // console.log(numberInput);
 
-          jQuery(newElement).find('.product-result').text(_numberValueInCurrency);
+          jQuery(newElement).find('.product-result').text(_formatted2);
           jQuery(newElement).find('.product-result-unit').text('price CO2eq'); // ???
           defaultValue = parseFloat(jQuery('.product-result', newElement).text());
         }
@@ -325,11 +334,14 @@ function adt_update_original_info(dataArray) {
           // Number in tonnes. It has to be converted to kg
           var _numberValueInWeight = dataArray.all_data[0].value;
           // Overwriting Number with the new value in kg
-          _numberValueInWeight = _numberValueInWeight.toFixed(2);
+          var _formatted3 = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }).format(_numberValueInWeight);
           var _numberInput = jQuery('.amount', newElement).val();
           // console.log(numberInput);
 
-          jQuery(newElement).find('.product-result').text(_numberValueInWeight);
+          jQuery(newElement).find('.product-result').text(_formatted3);
           jQuery(newElement).find('.product-result-unit').text('kg CO2eq');
           defaultValue = parseFloat(jQuery('.product-result', newElement).text());
         }
@@ -405,16 +417,22 @@ function adt_update_comparison_info() {
     var defualtValue = jQuery(element).find('select.unit').val();
     if (defualtValue === 'Meuro') {
       var numberValueInCurrency = dataArray.all_data[1].value;
-      numberValueInCurrency = numberValueInCurrency.toFixed(2);
-      jQuery(element).find('.product-result').text(numberValueInCurrency);
+      var formatted = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(numberValueInCurrency);
+      jQuery(element).find('.product-result').text(formatted);
       jQuery(element).find('.product-result-unit').text('price CO2eq'); // ???
     }
     if (defualtValue === 'tonnes') {
       // Number in tonnes. It has to be converted to kg
       var numberValueInWeight = dataArray.all_data[0].value;
       // Overwriting Number with the new value in kg
-      numberValueInWeight = numberValueInWeight.toFixed(2);
-      jQuery(element).find('.product-result').text(numberValueInWeight);
+      var _formatted4 = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      }).format(numberValueInWeight);
+      jQuery(element).find('.product-result').text(_formatted4);
       jQuery(element).find('.product-result-unit').text('kg CO2eq');
     }
     var defaultValue = parseFloat(jQuery('.product-result', element).text());
@@ -430,11 +448,14 @@ function adt_update_comparison_info() {
         var newElement = jQuery(this).closest('.col-inner');
         if (chosenValue === 'Meuro') {
           var _numberValueInCurrency2 = dataArray.all_data[1].value;
-          _numberValueInCurrency2 = _numberValueInCurrency2.toFixed(2);
+          var _formatted5 = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }).format(_numberValueInCurrency2);
           var numberInput = jQuery('.amount', newElement).val();
           // console.log(numberInput);
 
-          jQuery(newElement).find('.product-result').text(_numberValueInCurrency2);
+          jQuery(newElement).find('.product-result').text(_formatted5);
           jQuery(newElement).find('.product-result-unit').text('price CO2eq'); // ???
           defaultValue = parseFloat(jQuery('.product-result', newElement).text());
         }
@@ -442,11 +463,14 @@ function adt_update_comparison_info() {
           // Number in tonnes. It has to be converted to kg
           var _numberValueInWeight2 = dataArray.all_data[0].value;
           // Overwriting Number with the new value in kg
-          _numberValueInWeight2 = _numberValueInWeight2.toFixed(2);
+          var _formatted6 = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }).format(_numberValueInWeight2);
           var _numberInput2 = jQuery('.amount', newElement).val();
           // console.log(numberInput);
 
-          jQuery(newElement).find('.product-result').text(_numberValueInWeight2);
+          jQuery(newElement).find('.product-result').text(_formatted6);
           jQuery(newElement).find('.product-result-unit').text('kg CO2eq');
           defaultValue = parseFloat(jQuery('.product-result', newElement).text());
         }
