@@ -77,3 +77,39 @@ function adt_get_all_footprints(): array
 
     // return $array;
 }
+
+function adt_get_footprint_name_by_code()
+{
+    $code = $_POST['code'];
+    $region_code = $_POST['region_code'];
+    
+    $args = [
+        'post_type' => 'footprint',
+        'numberposts' => 1,
+        'meta_query' => [
+            'relation' => 'AND',
+            [
+                'key' => 'adt_code',
+                'value' => $code,
+                'compare' => '=',
+            ],
+            [
+                'key' => 'region_code',
+                'value' => $region_code,
+                'compare' => '=',
+            ],
+        ],
+    ];
+
+    $posts = get_posts($args);
+
+    foreach ($posts as $post) {
+        $footprintTitle = $post->post_title;
+    }
+
+
+    wp_send_json_success($footprintTitle);
+}
+
+add_action('wp_ajax_adt_get_footprint_name_by_code', 'adt_get_footprint_name_by_code');
+add_action('wp_ajax_nopriv_adt_get_footprint_name_by_code', 'adt_get_footprint_name_by_code');

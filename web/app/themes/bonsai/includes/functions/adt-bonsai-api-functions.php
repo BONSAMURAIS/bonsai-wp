@@ -181,7 +181,7 @@ function adt_get_bonsai_footprint_list() {
     // I get 100 footprints per page
     // get the count of footprints and divide by 100
     // loop through the pages and get the footprints
-    $api_url = "https://lca.aau.dk/api/footprint/?page=1";
+    $api_url = "https://lca.aau.dk/api/footprint/?flow_code=A_Stras";
 
     // Make the request
     $response = wp_remote_get($api_url);
@@ -199,28 +199,23 @@ function adt_get_bonsai_footprint_list() {
 
     $updatedPostIds = [];
 
-    echo '<pre>';
-    var_dump($result);
-    echo '</pre>';
-    exit;
-
-    foreach ($result as $product) {
-        $uuid = $product['uuid'];
+    foreach ($result['results'] as $product) {
+        $uuid = $product['id'];
         
         if (empty($uuid)) {
             continue;
         }
 
         $postId = $wpdb->get_var($wpdb->prepare(
-            "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'adt_uuid' AND meta_value = %s",
+            "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'adt_footprint_id' AND meta_value = %s",
             $uuid
         ));
 
         $post_data = [
-            'post_title'   => $product['name'],
+            'post_title'   => $product['description'],
             'post_content' => $product['description'],
             'post_status'  => 'publish',
-            'post_type'    => 'product',
+            'post_type'    => 'footprint',
         ];
 
         if ($postId) {
@@ -231,11 +226,14 @@ function adt_get_bonsai_footprint_list() {
 
         $updatedPostIds[] = $postId;
 
-        update_post_meta($postId, 'adt_code', $product['code']);
-        update_post_meta($postId, 'adt_characteristic_unit', $product['characteristic_unit']);
-        update_post_meta($postId, 'adt_uuid', $product['uuid']);
+        update_post_meta($postId, 'adt_code', $product['flow_code']);
+        update_post_meta($postId, 'nace_related_code', $product['nace_related_code']);
+        update_post_meta($postId, 'adt_footprint_id', $product['id']);
+        update_post_meta($postId, 'region_code', $product['region_code']);
     }
 }
+
+// add_action('template_redirect', 'adt_get_bonsai_footprint_list');
 
 function adt_delete_old_bonsai_products(array $updatedPostIds) 
 {
