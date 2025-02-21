@@ -49,11 +49,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </div>
                     <div id="footprint-type" class="select">
                         <div class="radio-choice">
-                            <input type="radio" id="production" name="footprint_type" value="product" checked/>
+                            <input type="radio" id="production" name="footprint_type" value="product" />
                             <label for="production">Cradle to gate</label>
                         </div>
                         <div class="radio-choice">
-                            <input type="radio" id="market" name="footprint_type" value="market" />
+                            <input type="radio" id="market" name="footprint_type" value="market" checked/>
                             <label for="market">Cradle to consumer</label>
                         </div>
                         <!-- <select id="footprint-type">
