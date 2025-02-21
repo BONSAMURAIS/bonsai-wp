@@ -85,7 +85,6 @@ jQuery(document).ready(function ($) {
   adt_download_recipe_csv();
   $('.share-icon').on('click', function () {
     var productTitle = $('.search-result.basic .col:first-child p.product-title').text();
-    console.log(productTitle);
     var productFootprint = $('input[name="switch-one"]').val();
     var FootprintView = $('input[name="switch-two"]').val();
     var productFootprintType = $('.search-result > .col:first-child .product-tag.footprint-type').attr('data-type');
@@ -262,7 +261,6 @@ function adt_change_data_set() {
 }
 function adt_update_original_info(dataArray) {
   localStorage.getItem("footprint_data");
-  console.log(dataArray);
   adt_update_tags('original');
   jQuery('.search-result .col:first-child p.product-title').each(function () {
     jQuery(this).text(dataArray.title);
@@ -328,7 +326,6 @@ function adt_update_original_info(dataArray) {
           var _numberValueInWeight = dataArray.all_data[0].value;
           // Overwriting Number with the new value in kg
           _numberValueInWeight = _numberValueInWeight.toFixed(2);
-          console.log(_numberValueInWeight);
           var _numberInput = jQuery('.amount', newElement).val();
           // console.log(numberInput);
 
@@ -482,8 +479,11 @@ function adt_update_comparison_info() {
 function adt_update_recipe(dataArray, boxToUpdate) {
   var isChanged = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
   var tableMarkup = '';
+  var otherRowMarkup = '';
+  var rowMarkup = '';
   var whichChild = 'first-child';
-  var recipeArray = dataArray.recipe;
+  // Recipe return structure changed
+  var recipeArray = dataArray.recipe.results;
 
   // Get the amount and unit of the product
   var amount = jQuery('.search-result .col:' + whichChild + ' .amount').val();
@@ -501,12 +501,17 @@ function adt_update_recipe(dataArray, boxToUpdate) {
 
   jQuery.each(recipeArray, function (index, recipe) {
     // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
-    tableMarkup += '<tr>';
-    tableMarkup += '<td><a href="#" data-code="' + recipe.flow_input + '" data-uuid="' + recipe.id + '" data-country="' + recipe.region_inflow + '">' + recipe.flow_input + '</a></td>';
-    tableMarkup += '<td>' + recipe.region_inflow + '</td>';
-    tableMarkup += '<td>' + recipe.value_inflow + '</td>';
-    tableMarkup += '<td>' + recipe.value_emission + '</td>';
-    tableMarkup += '</tr>';
+    rowMarkup = '<tr>';
+    rowMarkup += '<td><a href="#" data-code="' + recipe.flow_input + '" data-uuid="' + recipe.id + '" data-country="' + recipe.region_inflow + '">' + recipe.flow_input + '</a></td>';
+    rowMarkup += '<td>' + recipe.region_inflow + '</td>';
+    rowMarkup += '<td>' + recipe.value_inflow + '</td>';
+    rowMarkup += '<td>' + recipe.value_emission + '</td>';
+    rowMarkup += '</tr>';
+    if (recipe.flow_input.toLowerCase() === "other") {
+      otherRowMarkup = rowMarkup; // Store "other" row separately
+    } else {
+      tableMarkup += rowMarkup; // Append all other rows normally
+    }
 
     // jQuery.ajax({
     //     type: 'POST',
@@ -538,6 +543,10 @@ function adt_update_recipe(dataArray, boxToUpdate) {
     //     }
     // });
   });
+
+  // Append "other" row at the end if it exists
+  tableMarkup += otherRowMarkup;
+  jQuery('.search-result > .col:' + whichChild + ' .emissions-table tbody').html(tableMarkup);
   if (boxToUpdate === 'comparison') {
     whichChild = 'nth-child(2)';
   }
