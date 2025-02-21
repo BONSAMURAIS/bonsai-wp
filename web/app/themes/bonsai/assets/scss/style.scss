@@ -126,7 +126,8 @@ footer {
 button, 
 input[type=button], 
 input[type=reset], 
-input[type=submit] {
+input[type=submit],
+label, legend {
     font-weight: 400;
 }
 
