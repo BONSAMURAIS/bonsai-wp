@@ -56,6 +56,10 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <input type="radio" id="market" name="footprint_type" value="market" checked/>
                             <label for="market">Cradle to consumer</label>
                         </div>
+                        <div class="radio-choice" style="display: none;">
+                            <input type="radio" id="grave" name="footprint_type" value="grave" />
+                            <label for="grave">Cradle to grave</label>
+                        </div>
                         <!-- <select id="footprint-type">
                             <option value="product">Cradle to gate (i.e. production)</option>
                             <option value="market">Cradle to consumer (i.e., markets)</option>
@@ -234,7 +238,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </label>
                             <p>equal</p>
                         </div>
-                        <p class="product-result">5.91</p>
+                        <p class="product-result">0.00</p>
                         <p class="product-result-unit">kg CO2eq</p>
                         <div class="tooltip-wrapper">
                             <a href="#info-product">

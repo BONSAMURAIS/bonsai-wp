@@ -6,6 +6,18 @@ jQuery(document).ready(function($){
             let value = $(this).val();
 
             $('input.search').attr('placeholder', 'Find footprint by '+value);
+
+            if (value === 'person') {
+                $('#grave').prop('checked', true).trigger('change'); // Fix applied here
+                $('#footprint-type .radio-choice').each(function(){
+                    $(this).toggle();
+                });
+            } else {
+                $('#market').prop('checked', true).trigger('change'); // Fix applied here
+                $('#footprint-type .radio-choice').each(function(){
+                    $(this).toggle();
+                });
+            }
         }
     });
 
@@ -196,11 +208,8 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             // Error message
             if (!dataArray.title) {
                 jQuery('.error-message').slideDown('fast');
-                jQuery('#initial-error-message').slideDown('fast');
-                return;
             } else {
                 jQuery('.error-message').slideUp('fast');
-                jQuery('#initial-error-message').slideUp('fast');
             }
 
             localStorage.setItem("footprint_data", JSON.stringify(dataArray));
@@ -263,7 +272,7 @@ function adt_get_chosen_values()
 
 function adt_update_tags(boxToUpdate)
 {
-    let typeValue = jQuery('#footprint-type input[name="footprint_type"]').val();
+    let typeValue = jQuery('#footprint-type input[name="footprint_type"]:checked').val();
     let type = 'Cradle to gate';
     
     if (typeValue === 'market') {
