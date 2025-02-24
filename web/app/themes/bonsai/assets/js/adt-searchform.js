@@ -641,8 +641,8 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
         // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
         rowMarkup = '<tr>';
         rowMarkup += '<td><a href="#" data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + recipe.flow_input + '</a></td>';
-        rowMarkup += '<td>' + recipe.region_inflow + '</td>';
-        rowMarkup += '<td>' + recipe.value_inflow + '</td>';
+        rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
+        rowMarkup += '<td>' + (recipe.value_inflow || '') + '</td>';
         rowMarkup += '<td>' + recipe.value_emission + '</td>';
         rowMarkup += '</tr>';
 
@@ -688,6 +688,8 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
     tableMarkup += otherRowMarkup;
 
     jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
+
+    adt_switch_between_recipe_items();
 
     if (boxToUpdate === 'comparison') {
         whichChild = 'nth-child(2)';
@@ -752,6 +754,8 @@ function adt_download_recipe_csv()
     jQuery(".download .button").each(function () {
         jQuery(this).click(function (e) {
             e.preventDefault();
+
+            let productTitle = jQuery(this).closest('.col-inner').find('.product-title').text();
             
             let csvContent = "";
             
@@ -769,7 +773,7 @@ function adt_download_recipe_csv()
             let url = URL.createObjectURL(blob);
             let a = jQuery("<a></a>")
                 .attr("href", url)
-                .attr("download", "table_data.csv")
+                .attr("download", productTitle + ".csv")
                 .appendTo("body");
 
             a[0].click();
