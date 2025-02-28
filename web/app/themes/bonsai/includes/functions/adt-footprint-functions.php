@@ -113,3 +113,75 @@ function adt_get_footprint_name_by_code()
 
 add_action('wp_ajax_adt_get_footprint_name_by_code', 'adt_get_footprint_name_by_code');
 add_action('wp_ajax_nopriv_adt_get_footprint_name_by_code', 'adt_get_footprint_name_by_code');
+
+/**
+ * Newest API version for the Bonsai API
+ * does not work correctly until february 2025
+ */
+function adt_get_bonsai_activity_names() {
+    global $wpdb;
+
+    // I get 100 products per page
+    // get the count of products and divide by 100
+    // loop through the pages and get the products
+    $api_url = "https://lca.aau.dk/api/activity-names/";
+
+    // Make the request
+    $response = wp_remote_get($api_url);
+
+    // Check for errors
+    if (is_wp_error($response)) {
+        return 'Error: ' . $response->get_error_message();
+    }
+
+    // Get the response body
+    $body = wp_remote_retrieve_body($response);
+
+    // Parse the JSON response
+    $products = json_decode($body, true);
+
+    
+    foreach ($products as $product) {
+        $uuid = $product['uuid'];
+        
+        if (empty($uuid)) {
+            continue;
+        }
+
+        $postId = $wpdb->get_var($wpdb->prepare(
+            "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'adt_uuid' AND meta_value = %s",
+            $uuid
+        ));
+
+        $postContent = $product['description'];
+
+        if (!$postContent) {
+            $postContent = $product['name'];
+        }
+
+        if ($postContent === null) {
+            $postContent = 'Is not available?';
+        }
+
+        $post_data = [
+            'post_title'   => $product['name'],
+            'post_content' => $postContent,
+            'post_status'  => 'publish',
+            'post_type'    => 'product',
+        ];
+
+        if ($postId) {
+            $post_data['ID'] = $postId;
+        }
+
+        $postId = wp_insert_post($post_data);
+
+        $updatedPostIds[] = $postId;
+
+        update_post_meta($postId, 'adt_code', $product['code']);
+        update_post_meta($postId, 'adt_uuid', $product['uuid']);
+        update_post_meta($postId, 'adt_flowtype', $product['flow_type']);
+    }
+}
+
+// add_action('template_redirect', 'adt_get_bonsai_activity_names');

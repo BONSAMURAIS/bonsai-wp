@@ -86,10 +86,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <!-- Users current search history -->
                         <p><strong>Search history</strong></p>
                         <ul>
-                            <li class="button primary is-outline lowercase" style="border-radius:99px;">Chicken <span class="remove"></span></li>
-                            <li class="button primary is-outline lowercase" style="border-radius:99px;">Almonds <span class="remove"></span></li>
-                            <li class="button primary is-outline lowercase" style="border-radius:99px;">Aluminium <span class="remove"></span></li>
-                            <li class="button primary is-outline lowercase" style="border-radius:99px;">Beef <span class="remove"></span></li>
+                            <!-- Empty before searches have been made -->
                         </ul>
                     </div>
                     <div id="suggestions">

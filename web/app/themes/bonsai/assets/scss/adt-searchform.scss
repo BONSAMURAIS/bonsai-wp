@@ -343,8 +343,21 @@ div#initial-error-message {
             .button {
                 // margin: 0 15px 0 0;
                 display: flex;
+                display: inline-block; /* Ensure it behaves properly */
                 align-items: center;
                 margin: 0;
+                white-space: nowrap;
+                overflow: hidden;
+                min-width: 20%;
+                max-width: 25%;
+                text-align: left;
+                text-overflow: ellipsis;
+
+                .remove {
+                    position: absolute;
+                    right: 5px;
+                    top: 8px;
+                }
 
                 @media only screen and (max-width: 468px) {
                     margin: 0 5px 0 0;

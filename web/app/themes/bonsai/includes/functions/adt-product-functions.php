@@ -77,3 +77,37 @@ function adt_get_all_products_by_footprint(): array
 
     return $array;
 }
+
+function adt_get_product_name_by_code()
+{
+    $footprintCode = $_POST['code'];
+
+    $args = [
+        'post_type' => 'product',
+        'numberposts' => 1,
+        'meta_query' => [
+            [
+                'key' => 'adt_code',
+                'value' => $footprintCode,
+                'compare' => '=',
+            ],
+        ],
+    ];
+
+    $products = get_posts($args);
+
+    echo '<pre>';
+    print_r($footprintCode);
+    print_r($products);
+    echo '</pre>';
+
+    foreach ($products as $product) {
+        $productTitle = $product->post_title;
+        break;
+    }
+
+    wp_send_json_success($productTitle);
+}
+
+add_action('wp_ajax_adt_get_product_name_by_code', 'adt_get_product_name_by_code');
+add_action('wp_ajax_nopriv_adt_get_product_name_by_code', 'adt_get_product_name_by_code');

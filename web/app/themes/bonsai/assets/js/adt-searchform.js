@@ -179,6 +179,8 @@ jQuery(document).ready(function($){
 
         adt_save_search_history_on_click(data);
     });
+
+    adt_initialize_local_search_history();
 });
 
 
@@ -257,6 +259,8 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
         success: (response) => {
         }
     });
+
+    adt_save_local_search_history(productTitle, productCode, productUuid, chosenValues);
 }
 
 function adt_get_chosen_values()
@@ -598,7 +602,6 @@ function adt_update_comparison_info(dataArray = null)
             let inputElement = jQuery(this).closest('.col-inner');
 
             jQuery('.amount', inputElement).on('input', function() {
-                console.log('test');
                 let numberInput = jQuery(this).val();
                 let calculatedValue = defaultValue * numberInput;
                 
@@ -934,5 +937,94 @@ function adt_save_search_history_on_click(data)
         success: (response) => {
             console.log(response);
         }
+    });
+}
+
+function adt_save_local_search_history(productTitle, productCode, productUuid, chosenValues)
+{
+    // Save the data for individual user search history.
+    // Save the four lastest searches to adt_search_history in local storage
+    let searchHistory = localStorage.getItem("adt_search_history");
+    searchHistory = JSON.parse(searchHistory);
+
+    if (!searchHistory) {
+        searchHistory = [];
+    }
+
+    const newSearch = {
+        productTitle: productTitle,
+        productCode: productCode,
+        productUuid: productUuid,
+        chosenValues: chosenValues
+    };
+
+    searchHistory.unshift(newSearch);
+
+    if (searchHistory.length > 4) {
+        searchHistory.pop();
+    }
+
+    localStorage.setItem("adt_search_history", JSON.stringify(searchHistory));
+
+    let searchHistoryHtml = '';
+    searchHistory.forEach((search, index) => {
+        searchHistoryHtml += '<li class="button primary is-outline lowercase" style="border-radius:99px;">';
+        searchHistoryHtml += search.productTitle + ' ';
+        searchHistoryHtml += '<span class="remove" data-index="' + index + '"></span>';
+        searchHistoryHtml += '</li>';
+    });
+
+    jQuery('.search-history ul').html(searchHistoryHtml);
+
+    jQuery('.search-history ul .remove').on('click', function() {
+        const index = jQuery(this).data('index');
+        searchHistory.splice(index, 1);
+        localStorage.setItem("adt_search_history", JSON.stringify(searchHistory));
+        jQuery(this).parent().remove();
+    });
+
+    jQuery('.search-history ul li').on('click', function() {
+        let productTitle = jQuery(this).text();
+        let productCode = jQuery(this).data('code');
+        let productUuid = jQuery(this).data('uuid');
+        let chosenValues = adt_get_chosen_values();
+
+        adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
+    });
+}
+
+function adt_initialize_local_search_history()
+{
+    let searchHistory = localStorage.getItem("adt_search_history");
+    searchHistory = JSON.parse(searchHistory);
+
+    if (!searchHistory) {
+        searchHistory = [];
+    }
+
+    let searchHistoryHtml = '';
+    searchHistory.forEach((search, index) => {
+        searchHistoryHtml += '<li class="button primary is-outline lowercase" style="border-radius:99px;" data-code="' + search.productCode + '" data-uuid="' + search.productUuid + '">';
+        searchHistoryHtml += search.productTitle + ' ';
+        searchHistoryHtml += '<span class="remove" data-index="' + index + '"></span>';
+        searchHistoryHtml += '</li>';
+    });
+
+    jQuery('.search-history ul').html(searchHistoryHtml);
+
+    jQuery('.search-history ul .remove').on('click', function() {
+        const index = jQuery(this).data('index');
+        searchHistory.splice(index, 1);
+        localStorage.setItem("adt_search_history", JSON.stringify(searchHistory));
+        jQuery(this).parent().remove();
+    });
+
+    jQuery('.search-history ul li').on('click', function() {
+        let productTitle = jQuery(this).text();
+        let productCode = jQuery(this).data('code');
+        let productUuid = jQuery(this).data('uuid');
+        let chosenValues = adt_get_chosen_values();
+
+        adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
     });
 }
