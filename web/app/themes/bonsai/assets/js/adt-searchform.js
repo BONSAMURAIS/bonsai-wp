@@ -371,7 +371,6 @@ function adt_update_original_info(dataArray)
             }).format(numberValueInCurrency);
 
             jQuery(element).find('.product-result').text(formatted);
-            jQuery(element).find('.product-result-unit').text('price CO2eq'); // ???
         }
 
         if (defualtValue === 'tonnes') {
@@ -413,7 +412,6 @@ function adt_update_original_info(dataArray)
                     // console.log(numberInput);
     
                     jQuery(newElement).find('.product-result').text(formatted);
-                    jQuery(newElement).find('.product-result-unit').text('price CO2eq'); // ???
                     defaultValue = parseFloat(jQuery('.product-result', newElement).text());
                 }
     
@@ -530,7 +528,6 @@ function adt_update_comparison_info(dataArray = null)
             }).format(numberValueInCurrency);
 
             jQuery(element).find('.product-result').text(formatted);
-            jQuery(element).find('.product-result-unit').text('price CO2eq'); // ???
         }
 
         if (defualtValue === 'tonnes') {
@@ -572,7 +569,6 @@ function adt_update_comparison_info(dataArray = null)
                     // console.log(numberInput);
     
                     jQuery(newElement).find('.product-result').text(formatted);
-                    jQuery(newElement).find('.product-result-unit').text('price CO2eq'); // ???
                     defaultValue = parseFloat(jQuery('.product-result', newElement).text());
                 }
     
@@ -661,35 +657,28 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
             tableMarkup += rowMarkup; // Append all other rows normally
         }
 
-        // jQuery.ajax({
-        //     type: 'POST',
-        //     url: localize._ajax_url,
-        //     data: {
-        //         _ajax_nonce: localize._ajax_nonce,
-        //         action: 'adt_get_product_footprint',
-        //         code: recipe.flow_input,
-        //         uuid: recipe.id,
-        //         footprint_location: recipe.region_inflow,
-        //     },
-        //     beforeSend: function() {
+        jQuery.ajax({
+            type: 'POST',
+            url: localize._ajax_url,
+            data: {
+                _ajax_nonce: localize._ajax_nonce,
+                action: 'adt_get_product_name_by_code',
+                code: recipe.flow_input,
+            },
+            beforeSend: function() {
                 
-        //     },
-        //     success: (response) => {
-        //         let dataArray = response.data;
+            },
+            success: (response) => {
+                let productTitle = response.data;
 
-        //         tableMarkup += '<tr>';
-        //         tableMarkup += '<td><a href="#" data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + dataArray.title + '</a></td>';
-        //         tableMarkup += '<td>' + recipe.region_inflow + '</td>';
-        //         tableMarkup += '<td>' + recipe.value_inflow + '</td>';
-        //         tableMarkup += '<td>' + recipe.value_emission + '</td>';
-        //         tableMarkup += '</tr>';
+                jQuery('td a[data-code="'+recipe.flow_input+'"]').text(productTitle);
 
-        //         // Insert new markup here
-        //         jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
+                // Insert new markup here
+                // jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
 
-        //         adt_switch_between_recipe_items();
-        //     }
-        // });
+                // adt_switch_between_recipe_items();
+            }
+        });
         
     });
 
