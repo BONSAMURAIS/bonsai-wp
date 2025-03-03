@@ -181,7 +181,7 @@ function adt_get_bonsai_footprint_list() {
     // I get 100 footprints per page
     // get the count of footprints and divide by 100
     // loop through the pages and get the footprints
-    $api_url = "https://lca.aau.dk/api/footprint/?flow_code=A_Stras";
+    $api_url = "https://lca.aau.dk/api/footprint/?flow_code=A_Pines";
 
     // Make the request
     $response = wp_remote_get($api_url);
@@ -314,6 +314,10 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion): a
     $recipeBody = wp_remote_retrieve_body($recipeResponse);
     $recipeResult = json_decode($recipeBody, true);
 
+    // echo '<pre>';
+    // var_dump($recipeResult);
+    // echo '</pre>';
+
     // Handle potential errors in the recipeResponse
     if (empty($recipeResult)) {
         return [
@@ -407,14 +411,19 @@ function adt_get_product_footprint()
     // Make the API request
     $response = wp_remote_get($url);
 
+    
     // Check for errors
     if (is_wp_error($response)) {
         return 'Error: ' . $response->get_error_message();
     }
-
+    
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
+    
+    if (isset($result['count']) && $result['count'] === 0) {
+        wp_send_json_error(['error' => 'Product not found']);
+    }
 
     // Handle potential errors in the response
     if (empty($result)) {
@@ -446,7 +455,8 @@ function adt_get_product_footprint()
     }
 
     $recipeData = adt_get_product_recipe($productCode, $chosenCountry, $newestVersion);
-
+    $foodprintName = adt_get_footprint_name_by_code($productCode, $chosenCountry);
+    
     $data = [
         'title' => $footprintTitle,
         'flow_code' => $productCode,
@@ -459,6 +469,7 @@ function adt_get_product_footprint()
     $cachedFootprintArray = [
         $productCode => $data,
     ];
+
 
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_recipe_cache', $cachedFootprintArray, 86400);

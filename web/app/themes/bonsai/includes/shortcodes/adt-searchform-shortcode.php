@@ -35,7 +35,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <div class="switch-field-container">
                             <input type="radio" id="radio-one" name="switch-one" value="product" checked/>
                             <label for="radio-one">Product</label>
-                            <input type="radio" id="radio-two" name="switch-one" value="person" />
+                            <input type="radio" id="radio-two" name="switch-one" value="person" disabled/>
                             <label for="radio-two">Person</label>
                         </div>
                     </div>

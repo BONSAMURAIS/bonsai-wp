@@ -78,10 +78,10 @@ function adt_get_all_footprints(): array
     // return $array;
 }
 
-function adt_get_footprint_name_by_code()
+function adt_get_footprint_name_by_code($code, $region)
 {
-    $code = $_POST['code'];
-    $region_code = $_POST['region_code'];
+    // $code = $_POST['code'];
+    // $region_code = $_POST['region_code'];
     
     $args = [
         'post_type' => 'footprint',
@@ -95,7 +95,7 @@ function adt_get_footprint_name_by_code()
             ],
             [
                 'key' => 'region_code',
-                'value' => $region_code,
+                'value' => $region,
                 'compare' => '=',
             ],
         ],
@@ -107,23 +107,19 @@ function adt_get_footprint_name_by_code()
         $footprintTitle = $post->post_title;
     }
 
-
     wp_send_json_success($footprintTitle);
 }
 
-add_action('wp_ajax_adt_get_footprint_name_by_code', 'adt_get_footprint_name_by_code');
-add_action('wp_ajax_nopriv_adt_get_footprint_name_by_code', 'adt_get_footprint_name_by_code');
+// add_action('wp_ajax_adt_get_footprint_name_by_code', 'adt_get_footprint_name_by_code');
+// add_action('wp_ajax_nopriv_adt_get_footprint_name_by_code', 'adt_get_footprint_name_by_code');
 
 /**
- * Newest API version for the Bonsai API
- * does not work correctly until february 2025
+ * Old API endpoint for products - the Bonsai API
+ * To get the older products for cradle to gate also get products from activity names
  */
 function adt_get_bonsai_activity_names() {
     global $wpdb;
 
-    // I get 100 products per page
-    // get the count of products and divide by 100
-    // loop through the pages and get the products
     $api_url = "https://lca.aau.dk/api/activity-names/";
 
     // Make the request
@@ -140,7 +136,6 @@ function adt_get_bonsai_activity_names() {
     // Parse the JSON response
     $products = json_decode($body, true);
 
-    
     foreach ($products as $product) {
         $uuid = $product['uuid'];
         
@@ -167,7 +162,7 @@ function adt_get_bonsai_activity_names() {
             'post_title'   => $product['name'],
             'post_content' => $postContent,
             'post_status'  => 'publish',
-            'post_type'    => 'product',
+            'post_type'    => 'footprint',
         ];
 
         if ($postId) {
