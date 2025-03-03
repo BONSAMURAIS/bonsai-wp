@@ -41,7 +41,10 @@
     "roots/wp-config": "1.0.0",
     "roots/wp-password-bcrypt": "1.2.0",
     "wpackagist-theme/twentytwentyfive": "^1.0",
-    "wpackagist-plugin/classic-editor": "^1.6"
+    "wpackagist-plugin/classic-editor": "^1.6",
+    "wpackagist-plugin/duplicate-post": "^4.5",
+    "wpackagist-plugin/wordpress-seo": "^24.5",
+    "wpackagist-plugin/wordfence": "^8.0"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
