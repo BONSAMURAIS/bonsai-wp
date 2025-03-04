@@ -54,6 +54,10 @@ jQuery(document).ready(function($){
         ) {
             return true;
         }
+
+        if (this.code.includes('C_') || this.code.includes('EF_')) {
+            this.code = this.code.replace(/^(C_|EF_)/, 'A_');
+        }
         
         productTitleArray.push(this.title);
         productContentArray.push(this.content);
@@ -185,8 +189,8 @@ jQuery(document).ready(function($){
     });
 
     adt_initialize_local_search_history();
+    adt_get_product_by_encoded_string();
 });
-
 
 function adt_get_product_info(productTitle, productCode, productUuid, chosenValues) 
 {
@@ -206,10 +210,14 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             footprint_year: chosenValues['footprint_year'],
         },
         beforeSend: function() {
-            
+            jQuery('#autocomplete-input').after('<div class="loading"></div>');
+            jQuery('#autocomplete-input').prop('disabled', true);
         },
         success: (response) => {
             let dataArray = response.data;
+
+            jQuery('.loading').remove();
+            jQuery('#autocomplete-input').prop('disabled', false);
 
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
                 jQuery('.error-message').slideDown('fast');
@@ -643,8 +651,6 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
     // Recipe return structure changed
     let recipeArray = dataArray.recipe.results;
 
-    console.log(recipeArray);
-
     // Get the amount and unit of the product
     let amount = jQuery('.search-result .col:'+whichChild+' .amount').val();
     let unit = jQuery('.search-result .col:'+whichChild+' select.unit').val();
@@ -661,8 +667,16 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
 
     jQuery.each(recipeArray, function(index, recipe) {
         // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
+
+        // Convert to base64
+        const jsonString = JSON.stringify(recipe);
+        const base64String = btoa(jsonString);  // base64 encode
+
+        // Add to URL
+        const getParameter = `?data=${base64String}`;
+
         rowMarkup = '<tr>';
-        rowMarkup += '<td><a href="#" data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + recipe.flow_input + '</a></td>';
+        rowMarkup += '<td><a href=" ' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + recipe.flow_input + '</a></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
@@ -892,6 +906,25 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
         suggestionSelected = true;
         chosenValuesArray = adt_get_chosen_values();
+        
+        // Do this to make sure you can go back in browser
+        // Convert to base64
+        let allData = {
+            title: text,
+            code: code,
+            uuid: uuid,
+            footprint_location: chosenValuesArray['footprint_location'],
+            footprint_type: chosenValuesArray['footprint_type'],
+            footprint_year: chosenValuesArray['footprint_year'],
+        };
+
+        const jsonString = JSON.stringify(allData);
+        const base64String = btoa(jsonString);  // base64 encode
+
+        // Add to URL
+        const getParameter = `?data=${base64String}`;
+        history.pushState(null, '', getParameter);
+
         adt_get_product_info(text, code, uuid, chosenValuesArray);
     }
 }
@@ -909,6 +942,11 @@ function adt_switch_between_recipe_items()
 
         console.log('Make sure this only run once!');
         adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
+        
+        // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
+        const href = jQuery(this).attr('href');
+        history.pushState(null, '', href);
+        
     });
 }
 
@@ -1042,3 +1080,24 @@ function adt_initialize_local_search_history()
         adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
     });
 }
+
+function adt_get_product_by_encoded_string()
+{
+    console.log('get product by encoded string');
+    const params = new URLSearchParams(window.location.search);
+    const base64String = params.get('data');
+
+    const jsonString = atob(base64String);  // base64 decode
+    const obj = JSON.parse(jsonString);
+    const chosenValues = [];
+    chosenValues['footprint_location'] = obj.footprint_location;
+    chosenValues['footprint_type'] = obj.footprint_type;
+    chosenValues['footprint_year'] = obj.footprint_year;
+
+    adt_get_product_info(obj.title, obj.code, obj.uuid, chosenValues);
+}
+
+// Makes sure to run the function when users go back and forth in browser
+window.addEventListener('popstate', function(event) {
+    adt_get_product_by_encoded_string();
+});

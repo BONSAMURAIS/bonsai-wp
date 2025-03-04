@@ -186,6 +186,7 @@ div#initial-error-message {
             margin-bottom: 0;
             height: 100px;
             padding: 0 30px;
+            position: relative;
 
             &:focus {
                 background-color: white;
@@ -665,6 +666,7 @@ div#initial-error-message {
 
                 &:first-child {
                     text-align: left;
+                    max-width: 300px;
 
                     @media only screen and (max-width: 468px) {
                         width: 35%;
@@ -943,5 +945,17 @@ span.adt-close {
                 }
             }
         }
+    }
+}
+
+.loading {
+    position: absolute;
+    height: 50px;
+    width: 50px;
+    left: calc(50% - 50px);
+    top: calc(50% - 25px);
+    
+    &:before {
+        content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle fill='%23004238' stroke='%23004238' stroke-width='15' r='15' cx='40' cy='100'%3E%3Canimate attributeName='opacity' calcMode='spline' dur='2' values='1;0;1;' keySplines='.5 0 .5 1;.5 0 .5 1' repeatCount='indefinite' begin='-.4'%3E%3C/animate%3E%3C/circle%3E%3Ccircle fill='%23004238' stroke='%23004238' stroke-width='15' r='15' cx='100' cy='100'%3E%3Canimate attributeName='opacity' calcMode='spline' dur='2' values='1;0;1;' keySplines='.5 0 .5 1;.5 0 .5 1' repeatCount='indefinite' begin='-.2'%3E%3C/animate%3E%3C/circle%3E%3Ccircle fill='%23004238' stroke='%23004238' stroke-width='15' r='15' cx='160' cy='100'%3E%3Canimate attributeName='opacity' calcMode='spline' dur='2' values='1;0;1;' keySplines='.5 0 .5 1;.5 0 .5 1' repeatCount='indefinite' begin='0'%3E%3C/animate%3E%3C/circle%3E%3C/svg%3E");
     }
 }
