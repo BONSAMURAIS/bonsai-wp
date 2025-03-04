@@ -96,11 +96,6 @@ function adt_get_product_name_by_code()
 
     $products = get_posts($args);
 
-    echo '<pre>';
-    print_r($footprintCode);
-    print_r($products);
-    echo '</pre>';
-
     foreach ($products as $product) {
         $productTitle = $product->post_title;
         break;

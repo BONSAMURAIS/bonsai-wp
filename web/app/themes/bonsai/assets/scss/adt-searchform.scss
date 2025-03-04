@@ -655,6 +655,10 @@ div#initial-error-message {
                 font-size: 15px;
             }
 
+            tr {
+                border-bottom: 1px solid #ececec;
+            }
+
             th, td {
                 text-transform: inherit;
                 text-align: center;
@@ -674,6 +678,13 @@ div#initial-error-message {
                 span {
                     display: block;
                     font-weight: 400;
+                }
+            }
+
+            td.input-flow {
+                span {
+                    display: inline-block;
+                    margin-left: 5px;
                 }
             }
         }

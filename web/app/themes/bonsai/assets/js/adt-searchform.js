@@ -211,17 +211,22 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
         success: (response) => {
             let dataArray = response.data;
 
-            console.log(response);
-            console.log(dataArray);
+            if (response.data && response.data.error && response.data.error.includes("Product not found")) {
+                jQuery('.error-message').slideDown('fast');
+                adt_show_search_results();
+                return;
+            } else {
+                jQuery('.error-message').slideUp('fast');
+            }
 
             // Error message
-            if (!dataArray.title) {
+            if (response.data && !response.data.title) {
                 jQuery('.error-message').slideDown('fast');
             } else {
                 jQuery('.error-message').slideUp('fast');
             }
 
-            localStorage.setItem("footprint_data", JSON.stringify(dataArray));
+            localStorage.setItem("footprint_data", JSON.stringify(response.data));
 
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
             if (compareButtons.length > 0) {
@@ -638,6 +643,8 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
     // Recipe return structure changed
     let recipeArray = dataArray.recipe.results;
 
+    console.log(recipeArray);
+
     // Get the amount and unit of the product
     let amount = jQuery('.search-result .col:'+whichChild+' .amount').val();
     let unit = jQuery('.search-result .col:'+whichChild+' select.unit').val();
@@ -657,8 +664,13 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
         rowMarkup = '<tr>';
         rowMarkup += '<td><a href="#" data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + recipe.flow_input + '</a></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
-        rowMarkup += '<td>' + (recipe.value_inflow || '') + '</td>';
-        rowMarkup += '<td>' + recipe.value_emission + '</td>';
+        rowMarkup += '<td class="input-flow">';
+
+        rowMarkup += '<span class="inflow-value">' + (recipe.value_inflow ? recipe.value_inflow.toFixed(4) : '') + '</span>';
+        rowMarkup += '<span class="inflow-unit">' + (recipe.unit_inflow || '') + '</span>';
+
+        rowMarkup += '</td>';
+        rowMarkup += '<td>' + (recipe.value_emission ? recipe.value_emission.toFixed(4) : '') + '</td>';
         rowMarkup += '</tr>';
 
         if (recipe.flow_input.toLowerCase() === "other") {
@@ -682,11 +694,6 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
                 let productTitle = response.data;
 
                 jQuery('td a[data-code="'+recipe.flow_input+'"]').text(productTitle);
-
-                // Insert new markup here
-                // jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
-
-                // adt_switch_between_recipe_items();
             }
         });
         
@@ -901,7 +908,7 @@ function adt_switch_between_recipe_items()
         chosenValues['footprint_location'] = jQuery(this).data('country');
 
         console.log('Make sure this only run once!');
-        // adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
+        adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
     });
 }
 

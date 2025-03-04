@@ -410,7 +410,6 @@ function adt_get_product_footprint()
 
     // Make the API request
     $response = wp_remote_get($url);
-
     
     // Check for errors
     if (is_wp_error($response)) {
@@ -420,7 +419,7 @@ function adt_get_product_footprint()
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
-    
+
     if (isset($result['count']) && $result['count'] === 0) {
         wp_send_json_error(['error' => 'Product not found']);
     }
@@ -455,7 +454,7 @@ function adt_get_product_footprint()
     }
 
     $recipeData = adt_get_product_recipe($productCode, $chosenCountry, $newestVersion);
-    $foodprintName = adt_get_footprint_name_by_code($productCode, $chosenCountry);
+    $foodprintName = adt_get_footprint_name_by_code($productCode);
     
     $data = [
         'title' => $footprintTitle,
@@ -469,7 +468,6 @@ function adt_get_product_footprint()
     $cachedFootprintArray = [
         $productCode => $data,
     ];
-
 
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_recipe_cache', $cachedFootprintArray, 86400);
