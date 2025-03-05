@@ -29,7 +29,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <a href="#info-footprint">
                             Footprint
                         </a>
-                        <?= do_shortcode('[lightbox id="info-footprint" width="600px" padding="20px"][block id="footprint-info-popup"][/lightbox]') ?>
+                        <?= do_shortcode('[lightbox id="info-footprint" width="600px" padding="20px"][block id="footprint-regular-info-popup"][/lightbox]') ?>
                     </div>
                     <div class="switch-field-wrapper">
                         <div class="switch-field-container">
@@ -43,7 +43,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <div class="col medium-6 small-12 large-6 pb-0 text-right">
                     <div class="tooltip">
                         <a href="#info-footprint-type">
-                            Footprint type
+                            Footprint extent
                         </a>
                         <?= do_shortcode('[lightbox id="info-footprint-type" width="600px" padding="20px"][block id="footprint-info-popup"][/lightbox]') ?>
                     </div>
