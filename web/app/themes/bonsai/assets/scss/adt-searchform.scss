@@ -780,6 +780,7 @@ label.select {
         position: absolute;
         right: 10px;
         top: calc(50% - 8px);
+        pointer-events: none;
     }
 }
 
@@ -826,6 +827,7 @@ label.select {
             position: absolute;
             right: 10px;
             top: calc(50% - 8px);
+            pointer-events: none;
         }
     }
 }

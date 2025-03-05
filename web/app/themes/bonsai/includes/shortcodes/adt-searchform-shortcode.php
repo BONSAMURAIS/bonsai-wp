@@ -127,7 +127,7 @@ add_shortcode( 'adt_searchform', function($atts) {
             <div id="co2-form-result-header" class="col medium-12 small-12 large-12">
                 <div class="row">
                     <div class="col medium-6 small-12 large-6">
-                        <h3>Footprint</h3>
+                        <h3>Climate Footprint</h3>
                     </div>
                     <div class="switch-field-wrapper-basic col medium-6 small-12 large-6">
                         <div class="switch-field-container">

@@ -680,11 +680,11 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
-        rowMarkup += '<span class="inflow-value">' + (recipe.value_inflow ? recipe.value_inflow.toFixed(4) : '') + '</span>';
+        rowMarkup += '<span class="inflow-value">' + (recipe.value_inflow ? recipe.value_inflow.toFixed(5) : '') + '</span>';
         rowMarkup += '<span class="inflow-unit">' + (recipe.unit_inflow || '') + '</span>';
 
         rowMarkup += '</td>';
-        rowMarkup += '<td>' + (recipe.value_emission ? recipe.value_emission.toFixed(4) : '') + '</td>';
+        rowMarkup += '<td>' + (recipe.value_emission ? recipe.value_emission.toFixed(5) : '') + '</td>';
         rowMarkup += '</tr>';
 
         if (recipe.flow_input.toLowerCase() === "other") {
