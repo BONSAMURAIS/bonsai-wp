@@ -218,7 +218,9 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
 
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
-
+            
+            // .product-title
+            
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
                 jQuery('.error-message').slideDown('fast');
                 adt_show_search_results();
@@ -226,16 +228,16 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             } else {
                 jQuery('.error-message').slideUp('fast');
             }
-
+            
             // Error message
             if (response.data && !response.data.title) {
                 jQuery('.error-message').slideDown('fast');
             } else {
                 jQuery('.error-message').slideUp('fast');
             }
-
+            
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
-
+            
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
             if (compareButtons.length > 0) {
                 adt_update_original_info(dataArray);
@@ -352,6 +354,8 @@ function adt_change_data_set()
 
 function adt_update_original_info(dataArray)
 {
+    console.log('Ester tester');
+    console.log(dataArray);
     localStorage.getItem("footprint_data");
 
     adt_update_tags('original');
@@ -489,6 +493,7 @@ function adt_update_original_info(dataArray)
 jQuery(document).ready(function($){
     $('a:has(.add)').click(function(e){
         e.preventDefault();
+        console.log('comparison added');
 
         $('.search-result').each(function() {
             let original = $(this).find('.col:first-child');
@@ -507,8 +512,10 @@ jQuery(document).ready(function($){
             });
         });
 
+        const footprintData = JSON.parse(localStorage.getItem("footprint_data"));
+        
         adt_download_recipe_csv();
-        adt_update_comparison_info();
+        adt_update_comparison_info(footprintData);
     });
 });
 
@@ -614,7 +621,7 @@ function adt_update_comparison_info(dataArray = null)
                 }
             });
 
-            // adt_update_recipe(dataArray, 'comparison', true);
+            adt_update_recipe(dataArray, 'comparison', true);
         });
 
         // This changes the number foreach input in the .amount field
@@ -633,12 +640,12 @@ function adt_update_comparison_info(dataArray = null)
                     jQuery(this).text(calculatedValue);
                 });
                 
-                // adt_update_recipe(dataArray, 'comparison');
+                adt_update_recipe(dataArray, 'comparison');
             });
         });
     });
 
-    // adt_update_recipe(dataArray, 'comparison');
+    adt_update_recipe(dataArray, 'comparison');
 }
 
 function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
@@ -716,56 +723,13 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
     // Append "other" row at the end if it exists
     tableMarkup += otherRowMarkup;
 
-    jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
-
-    adt_switch_between_recipe_items();
-
     if (boxToUpdate === 'comparison') {
         whichChild = 'nth-child(2)';
     }
 
-    // If unit is changed, then get new information from API
-    // let newTableMarkup = '';
+    jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
 
-    // console.log(isChanged);
-    // if (isChanged) {
-    //     jQuery.ajax({
-    //         type: 'POST',
-    //         url: localize._ajax_url,
-    //         data: {
-    //             _ajax_nonce: localize._ajax_nonce,
-    //             action: 'adt_get_updated_recipe_info',
-    //             unitInflow: unit,
-    //             productCode: dataArray.flow_code,
-    //             country: chosenCountry,
-    //             version: newestVersion,
-    //         },
-    //         beforeSend: function() {
-    //             jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html('');
-    //         },
-    //         success: (response) => {
-    //             let newRecipeArray = response.data;
-
-    //             console.log(newRecipeArray);
-
-    //             jQuery.each(newRecipeArray, function(index, recipe) {
-    //                 newTableMarkup += '<tr>';
-    //                 newTableMarkup += '<td><a href="#">' + recipe.flow_input + '</a></td>';
-    //                 newTableMarkup += '<td>' + recipe.region_inflow + '</td>';
-    //                 newTableMarkup += '<td>' + recipe.value_inflow + '</td>';
-    //                 newTableMarkup += '<td>' + recipe.value_emission + '</td>';
-    //                 newTableMarkup += '</tr>';
-    //             });
-            
-    //             if (boxToUpdate === 'comparison') {
-    //                 whichChild = 'nth-child(2)';
-    //             }
-
-    //             // Insert new markup here
-    //             jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(newTableMarkup);
-    //         }
-    //     });
-    // }
+    adt_switch_between_recipe_items();
 }
 
 // Animations
