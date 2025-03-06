@@ -106,3 +106,21 @@ function adt_get_product_name_by_code()
 
 add_action('wp_ajax_adt_get_product_name_by_code', 'adt_get_product_name_by_code');
 add_action('wp_ajax_nopriv_adt_get_product_name_by_code', 'adt_get_product_name_by_code');
+
+function delete_all_products_from_post_type() {
+    $products = get_posts(array(
+        'post_type' => 'product',
+        'numberposts' => -1,
+        'fields' => 'ids'
+    ));
+
+    if ($products) {
+        foreach ($products as $product_id) {
+            wp_delete_post($product_id, true); // 'true' means force delete, skipping trash
+        }
+    }
+}
+
+if (isset($_GET['delete_all_products'])) {
+    add_action('init', 'delete_all_products_from_post_type');
+}

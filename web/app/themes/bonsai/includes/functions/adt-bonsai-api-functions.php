@@ -7,6 +7,7 @@ use Roots\WPConfig\Config;
 /**
  * Newest API version for the Bonsai API
  * does not work correctly until february 2025
+ * WARNING: This is too "new". It's not ready for production yet
  */
 function adt_get_bonsai_product_list() {
     global $wpdb;
@@ -121,11 +122,12 @@ function adt_get_bonsai_product_list() {
         }
     }
 
-    adt_delete_old_bonsai_products($updatedPostIds);
+    // adt_delete_old_bonsai_products($updatedPostIds);
 }
 
-// add_action('template_redirect', 'adt_get_bonsai_product_list');
-
+if (isset($_GET['get_future_bonsai_products'])) {
+    add_action('template_redirect', 'adt_get_bonsai_product_list');
+}
 
 function adt_get_old_bonsai_product_list() {
     global $wpdb;
@@ -135,44 +137,65 @@ function adt_get_old_bonsai_product_list() {
     // Make the request
     $response = wp_remote_get($api_url);
 
+    // Check for errors
+    if (is_wp_error($response)) {
+        return 'Error: ' . $response->get_error_message();
+    }
+
     // Get the response body
     $body = wp_remote_retrieve_body($response);
 
     // Parse the JSON response
     $products = json_decode($body, true);
 
-    
     foreach ($products as $product) {
-        $uuid = $product['uuid'];
-        $code = $product['code'];
+        $uuid = $product['code'];
         
         if (empty($uuid)) {
             continue;
         }
-        
+
         $postId = $wpdb->get_var($wpdb->prepare(
             "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'adt_code' AND meta_value = %s",
-            $code
+            $uuid
         ));
-        
+
+        $postContent = $product['description'];
+
+        if (!$postContent) {
+            $postContent = $product['name'];
+        }
+
+        if ($postContent === null) {
+            $postContent = 'Is not available?';
+        }
+
         $post_data = [
             'post_title'   => $product['name'],
-            'post_content' => $product['description'],
+            'post_content' => $postContent,
             'post_status'  => 'publish',
             'post_type'    => 'product',
         ];
 
         if ($postId) {
             $post_data['ID'] = $postId;
+            echo 'Updating post: ' . $postId . 'with code: ' . $product['code'] . PHP_EOL;
+        } else {
+            echo 'Creating post: ' . $product['name'] . 'with code: ' . $product['code'] . PHP_EOL;
         }
 
         $postId = wp_insert_post($post_data);
 
+        $updatedPostIds[] = $postId;
+
         update_post_meta($postId, 'adt_code', $product['code']);
         update_post_meta($postId, 'adt_uuid', $product['uuid']);
-        update_post_meta($postId, 'adt_characteristic_unit', $product['characteristic_unit']);
         update_post_meta($postId, 'adt_flowtype', $product['flow_type']);
     }
+}
+
+if (isset($_GET['get_old_bonsai_products'])) {
+    add_action('template_redirect', 'adt_get_old_bonsai_product_list');
 }
 
 function adt_get_bonsai_footprint_list() {
