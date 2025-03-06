@@ -51,6 +51,7 @@ jQuery(document).ready(function($){
         if (
             chosenFootprintType === "market" && this.code.includes('C_')
             || chosenFootprintType === "market" && this.code.includes('EF_')
+            || chosenFootprintType === "market" && this.code.includes('A_')
         ) {
             return true;
         }
@@ -78,14 +79,15 @@ jQuery(document).ready(function($){
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
                 return true;
             }
-            
+    
             if (
                 chosenFootprintType === "market" && this.code.includes('C_')
                 || chosenFootprintType === "market" && this.code.includes('EF_')
+                || chosenFootprintType === "market" && this.code.includes('A_')
             ) {
                 return true;
             }
-
+    
             if (this.code.includes('C_') || this.code.includes('EF_')) {
                 this.code = this.code.replace(/^(C_|EF_)/, 'A_');
             }

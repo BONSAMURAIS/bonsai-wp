@@ -149,15 +149,15 @@ function adt_get_old_bonsai_product_list() {
     $products = json_decode($body, true);
 
     foreach ($products as $product) {
-        $uuid = $product['code'];
+        $code = $product['code'];
         
-        if (empty($uuid)) {
+        if (empty($code)) {
             continue;
         }
 
         $postId = $wpdb->get_var($wpdb->prepare(
             "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'adt_code' AND meta_value = %s",
-            $uuid
+            $code
         ));
 
         $postContent = $product['description'];
@@ -179,16 +179,16 @@ function adt_get_old_bonsai_product_list() {
 
         if ($postId) {
             $post_data['ID'] = $postId;
-            echo 'Updating post: ' . $postId . 'with code: ' . $product['code'] . PHP_EOL;
+            echo 'Updating post: ' . $postId . 'with code: ' . $code . PHP_EOL;
         } else {
-            echo 'Creating post: ' . $product['name'] . 'with code: ' . $product['code'] . PHP_EOL;
+            echo 'Creating post: ' . $product['name'] . 'with code: ' . $code . PHP_EOL;
         }
 
         $postId = wp_insert_post($post_data);
 
         $updatedPostIds[] = $postId;
 
-        update_post_meta($postId, 'adt_code', $product['code']);
+        update_post_meta($postId, 'adt_code', $code);
         update_post_meta($postId, 'adt_uuid', $product['uuid']);
         update_post_meta($postId, 'adt_flowtype', $product['flow_type']);
     }
