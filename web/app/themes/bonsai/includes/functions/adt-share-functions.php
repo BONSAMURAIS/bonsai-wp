@@ -94,7 +94,9 @@ function adt_save_shared_search()
     // The compared data to display if there is a compared product
     update_post_meta($postId, 'footprint_compared', $comparedData);
 
-    wp_send_json_success($postId, 200);
+    $url = get_permalink($postId);
+
+    wp_send_json_success($url);
     wp_die();
 }
 

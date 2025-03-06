@@ -354,8 +354,6 @@ function adt_change_data_set()
 
 function adt_update_original_info(dataArray)
 {
-    console.log('Ester tester');
-    console.log(dataArray);
     localStorage.getItem("footprint_data");
 
     adt_update_tags('original');
@@ -672,6 +670,8 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
     //     amount = amount;
     // }
 
+    const inflowMultiplier = adt_find_multiplier_for_lowest_number(recipeArray);
+
     jQuery.each(recipeArray, function(index, recipe) {
         // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
 
@@ -916,29 +916,6 @@ function adt_switch_between_recipe_items()
 
 function adt_save_search_history_on_click(data)
 {
-    let dummyData = {
-        amount_chosen: "1",
-        amount_chosen_compared: "2",
-        content: "Cauliflowers and broccoli, market of",
-        content_compared: "Cucumbers and gherkins, market of",
-        footprint: "product",
-        footprint_climate_metrics: "gwp100",
-        footprint_climate_metrics_compared: "gwp100",
-        footprint_compared: "product",
-        footprint_country: "AT",
-        footprint_country_compared: "DK",
-        footprint_type: "product",
-        footprint_type_compared: "product",
-        footprint_year: "2016",
-        footprint_year_compared: "2016",
-        product_code: "M_Cauli",
-        product_code_compared: "M_Cucus",
-        title: "Cauliflowers and broccoli, market of",
-        title_compared: "Cucumbers and gherkins, market of",
-        unit_chosen: "tonnes",
-        unit_chosen_compared: "Meuro",
-    };
-
     jQuery.ajax({
         type: 'POST',
         url: localize._ajax_url,
@@ -952,6 +929,22 @@ function adt_save_search_history_on_click(data)
         },
         success: (response) => {
             console.log(response);
+            if (!response.success) {
+                return;
+            }
+
+            jQuery('#shared-search-box').fadeIn();
+            jQuery('#shared-search').val(response.data);
+
+            jQuery('#copy-search').on('click', function() {
+                var $copyText = jQuery('#shared-search');
+                $copyText.select();
+                $copyText[0].setSelectionRange(0, 99999); // For mobile devices
+                document.execCommand('copy');
+
+
+                jQuery('#shared-search-box').fadeOut();
+            });
         }
     });
 }
@@ -1065,3 +1058,26 @@ function adt_get_product_by_encoded_string()
 window.addEventListener('popstate', function(event) {
     adt_get_product_by_encoded_string();
 });
+
+function adt_find_multiplier_for_lowest_number(data)
+{
+    let minValue = null;
+    
+    // Find the minimum non-null value_inflow
+    jQuery.each(data, function(index, item) {
+        if (item.value_inflow !== null) {
+            if (minValue === null || item.value_inflow < minValue) {
+                minValue = item.value_inflow;
+            }
+        }
+    });
+    
+    let multiplier = 1;
+    if (minValue !== null && minValue > 0) {
+        multiplier = 1 / minValue;
+    }
+    
+    // Output the multiplier
+    console.log("Min value:", minValue);
+    console.log("Multiplier needed:", multiplier);
+}
