@@ -110,12 +110,17 @@ function adt_get_footprint_name_by_code($code)
  * To get the older products for cradle to gate also get products from activity names
  */
 function adt_get_bonsai_activity_names() {
-    global $wpdb;
+  
+}
 
-    $api_url = "https://lca.aau.dk/api/activity-names/";
+// add_action('template_redirect', 'adt_get_bonsai_activity_names');
+
+function adt_convert_number_by_units(string $fromUnit, string $toUnit): float
+{
+    $url = 'https://lca.aau.dk/api/unit-converters/?unit_from='.$fromUnit.'&unit_to='.$toUnit;
 
     // Make the request
-    $response = wp_remote_get($api_url);
+    $response = wp_remote_get($url);
 
     // Check for errors
     if (is_wp_error($response)) {
@@ -126,52 +131,25 @@ function adt_get_bonsai_activity_names() {
     $body = wp_remote_retrieve_body($response);
 
     // Parse the JSON response
-    $products = json_decode($body, true);
+    $result = json_decode($body, true);
 
-    foreach ($products as $product) {
-        $uuid = $product['uuid'];
-        
-        if (empty($uuid)) {
-            continue;
-        }
-
-        $postId = $wpdb->get_var($wpdb->prepare(
-            "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'adt_uuid' AND meta_value = %s",
-            $uuid
-        ));
-
-        $postContent = $product['description'];
-
-        if (!$postContent) {
-            $postContent = $product['name'];
-        }
-
-        if ($postContent === null) {
-            $postContent = 'Is not available?';
-        }
-
-        $post_data = [
-            'post_title'   => $product['name'],
-            'post_content' => $postContent,
-            'post_status'  => 'publish',
-            'post_type'    => 'product',
-        ];
-
-        if ($postId) {
-            $post_data['ID'] = $postId;
-            echo 'Updating post: ' . $postId . 'with code: ' . $product['code'] . PHP_EOL;
-        } else {
-            echo 'Creating post: ' . $product['name'] . 'with code: ' . $product['code'] . PHP_EOL;
-        }
-
-        $postId = wp_insert_post($post_data);
-
-        $updatedPostIds[] = $postId;
-
-        update_post_meta($postId, 'adt_code', $product['code']);
-        update_post_meta($postId, 'adt_uuid', $product['uuid']);
-        update_post_meta($postId, 'adt_flowtype', $product['flow_type']);
-    }
+    return $result[0]['multiplier'];
 }
 
-// add_action('template_redirect', 'adt_get_bonsai_activity_names');
+function adt_get_converted_number_ajax()
+{
+    // Remember that the number is always tonnes and should be displayed in kg
+    // therefore remember to multiply by 1000.
+    $fromUnit = $_POST['fromUnit'];
+    $toUnit = $_POST['toUnit'];
+    $number = $_POST['number'];
+
+    $multiplier = adt_convert_number_by_units($fromUnit, $toUnit);
+
+    $convertedNumber = $number / $multiplier * 1000;
+
+    wp_send_json_success($convertedNumber);
+}
+
+add_action('wp_ajax_adt_get_converted_number_ajax', 'adt_get_converted_number_ajax');
+add_action('wp_ajax_nopriv_adt_get_converted_number_ajax', 'adt_get_converted_number_ajax');
