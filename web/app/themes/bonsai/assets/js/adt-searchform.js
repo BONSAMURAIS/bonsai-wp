@@ -432,7 +432,7 @@ async function adt_update_original_info(dataArray) {
                         if (chosenValue === 'Meuro') {
                             // Instead of mulitplying by 1000, divide by 1000000
                             // Then just divide by 1000 to get the value in kg
-                            valueForItems = item.value / 1000;
+                            // valueForItems = item.value / 1000;
                         }
 
                         break;
@@ -643,15 +643,6 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
     let amount = jQuery('.search-result .col:'+whichChild+' .amount').val();
     let unit = jQuery('.search-result .col:'+whichChild+' select.unit').val();
     let chosenCountry = jQuery('select#location').val();
-    // Just get the version from the currently available data
-    // let newestVersion = dataArray.recipe[0].version;
-
-    // console.log(dataArray);
-
-    // Convert the tonnes amount to kg
-    // if (unit === 'tonnes') {
-    //     amount = amount;
-    // }
 
     const inflowMultiplier = adt_find_multiplier_for_lowest_number(recipeArray);
 

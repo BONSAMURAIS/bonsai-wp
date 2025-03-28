@@ -337,9 +337,6 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion): a
     $recipeBody = wp_remote_retrieve_body($recipeResponse);
     $recipeResult = json_decode($recipeBody, true);
 
-    // echo '<pre>';
-    // var_dump($recipeResult);
-    // echo '</pre>';
 
     // Handle potential errors in the recipeResponse
     if (empty($recipeResult)) {
@@ -472,7 +469,58 @@ function adt_get_product_footprint()
 
     foreach ($footprints as $footprint) {
         if ($footprint['version'] === $newestVersion) {
+            // see if I can convert numbers here already everything is saved by the unit in tonnes.
+            // The frontend should display the units in kilograms emission instead.
+            // Item
+            // Meuro
+            // TJ to kWh
+            // TJ to MJ
+
+            switch ($footprint['unit_reference']) {
+                case 'Meuro':
+                    /* To get 1 euro per 1 kg emission
+                     * instead of 1 Meuro per 1 tonne emission
+                     * I need to divide by 1000
+                     */
+                    $footprint['value'] = $footprint['value'] / 1000;
+                    break;
+
+                case 'items':
+                    /* 
+                     * To get 1 item per 1 kg emission
+                     * I need to multiply by 1000
+                     */
+                    // $footprint['value'] = $footprint['value'] * 1000;
+                    break;
+
+                case 'TJ':
+                    /* 
+                     * TJ should either be displayed in kWh or MJ
+                     * To get 1 kWh per 1 kg emission, check if the description contains electricity
+                     * Then find it's conversion rate from TJ to kWh divide the current TJ value by the conversion rate
+                     * And multiply by 1000 to get the value in kWh
+                     * 
+                     * The same goes for MJ but with another conversion rate
+                     */
+                    if ( str_contains($footprint['description'], 'electricity') ) {
+                        $multiplier = adt_convert_number_by_units('TJ', 'kWh');
+                        $footprint['value'] = $footprint['value'] / $multiplier * 1000;
+                        $footprint['unit_reference'] = 'kWh';
+                    } else {
+                        $multiplier = adt_convert_number_by_units('TJ', 'MJ');
+                        $footprint['value'] = $footprint['value'] / $multiplier * 1000;
+                        $footprint['unit_reference'] = 'MJ';
+                    }
+
+                    break;
+                
+                default:
+                    # code...
+                    break;
+            }
+
             $chosenFootprint[] = $footprint;
+            
         }
     }
 
