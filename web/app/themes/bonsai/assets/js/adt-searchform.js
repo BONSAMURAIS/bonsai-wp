@@ -391,12 +391,15 @@ async function adt_update_original_info(dataArray) {
                 if (item.unit_reference === 'TJ' && !item.description.includes('electricity')) {
                     console.log('does not contain electricity');
                     convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'MJ', valueForItems);
+                    item.value = convertedValueForItems;
                 }
 
                 if (item.unit_reference === 'TJ' && item.description.includes('electricity')) {
                     console.log('ELECTRICITY is found');
                     convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'kWh', valueForItems);
+                    item.value = convertedValueForItems;
                 }
+
                 break;
             }
         }
@@ -409,8 +412,6 @@ async function adt_update_original_info(dataArray) {
             minimumFractionDigits: 4,
             maximumFractionDigits: 4
         }).format(valueForItems);
-
-        console.log(valueForItems);
 
         $element.find('.product-result').text(formatted);
         let defaultValue = parseFloat($element.find('.product-result').text());
@@ -426,6 +427,14 @@ async function adt_update_original_info(dataArray) {
                 for (const item of dataArray.all_data) {
                     if (item.unit_reference === chosenValue) {
                         valueForItems = item.value;
+                        // Can I change this number earlier in the flow?
+                        // Convert emission in tonnes per 1 million Euro to kg per 1 Euro
+                        if (chosenValue === 'Meuro') {
+                            // Instead of mulitplying by 1000, divide by 1000000
+                            // Then just divide by 1000 to get the value in kg
+                            valueForItems = item.value / 1000;
+                        }
+
                         break;
                     }
                 }
