@@ -478,11 +478,37 @@ function adt_get_product_footprint()
 
             switch ($footprint['unit_reference']) {
                 case 'Meuro':
+                    // Add danish currency Meuro to DKK 
+                    // The conversion rate is per million euro
+                    $conversionRateInMillion = adt_convert_number_by_units('Meuro', 'DKK');
+                    // Divide it by 1 million to get the value 1 Euro to 1 DKK
+                    $conversionRate = $conversionRateInMillion / 1000000;
+
                     /* To get 1 euro per 1 kg emission
                      * instead of 1 Meuro per 1 tonne emission
                      * I need to divide by 1000
                      */
                     $footprint['value'] = $footprint['value'] / 1000;
+
+                    /* To get 1 DKK per 1 kg emission
+                     * I need to multiply by the conversion rate
+                     */
+                    $danishValue = $footprint['value'] * $conversionRate;
+
+                    // Footprint with DKK as unit
+                    $danishFootprint = [
+                        'description' => $footprint['description'],
+                        'flow_code' => $footprint['flow_code'],
+                        'id' => $footprint['id'],
+                        'nace_related_code' => $footprint['nace_related_code'],
+                        'region_code' => $footprint['region_code'],
+                        'unit_emission' => $footprint['unit_emission'],
+                        'unit_reference' => 'DKK',
+                        'value' => $danishValue,
+                        'version' => $footprint['version'],
+                    ];
+
+                    array_push($chosenFootprint, $danishFootprint);
                     break;
 
                 case 'items':
@@ -520,7 +546,6 @@ function adt_get_product_footprint()
             }
 
             $chosenFootprint[] = $footprint;
-            
         }
     }
 
