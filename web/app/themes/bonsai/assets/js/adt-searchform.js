@@ -381,7 +381,8 @@ async function adt_update_original_info(dataArray) {
         });
 
         let defaultUnit = $element.find('select.unit').val();
-        let valueForItems = null;
+        // Just let the first item be default instead of null
+        let valueForItems = dataArray.all_data[0].value;
         let convertedValueForItems = null;
 
         for (const item of dataArray.all_data) {
