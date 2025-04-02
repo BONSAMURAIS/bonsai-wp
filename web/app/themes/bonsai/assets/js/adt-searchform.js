@@ -690,6 +690,14 @@ function adt_update_recipe(dataArray, boxToUpdate, isChanged = false)
             recipe.value_emission = recipe.value_emission * 1000;
         }
 
+        // If unit_inflow "ha*year" per tonnes convert tonnes to kg
+        // And convert "ha*year" to "m²*year"
+        if (recipe.unit_inflow === 'ha*year') {
+            recipe.unit_inflow = 'm²*year';
+            recipe.value_inflow = recipe.value_inflow * 10000;
+            recipe.value_emission = recipe.value_emission * 1000;
+        }
+
         rowMarkup = '<tr>';
         rowMarkup += '<td><a href=" ' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + recipe.flow_input + '</a></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
