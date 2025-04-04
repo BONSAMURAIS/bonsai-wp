@@ -111,6 +111,8 @@ jQuery(document).ready(function($){
 
         let chosenValues = adt_get_chosen_values();
 
+        console.log(jsonObject.title, jsonObject.flow_code, jsonObject.uuid, chosenValues);
+
         adt_get_product_info(jsonObject.title, jsonObject.flow_code, jsonObject.uuid, chosenValues);
     })
 
@@ -226,6 +228,9 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
                 jQuery('.error-message').slideDown('fast');
                 adt_show_search_results();
+                // Save product data even though an error occurred
+                // This is so the user can go try to search again with other country
+                localStorage.setItem("footprint_data", JSON.stringify(response.data));
                 return;
             } else {
                 jQuery('.error-message').slideUp('fast');
@@ -518,7 +523,7 @@ jQuery(document).ready(function($){
     });
 });
 
-function adt_update_comparison_info(dataArray = null)
+async function adt_update_comparison_info(dataArray = null)
 {
     localStorage.getItem("footprint_data");
 
@@ -529,120 +534,126 @@ function adt_update_comparison_info(dataArray = null)
         jQuery(this).attr('data-code', dataArray.flow_code);
     });
 
-    var element = '';
-    jQuery('.search-result .col:nth-child(2)').each(function() {
-        // This loops over the basic and advanced search result
-        element = jQuery(this);
-        jQuery(element).find('select.unit').empty();
+    for (const element of jQuery('.search-result .col:nth-child(2)')) {
+        let $element = jQuery(element);
+        $element.find('select.unit').empty();
 
-        jQuery(dataArray.all_data).each(function(i) {
-            let unit = 'kg';
+        jQuery(dataArray.all_data).each(function (i) {
+            let unit = dataArray.all_data[i].unit_reference;
 
-            if (dataArray.all_data[i].unit_reference === 'Meuro') {
-                unit = 'EUR';
-            } else if (dataArray.all_data[i].unit_reference === 'tonnes') {
-                unit = 'kg';
-            }
+            if (unit === 'Meuro') unit = 'EUR';
+            if (unit === 'tonnes') unit = 'kg';
+            if (unit === 'TJ' && !dataArray.all_data[i].description.includes('electricity')) unit = 'MJ';
+            if (unit === 'TJ' && dataArray.all_data[i].description.includes('electricity')) unit = 'kWh';
 
-            jQuery(element).attr('data-set-'+i, dataArray.all_data[i].id);
-            jQuery(element).find('select.unit').append('<option value="'+dataArray.all_data[i].unit_reference+'">'+unit+'</option>');
+            $element.attr('data-set-' + i, dataArray.all_data[i].id);
+            $element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
         });
 
-        let defualtValue = jQuery(element).find('select.unit').val();
+        let defaultUnit = $element.find('select.unit').val();
+        // Just let the first item be default instead of null
+        let valueForItems = dataArray.all_data[0].value;
+        let convertedValueForItems = null;
 
-        if (defualtValue === 'Meuro') {
-            let numberValueInCurrency = dataArray.all_data[1].value;
-            let formatted = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 4,
-                maximumFractionDigits: 4
-            }).format(numberValueInCurrency);
+        for (const item of dataArray.all_data) {
+            if (item.unit_reference === defaultUnit) {
+                valueForItems = item.value;
 
-            jQuery(element).find('.product-result').text(formatted);
+                if (item.unit_reference === 'TJ' && !item.description.includes('electricity')) {
+                    console.log('does not contain electricity');
+                    convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'MJ', valueForItems);
+                    item.value = convertedValueForItems;
+                }
+
+                if (item.unit_reference === 'TJ' && item.description.includes('electricity')) {
+                    console.log('ELECTRICITY is found');
+                    convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'kWh', valueForItems);
+                    item.value = convertedValueForItems;
+                }
+
+                break;
+            }
         }
 
-        if (defualtValue === 'tonnes') {
-            // Number in tonnes. It has to be converted to kg
-            let numberValueInWeight = dataArray.all_data[0].value;
-            // Overwriting Number with the new value in kg
-            let formatted = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 4,
-                maximumFractionDigits: 4
-            }).format(numberValueInWeight);
-
-            jQuery(element).find('.product-result').text(formatted);
-            jQuery(element).find('.product-result-unit').text('kg CO2eq');
+        if (convertedValueForItems) {
+            valueForItems = convertedValueForItems;
         }
 
-        let defaultValue = parseFloat(jQuery('.product-result', element).text());
+        let formatted = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 4,
+            maximumFractionDigits: 4
+        }).format(valueForItems);
 
-        jQuery(element).find('select.unit').on('change', function() {
+        $element.find('.product-result').text(formatted);
+        let defaultValue = parseFloat($element.find('.product-result').text());
+
+        $element.find('select.unit').on('change', function () {
             let chosenValue = jQuery(this).val();
 
-            // Reset number in .amount field when changing the unit
-            jQuery('.search-result .col:nth-child(2) .amount').each(function(){
-                jQuery(this).val('1');
-            });
-            
-            jQuery('.search-result .col:nth-child(2) select.unit').each(function(){
+            jQuery('.search-result .col:nth-child(2) .amount').val('1');
+            jQuery('.search-result .col:nth-child(2) select.unit').each(async function () {
                 jQuery(this).val(chosenValue);
-
                 let newElement = jQuery(this).closest('.col-inner');
 
-                if (chosenValue === 'Meuro') {
-                    let numberValueInCurrency = dataArray.all_data[1].value;
-                    let formatted = new Intl.NumberFormat('en-US', {
-                        minimumFractionDigits: 4,
-                        maximumFractionDigits: 4
-                    }).format(numberValueInCurrency);
+                for (const item of dataArray.all_data) {
+                    if (item.unit_reference === chosenValue) {
+                        valueForItems = item.value;
+                        // Can I change this number earlier in the flow?
+                        // Convert emission in tonnes per 1 million Euro to kg per 1 Euro
+                        if (chosenValue === 'Meuro') {
+                            // Instead of mulitplying by 1000, divide by 1000000
+                            // Then just divide by 1000 to get the value in kg
+                            // valueForItems = item.value / 1000;
+                        }
 
-                    let numberInput = jQuery('.amount', newElement).val();
-                    // console.log(numberInput);
-    
-                    jQuery(newElement).find('.product-result').text(formatted);
-                    defaultValue = parseFloat(jQuery('.product-result', newElement).text());
+                        break;
+                    }
                 }
-    
-                if (chosenValue === 'tonnes') {
-                    // Number in tonnes. It has to be converted to kg
-                    let numberValueInWeight = dataArray.all_data[0].value;
-                    // Overwriting Number with the new value in kg
-                    let formatted = new Intl.NumberFormat('en-US', {
-                        minimumFractionDigits: 4,
-                        maximumFractionDigits: 4
-                    }).format(numberValueInWeight);
 
-                    let numberInput = jQuery('.amount', newElement).val();
-                    // console.log(numberInput);
-    
-                    jQuery(newElement).find('.product-result').text(formatted);
-                    jQuery(newElement).find('.product-result-unit').text('kg CO2eq');
-                    defaultValue = parseFloat(jQuery('.product-result', newElement).text());
-                }
+                let formatted = new Intl.NumberFormat('en-US', {
+                    minimumFractionDigits: 4,
+                    maximumFractionDigits: 4
+                }).format(valueForItems);
+
+                jQuery(newElement).find('.product-result').text(formatted);
+                defaultValue = parseFloat(jQuery('.product-result', newElement).text());
             });
-
-            adt_update_recipe(dataArray, 'comparison', true);
         });
 
-        // This changes the number foreach input in the .amount field
-        jQuery('.amount', element).each(function() {
+        $element.find('.amount').each(function () {
             let inputElement = jQuery(this).closest('.col-inner');
 
-            jQuery('.amount', inputElement).on('input', function() {
-                let numberInput = jQuery(this).val();
-                let calculatedValue = defaultValue * numberInput;
-                
-                jQuery('.search-result .col:nth-child(2) .amount').each(function(){
-                    jQuery(this).val(numberInput);
-                });
+            jQuery('.amount', inputElement).on('input', function () {
+                let numberInput = parseInt(jQuery(this).val());
+                let maxNumber = parseInt(jQuery(this).attr('max'));
 
-                jQuery('.search-result .col:nth-child(2) .product-result').each(function(){
-                    jQuery(this).text(calculatedValue);
-                });
-                
-                adt_update_recipe(dataArray, 'comparison');
+                if (isNaN(numberInput) || numberInput <= 0) {
+                    numberInput = 0;
+                }
+
+                if (numberInput > maxNumber) {
+                    numberInput = maxNumber;
+                    jQuery(this).val(numberInput);
+                    jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
+                    setTimeout(() => {
+                        jQuery('.error-message').fadeOut(500, function() {
+                            jQuery(this).remove();
+                        });
+                    }, 2000);
+                }
+
+                let calculatedValue = defaultValue * numberInput;
+
+                let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
+                    minimumFractionDigits: 4,
+                    maximumFractionDigits: 4
+                }).format(calculatedValue);
+
+                jQuery('.search-result .col:nth-child(2) .amount').val(numberInput);
+                jQuery('.search-result .col:nth-child(2) .product-result').text(formattedCalculatedValue);
             });
         });
-    });
+    }
 
     adt_update_recipe(dataArray, 'comparison');
 }
