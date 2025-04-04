@@ -312,6 +312,10 @@ function adt_get_locations(): array
     // Extract locations from the response
     $locations = $result['results'];
 
+    usort($locations, function ($a, $b) {
+        return strcmp($a['name'], $b['name']);
+    });
+
     // Cache the locations for 1 hour (3600 seconds)
     set_transient('adt_locations_cache', $locations, 3600);
 
@@ -527,7 +531,7 @@ function adt_get_product_footprint()
                      * 
                      * The same goes for MJ but with another conversion rate
                      */
-                    if ( str_contains($footprint['description'], 'electricity') ) {
+                    if ( str_contains(strtolower($footprint['description']), 'electricity') ) {
                         $multiplier = adt_convert_number_by_units('TJ', 'kWh');
                         $footprint['value'] = $footprint['value'] / $multiplier * 1000;
                         $footprint['unit_reference'] = 'kWh';

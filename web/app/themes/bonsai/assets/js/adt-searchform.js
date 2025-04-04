@@ -454,7 +454,24 @@ async function adt_update_original_info(dataArray) {
             let inputElement = jQuery(this).closest('.col-inner');
 
             jQuery('.amount', inputElement).on('input', function () {
-                let numberInput = jQuery(this).val();
+                let numberInput = parseInt(jQuery(this).val());
+                let maxNumber = parseInt(jQuery(this).attr('max'));
+
+                if (isNaN(numberInput) || numberInput <= 0) {
+                    numberInput = 0;
+                }
+
+                if (numberInput > maxNumber) {
+                    numberInput = maxNumber;
+                    jQuery(this).val(numberInput);
+                    jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
+                    setTimeout(() => {
+                        jQuery('.error-message').fadeOut(500, function() {
+                            jQuery(this).remove();
+                        });
+                    }, 2000);
+                }
+
                 let calculatedValue = defaultValue * numberInput;
 
                 let formattedCalculatedValue = new Intl.NumberFormat('en-US', {

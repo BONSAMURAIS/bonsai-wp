@@ -233,7 +233,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                         <div class="unit-select-wrapper">
                             <label class="select" for="amount">
-                                <input type="number" id="amount" class="amount" value="1" max="999999" min="1">
+                                <input type="number" id="amount" class="amount" value="1" max="1000" min="1">
                                 <!-- <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                 </svg> -->

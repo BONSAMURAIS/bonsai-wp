@@ -697,6 +697,7 @@ div#initial-error-message {
     display: flex;
     gap: 10px;
     align-items: center;
+    position: relative;
     
     > * {
         flex: 1 1 33%;
