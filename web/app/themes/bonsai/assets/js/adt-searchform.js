@@ -228,7 +228,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
                 jQuery('.error-message').slideDown('fast');
                 adt_show_search_results();
-                console.log(response.data);
+                console.log('Combination not found in adt_get_product_info()');
                 // Save product data even though an error occurred
                 // This is so the user can go try to search again with other countries
                 // localStorage.setItem("footprint_data", JSON.stringify(response.data));
@@ -244,7 +244,6 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                 jQuery('.error-message').slideUp('fast');
             }
 
-            console.log(response.data);
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
             
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
@@ -262,6 +261,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
             }, 500); // 500ms = 0.5 second animation time
 
+            console.log('successfull run of adt_get_product_info()');
         },
         error: (response) => {
             // Request was throttled
@@ -361,8 +361,8 @@ function adt_change_data_set()
     });
 }
 
-async function adt_update_original_info(dataArray) {
-    localStorage.getItem("footprint_data");
+async function adt_update_original_info(dataArray) 
+{
     adt_update_tags('original');
 
     jQuery('.search-result .col:first-child p.product-title').each(function () {
@@ -527,8 +527,6 @@ jQuery(document).ready(function($){
 
 async function adt_update_comparison_info(dataArray = null)
 {
-    localStorage.getItem("footprint_data");
-
     adt_update_tags('comparison');
 
     jQuery('.search-result .col:nth-child(2) p.product-title').each(function() {
@@ -662,7 +660,6 @@ async function adt_update_comparison_info(dataArray = null)
 
 async function adt_update_recipe(dataArray, boxToUpdate)
 {
-    console.log(dataArray);
     let tableMarkup = '';
     let otherRowMarkup = '';
     let rowMarkup = '';
@@ -671,7 +668,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
     // Recipe return structure changed
     let recipeArray = dataArray.recipe.results;
 
-    jQuery.each(recipeArray, async function(_, recipe) {
+    for (const recipe of recipeArray) {
         // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
 
         // Convert to base64
@@ -680,10 +677,11 @@ async function adt_update_recipe(dataArray, boxToUpdate)
 
         // Add to URL
         const getParameter = `?data=${base64String}`;
+        let updatedInflow = '';
 
         // If unit_inflow "Meuro" per tonnes convert to Euro per kg
         if (recipe.unit_inflow === 'Meuro') {
-            recipe.value_inflow = recipe.value_inflow * 1000;
+            updatedInflow = recipe.value_inflow * 1000;
             recipe.value_emission = recipe.value_emission * 1000;
             recipe.unit_inflow = 'EUR';
         }
@@ -694,19 +692,32 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         }
 
         // If unit_inflow "TJ" per tonnes convert to MJ per kg
-        if (recipe.unit_inflow === 'TJ' && !recipe.flow_input.includes('electricity')) {
-            recipe.value_inflow = await adt_get_converted_number_by_units('TJ', 'MJ', recipe.value_inflow);
+        if (recipe.unit_inflow === 'TJ' && !recipe.flow_reference.includes('electricity')) {
+            updatedInflow = await adt_get_converted_number_by_units('TJ', 'MJ', recipe.value_inflow);
+            console.log(recipe.value_inflow);
             // from tonnes to kg
-            recipe.value_emission = recipe.value_emission * 1000;
+            recipe.value_emission = recipe.value_emission;
             recipe.unit_inflow = 'MJ';
+
+            // Wait for the conversion to complete before continuing
+            if (!updatedInflow) {
+            console.error('Conversion failed for TJ to MJ');
+            return;
+            }
         }
 
         // If unit_inflow "TJ" per tonnes with electricity convert to kWh per kg
-        if (recipe.unit_inflow === 'TJ' && recipe.flow_input.includes('electricity')) {
-            recipe.value_inflow = await adt_get_converted_number_by_units('TJ', 'kWh', recipe.value_inflow);
+        if (recipe.unit_inflow === 'TJ' && recipe.flow_reference.includes('electricity')) {
+            updatedInflow = await adt_get_converted_number_by_units('TJ', 'kWh', recipe.value_inflow);
             // from tonnes to kg
-            recipe.value_emission = recipe.value_emission * 1000;
+            recipe.value_emission = recipe.value_emission;
             recipe.unit_inflow = 'kWh';
+
+            // Wait for the conversion to complete before continuing
+            if (!updatedInflow) {
+            console.error('Conversion failed for TJ to kWh');
+            return;
+            }
         }
 
         // If unit_inflow "item" per tonnes just convert tonnes to kg
@@ -719,9 +730,11 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         // And convert "ha*year" to "m²*year"
         if (recipe.unit_inflow === 'ha*year') {
             recipe.unit_inflow = 'm²*year';
-            recipe.value_inflow = recipe.value_inflow * 10;
+            updatedInflow = recipe.value_inflow * 10;
             recipe.value_emission = recipe.value_emission;
         }
+
+        // console.log(recipe);
 
         rowMarkup = '<tr>';
         rowMarkup += '<td><a href=" ' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + recipe.flow_input + '</a></td>';
@@ -729,14 +742,14 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         rowMarkup += '<td class="input-flow">';
 
         if (recipe.value_inflow && recipe.value_inflow !== NaN) {
-            recipe.value_inflow = recipe.value_inflow.toFixed(5);
+            updatedInflow = recipe.value_inflow.toFixed(5);
         }
 
         if (recipe.value_emission && recipe.value_emission !== NaN) {
             recipe.value_emission = recipe.value_emission.toFixed(5);
         }
 
-        rowMarkup += '<span class="inflow-value">' + (recipe.value_inflow ? recipe.value_inflow : '') + '</span>';
+        rowMarkup += '<span class="inflow-value">' + (updatedInflow ? updatedInflow : '') + '</span>';
         rowMarkup += '<span class="inflow-unit">' + (recipe.unit_inflow || '') + '</span>';
 
         rowMarkup += '</td>';
@@ -748,26 +761,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         } else {
             tableMarkup += rowMarkup; // Append all other rows normally
         }
-
-        jQuery.ajax({
-            type: 'POST',
-            url: localize._ajax_url,
-            data: {
-                _ajax_nonce: localize._ajax_nonce,
-                action: 'adt_get_product_name_by_code',
-                code: recipe.flow_input,
-            },
-            beforeSend: function() {
-                
-            },
-            success: (response) => {
-                let productTitle = response.data;
-
-                jQuery('td a[data-code="'+recipe.flow_input+'"]').text(productTitle);
-            }
-        });
-        
-    });
+    };
 
     // Append "other" row at the end if it exists
     tableMarkup += otherRowMarkup;
@@ -776,7 +770,28 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         whichChild = 'nth-child(2)';
     }
 
+    // Display the table
     jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
+
+    // Convert the product code to product name
+    jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody tr').each(function(){
+        let productCode = jQuery(this).find('a').data('code');
+
+        jQuery.ajax({
+            type: 'POST',
+            url: localize._ajax_url,
+            data: {
+                _ajax_nonce: localize._ajax_nonce,
+                action: 'adt_get_product_name_by_code',
+                code: productCode,
+            },
+            success: (response) => {
+                let productTitle = response.data;
+
+                jQuery('td a[data-code="'+productCode+'"]').text(productTitle);
+            }
+        });
+    });
 
     adt_switch_between_recipe_items();
 }
@@ -1167,7 +1182,6 @@ function adt_get_converted_number_by_units(fromUnit, toUnit, number)
                 number: number,
             },
             success: (response) => {
-                console.log(response.data);
                 resolve(response.data);  // Resolve with the converted data
             },
             error: (error) => {
