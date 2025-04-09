@@ -106,14 +106,16 @@ jQuery(document).ready(function($){
     adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
     $('.co2-form-result #co2-form-result-header .select-wrapper select').on('change', function() {
-        let jsonObject = localStorage.getItem("footprint_data");
-        jsonObject = JSON.parse(jsonObject);
-
-        let chosenValues = adt_get_chosen_values();
-
-        console.log(jsonObject.title, jsonObject.flow_code, jsonObject.uuid, chosenValues);
-
-        adt_get_product_info(jsonObject.title, jsonObject.flow_code, jsonObject.uuid, chosenValues);
+        // Get last searched data instead, this does not always contain all data
+        let searchHistory = localStorage.getItem("adt_search_history");
+        if (searchHistory) {
+            searchHistory = JSON.parse(searchHistory);
+            if (searchHistory.length > 0) {
+                let chosenValues = adt_get_chosen_values();
+                let firstItem = searchHistory[0];
+                adt_get_product_info(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, chosenValues);
+            }
+        }
     })
 
     $('.most-popular-container ul li button').on('click', function() {
@@ -226,9 +228,10 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
                 jQuery('.error-message').slideDown('fast');
                 adt_show_search_results();
+                console.log(response.data);
                 // Save product data even though an error occurred
                 // This is so the user can go try to search again with other countries
-                localStorage.setItem("footprint_data", JSON.stringify(response.data));
+                // localStorage.setItem("footprint_data", JSON.stringify(response.data));
                 return;
             } else {
                 jQuery('.error-message').slideUp('fast');
@@ -240,7 +243,8 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             } else {
                 jQuery('.error-message').slideUp('fast');
             }
-            
+
+            console.log(response.data);
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
             
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
@@ -715,8 +719,8 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         // And convert "ha*year" to "m²*year"
         if (recipe.unit_inflow === 'ha*year') {
             recipe.unit_inflow = 'm²*year';
-            recipe.value_inflow = recipe.value_inflow * 10000;
-            recipe.value_emission = recipe.value_emission * 1000;
+            recipe.value_inflow = recipe.value_inflow * 10;
+            recipe.value_emission = recipe.value_emission;
         }
 
         rowMarkup = '<tr>';
