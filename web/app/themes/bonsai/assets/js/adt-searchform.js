@@ -417,8 +417,8 @@ async function adt_update_original_info(dataArray)
         }
 
         let formatted = new Intl.NumberFormat('en-US', {
-            minimumFractionDigits: 4,
-            maximumFractionDigits: 4
+            minimumFractionDigits: 3,
+            maximumFractionDigits: 3
         }).format(valueForItems);
         
         $element.find('.product-result').text(formatted);

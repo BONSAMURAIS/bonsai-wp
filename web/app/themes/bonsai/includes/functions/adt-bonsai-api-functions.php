@@ -519,7 +519,7 @@ function adt_get_product_footprint()
                      * To get 1 item per 1 kg emission
                      * I need to multiply by 1000
                      */
-                    // $footprint['value'] = $footprint['value'] * 1000;
+                    $footprint['value'] = $footprint['value'] * 1000;
                     break;
 
                 case 'TJ':
