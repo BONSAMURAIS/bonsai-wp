@@ -35,7 +35,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <div class="switch-field-container">
                             <input type="radio" id="radio-one" name="switch-one" value="product" checked/>
                             <label for="radio-one">Product</label>
-                            <input type="radio" id="radio-two" name="switch-one" value="person" disabled/>
+                            <input type="radio" id="radio-two" name="switch-one" value="person"/>
                             <label for="radio-two">Person</label>
                         </div>
                     </div>
@@ -71,6 +71,51 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
             </div>
 
+            <!-- Per person -->
+            <div class="row person-choices" style="display: none;">
+                <div class="select-wrapper col medium-12 small-12 large-12">
+                    <div class="medium-6 small-12 large-6">
+                        <div class="tooltip">
+                            <a href="#info-household-composition">
+                                Household composition
+                            </a>
+                            <?= do_shortcode('[lightbox id="info-household-composition" width="600px" padding="20px"][block id="household-composition-info-popup"][/lightbox]') ?>
+                        </div>
+                        <label class="select" for="household-composition">
+                            <select id="household-composition">
+                                <option value="average-person">Average Person</option>
+                                <option value="pensioner" disabled>Pensioner</option>
+                                <option value="couple-with-kids" disabled>Couple with kids</option>
+                                <option value="couple-without-kids" disabled>Couple without kids</option>
+                                <option value="single" disabled>Single (with and without kids)</option>
+                            </select>
+                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                            </svg>
+                        </label>
+                    </div>
+                    <div class="medium-6 small-12 large-6">
+                        <div class="tooltip">
+                            <a href="#info-income-group">
+                                Income group
+                            </a>
+                            <?= do_shortcode('[lightbox id="info-income-group" width="600px" padding="20px"][block id="income-group-info-popup"][/lightbox]') ?>
+                        </div>
+                        <label class="select" for="income-group">
+                            <select id="income-group">
+                                <option value="average-income-group">Average income group</option>
+                                <option value="five-specific" disabled>5 specific income groups (ranging from
+                                20% poorest to 20% richest)</option>
+                            </select>
+                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                            </svg>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Per product -->
             <div class="search-input-wrapper">
                 <input class="search" type="text" id="autocomplete-input" placeholder="Find climate footprint by product">
                 <button>
@@ -98,8 +143,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <option value="<?php echo $product['title']; ?>">
                     <?php endforeach; ?>
                 </datalist>
-
-                
             </div>
         </form>
         <div class="most-popular-wrapper">
@@ -140,7 +183,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
                 <div class="row">
                     <div class="select-wrapper col medium-12 small-12 large-12">
-                        <div>
+                        <div class="medium-4 small-12 large-4">
                             <div class="tooltip">
                                 <a href="#info-location">
                                     Location
@@ -159,7 +202,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </label>
                         </div>
                         
-                        <div>
+                        <div class="medium-4 small-12 large-4">
                             <div class="tooltip">
                                 <a href="#info-year">
                                     Year
@@ -176,7 +219,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </label>    
                         </div>
 
-                        <div>
+                        <div class="medium-4 small-12 large-4">
                             <div class="tooltip">
                                 <a href="#info-climate-metric">
                                     Climate metric
