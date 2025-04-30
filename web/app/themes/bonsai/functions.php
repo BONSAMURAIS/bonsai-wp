@@ -12,6 +12,8 @@ require_once "includes/functions/adt-search-functions.php";
 require_once "includes/functions/adt-footprint-functions.php";
 require_once "includes/functions/adt-share-functions.php";
 require_once "includes/functions/adt-person-functions.php";
+require_once "includes/functions/adt-gravityforms-functions.php";
+require_once "includes/functions/adt-download-display-functions.php";
 
 // Shortcodes
 require_once "includes/shortcodes/adt-navigation-shortcode.php";

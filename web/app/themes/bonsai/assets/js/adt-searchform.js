@@ -18,7 +18,8 @@ jQuery(document).ready(function($){
                 $('.person-choices').toggle();
                 // Get data from the API
                 // https://lca.aau.dk/api/footprint-country/
-                adt_get_person_footprint('dk');
+                let countryCode = $('#location').val();
+                adt_get_person_footprint(countryCode);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
                 $('#footprint-type .radio-choice').each(function(){
@@ -440,8 +441,6 @@ async function adt_update_original_info(dataArray)
 {
     adt_update_tags('original');
 
-    console.log(dataArray.all_data);
-    
     jQuery('.search-result .col:first-child p.product-title').each(function () {
         if (!dataArray.all_data) {
             jQuery(this).text('Emission per person');
@@ -461,8 +460,6 @@ async function adt_update_original_info(dataArray)
         if (!dataArray.all_data) {
             $element.find('select.unit').append(`<option value="tonnes">Tonnes</option>`);
             $element.find('.product-result-unit').text(dataArray.unit_emission);
-
-            console.log(dataArray);
 
             // Just let the first item be default instead of null
             let valueForItems = dataArray.value;
@@ -758,6 +755,10 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         // Convert to base64
         const jsonString = JSON.stringify(recipe);
         const base64String = btoa(jsonString);  // base64 encode
+        
+        if (recipe.flow_input !== undefined) {
+            recipe.flow_input = recipe.act_code;
+        }
 
         // Add to URL
         const getParameter = `?data=${base64String}`;
@@ -778,7 +779,6 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         // If unit_inflow "TJ" per tonnes convert to MJ per kg
         if (recipe.unit_inflow === 'TJ' && !recipe.flow_reference.includes('electricity')) {
             updatedInflow = await adt_get_converted_number_by_units('TJ', 'MJ', recipe.value_inflow);
-            console.log(recipe.value_inflow);
             // from tonnes to kg
             recipe.value_emission = recipe.value_emission;
             recipe.unit_inflow = 'MJ';
@@ -817,8 +817,6 @@ async function adt_update_recipe(dataArray, boxToUpdate)
             updatedInflow = recipe.value_inflow * 10;
             recipe.value_emission = recipe.value_emission;
         }
-
-        // console.log(recipe);
 
         rowMarkup = '<tr>';
         rowMarkup += '<td><a href=" ' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + recipe.flow_input + '</a></td>';
@@ -1076,7 +1074,6 @@ function adt_save_search_history_on_click(data)
             
         },
         success: (response) => {
-            console.log(response);
             if (!response.success) {
                 return;
             }

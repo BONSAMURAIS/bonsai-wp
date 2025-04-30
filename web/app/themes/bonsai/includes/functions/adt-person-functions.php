@@ -66,7 +66,7 @@ function adt_get_person_footprint()
     }
 
     // Using key offset to test
-    $recipeData = adt_get_product_recipe($chosenFootprint[0]['act_code'], $chosenCountry, $newestVersion);
+    $recipeData = adt_get_person_footprint_recipe($chosenFootprint[0]['act_code'], $chosenCountry, $newestVersion);
 
     $data = [
         'id' => $chosenFootprint[0]['id'],
@@ -90,3 +90,35 @@ function adt_get_person_footprint()
 
 add_action('wp_ajax_adt_get_person_footprint', 'adt_get_person_footprint');
 add_action('wp_ajax_nopriv_adt_get_person_footprint', 'adt_get_person_footprint');
+
+
+function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersion): array
+{
+    // Example:
+    // https://lca.aau.dk/api/recipes-country/?act_code=F_GOVE&region_code=AU
+    // And version is not used yet.
+    $url = 'https://lca.aau.dk/api/recipes-country/?act_code='.$actCode.'&region_code='.$chosenCountry;
+
+    // Make the API request
+    $recipeResponse = wp_remote_get($url);
+
+    // Check for errors
+    if (is_wp_error($recipeResponse)) {
+        return [
+            'error' => $recipeResponse->get_error_message()
+        ];
+    }
+    
+    // Retrieve and decode the recipeResponse body
+    $recipeBody = wp_remote_retrieve_body($recipeResponse);
+    $recipeResult = json_decode($recipeBody, true);
+
+    // Handle potential errors in the recipeResponse
+    if (empty($recipeResult)) {
+        return [
+            'error' => 'No recipes found or an error occurred.'
+        ];
+    }
+
+    return $recipeResult;
+}
