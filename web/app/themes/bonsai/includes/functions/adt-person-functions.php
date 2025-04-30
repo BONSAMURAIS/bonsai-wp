@@ -17,7 +17,7 @@ function adt_get_person_footprint()
     //     }
     // }
 
-    // API URL
+    // API URL - does not work with region_code yet
     $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry;
 
     // Make the API request

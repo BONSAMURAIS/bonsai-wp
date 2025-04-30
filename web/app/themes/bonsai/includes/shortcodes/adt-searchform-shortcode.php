@@ -346,7 +346,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <p class="product-result-unit">kg CO2eq</p>
                             </div>
                         </div>
-                        <p class="big-font">Where do emissions for 1kg come from?</p>
+                        <p class="big-font emission-message">Where do emissions for 1kg come from?</p>
 
                         <table class="emissions-table">
                             <thead>
@@ -354,7 +354,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     <th>Inputs</th> <!-- flow_input -->
                                     <th>Country</th> <!-- region_inflow -->
                                     <th>Input</th> <!-- value_inflow + unit_inflow -->
-                                    <th>Emissions<span>[kg CO2eq]</span></th> <!-- value_emission + unit_emission -->
+                                    <th>Emissions<span class="emission-header-unit">[kg CO2eq]</span></th> <!-- value_emission + unit_emission -->
                                 </tr>
                             </thead>
                             <tbody>

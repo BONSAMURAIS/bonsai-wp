@@ -29,6 +29,8 @@ jQuery(document).ready(function($){
                 $('.most-popular-wrapper').toggle();
                 $('.search-input-wrapper').toggle();
                 $('.person-choices').toggle();
+
+
             }
         }
     });
@@ -118,15 +120,22 @@ jQuery(document).ready(function($){
     adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
     $('.co2-form-result #co2-form-result-header .select-wrapper select').on('change', function() {
-        // Get last searched data instead, this does not always contain all data
-        let searchHistory = localStorage.getItem("adt_search_history");
-        if (searchHistory) {
-            searchHistory = JSON.parse(searchHistory);
-            if (searchHistory.length > 0) {
-                let chosenValues = adt_get_chosen_values();
-                let firstItem = searchHistory[0];
-                adt_get_product_info(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, chosenValues);
+        if ($('input[name="switch-one"]').val() === 'product') {
+            adt_get_person_footprint($('#location').val());
+        } else {
+
+            // Get last searched data instead, this does not always contain all data
+            let searchHistory = localStorage.getItem("adt_search_history");
+            if (searchHistory) {
+                searchHistory = JSON.parse(searchHistory);
+                if (searchHistory.length > 0) {
+    
+                    let chosenValues = adt_get_chosen_values();
+                    let firstItem = searchHistory[0];
+                    adt_get_product_info(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, chosenValues);
+                }
             }
+
         }
     })
 
@@ -243,7 +252,7 @@ function adt_get_person_footprint(regionCode)
             }
             
             // Error message
-            if (response.data && !response.data.title) {
+            if (response.data && !response.data.title && !response.data.act_code) {
                 jQuery('.error-message').slideDown('fast');
             } else {
                 jQuery('.error-message').slideUp('fast');
@@ -441,6 +450,8 @@ async function adt_update_original_info(dataArray)
 {
     adt_update_tags('original');
 
+    console.log(dataArray);
+
     jQuery('.search-result .col:first-child p.product-title').each(function () {
         if (!dataArray.all_data) {
             jQuery(this).text('Emission per person');
@@ -459,6 +470,7 @@ async function adt_update_original_info(dataArray)
         
         if (!dataArray.all_data) {
             $element.find('select.unit').append(`<option value="tonnes">Tonnes</option>`);
+
             $element.find('.product-result-unit').text(dataArray.unit_emission);
 
             // Just let the first item be default instead of null
@@ -474,6 +486,10 @@ async function adt_update_original_info(dataArray)
         }
 
         if (dataArray.all_data) {
+            $element.find('.product-result-unit').text('kg CO2eq');
+            jQuery('.emission-message').text('Where do emissions for 1 kg come from?');
+            jQuery('.emission-header-unit').text('[kg CO2eq]');
+
             jQuery(dataArray.all_data).each(function (i) {
                 let unit = dataArray.all_data[i].unit_reference;
 
@@ -755,9 +771,19 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         // Convert to base64
         const jsonString = JSON.stringify(recipe);
         const base64String = btoa(jsonString);  // base64 encode
-        
-        if (recipe.flow_input !== undefined) {
-            recipe.flow_input = recipe.act_code;
+
+        if (recipe.flow_input === undefined) {
+            recipe.flow_input = recipe.product_code;
+            jQuery('.emission-message').text('Where do emissions for 1 tonnes come from?');
+            jQuery('.emission-header-unit').text('[Tonnes CO2eq]');
+        }
+
+        if (recipe.region_inflow === undefined) {
+            recipe.region_inflow = recipe.region_code;
+        }
+
+        if (recipe.value_emission === undefined) {
+            recipe.value_emission = recipe.value;
         }
 
         // Add to URL
@@ -873,6 +899,30 @@ async function adt_update_recipe(dataArray, boxToUpdate)
                 jQuery('td a[data-code="'+productCode+'"]').text(productTitle);
             }
         });
+    });
+
+    // Add sorting functionality to table headers
+    jQuery('.search-result > .col:' + whichChild + ' .emissions-table thead th').on('click', function () {
+        const $header = jQuery(this);
+        const columnIndex = $header.index();
+        const $table = $header.closest('table');
+        const $rows = $table.find('tbody tr').toArray();
+
+        const isAscending = $header.hasClass('ascending');
+        $header.toggleClass('ascending', !isAscending).toggleClass('descending', isAscending);
+        $header.siblings().removeClass('ascending descending');
+
+        $rows.sort((a, b) => {
+            const cellA = jQuery(a).find('td').eq(columnIndex).text().trim();
+            const cellB = jQuery(b).find('td').eq(columnIndex).text().trim();
+
+            const valueA = parseFloat(cellA.replace(/[^0-9.-]+/g, '')) || 0;
+            const valueB = parseFloat(cellB.replace(/[^0-9.-]+/g, '')) || 0;
+
+            return isAscending ? valueA - valueB : valueB - valueA;
+        });
+
+        $table.find('tbody').append($rows);
     });
 
     adt_switch_between_recipe_items();
