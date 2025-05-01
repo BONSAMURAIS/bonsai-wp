@@ -153,6 +153,26 @@ label, legend {
     font-weight: 400;
 }
 
+ .row {
+    &.border {
+        border: 1px solid #eaeaea;
+        padding: 15px;
+        margin-bottom: 5px;
+        border-radius: 10px;
+
+        @media only screen and (max-width: 468px) {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .col-inner {
+            p, a {
+                margin: 0;
+            }
+        }
+    }
+ }
+
 @media only screen and (max-width: 468px) {
     .mobile-right {
         float: right;
