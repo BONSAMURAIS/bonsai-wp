@@ -120,7 +120,9 @@ jQuery(document).ready(function($){
     adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
     $('.co2-form-result #co2-form-result-header .select-wrapper select').on('change', function() {
-        if ($('input[name="switch-one"]').val() === 'product') {
+        let selectedValue = $('input[name="switch-one"]:checked').val();
+        
+        if (selectedValue === 'person') {
             adt_get_person_footprint($('#location').val());
         } else {
 
@@ -469,7 +471,7 @@ async function adt_update_original_info(dataArray)
         let defaultValue = 0;
         
         if (!dataArray.all_data) {
-            $element.find('select.unit').append(`<option value="tonnes">Tonnes</option>`);
+            $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
 
             $element.find('.product-result-unit').text(dataArray.unit_emission);
 
