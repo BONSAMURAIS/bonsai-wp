@@ -269,11 +269,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <div class="uncertainty-bar">
                     <div class="uncertainty-bar-background">
                         <div class="uncertainty-bar-fill" style="width: 10%; background-color: green"></div>
-
-                        </div>
                     </div>
                 </div>
-            
             </div>
             <div class="row align-equal search-result basic" style="display: flex;">
                 <div class="col medium-6 small-12 large-6">
