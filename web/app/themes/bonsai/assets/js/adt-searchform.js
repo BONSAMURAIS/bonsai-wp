@@ -609,6 +609,7 @@ jQuery(document).ready(function($){
             $('a:has(.add)').closest('.col').css('display', 'none');
 
             $('.adt-close').click(function(){
+                $('.uncertainty-wrapper').slideUp();
                 $('.adt-close').each(function(){
                     $(this).closest('.col').remove();
                 });
@@ -621,6 +622,9 @@ jQuery(document).ready(function($){
         
         adt_download_recipe_csv();
         adt_update_comparison_info(footprintData);
+
+        // Also set a new local storage item, to save the data of the original footprint chosen
+        localStorage.setItem("footprint_original_state_data", localStorage.getItem("footprint_data"));
     });
 });
 
@@ -657,6 +661,21 @@ async function adt_update_comparison_info(dataArray = null)
         for (const item of dataArray.all_data) {
             if (item.unit_reference === defaultUnit) {
                 valueForItems = item.value;
+
+                // The original data is saved because it's needed for the uncertainty calculation
+                let originalDataArray = JSON.parse(localStorage.getItem("footprint_original_state_data"));
+                let originalSample = [];
+
+                for (const originalItem of originalDataArray.all_data) {
+                    if (originalItem.unit_reference === defaultUnit) {
+                        originalSample = originalItem.samples;
+                    }
+                }
+
+                let comparisonSample = item.samples;
+
+                // Because comparison is active also get the uncertainty of the comparison
+                adt_uncertainty_calculation(originalSample, comparisonSample);
 
                 if (item.unit_reference === 'TJ' && !item.description.includes('electricity')) {
                     console.log('does not contain electricity');
@@ -1321,5 +1340,50 @@ function adt_get_converted_number_by_units(fromUnit, toUnit, number)
                 reject(error);  // Reject if there is an error
             }
         });
+    });
+}
+
+function adt_uncertainty_calculation(original, comparison)
+{
+    jQuery.ajax({
+        type: 'POST',
+        url: localize._ajax_url,
+        data: {
+            _ajax_nonce: localize._ajax_nonce,
+            action: 'adt_probability_a_greater_b',
+            original: original,
+            comparison: comparison,
+        },
+        beforeSend: function() {
+            
+        },
+        success: (response) => {
+            // Handle creation of HTML element here
+            if (!response.data) {
+                console.log('now uncertainty data');
+                return;
+            }
+            
+            // Because comparison is active also get the uncertainty of the comparison
+            let numberUncertainty = response.data;
+            // convert number to percentage
+            numberUncertainty = parseFloat(numberUncertainty) * 100;
+
+            jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('width', numberUncertainty+'%');
+
+            jQuery('.uncertainty-wrapper').slideDown();
+
+            if (numberUncertainty < 20) {
+                jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('background-color', '#EB594E');
+            }
+
+            if (numberUncertainty > 20 && numberUncertainty < 80) {
+                jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('background-color', '#F5DA5A');
+            }
+
+            if (numberUncertainty > 80) {
+                jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('background-color', '#C3F138');
+            }
+        }
     });
 }

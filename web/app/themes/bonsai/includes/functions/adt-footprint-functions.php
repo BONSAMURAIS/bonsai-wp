@@ -153,3 +153,28 @@ function adt_get_converted_number_ajax()
 
 add_action('wp_ajax_adt_get_converted_number_ajax', 'adt_get_converted_number_ajax');
 add_action('wp_ajax_nopriv_adt_get_converted_number_ajax', 'adt_get_converted_number_ajax');
+
+
+function adt_probability_a_greater_b()
+{    
+    $A = $_POST['original'];
+    $B = $_POST['comparison'];
+
+    $count = 0;
+    $total = count($A) * count($B);
+
+    foreach ($A as $a) {
+        foreach ($B as $b) {
+            if ($a > $b) {
+                $count += 1;
+            }
+        }
+    }
+
+    $result = $count / $total;
+
+    wp_send_json_success($result);
+}
+
+add_action('wp_ajax_adt_probability_a_greater_b', 'adt_probability_a_greater_b');
+add_action('wp_ajax_nopriv_adt_probability_a_greater_b', 'adt_probability_a_greater_b');
