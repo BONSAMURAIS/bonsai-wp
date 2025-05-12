@@ -9,7 +9,7 @@ function adt_get_footprint_data_batch(int $page): array {
     echo $page;
     
     $body = wp_remote_retrieve_body($response);
-    var_dump($body);
+
     return json_decode($body, true)['results'] ?? [];
 }
 
