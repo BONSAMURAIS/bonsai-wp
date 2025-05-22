@@ -183,7 +183,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
                 <div class="row">
                     <div class="select-wrapper col medium-12 small-12 large-12">
-                        <div class="medium-4 small-12 large-4">
+                        <div class="medium-6 small-12 large-3">
                             <div class="tooltip">
                                 <a href="#info-location">
                                     Location
@@ -202,7 +202,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </label>
                         </div>
                         
-                        <div class="medium-4 small-12 large-4">
+                        <div class="medium-6 small-12 large-3">
                             <div class="tooltip">
                                 <a href="#info-year">
                                     Year
@@ -219,7 +219,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </label>    
                         </div>
 
-                        <div class="medium-4 small-12 large-4">
+                        <div class="medium-6 small-12 large-3">
                             <div class="tooltip">
                                 <a href="#info-climate-metric">
                                     Climate metric
@@ -229,6 +229,23 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <label class="select" for="climate-metric">
                                 <select id="climate-metric">
                                     <option value="gwp100">GWP100</option>
+                                </select>
+                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                                </svg>
+                            </label>    
+                        </div>
+                        <div class="medium-6 small-12 large-3">
+                            <div class="tooltip">
+                                <a href="#info-database-version">
+                                    Database version
+                                </a>
+                                <?= do_shortcode('[lightbox id="info-database-version" width="600px" padding="20px"][block id="database-version-info-popup"][/lightbox]') ?>
+                            </div>
+                            <label class="select" for="database-version">
+                                <select id="database-version">
+                                    <option value="v1.1.0">v1.1.0</option>
+                                    <option value="v1.0.0">v1.0.0</option>
                                 </select>
                                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
@@ -281,6 +298,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <span class="product-tag country">Australia</span>
                             <span class="product-tag year">2016</span>
                             <span class="product-tag climate-metrics">GWP100</span>
+                            <span class="product-tag version">v.1.1.0</span>
                         </div>
                         <div class="unit-select-wrapper">
                             <label class="select" for="amount">
@@ -327,7 +345,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     <span class="product-tag footprint-type">Cradle To Gate</span>
                                     <span class="product-tag country">Australia</span>
                                     <span class="product-tag year">2016</span>
-                                    <span class="product-tag">GWP100</span>
+                                    <span class="product-tag climate-metrics">GWP100</span>
+                                    <span class="product-tag version">v.1.1.0</span>
                                 </div>
                                 <div class="unit-select-wrapper">
                                     <label class="select" for="amount">

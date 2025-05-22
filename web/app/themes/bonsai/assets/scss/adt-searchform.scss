@@ -596,6 +596,10 @@ div#initial-error-message {
 
         .product-tag-wrapper {
             margin-bottom: 30px;
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            width: 85%;
         }
     }
 

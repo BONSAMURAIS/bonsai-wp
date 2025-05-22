@@ -416,13 +416,18 @@ function adt_get_product_footprint()
     $chosenType = $_POST['footprint_type'];
     // Everything if from year 2016, but this might get updated.
     $chosenYear = $_POST['footprint_year'];
+    $version = $_POST['database_version'];
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
     
     // If cache exists, return the cached data
     if ($cachedFootprints !== false) {
-        if (array_key_exists($productCode, $cachedFootprints) && $cachedFootprints[$productCode]['chosen_country'] === $chosenCountry) {
+        if (
+            array_key_exists($productCode, $cachedFootprints) 
+            && $cachedFootprints[$productCode]['chosen_country'] === $chosenCountry
+            && $cachedFootprints[$productCode]['version'] === $version
+            ) {
             wp_send_json_success($cachedFootprints[$productCode]);
             die();
         }
@@ -467,6 +472,10 @@ function adt_get_product_footprint()
 
     $newestVersion = adt_get_newest_version($versionArray);
 
+    if ($version) {
+        $newestVersion = $version;
+    }
+
     // Get the footprint with the newest version
     $chosenFootprint = [];
 
@@ -494,9 +503,9 @@ function adt_get_product_footprint()
                     $footprint['value'] = $footprint['value'] / 1000;
 
                     /* To get 1 DKK per 1 kg emission
-                     * I need to multiply by the conversion rate
+                     * I need to divide by the conversion rate
                      */
-                    $danishValue = $footprint['value'] * $conversionRate;
+                    $danishValue = $footprint['value'] / $conversionRate;
 
                     // Footprint with DKK as unit
                     $danishFootprint = [
@@ -560,6 +569,7 @@ function adt_get_product_footprint()
         'flow_code' => $productCode,
         'chosen_country' => $chosenCountry,
         'uuid' => $productUuid,
+        'version' => $newestVersion,
         'all_data' => $chosenFootprint,
         'recipe' => $recipeData,
     ];

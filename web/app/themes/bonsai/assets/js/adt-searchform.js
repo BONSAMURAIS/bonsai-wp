@@ -161,6 +161,7 @@ jQuery(document).ready(function($){
         let country = $('.search-result > .col:first-child .product-tag.country').attr('data-country');
         let year = $('.search-result > .col:first-child .product-tag.year').attr('data-year');
         let climateMetrics = $('.search-result > .col:first-child .product-tag.climate-metrics').attr('data-climate-metrics');
+        let databaseVersion = $('.search-result > .col:first-child .product-tag.version').attr('data-database-version');
         let chosenAmount = $('.search-result > .col:first-child #amount').val();
         let chosenUnit = $('.search-result > .col:first-child #unit').val();
 
@@ -177,6 +178,7 @@ jQuery(document).ready(function($){
         let countryCompare = '';
         let yearCompare = '';
         let climateMetricsCompare = '';
+        let databaseVersionCompare = '';
         let chosenAmountCompare = '';
         let chosenUnitCompare = '';
 
@@ -186,6 +188,7 @@ jQuery(document).ready(function($){
             countryCompare = $('.search-result > .col:nth-child(2) .product-tag.country').attr('data-country');
             yearCompare = $('.search-result > .col:nth-child(2) .product-tag.year').attr('data-year');
             climateMetricsCompare = $('.search-result > .col:nth-child(2) .product-tag.climate-metrics').attr('data-climate-metrics');
+            databaseVersionCompare = $('.search-result > .col:nth-child(2) .product-tag.version').attr('data-database-version');
             chosenAmountCompare = $('.search-result > .col:nth-child(2) #amount').val();
             chosenUnitCompare = $('.search-result > .col:nth-child(2) #unit').val();
         }
@@ -199,6 +202,7 @@ jQuery(document).ready(function($){
             footprint_country: country,
             footprint_year: year,
             footprint_climate_metrics: climateMetrics,
+            databaseVersion: databaseVersion,
             amount_chosen: chosenAmount,
             unit_chosen: chosenUnit,
             title_compared: productTitleCompare,
@@ -301,6 +305,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             footprint_location: chosenValues['footprint_location'],
             footprint_type: chosenValues['footprint_type'],
             footprint_year: chosenValues['footprint_year'],
+            database_version: chosenValues['database_version'],
         },
         beforeSend: function() {
             jQuery('#autocomplete-input').after('<div class="loading"></div>');
@@ -370,6 +375,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             footprint_location: chosenValues['footprint_location'],
             footprint_type: chosenValues['footprint_type'],
             footprint_year: chosenValues['footprint_year'],
+            database_version: chosenValues['database_version'],
         },
         beforeSend: function() {
             
@@ -388,6 +394,7 @@ function adt_get_chosen_values()
     chosenArray['footprint_type'] = jQuery('#footprint-type input[name="footprint_type"]').val(); 
     chosenArray['footprint_location'] = jQuery('#location').val();
     chosenArray['footprint_year'] = jQuery('#year').val();
+    chosenArray['database_version'] = jQuery('#database-version').val();
 
     return chosenArray;
 }
@@ -406,6 +413,7 @@ function adt_update_tags(boxToUpdate)
     let year = jQuery('#year option:selected').text();
     let climateMetrics = jQuery('#climate-metric option:selected').text();
     let climateMetricsVal = jQuery('#climate-metric').val();
+    let databaseVersion = jQuery('#database-version option:selected').text();
     
     let whichChild = ':first-child';
     
@@ -431,6 +439,11 @@ function adt_update_tags(boxToUpdate)
     jQuery('.search-result > .col'+whichChild+' .product-tag.climate-metrics').each(function() {
         jQuery(this).text(climateMetrics);
         jQuery(this).attr('data-climate-metrics', climateMetricsVal);
+    });
+
+    jQuery('.search-result > .col'+whichChild+' .product-tag.version').each(function() {
+        jQuery(this).text(databaseVersion);
+        jQuery(this).attr('data-database-version', databaseVersion);
     });
 }
 
@@ -1097,6 +1110,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
             footprint_location: chosenValuesArray['footprint_location'],
             footprint_type: chosenValuesArray['footprint_type'],
             footprint_year: chosenValuesArray['footprint_year'],
+            database_version: chosenValuesArray['database_version'],
         };
 
         const jsonString = JSON.stringify(allData);
@@ -1265,6 +1279,7 @@ function adt_get_product_by_encoded_string()
     chosenValues['footprint_location'] = obj.footprint_location;
     chosenValues['footprint_type'] = obj.footprint_type;
     chosenValues['footprint_year'] = obj.footprint_year;
+    chosenValues['database_version'] = obj.database_version;
 
     adt_get_product_info(obj.title, obj.code, obj.uuid, chosenValues);
 }
