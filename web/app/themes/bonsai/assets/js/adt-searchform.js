@@ -1,7 +1,7 @@
 jQuery(document).ready(function($){
     $('.co2-form input[name="switch-one"]').on('change', function(){
         let isChecked = $(this).is(':checked');
-
+        
         if (isChecked) {
             let value = $(this).val();
 
@@ -12,7 +12,7 @@ jQuery(document).ready(function($){
                 $('#footprint-type .radio-choice').each(function(){
                     $(this).toggle();
                 });
-
+                
                 $('.most-popular-wrapper').toggle();
                 $('.search-input-wrapper').toggle();
                 $('.person-choices').toggle();
@@ -29,8 +29,6 @@ jQuery(document).ready(function($){
                 $('.most-popular-wrapper').toggle();
                 $('.search-input-wrapper').toggle();
                 $('.person-choices').toggle();
-
-
             }
         }
     });
@@ -83,6 +81,10 @@ jQuery(document).ready(function($){
     // If user chooses to change footprint type then get new data
     $('#footprint-type input[name="footprint_type"]').on('change', function() {
         chosenFootprintType = $(this).val();
+        
+        jQuery('.co2-form-result').slideUp('slow', function(){
+            jQuery('.co2-form-wrapper .text-center:has(.divider)').hide();
+        });
 
         productTitleArray = [];
         productContentArray = [];
@@ -115,6 +117,8 @@ jQuery(document).ready(function($){
         jQuery('#autocomplete-input').val('');
 
         adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
+        // also update the product chosen.
+        adt_update_tags('original');
     });
 
     adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
@@ -285,6 +289,8 @@ function adt_get_person_footprint(regionCode)
             jQuery('html, body').animate({
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
             }, 500); // 500ms = 0.5 second animation time
+            
+            adt_update_tags('original');
 
             console.log('successfull run of adt_get_person_footprint()');
         },
@@ -413,6 +419,10 @@ function adt_update_tags(boxToUpdate)
     
     if (typeValue === 'market') {
         type = 'Cradle to consumer';
+    }
+
+    if (typeValue === 'grave') {
+        type = 'Cradle to grave';
     }
 
     let country = jQuery('#location option:selected').text();
