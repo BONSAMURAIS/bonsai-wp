@@ -131,14 +131,15 @@ jQuery(document).ready(function($){
             if (searchHistory) {
                 searchHistory = JSON.parse(searchHistory);
                 if (searchHistory.length > 0) {
-    
                     let chosenValues = adt_get_chosen_values();
                     let firstItem = searchHistory[0];
                     adt_get_product_info(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, chosenValues);
+                    adt_push_parameter_to_url(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, chosenValues);
                 }
             }
-
+            
         }
+        
     })
 
     $('.most-popular-container ul li button').on('click', function() {
@@ -222,7 +223,13 @@ jQuery(document).ready(function($){
     });
 
     adt_initialize_local_search_history();
-    adt_get_product_by_encoded_string();
+
+    const params = new URLSearchParams(window.location.search);
+    const base64String = params.get('data');
+
+    if (base64String) {
+        adt_get_product_by_encoded_string();
+    }
 });
 
 function adt_get_person_footprint(regionCode)
@@ -407,7 +414,7 @@ function adt_update_tags(boxToUpdate)
     if (typeValue === 'market') {
         type = 'Cradle to consumer';
     }
-    
+
     let country = jQuery('#location option:selected').text();
     let countryVal = jQuery('#location option:selected').val();
     let year = jQuery('#year option:selected').text();
@@ -464,8 +471,6 @@ function adt_change_data_set()
 async function adt_update_original_info(dataArray) 
 {
     adt_update_tags('original');
-
-    console.log(dataArray);
 
     jQuery('.search-result .col:first-child p.product-title').each(function () {
         if (!dataArray.all_data) {
@@ -1101,25 +1106,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         suggestionSelected = true;
         chosenValuesArray = adt_get_chosen_values();
         
-        // Do this to make sure you can go back in browser
-        // Convert to base64
-        let allData = {
-            title: text,
-            code: code,
-            uuid: uuid,
-            footprint_location: chosenValuesArray['footprint_location'],
-            footprint_type: chosenValuesArray['footprint_type'],
-            footprint_year: chosenValuesArray['footprint_year'],
-            database_version: chosenValuesArray['database_version'],
-        };
-
-        const jsonString = JSON.stringify(allData);
-        const base64String = btoa(jsonString);  // base64 encode
-
-        // Add to URL
-        const getParameter = `?data=${base64String}`;
-        history.pushState(null, '', getParameter);
-
+        adt_push_parameter_to_url(text, code, uuid, chosenValuesArray);
         adt_get_product_info(text, code, uuid, chosenValuesArray);
     }
 }
@@ -1190,15 +1177,24 @@ function adt_save_local_search_history(productTitle, productCode, productUuid, c
         searchHistory = [];
     }
 
+    // converting the chosenValues from jQuery array to JSON object.
+    // This is needed to save the data in local storage.
+    chosenValues = {
+        database_version: chosenValues['database_version'],
+        footprint_location: chosenValues['footprint_location'],
+        footprint_type: chosenValues['footprint_type'],
+        footprint_year: chosenValues['footprint_year']
+    }
+
     const newSearch = {
         productTitle: productTitle,
         productCode: productCode,
         productUuid: productUuid,
         chosenValues: chosenValues
-    };
+    }
 
     searchHistory.unshift(newSearch);
-
+    
     if (searchHistory.length > 4) {
         searchHistory.pop();
     }
@@ -1281,6 +1277,20 @@ function adt_get_product_by_encoded_string()
     chosenValues['footprint_year'] = obj.footprint_year;
     chosenValues['database_version'] = obj.database_version;
 
+    // set preset values in the search form and select boxes
+    let typeValue = jQuery('#footprint-type input[name="footprint_type"]:checked').val();
+    let type = 'Cradle to gate';
+    
+    if (typeValue === 'market') {
+        type = 'Cradle to consumer';
+    }
+
+    jQuery('#location').val(obj.footprint_location);
+    jQuery('#year').val(obj.footprint_year);
+    jQuery('#climate-metric').val('gwp100');
+    jQuery('#database-version').val(obj.database_version);
+    // jQuery('#database-version option:selected').text(obj.database_version);
+
     adt_get_product_info(obj.title, obj.code, obj.uuid, chosenValues);
 }
 
@@ -1306,34 +1316,7 @@ function adt_find_multiplier_for_lowest_number(data)
     if (minValue !== null && minValue > 0) {
         multiplier = 1 / minValue;
     }
-    
-    // Output the multiplier
-    // console.log("Min value:", minValue);
-    // console.log("Multiplier needed:", multiplier);
 }
-
-// function adt_get_converted_number_by_units(fromUnit, toUnit, number)
-// {
-//     jQuery.ajax({
-//         type: 'POST',
-//         url: localize._ajax_url,
-//         data: {
-//             _ajax_nonce: localize._ajax_nonce,
-//             action: 'adt_get_converted_number_ajax',
-//             fromUnit: fromUnit,
-//             toUnit: toUnit,
-//             number: number,
-//         },
-//         beforeSend: function() {
-            
-//         },
-//         success: (response) => {
-//             console.log(response.data);
-
-//             return response.data;
-//         }
-//     });
-// }
 
 function adt_get_converted_number_by_units(fromUnit, toUnit, number) 
 {
@@ -1401,4 +1384,26 @@ function adt_uncertainty_calculation(original, comparison)
             }
         }
     });
+}
+
+function adt_push_parameter_to_url(text, code, uuid, chosenValuesArray)
+{
+    // Do this to make sure you can go back in browser
+    // Convert to base64
+    let allData = {
+        title: text,
+        code: code,
+        uuid: uuid,
+        footprint_location: chosenValuesArray['footprint_location'],
+        footprint_type: chosenValuesArray['footprint_type'],
+        footprint_year: chosenValuesArray['footprint_year'],
+        database_version: chosenValuesArray['database_version'],
+    };
+
+    const jsonString = JSON.stringify(allData);
+    const base64String = btoa(jsonString);  // base64 encode
+
+    // Add to URL
+    const getParameter = `?data=${base64String}`;
+    history.pushState(null, '', getParameter);
 }
