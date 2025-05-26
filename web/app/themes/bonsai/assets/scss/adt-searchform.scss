@@ -827,6 +827,12 @@ label.select {
     }
 }
 
+.has-hover {
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 // Animations
 .co2-form-result {
     display: none;

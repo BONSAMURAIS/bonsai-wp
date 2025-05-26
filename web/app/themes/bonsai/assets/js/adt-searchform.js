@@ -365,8 +365,6 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             jQuery('html, body').animate({
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
             }, 500); // 500ms = 0.5 second animation time
-
-            console.log('successfull run of adt_get_product_info()');
         },
         error: (response) => {
             // Request was throttled
@@ -951,6 +949,9 @@ async function adt_update_recipe(dataArray, boxToUpdate)
             }
         });
     });
+
+    // Remove previous click handlers to avoid stacking events
+    jQuery('.search-result > .col:' + whichChild + ' .emissions-table thead th').off('click');
 
     // Add sorting functionality to table headers
     jQuery('.search-result > .col:' + whichChild + ' .emissions-table thead th').on('click', function () {
