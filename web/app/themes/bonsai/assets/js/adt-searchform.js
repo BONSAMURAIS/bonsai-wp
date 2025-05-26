@@ -815,8 +815,6 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         whichChild = 'nth-child(2)';
     }
 
-    console.log(whichChild);
-
     // Recipe return structure changed
     let recipeArray = dataArray.recipe.results;
 
