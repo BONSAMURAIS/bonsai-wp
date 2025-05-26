@@ -19,7 +19,8 @@ jQuery(document).ready(function($){
                 // Get data from the API
                 // https://lca.aau.dk/api/footprint-country/
                 let countryCode = $('#location').val();
-                adt_get_person_footprint(countryCode);
+                let version = $('#database-version').val();
+                adt_get_person_footprint(countryCode, version);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
                 $('#footprint-type .radio-choice').each(function(){
@@ -127,7 +128,7 @@ jQuery(document).ready(function($){
         let selectedValue = $('input[name="switch-one"]:checked').val();
         
         if (selectedValue === 'person') {
-            adt_get_person_footprint($('#location').val());
+            adt_get_person_footprint($('#location').val(), $('#database-version').val());
         } else {
 
             // Get last searched data instead, this does not always contain all data
@@ -236,7 +237,7 @@ jQuery(document).ready(function($){
     }
 });
 
-function adt_get_person_footprint(regionCode)
+function adt_get_person_footprint(regionCode, version = 'v1.1.0')
 {
     jQuery.ajax({
         type: 'POST',
@@ -245,6 +246,7 @@ function adt_get_person_footprint(regionCode)
             _ajax_nonce: localize._ajax_nonce,
             action: 'adt_get_person_footprint',
             region_code: regionCode,
+            version: version,
         },
         beforeSend: function() {
             jQuery('#autocomplete-input').after('<div class="loading"></div>');
@@ -290,8 +292,9 @@ function adt_get_person_footprint(regionCode)
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
             }, 500); // 500ms = 0.5 second animation time
             
-            adt_update_tags('original');
-
+            // adt_update_tags('original');
+            // Try this
+            localStorage.setItem("footprint_data", JSON.stringify(response.data));
             console.log('successfull run of adt_get_person_footprint()');
         },
         error: (response) => {
@@ -811,6 +814,11 @@ async function adt_update_recipe(dataArray, boxToUpdate)
     let rowMarkup = '';
 
     let whichChild = 'first-child';
+
+    if (boxToUpdate === 'comparison') {
+        whichChild = 'nth-child(2)';
+    }
+
     // Recipe return structure changed
     let recipeArray = dataArray.recipe.results;
 
@@ -922,10 +930,6 @@ async function adt_update_recipe(dataArray, boxToUpdate)
 
     // Append "other" row at the end if it exists
     tableMarkup += otherRowMarkup;
-
-    if (boxToUpdate === 'comparison') {
-        whichChild = 'nth-child(2)';
-    }
 
     // Display the table
     jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
