@@ -5,20 +5,21 @@ defined('ABSPATH') || exit;
 function adt_get_person_footprint()
 {
     $chosenCountry = $_POST['region_code'];
+    $version = $_POST['version'];
 
     // Check if the data is already cached
-    // $cachedFootprints = get_transient('adt_person_footprint_cache');
+    $cachedFootprints = get_transient('adt_person_footprint_cache');
     
-    // // If cache exists, return the cached data
-    // if ($cachedFootprints !== false) {
-    //     if (array_key_exists($chosenCountry, $cachedFootprints) && $cachedFootprints[$chosenCountry]['chosen_country'] === $chosenCountry) {
-    //         wp_send_json_success($cachedFootprints[$chosenCountry]);
-    //         die();
-    //     }
-    // }
+    // If cache exists, return the cached data
+    if ($cachedFootprints !== false) {
+        if (array_key_exists($chosenCountry, $cachedFootprints) && $cachedFootprints[$chosenCountry]['chosen_country'] === $chosenCountry) {
+            wp_send_json_success($cachedFootprints[$chosenCountry]);
+            die();
+        }
+    }
 
     // API URL - does not work with region_code yet
-    $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry;
+    $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry."&version=".$version;
 
     // Make the API request
     $response = wp_remote_get($url);
@@ -32,6 +33,9 @@ function adt_get_person_footprint()
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
 
+    // echo '<pre>';
+    // var_dump($result);
+    // echo '</pre>';
     
     if (isset($result['count']) && $result['count'] === 0) {
         wp_send_json_error(['error' => 'Footprint not found']);
@@ -47,35 +51,49 @@ function adt_get_person_footprint()
     }
 
     // get newest version of the footprint.
-    $footprints = $result['results'];
-    $versionArray = [];
-    
-    foreach ($footprints as $footprint) {
-        $versionArray[] = $footprint['version'];
-    }
-    
-    $newestVersion = adt_get_newest_version($versionArray);
-    
-    // Get the footprint with the newest version
-    $chosenFootprint = [];
+    $footprintsArray = $result['results'];
+    $governmentValue = 0;
+    $householdValue = 0;
+    $chinValue = 0;
 
-    foreach ($footprints as $footprint) {
-        if ($footprint['version'] === $newestVersion) {
-            $chosenFootprint[] = $footprint;
+    foreach ($footprintsArray as $key => $footprint) {
+        switch ($footprint['act_code']) {
+            case 'F_GOVE':
+                $governmentValue = $footprint['value'];
+                break;
+            case 'F_HOUS':
+                $householdValue = $footprint['value'];
+                break;
+            case 'I_CHIN':
+                $chinValue = $footprint['value'];
+                break;
+            default:
+                // Keep the original act_code if no match
+                break;
         }
     }
 
-    // Using key offset to test
-    $recipeData = adt_get_person_footprint_recipe($chosenFootprint[0]['act_code'], $chosenCountry, $newestVersion);
+    // add values together because the website wants to display the total emission for a country
+    $totalValue = $governmentValue + $householdValue + $chinValue;
+
+    /**
+     * In this function we have to get the recipe info from 3 different codes.
+     * F_GOVE, F_HOUS and I_CHIN.
+     */
+    $governmentRecipeData = adt_get_person_footprint_recipe('F_GOVE', $chosenCountry, $version);
+    $householdRecipeData = adt_get_person_footprint_recipe('F_HOUS', $chosenCountry, $version);
+    $chinRecipeData = adt_get_person_footprint_recipe('I_CHIN', $chosenCountry, $version);
 
     $data = [
-        'id' => $chosenFootprint[0]['id'],
-        'act_code' => $chosenFootprint[0]['act_code'],
-        'region_code' => $chosenFootprint[0]['region_code'],
-        'value' => $chosenFootprint[0]['value'],
-        'version' => $chosenFootprint[0]['version'],
-        'unit_emission' => $chosenFootprint[0]['unit_emission'],
-        'recipe' => $recipeData,
+        'id' => $footprintsArray[0]['id'],
+        'act_code' => $footprintsArray[0]['act_code'],
+        'region_code' => $chosenCountry,
+        'value' => $totalValue,
+        'version' => $version,
+        'unit_emission' => $footprintsArray[0]['unit_emission'],
+        'recipe' => $householdRecipeData,
+        'governmentRecipe' => $governmentRecipeData,
+        'chinRecipe' => $chinRecipeData,
     ];
 
     $cachedFootprintArray = [
@@ -83,7 +101,7 @@ function adt_get_person_footprint()
     ];
 
     // Cache the locations for 24 hour (86400 seconds)
-    // set_transient('adt_person_footprint_cache', $cachedFootprintArray, 86400);
+    set_transient('adt_person_footprint_cache', $cachedFootprintArray, 86400);
 
     wp_send_json_success($data);
 }
