@@ -193,7 +193,7 @@ add_action('wp_loaded', 'adt_get_and_store_contribution_data');
 
 function adt_download_contribution_csv(): void {
     global $wpdb;
-    $tableName = $wpdb->prefix . 'footprint_data';
+    $tableName = $wpdb->prefix . 'contribution_data';
 
     $results = $wpdb->get_results("SELECT * FROM $tableName", ARRAY_A);
 
@@ -202,7 +202,7 @@ function adt_download_contribution_csv(): void {
     }
 
     header('Content-Type: text/csv; charset=utf-8');
-    header('Content-Disposition: attachment; filename=footprint_data.csv');
+    header('Content-Disposition: attachment; filename=contribution_data.csv');
 
     $output = fopen('php://output', 'w');
 
@@ -219,7 +219,7 @@ function adt_download_contribution_csv(): void {
 }
 
 // Handle the button click to trigger the CSV download
-add_action('admin_post_download_footprint_csv', 'adt_download_contribution_csv');
+add_action('admin_post_download_contribution_csv', 'adt_download_contribution_csv');
 
 // Update the action to allow everyone to download the CSV file
-add_action('admin_post_nopriv_download_footprint_csv', 'adt_download_contribution_csv');
+add_action('admin_post_nopriv_download_contribution_csv', 'adt_download_contribution_csv');
