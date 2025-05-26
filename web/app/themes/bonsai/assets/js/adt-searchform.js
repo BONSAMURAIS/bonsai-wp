@@ -708,6 +708,8 @@ async function adt_update_comparison_info(dataArray = null)
                 if (item.unit_reference === 'TJ' && !item.description.includes('electricity')) {
                     console.log('does not contain electricity');
                     convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'MJ', valueForItems);
+                    // multiply by 1000 to convert from MJ per tonnes to MJ per kg
+                    convertedValueForItems = convertedValueForItems * 1000;
                     item.value = convertedValueForItems;
                 }
 
@@ -854,8 +856,8 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         // If unit_inflow "TJ" per tonnes convert to MJ per kg
         if (recipe.unit_inflow === 'TJ' && !recipe.flow_reference.includes('electricity')) {
             updatedInflow = await adt_get_converted_number_by_units('TJ', 'MJ', recipe.value_inflow);
-            // from tonnes to kg
-            recipe.value_emission = recipe.value_emission;
+            // from MJ per tonnes to MJ per kg
+            recipe.value_emission = recipe.value_emission * 1000;
             recipe.unit_inflow = 'MJ';
 
             // Wait for the conversion to complete before continuing
