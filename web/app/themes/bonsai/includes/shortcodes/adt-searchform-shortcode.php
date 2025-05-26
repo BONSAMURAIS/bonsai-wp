@@ -288,6 +288,12 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <div class="uncertainty-bar-fill" style="width: 10%; background-color: green"></div>
                     </div>
                 </div>
+                <div class="tooltip-wrapper">
+                    <a href="#info-uncertainty" class="tooltip">
+                        read more about the uncertainty in the data
+                    </a>
+                </div>
+                <?= do_shortcode('[lightbox id="info-uncertainty" width="600px" padding="20px"][block id="uncertainty-info-popup"][/lightbox]') ?>
             </div>
             <div class="row align-equal search-result basic" style="display: flex;">
                 <div class="col medium-6 small-12 large-6">
