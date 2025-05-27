@@ -1532,8 +1532,10 @@ function adt_uncertainty_calculation(original, comparison)
             let numberUncertainty = response.data;
             // convert number to percentage
             numberUncertainty = parseFloat(numberUncertainty) * 100;
+            numberUncertainty = Math.round(numberUncertainty * 100) / 100; // Round to two decimal places
 
             jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('width', numberUncertainty+'%');
+            jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').attr('data-uncertainty', numberUncertainty+'%');
 
             jQuery('.uncertainty-wrapper').slideDown();
 

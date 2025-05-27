@@ -1013,3 +1013,16 @@ span.adt-close {
         }
     }
 }
+
+.uncertainty-bar {
+    .uncertainty-bar-background {
+        position: relative;
+
+        &:after {
+            content: attr(data-uncertainty, '0%');
+            position: absolute;
+            right: 10px;
+        }
+    }
+    
+}
