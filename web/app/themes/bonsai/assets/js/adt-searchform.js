@@ -1539,15 +1539,15 @@ function adt_uncertainty_calculation(original, comparison)
 
             jQuery('.uncertainty-wrapper').slideDown();
 
-            if (numberUncertainty < 20) {
+            if (numberUncertainty < 80) {
                 jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('background-color', '#EB594E');
             }
 
-            if (numberUncertainty > 20 && numberUncertainty < 80) {
+            if (numberUncertainty > 80 && numberUncertainty < 90) {
                 jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('background-color', '#F5DA5A');
             }
 
-            if (numberUncertainty > 80) {
+            if (numberUncertainty > 90) {
                 jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('background-color', '#C3F138');
             }
         }
