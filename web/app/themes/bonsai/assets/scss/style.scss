@@ -153,7 +153,47 @@ label, legend {
     font-weight: 400;
 }
 
- .row {
+.button, 
+button, 
+input[type=button], 
+input[type=reset], 
+input[type=submit] {
+    border-radius: 99px;
+    padding: 0px 30px 0px 30px;
+
+    &.button {
+        color: $secondary;
+    }
+
+    &:hover {
+        box-shadow: inset 0 0 0 100px rgba(255,255,255,.2);
+    }
+}
+.gform_wrapper {
+    &.gravity-theme {
+        input[type=color], 
+        input[type=date],
+        input[type=datetime-local], 
+        input[type=datetime], 
+        input[type=email], 
+        input[type=month], 
+        input[type=number], 
+        input[type=password], 
+        input[type=search], 
+        input[type=tel], 
+        input[type=text], 
+        input[type=time], 
+        input[type=url], 
+        input[type=week], 
+        select, 
+        textarea {
+            border-radius: 99px;
+            padding: 8px 15px;
+        }
+    }
+}
+
+.row {
     &.border {
         border: 1px solid #eaeaea;
         padding: 15px;
@@ -171,7 +211,7 @@ label, legend {
             }
         }
     }
- }
+}
 
 @media only screen and (max-width: 468px) {
     .mobile-right {

@@ -152,6 +152,7 @@ jQuery(document).ready(function($){
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
         let chosenValues = adt_get_chosen_values();
+        $('#autocomplete-input').val(productTitle);
 
         adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
     });
@@ -493,6 +494,10 @@ async function adt_update_original_info(dataArray)
             jQuery(this).text(dataArray.title);
             jQuery(this).attr('data-code', dataArray.flow_code);
         }
+
+        if (jQuery('#autocomplete-input').val()) {
+            jQuery(this).text(jQuery('#autocomplete-input').val());
+        }
     });
 
     
@@ -665,8 +670,17 @@ async function adt_update_comparison_info(dataArray = null)
     adt_update_tags('comparison');
 
     jQuery('.search-result .col:nth-child(2) p.product-title').each(function() {
-        jQuery(this).text(dataArray.title);
-        jQuery(this).attr('data-code', dataArray.flow_code);
+        if (!dataArray.all_data) {
+            jQuery(this).text('Emission per person');
+            jQuery(this).attr('data-code', dataArray.act_code);
+        } else {
+            jQuery(this).text(dataArray.title);
+            jQuery(this).attr('data-code', dataArray.flow_code);
+        }
+
+        if (jQuery('#autocomplete-input').val()) {
+            jQuery(this).text(jQuery('#autocomplete-input').val());
+        }
     });
 
     if (dataArray.all_data) {
