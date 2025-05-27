@@ -1165,24 +1165,35 @@ function adt_download_recipe_csv()
             e.preventDefault();
 
             let productTitle = jQuery(this).closest('.col-inner').find('.product-title').text();
+            let country = jQuery(this).closest('.col-inner').find('.product-tag.country').text();
+            let version = jQuery(this).closest('.col-inner').find('.product-tag.version').text();
             
             let csvContent = "";
-            
+
             jQuery(this).closest('.col-inner').find('.emissions-table tr').each(function () {
                 let rowData = [];
-                
                 jQuery(this).find("th, td").each(function () {
-                    rowData.push(jQuery(this).text());
+                    let cellText = jQuery(this).text();
+                    // Escape double quotes by doubling them, and wrap in quotes if contains comma or quote
+                    if (cellText.includes(',') || cellText.includes('"')) {
+                        cellText = '"' + cellText.replace(/"/g, '""') + '"';
+                    }
+                    rowData.push(cellText);
                 });
-
                 csvContent += rowData.join(",") + "\n";
             });
+
+            // Add productTitle, country, and version at the bottom
+            csvContent += "\n";
+            csvContent += "Product Title," + productTitle + "\n";
+            csvContent += "Country," + country + "\n";
+            csvContent += "Version," + version + "\n";
 
             let blob = new Blob([csvContent], { type: "text/csv" });
             let url = URL.createObjectURL(blob);
             let a = jQuery("<a></a>")
                 .attr("href", url)
-                .attr("download", productTitle + ".csv")
+                .attr("download", productTitle + "_" + version + ".csv")
                 .appendTo("body");
 
             a[0].click();
