@@ -282,7 +282,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
             </div>
             <div class="uncertainty-wrapper" style="display: none;">
-                <p>How sure are we in this data in a scale from 0-100%</p>
+                <p>How sure are we on the ranking of the two compared products on a scale from 0-100%?</p>
                 <div class="uncertainty-bar">
                     <div class="uncertainty-bar-background">
                         <div class="uncertainty-bar-fill" style="width: 10%; background-color: green"></div>
