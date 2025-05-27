@@ -154,6 +154,7 @@ jQuery(document).ready(function($){
         let chosenValues = adt_get_chosen_values();
         $('#autocomplete-input').val(productTitle);
 
+        adt_push_parameter_to_url(productTitle, productCode, productUuid, chosenValues);
         adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
     });
 
