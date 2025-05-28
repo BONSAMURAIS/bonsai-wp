@@ -80,29 +80,29 @@ function adt_get_person_footprint()
      * In this function we have to get the recipe info from 3 different codes.
      * F_GOVE, F_HOUS and I_CHIN.
      */
-    $governmentRecipeData = adt_get_person_footprint_recipe('F_GOVE', $chosenCountry, $version);
     $householdRecipeData = adt_get_person_footprint_recipe('F_HOUS', $chosenCountry, $version);
+    $governmentRecipeData = adt_get_person_footprint_recipe('F_GOVE', $chosenCountry, $version);
     $chinRecipeData = adt_get_person_footprint_recipe('I_CHIN', $chosenCountry, $version);
 
     /**
      * TODO: the arrays above contains a maximum of 100 items.
      * Therefore we need to send more requests to get all the data.
+     * 
+     * I have gotten the results from all the pages in the function adt_get_person_footprint_recipe.
+     * But below I use the $householdRecipeData array to get the product codes. 
+     * If there is product codes in the other two arrays, which are not present in $householdRecipeData,
+     * then they will not be included in the final result.
      */
 
     // Find matching recipe codes and add the values together.
-    // Example arrays (you'd replace these with your actual arrays)
-    $array1 = $governmentRecipeData['results'];
-    $array2 = $householdRecipeData['results'];
-    $array3 = $chinRecipeData['results'];
-
     // Unique product_codes from the first array
-    $productCodes = array_column($array1, 'product_code');
+    $productCodes = array_column($householdRecipeData, 'product_code');
     $productCodes = array_unique($productCodes);
 
     // Merge data
     $mergedResults = [];
     foreach ($productCodes as $code) {
-        $mergedItem = adt_accumulate_value([$array1, $array2, $array3], $code);
+        $mergedItem = adt_accumulate_value([$householdRecipeData, $governmentRecipeData, $chinRecipeData], $code);
         if ($mergedItem) {
             $mergedResults[] = $mergedItem;
         }
@@ -175,11 +175,44 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
             'error' => $recipeResponse->get_error_message()
         ];
     }
-    
-    // Retrieve and decode the recipeResponse body
-    $recipeBody = wp_remote_retrieve_body($recipeResponse);
-    $recipeResult = json_decode($recipeBody, true);
 
+    // Get the response body
+    $body = wp_remote_retrieve_body($recipeResponse);
+
+    // Parse the JSON response
+    $result = json_decode($body, true);
+
+    $productCount = $result['count'];
+
+    $recipeResult = $result['results'];
+
+    if (empty($result)) {
+        return 'No person recipe found or an error occurred.';
+    }
+
+    if (array_key_exists('detail', $result)) {
+        return 'Error: ' . $result['detail'];
+    }
+
+    $pages = ceil($productCount / 100);
+
+    // TODO: Throttled again for loading through the pages?
+    for ($i = 2; $i <= $pages; $i++) {
+        $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" . $actCode . "&region_code=" . $chosenCountry . "&version=" . $newestVersion;
+        $response = wp_remote_get($api_url);
+
+        if (is_wp_error($response)) {
+            continue;
+        }
+
+        $body = wp_remote_retrieve_body($response);
+        $result = json_decode($body, true);
+
+        if (!empty($result['results'])) {
+            $recipeResult = array_merge($recipeResult, $result['results']);
+        }
+    }
+    
     // Handle potential errors in the recipeResponse
     if (empty($recipeResult)) {
         return [
