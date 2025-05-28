@@ -535,7 +535,6 @@ async function adt_update_original_info(dataArray)
             jQuery('.emission-header-unit').text('[kg CO2eq]');
 
             jQuery(dataArray.all_data).each(function (i) {
-                console.log(dataArray.all_data);
                 let unit = dataArray.all_data[i].unit_reference;
 
                 if (unit === 'Meuro') unit = 'EUR';

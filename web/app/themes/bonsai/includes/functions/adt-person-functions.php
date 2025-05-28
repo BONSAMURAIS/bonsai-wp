@@ -84,6 +84,27 @@ function adt_get_person_footprint()
     $householdRecipeData = adt_get_person_footprint_recipe('F_HOUS', $chosenCountry, $version);
     $chinRecipeData = adt_get_person_footprint_recipe('I_CHIN', $chosenCountry, $version);
 
+    // Find matching recipe codes and add the values together.
+    // Example arrays (you'd replace these with your actual arrays)
+    $array1 = $governmentRecipeData['results'];
+    $array2 = $householdRecipeData['results'];
+    $array3 = $chinRecipeData['results'];
+
+    // Unique product_codes from the first array
+    $productCodes = array_column($array1, 'product_code');
+    $productCodes = array_unique($productCodes);
+
+    // Merge data
+    $mergedResults = [];
+    foreach ($productCodes as $code) {
+        $mergedItem = adt_accumulate_value([$array1, $array2, $array3], $code);
+        if ($mergedItem) {
+            $mergedResults[] = $mergedItem;
+        }
+    }
+
+    $mergedRecipes['results'] = $mergedResults;
+
     $data = [
         'id' => $footprintsArray[0]['id'],
         'act_code' => $footprintsArray[0]['act_code'],
@@ -91,7 +112,7 @@ function adt_get_person_footprint()
         'value' => $totalValue,
         'version' => $version,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
-        'recipe' => $householdRecipeData,
+        'recipe' => $mergedRecipes,
         'governmentRecipe' => $governmentRecipeData,
         'chinRecipe' => $chinRecipeData,
     ];
@@ -108,6 +129,29 @@ function adt_get_person_footprint()
 
 add_action('wp_ajax_adt_get_person_footprint', 'adt_get_person_footprint');
 add_action('wp_ajax_nopriv_adt_get_person_footprint', 'adt_get_person_footprint');
+
+// Helper function to accumulate values by product_code
+function adt_accumulate_value($arrays, $productCode) {
+    $totalValue = 0;
+    $mergedItem = null;
+
+    foreach ($arrays as $array) {
+        foreach ($array as $item) {
+            if ($item['product_code'] === $productCode) {
+                $totalValue += $item['value'];
+                if (!$mergedItem) {
+                    $mergedItem = $item;
+                }
+            }
+        }
+    }
+
+    if ($mergedItem) {
+        $mergedItem['value'] = $totalValue;
+    }
+
+    return $mergedItem;
+}
 
 
 function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersion): array
