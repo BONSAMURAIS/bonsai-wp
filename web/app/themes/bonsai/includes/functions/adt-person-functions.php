@@ -84,6 +84,11 @@ function adt_get_person_footprint()
     $householdRecipeData = adt_get_person_footprint_recipe('F_HOUS', $chosenCountry, $version);
     $chinRecipeData = adt_get_person_footprint_recipe('I_CHIN', $chosenCountry, $version);
 
+    /**
+     * TODO: the arrays above contains a maximum of 100 items.
+     * Therefore we need to send more requests to get all the data.
+     */
+
     // Find matching recipe codes and add the values together.
     // Example arrays (you'd replace these with your actual arrays)
     $array1 = $governmentRecipeData['results'];
@@ -159,7 +164,7 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
     // Example:
     // https://lca.aau.dk/api/recipes-country/?act_code=F_GOVE&region_code=AU
     // And version is not used yet.
-    $url = 'https://lca.aau.dk/api/recipes-country/?act_code='.$actCode.'&region_code='.$chosenCountry;
+    $url = 'https://lca.aau.dk/api/recipes-country/?act_code='.$actCode.'&region_code='.$chosenCountry.'&version='.$newestVersion;
 
     // Make the API request
     $recipeResponse = wp_remote_get($url);
