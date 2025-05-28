@@ -83,10 +83,6 @@ jQuery(document).ready(function($){
     $('#footprint-type input[name="footprint_type"]').on('change', function() {
         chosenFootprintType = $(this).val();
         
-        jQuery('.co2-form-result').slideUp('slow', function(){
-            jQuery('.co2-form-wrapper .text-center:has(.divider)').hide();
-        });
-
         productTitleArray = [];
         productContentArray = [];
         productCodeArray = [];
@@ -118,6 +114,15 @@ jQuery(document).ready(function($){
         jQuery('#autocomplete-input').val('');
 
         adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
+
+        // return if comparison is active
+        // Because the user would need to search for a new product
+        let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
+        if (compareButtons.length == 0) {
+            // adt_update_tags('comparison');
+            return;
+        }
+
         // also update the product chosen.
         adt_update_tags('original');
     });
@@ -583,8 +588,8 @@ async function adt_update_original_info(dataArray)
                     }
 
                     let formatted = new Intl.NumberFormat('en-US', {
-                        minimumFractionDigits: 4,
-                        maximumFractionDigits: 4
+                        minimumFractionDigits: 3,
+                        maximumFractionDigits: 3
                     }).format(valueForItems);
 
                     jQuery(newElement).find('.product-result').text(formatted);
@@ -618,8 +623,8 @@ async function adt_update_original_info(dataArray)
                 let calculatedValue = defaultValue * numberInput;
 
                 let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
-                    minimumFractionDigits: 4,
-                    maximumFractionDigits: 4
+                    minimumFractionDigits: 3,
+                    maximumFractionDigits: 3
                 }).format(calculatedValue);
 
                 jQuery('.search-result .col:first-child .amount').val(numberInput);
@@ -749,8 +754,8 @@ async function adt_update_comparison_info(dataArray = null)
             }
 
             let formatted = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 4,
-                maximumFractionDigits: 4
+                minimumFractionDigits: 3,
+                maximumFractionDigits: 3
             }).format(valueForItems);
 
             $element.find('.product-result').text(formatted);
@@ -780,8 +785,8 @@ async function adt_update_comparison_info(dataArray = null)
                     }
 
                     let formatted = new Intl.NumberFormat('en-US', {
-                        minimumFractionDigits: 4,
-                        maximumFractionDigits: 4
+                        minimumFractionDigits: 3,
+                        maximumFractionDigits: 3
                     }).format(valueForItems);
 
                     jQuery(newElement).find('.product-result').text(formatted);
@@ -814,8 +819,8 @@ async function adt_update_comparison_info(dataArray = null)
                     let calculatedValue = defaultValue * numberInput;
 
                     let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
-                        minimumFractionDigits: 4,
-                        maximumFractionDigits: 4
+                        minimumFractionDigits: 3,
+                        maximumFractionDigits: 3
                     }).format(calculatedValue);
 
                     jQuery('.search-result .col:nth-child(2) .amount').val(numberInput);
@@ -920,8 +925,8 @@ async function adt_update_comparison_info(dataArray = null)
                         }
 
                         let formatted = new Intl.NumberFormat('en-US', {
-                            minimumFractionDigits: 4,
-                            maximumFractionDigits: 4
+                            minimumFractionDigits: 3,
+                            maximumFractionDigits: 3
                         }).format(valueForItems);
 
                         jQuery(newElement).find('.product-result').text(formatted);
@@ -955,8 +960,8 @@ async function adt_update_comparison_info(dataArray = null)
                     let calculatedValue = defaultValue * numberInput;
 
                     let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
-                        minimumFractionDigits: 4,
-                        maximumFractionDigits: 4
+                        minimumFractionDigits: 3,
+                        maximumFractionDigits: 3
                     }).format(calculatedValue);
 
                     jQuery('.search-result .col:nth-child(2) .amount').val(numberInput);
@@ -1071,11 +1076,17 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         rowMarkup += '<td class="input-flow">';
 
         if (recipe.value_inflow && recipe.value_inflow !== NaN) {
-            updatedInflow = recipe.value_inflow.toFixed(5);
+            updatedInflow = new Intl.NumberFormat('en-US', {
+                minimumFractionDigits: 3,
+                maximumFractionDigits: 3
+            }).format(recipe.value_inflow);
         }
 
         if (recipe.value_emission && recipe.value_emission !== NaN) {
-            recipe.value_emission = recipe.value_emission.toFixed(5);
+            recipe.value_emission = new Intl.NumberFormat('en-US', {
+                minimumFractionDigits: 3,
+                maximumFractionDigits: 3
+            }).format(recipe.value_emission);
         }
 
         rowMarkup += '<span class="inflow-value">' + (updatedInflow ? updatedInflow : '') + '</span>';
@@ -1297,7 +1308,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
         suggestionSelected = true;
         chosenValuesArray = adt_get_chosen_values();
-        
+
         adt_push_parameter_to_url(text, code, uuid, chosenValuesArray);
         adt_get_product_info(text, code, uuid, chosenValuesArray);
     }
@@ -1395,7 +1406,7 @@ function adt_save_local_search_history(productTitle, productCode, productUuid, c
 
     let searchHistoryHtml = '';
     searchHistory.forEach((search, index) => {
-        searchHistoryHtml += '<li class="button primary is-outline lowercase" style="border-radius:99px;">';
+        searchHistoryHtml += '<li class="button primary is-outline lowercase" style="border-radius:99px;" data-code="' + search.productCode + '" data-uuid="' + search.productUuid + '">';
         searchHistoryHtml += search.productTitle + ' ';
         searchHistoryHtml += '<span class="remove" data-index="' + index + '"></span>';
         searchHistoryHtml += '</li>';
@@ -1416,6 +1427,9 @@ function adt_save_local_search_history(productTitle, productCode, productUuid, c
         let productUuid = jQuery(this).data('uuid');
         let chosenValues = adt_get_chosen_values();
 
+        jQuery('#autocomplete-input').val(productTitle);
+
+        adt_push_parameter_to_url(productTitle, productCode, productUuid, chosenValues);
         adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
     });
 }
