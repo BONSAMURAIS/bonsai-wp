@@ -448,6 +448,29 @@ function adt_update_tags(boxToUpdate)
         whichChild = ':nth-child(2)';
     }
 
+    // Overwrite the Footprint type tag by data code
+    if (typeValue !== 'grave') {
+        jQuery('.search-result > .col'+whichChild+' .product-title').each(function() {
+            let dataCode = jQuery(this).attr('data-code');
+
+            if (dataCode && dataCode.includes("M_")) {
+                type = 'Cradle to consumer';
+            }
+
+            if (
+                dataCode && (dataCode.includes('C_')
+                || dataCode.includes('EF_')
+                || dataCode.includes('A_'))
+            ) {
+                type = 'Cradle to gate';
+            }
+
+            if (dataCode && dataCode.includes("F_")) {
+                type = 'Cradle to grave';
+            }
+        });
+    }
+
     jQuery('.search-result > .col'+whichChild+' .product-tag.footprint-type').each(function() {
         jQuery(this).text(type);
         jQuery(this).attr('data-type', typeValue);
@@ -490,8 +513,6 @@ function adt_change_data_set()
 
 async function adt_update_original_info(dataArray) 
 {
-    adt_update_tags('original');
-
     jQuery('.search-result .col:first-child p.product-title').each(function () {
         if (!dataArray.all_data) {
             jQuery(this).text('Emission per person');
@@ -632,6 +653,7 @@ async function adt_update_original_info(dataArray)
         });
     }
 
+    adt_update_tags('original');
 
     await adt_update_recipe(dataArray, 'original');
 }
@@ -672,8 +694,6 @@ jQuery(document).ready(function($){
 
 async function adt_update_comparison_info(dataArray = null)
 {
-    adt_update_tags('comparison');
-
     jQuery('.search-result .col:nth-child(2) p.product-title').each(function() {
         if (!dataArray.all_data) {
             jQuery(this).text('Emission per person');
@@ -971,6 +991,7 @@ async function adt_update_comparison_info(dataArray = null)
     }
 
     // test end
+    adt_update_tags('comparison');
 
     await adt_update_recipe(dataArray, 'comparison');
 }
