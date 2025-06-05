@@ -700,6 +700,10 @@ div#initial-error-message {
     }
 }
 
+select.unit {
+    min-width: 135px;
+}
+
 .tooltip-wrapper {
     display: flex;
     justify-content: flex-end;
