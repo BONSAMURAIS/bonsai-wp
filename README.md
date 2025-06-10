@@ -53,6 +53,11 @@ Bedrock is a WordPress boilerplate for developers that want to manage their proj
 
 See the [Bedrock installation documentation](https://roots.io/bedrock/docs/installation/).
 
+## PHP & MySQL version
+
+- PHP 8.2
+- MySQL >= 9.2.0
+
 ## Stay Connected
 
 - Join us on Discord by [sponsoring us on GitHub](https://github.com/sponsors/roots)
