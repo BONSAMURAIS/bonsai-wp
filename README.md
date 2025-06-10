@@ -66,7 +66,7 @@ See the [Bedrock installation documentation](https://roots.io/bedrock/docs/insta
 4. Use the command: npm install
 5. Connect to the live database and export all tables.
 6. Create a local database and import all the tables into it.
-7. Update you .env file with you information for the current database.
+7. Update your .env file with your information for the current database.
 
 ## Stay Connected
 
