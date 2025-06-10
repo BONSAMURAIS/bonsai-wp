@@ -58,6 +58,16 @@ See the [Bedrock installation documentation](https://roots.io/bedrock/docs/insta
 - PHP 8.2
 - MySQL >= 9.2.0
 
+## Installation
+
+1. Navigate to your project using the terminal (Warp, terminal or Command prompt).
+2. Use the command: composer install
+3. Then navigate to the bonsai theme folder.
+4. Use the command: npm install
+5. Connect to the live database and export all tables.
+6. Create a local database and import all the tables into it.
+7. Update you .env file with you information for the current database.
+
 ## Stay Connected
 
 - Join us on Discord by [sponsoring us on GitHub](https://github.com/sponsors/roots)
