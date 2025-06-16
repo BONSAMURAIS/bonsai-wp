@@ -19,7 +19,7 @@ get_header(); ?>
         [section padding="0px" class="neg-mgt"]
             [row col_bg="rgb(255,255,255)" col_bg_radius="50" h_align="center" padding="70px 70px 70px 70px" padding__sm="70px 25px 70px 25px"]
                 [col span__sm="12" align="center"]
-                    <h2 class="big-title">TEST - Getting the data right</h2>
+                    <h2 class="big-title">Getting the data right</h2>
                     <p class="sub-heading">Find the footprint for the products</p>
                     [ux_html]
 
