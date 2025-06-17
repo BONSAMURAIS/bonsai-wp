@@ -437,10 +437,11 @@ function adt_get_product_footprint()
     error_log("api call");  
     // API URL
     $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry;
-    error_log( $url );  
-
+    
     // Make the API request
     $response = wp_remote_get($url);
+    error_log( "response=" );  
+    error_log( $response );  
     error_log("end api call");  
 
     
