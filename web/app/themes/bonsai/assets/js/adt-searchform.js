@@ -71,7 +71,7 @@ jQuery(document).ready(function($){
         }
 
         if (this.code.includes('A_')  ) {
-            this.code = this.code.replace(/^(A_)/, 'C_');
+            this.code = this.code.replace(/^A_/, 'C_');
         }
         
         productTitleArray.push(this.title);
@@ -102,8 +102,8 @@ jQuery(document).ready(function($){
                 return true;
             }
     
-            if (this.code.includes('C_') || this.code.includes('EF_')) {
-                this.code = this.code.replace(/^(C_|EF_)/, 'A_');
+            if (this.code.includes('A_')) {
+                this.code = this.code.replace(/^A_/, 'C_');
             }
 
             productTitleArray.push(this.title);
