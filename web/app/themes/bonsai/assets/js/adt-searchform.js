@@ -267,6 +267,7 @@ function adt_get_person_footprint(regionCode, version = 'v1.1.0')
         success: (response) => {
             let dataArray = response.data;
 
+            console.log("response.data");
             console.log(response.data);
 
             jQuery('.loading').remove();
