@@ -19,7 +19,7 @@ add_shortcode( 'adt_searchform', function($atts) {
     ]);
 
     ob_start();
-    $household_compo= json_decode(file_get_contents ("../../mappings/household_compo.json"),true);
+    $household_compo= json_decode(file_get_contents (__DIR__ . "../../mappings/household_compo.json"),true);
 
     error_log("test");
     error_log($household_compo);
@@ -89,11 +89,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <label class="select" for="household-composition">
                             <select id="household-composition">
                                 <option value="average-person">Average Person</option>
-                                    <?php 
+                                <!-- <?php 
                                     foreach($test as $t) {
                                         echo '<option value="'. $t['Name'].  '">'. $t['Name'].'</option>';      
                                     }
-                                ?>
+                                ?> -->
                                 <!-- <option value="pensioner" disabled>Pensioner</option>
                                 <option value="couple-with-kids" disabled>Couple with kids</option>
                                 <option value="couple-without-kids" disabled>Couple without kids</option>
