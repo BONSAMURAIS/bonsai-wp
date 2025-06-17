@@ -19,7 +19,7 @@ add_shortcode( 'adt_searchform', function($atts) {
     ]);
 
     ob_start();
-    $household_compo= json_decode(file_get_contents (__DIR__ . "../../mappings/household_compo.json"),true);
+    $household_compo= json_decode(file_get_contents (__DIR__ . "/../../mappings/household_compo.json"),true);
 
     error_log("test");
     error_log($household_compo);
