@@ -429,11 +429,12 @@ function adt_get_product_footprint()
             && $cachedFootprints[$productCode]['chosen_country'] === $chosenCountry
             && $cachedFootprints[$productCode]['version'] === $version
             ) {
-            wp_send_json_success($cachedFootprints[$productCode]);
-            die();
+                wp_send_json_success($cachedFootprints[$productCode]);
+                die();
+            }
         }
-    }
-
+        
+    error_log("end test");
     // API URL
     $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry;
 
