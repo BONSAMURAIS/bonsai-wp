@@ -344,8 +344,8 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
         },
         success: (response) => {
             console.log("test");
-            console.log(chosenValues['database_version']);
             let dataArray = response.data;
+            console.log("dataArray=",dataArray);
 
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
