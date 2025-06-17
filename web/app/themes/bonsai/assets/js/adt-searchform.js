@@ -57,6 +57,7 @@ jQuery(document).ready(function($){
     let chosenFootprintType = $('#footprint-type input[name="footprint_type"]:checked').val();
 
     $(searchform.products).each(function() {
+        console.log("at the launch b4 code:",this.code)
         if (chosenFootprintType === "product" && this.code.includes("M_")
         ) {
             return true;
@@ -70,7 +71,6 @@ jQuery(document).ready(function($){
             return true;
         }
 
-        console.log("at the launch b4 code:",this.code)
         if (this.code.includes('A_')  ) {
             this.code = this.code.replace(/^A_/, 'C_');
         }
@@ -92,6 +92,7 @@ jQuery(document).ready(function($){
         productUuidArray = [];
 
         $(searchform.products).each(function() {
+            console.log("test at change code b4:",this.code)
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
                 return true;
             }
@@ -104,7 +105,6 @@ jQuery(document).ready(function($){
                 return true;
             }
             
-            console.log("at change code b4:",this.code)
             if (this.code.includes('A_')) {
                 this.code = this.code.replace(/^A_/, 'C_');
             }
@@ -267,7 +267,7 @@ function adt_get_person_footprint(regionCode, version = 'v1.1.0')
         success: (response) => {
             let dataArray = response.data;
 
-            console.log("response.data");
+            console.log("adt_get_person_footprint success : response.data");
             console.log(response.data);
 
             jQuery('.loading').remove();
@@ -1156,8 +1156,6 @@ async function adt_update_recipe(dataArray, boxToUpdate)
             }
         });
     });
-    console.log("test");
-    console.log(obj);
 
     // Remove previous click handlers to avoid stacking events
     jQuery('.search-result > .col:' + whichChild + ' .emissions-table thead th').off('click');
