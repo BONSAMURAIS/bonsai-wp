@@ -409,8 +409,6 @@ add_action('wp_ajax_nopriv_adt_get_updated_recipe_info', 'adt_get_updated_recipe
 
 function debug($data) {
     $output = $data;
-    if (is_array($output))
-        $output = implode(',', $output);
 
     echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
