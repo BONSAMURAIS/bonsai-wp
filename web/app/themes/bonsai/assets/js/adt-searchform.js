@@ -259,6 +259,7 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
 {
     act_code = f_demand_cat + "|"+income_gpe+"_"+household_compo;
     console.log("act_code=",act_code);
+    console.log("localize._ajax_url=",localize._ajax_url);
     jQuery.ajax({
         type: 'POST',
         url: localize._ajax_url,
