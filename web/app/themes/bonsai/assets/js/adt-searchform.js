@@ -250,6 +250,7 @@ jQuery(document).ready(function($){
 
 function adt_get_person_footprint(regionCode, version = 'v1.2.0')
 {
+    jQuery( "#error-message-content" ).remove(); //at the init
     jQuery.ajax({
         type: 'POST',
         url: localize._ajax_url,
@@ -266,7 +267,6 @@ function adt_get_person_footprint(regionCode, version = 'v1.2.0')
         success: (response) => {
             let dataArray = response.data;
 
-            jQuery( "#error-message-content" ).remove();
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
             
@@ -279,7 +279,7 @@ function adt_get_person_footprint(regionCode, version = 'v1.2.0')
                 // localStorage.setItem("footprint_data", JSON.stringify(response.data));
                 return;
             } else {
-                jQurey( "#error-message-content" ).remove();
+                jQuery( "#error-message-content" ).remove();
                 jQuery('.error-message').slideUp('fast');
             }
             
