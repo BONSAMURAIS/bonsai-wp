@@ -21,9 +21,8 @@ jQuery(document).ready(function($){
                 let countryCode = $('#location').val();
                 let version = $('#database-version').val();
                 let income_gpe = $('#income-group').val();
-                console.log("tests");
-                console.log("income_gpe:",income_gpe);
-                adt_get_person_footprint(countryCode, version);
+                let household_compo = $('#household-composition').val();
+                adt_get_person_footprint(countryCode, income_gpe, household_compo, version);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
                 $('#footprint-type .radio-choice').each(function(){
@@ -140,7 +139,11 @@ jQuery(document).ready(function($){
         let selectedValue = $('input[name="switch-one"]:checked').val();
         
         if (selectedValue === 'person') {
-            adt_get_person_footprint($('#location').val(), $('#database-version').val());
+            let countryCode = $('#location').val();
+            let version = $('#database-version').val();
+            let income_gpe = $('#income-group').val();
+            let household_compo = $('#household-composition').val();
+            adt_get_person_footprint(countryCode, income_gpe, household_compo, version);
         } else {
 
             // Get last searched data instead, this does not always contain all data
@@ -251,15 +254,18 @@ jQuery(document).ready(function($){
     }
 });
 
-function adt_get_person_footprint(regionCode, version = 'v1.2.0')
+function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.2.0', f_demand_cat = "F_GOVE")
 {
+    act_code = f_demand_cat + "|"+income_gpe+"_"+household_compo;
+    console.log("act_code=",act_code);
     jQuery.ajax({
         type: 'POST',
         url: localize._ajax_url,
         data: {
             _ajax_nonce: localize._ajax_nonce,
             action: 'adt_get_person_footprint',
-            region_code: regionCode,
+            act_code: act_code,
+            region_code: countryCode,
             version: version,
         },
         beforeSend: function() {
