@@ -297,7 +297,7 @@ function adt_get_person_footprint(regionCode, version = 'v1.2.0')
 
             adt_show_search_results();
 
-            jQuery('#initial-error-message').slideUp('fast');
+            // jQuery('#initial-error-message').slideUp('fast');
 
             jQuery('html, body').animate({
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
@@ -374,7 +374,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
 
             adt_show_search_results();
 
-            jQuery('#initial-error-message').slideUp('fast');
+            // jQuery('#initial-error-message').slideUp('fast');
 
             jQuery('html, body').animate({
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
