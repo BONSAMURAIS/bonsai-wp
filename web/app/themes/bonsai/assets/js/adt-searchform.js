@@ -265,18 +265,14 @@ function adt_get_person_footprint(regionCode, version = 'v1.2.0')
         },
         success: (response) => {
             let dataArray = response.data;
-            jQuery( "#error-message-content" ).remove();
 
+            jQuery( "#error-message-content" ).remove();
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
             
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
-                console.log("add elent")
-                jQuery('.error-message').first().append("<p id='error-message-content'>test error </p>");
-                console.log("end add elent")
-                jQuery('.error-message').slideDown('fast');
                 adt_show_search_results();
-                console.log('Combination not found in adt_get_product_info()');
+                console.log('Combination not found in adt_get_person_footprint()');
                 
                 // Save product data even though an error occurred
                 // This is so the user can go try to search again with other countries
@@ -351,6 +347,9 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             jQuery('#autocomplete-input').prop('disabled', false);
             
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
+                console.log("add elent")
+                jQuery('.error-message').first().append("<p id='error-message-content'>test error </p>");
+                console.log("end add elent")
                 jQuery('.error-message').slideDown('fast');
                 adt_show_search_results();
                 console.log('Combination not found in adt_get_product_info()');
