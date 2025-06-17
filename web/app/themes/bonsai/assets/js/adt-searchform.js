@@ -100,7 +100,7 @@ jQuery(document).ready(function($){
 
         $(searchform.products).each(function() {
             if (this.code.includes('A_')) {
-                console.log("test at change code b4:",this.code)
+                console.log("newtest at change code b4:",this.code)
             }
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
                 return true;
