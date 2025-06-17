@@ -32,7 +32,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <div class="col medium-6 small-12 large-6 pb-0 text-left">
                     <div class="tooltip">
                         <a href="#info-footprint">
-                            Test - Footprint
+                            Footprint
                         </a>
                         <?= do_shortcode('[lightbox id="info-footprint" width="600px" padding="20px"][block id="footprint-regular-info-popup"][/lightbox]') ?>
                     </div>
