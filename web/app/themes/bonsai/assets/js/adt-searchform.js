@@ -59,7 +59,9 @@ jQuery(document).ready(function($){
     let chosenFootprintType = $('#footprint-type input[name="footprint_type"]:checked').val();
 
     $(searchform.products).each(function() {
-        console.log("at the launch b4 code:",this.code)
+        if (this.code.includes('A_')) {
+            console.log("at the launch only A_ b4 code:",this.code)
+        }
         if (chosenFootprintType === "product" && this.code.includes("M_")
         ) {
             return true;
@@ -72,11 +74,13 @@ jQuery(document).ready(function($){
         ) {
             return true;
         }
-
-        if (this.code.includes('A_')  ) {
+        
+        if (this.code.includes('A_')) {
             this.code = this.code.replace(/^A_/, 'C_');
         }
-        console.log("at the launch after code:",this.code)
+        if (this.code.includes('A_')) {
+            console.log("at the launch only A_ after code:",this.code)
+        }
         
         productTitleArray.push(this.title);
         productContentArray.push(this.content);
@@ -1339,6 +1343,9 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
         suggestionSelected = true;
         chosenValuesArray = adt_get_chosen_values();
+
+        console.log("selectSuggestion code");
+        console.log(code);
 
         adt_push_parameter_to_url(text, code, uuid, chosenValuesArray);
         adt_get_product_info(text, code, uuid, chosenValuesArray);

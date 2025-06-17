@@ -98,6 +98,9 @@ function adt_get_bonsai_product_list() {
 
         $postId = wp_insert_post($post_data);
 
+        error_log("sad");
+        error_log(print_r($post_data));
+
         $updatedPostIds[] = $postId;
 
         update_post_meta($postId, 'adt_code', $product['code']);
