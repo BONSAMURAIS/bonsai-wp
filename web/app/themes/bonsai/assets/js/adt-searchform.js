@@ -250,7 +250,6 @@ jQuery(document).ready(function($){
 
 function adt_get_person_footprint(regionCode, version = 'v1.2.0')
 {
-    jQuery( "#error-message-content" ).remove(); //at the init
     jQuery.ajax({
         type: 'POST',
         url: localize._ajax_url,
@@ -279,8 +278,6 @@ function adt_get_person_footprint(regionCode, version = 'v1.2.0')
                 // localStorage.setItem("footprint_data", JSON.stringify(response.data));
                 return;
             } else {
-                console.log('Combination found in adt_get_person_footprint()');
-                jQuery( "#error-message-content" ).remove();
                 jQuery('.error-message').slideUp('fast');
             }
             
@@ -323,6 +320,8 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
 {
     productInfo = [];
 
+    jQuery( "#error-message-content" ).remove(); //at the init
+
     jQuery.ajax({
         type: 'POST',
         url: localize._ajax_url,
@@ -359,6 +358,8 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                 // localStorage.setItem("footprint_data", JSON.stringify(response.data));
                 return;
             } else {
+                console.log('Combination found in adt_get_person_footprint()');
+                jQuery( "#error-message-content" ).remove();
                 jQuery('.error-message').slideUp('fast');
             }
             
