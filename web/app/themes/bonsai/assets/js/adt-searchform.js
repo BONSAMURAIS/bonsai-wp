@@ -20,6 +20,9 @@ jQuery(document).ready(function($){
                 // https://lca.aau.dk/api/footprint-country/
                 let countryCode = $('#location').val();
                 let version = $('#database-version').val();
+                let income_gpe = $('#income-group').val();
+                console.log("tests");
+                console.log("income_gpe:",income_gpe);
                 adt_get_person_footprint(countryCode, version);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
