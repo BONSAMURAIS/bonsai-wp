@@ -279,7 +279,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </div> -->
                 </div>
                 <div class="error-message text-left" style="display: none;">
-                    <p>No combinaison </p>
+                    
                     <!-- <?= do_shortcode('[block id="nothing-found-error-message"]') ?> -->
                 </div>
             </div>
