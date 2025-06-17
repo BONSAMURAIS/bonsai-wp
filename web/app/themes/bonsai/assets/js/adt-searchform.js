@@ -265,7 +265,7 @@ function adt_get_person_footprint(regionCode, version = 'v1.2.0')
         },
         success: (response) => {
             let dataArray = response.data;
-            jQurey( "#error-message-content" ).remove();
+            jQuery( "#error-message-content" ).remove();
 
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
