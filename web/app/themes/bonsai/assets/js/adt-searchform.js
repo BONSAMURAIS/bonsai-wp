@@ -280,7 +280,7 @@ function adt_get_person_footprint(regionCode, version = 'v1.2.0')
                 // localStorage.setItem("footprint_data", JSON.stringify(response.data));
                 return;
             } else {
-                jQuery('.error-message').remove(<p id="error-message-content">test error </p>);
+                $( "#error-message-content" ).remove();
                 jQuery('.error-message').slideUp('fast');
             }
             
