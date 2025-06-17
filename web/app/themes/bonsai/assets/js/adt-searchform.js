@@ -1,4 +1,5 @@
 jQuery(document).ready(function($){
+    console.log("tester");
     $('.co2-form input[name="switch-one"]').on('change', function(){
         let isChecked = $(this).is(':checked');
         
