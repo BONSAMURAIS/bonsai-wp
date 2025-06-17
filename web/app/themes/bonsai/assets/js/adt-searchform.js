@@ -59,7 +59,7 @@ jQuery(document).ready(function($){
     let chosenFootprintType = $('#footprint-type input[name="footprint_type"]:checked').val();
 
     $(searchform.products).each(function() {
-        if (this.code.includes('A_')) {
+        if (this.code.startsWith('A_')) {
             console.log("at the launch only A_ b4 code:",this.code)
         }
         if (chosenFootprintType === "product" && this.code.includes("M_")
@@ -75,10 +75,8 @@ jQuery(document).ready(function($){
             return true;
         }
         
-        if (this.code.includes('A_')) {
+        if (this.code.startsWith('A_')) {
             this.code = this.code.replace(/^A_/, 'C_');
-        }
-        if (this.code.includes('A_')) {
             console.log("at the launch only A_ after code:",this.code)
         }
         
@@ -99,7 +97,7 @@ jQuery(document).ready(function($){
         productUuidArray = [];
 
         $(searchform.products).each(function() {
-            if (this.code.includes('A_')) {
+            if (this.code.startsWith('A_')) {
                 console.log("newtest at change code b4:",this.code)
             }
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
@@ -114,7 +112,7 @@ jQuery(document).ready(function($){
                 return true;
             }
             
-            if (this.code.includes('A_')) {
+            if (this.code.startsWith('A_')) {
                 this.code = this.code.replace(/^A_/, 'C_');
                 console.log("at change code after:",this.code)
             }
