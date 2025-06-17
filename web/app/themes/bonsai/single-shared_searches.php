@@ -52,7 +52,6 @@ ob_start();
 				<div id="col-1838913432" class="col small-12 large-12">
 					<div class="col-inner text-center">
 						<h2 class="big-title">Getting the data right</h2>
-						<h2 class="big-title">TEST -Getting the data right</h2>
 						<p class="sub-heading">Find the footprint for the products</p>
 						<div class="co2-form-wrapper">
 							<form class="co2-form">
