@@ -88,6 +88,7 @@ jQuery(document).ready(function($){
         productUuidArray.push(this.uuid);    
     });
     
+    // when radio button 'Cradle to consumer' is selected 
     // If user chooses to change footprint type then get new data
     $('#footprint-type input[name="footprint_type"]').on('change', function() {
         chosenFootprintType = $(this).val();
@@ -98,7 +99,9 @@ jQuery(document).ready(function($){
         productUuidArray = [];
 
         $(searchform.products).each(function() {
-            console.log("test at change code b4:",this.code)
+            if (this.code.includes('A_')) {
+                console.log("test at change code b4:",this.code)
+            }
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
                 return true;
             }
@@ -113,8 +116,8 @@ jQuery(document).ready(function($){
             
             if (this.code.includes('A_')) {
                 this.code = this.code.replace(/^A_/, 'C_');
+                console.log("at change code after:",this.code)
             }
-            console.log("at change code after:",this.code)
             
             productTitleArray.push(this.title);
             productContentArray.push(this.content);
