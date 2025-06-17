@@ -407,6 +407,13 @@ function adt_get_updated_recipe_info()
 add_action('wp_ajax_adt_get_updated_recipe_info', 'adt_get_updated_recipe_info');
 add_action('wp_ajax_nopriv_adt_get_updated_recipe_info', 'adt_get_updated_recipe_info');
 
+function debug($data) {
+    $output = $data;
+    if (is_array($output))
+        $output = implode(',', $output);
+
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
+}
 
 function adt_get_product_footprint()
 {
@@ -421,8 +428,8 @@ function adt_get_product_footprint()
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
 
-    console.log("test - post version");
-    console.log($version);
+    debug("test - post version");
+    debug($version);
     
     // If cache exists, return the cached data
     if ($cachedFootprints !== false) {
@@ -441,9 +448,9 @@ function adt_get_product_footprint()
 
     // Make the API request
     $response = wp_remote_get($url);
-    console.log("api response of url:",$url);
-    console.log("api response:");
-    console.log($response);
+    debug("api response of url:",$url);
+    debug("api response:");
+    debug($response);
     
     // Check for errors
     if (is_wp_error($response)) {
