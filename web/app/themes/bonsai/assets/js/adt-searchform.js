@@ -892,6 +892,7 @@ async function adt_update_comparison_info(dataArray = null)
                 defaultValue = valueForItems;
             }
 
+            console.log("dataArray.all_data");
             console.log(dataArray.all_data);
             if (dataArray.all_data) {
                 $element.find('.product-result-unit').text('kg CO2eq');
