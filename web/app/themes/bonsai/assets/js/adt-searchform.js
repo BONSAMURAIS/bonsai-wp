@@ -70,16 +70,18 @@ jQuery(document).ready(function($){
             return true;
         }
 
+        console.log("at the launch b4 code:",this.code)
         if (this.code.includes('A_')  ) {
             this.code = this.code.replace(/^A_/, 'C_');
         }
+        console.log("at the launch after code:",this.code)
         
         productTitleArray.push(this.title);
         productContentArray.push(this.content);
         productCodeArray.push(this.code);
         productUuidArray.push(this.uuid);    
     });
-
+    
     // If user chooses to change footprint type then get new data
     $('#footprint-type input[name="footprint_type"]').on('change', function() {
         chosenFootprintType = $(this).val();
@@ -93,7 +95,7 @@ jQuery(document).ready(function($){
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
                 return true;
             }
-    
+            
             if (
                 chosenFootprintType === "market" && this.code.includes('C_')
                 || chosenFootprintType === "market" && this.code.includes('EF_')
@@ -101,11 +103,13 @@ jQuery(document).ready(function($){
             ) {
                 return true;
             }
-    
+            
+            console.log("at change code b4:",this.code)
             if (this.code.includes('A_')) {
                 this.code = this.code.replace(/^A_/, 'C_');
             }
-
+            console.log("at change code after:",this.code)
+            
             productTitleArray.push(this.title);
             productContentArray.push(this.content);
             productCodeArray.push(this.code);
