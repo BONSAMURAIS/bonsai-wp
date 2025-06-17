@@ -420,7 +420,7 @@ function adt_get_product_footprint()
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
 
-    echo "test";
+    error_log("test");
     
     // If cache exists, return the cached data
     if ($cachedFootprints !== false) {
