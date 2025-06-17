@@ -23,7 +23,7 @@ add_shortcode( 'adt_searchform', function($atts) {
     $household_compo = json_decode($household_compo_raw,true);
 
     error_log("test");
-    error_log(printr($household_compo_raw));
+    error_log($household_compo_raw);
 
     ?>
 
