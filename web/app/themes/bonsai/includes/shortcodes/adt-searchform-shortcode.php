@@ -124,7 +124,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </svg>
                 </button>
                 <div id="initial-error-message" style="display: none;">
-                    <?= do_shortcode('[block id="nothing-found-error-message"  style="color: blue;"]') ?>
+                    <!-- <?= do_shortcode('[block id="nothing-found-error-message"  style="color: blue;"]') ?> -->
                 </div>
                 <div id="suggestions-wrapper" style="display: none;">
                     <div class="search-history">
