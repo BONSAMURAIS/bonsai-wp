@@ -256,7 +256,7 @@ jQuery(document).ready(function($){
     }
 });
 
-function adt_get_person_footprint(regionCode, version = 'v1.1.0')
+function adt_get_person_footprint(regionCode, version = 'v1.2.0')
 {
     jQuery.ajax({
         type: 'POST',
