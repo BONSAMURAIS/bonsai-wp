@@ -1,5 +1,9 @@
 [
     {
+        "id":"average",
+        "label":"average household"
+    },
+    {
         "id":"re",
         "label":"retired household"
     },

@@ -1,22 +1,26 @@
 [
     {
+        "id":0,
+        "label":"Average residents of the EU household expenditure distribution (0 = lowest, 100 = highest)"
+    },
+    {
         "id":1,
-        "label":"Danish residents in the bottom 40% of the EU household expenditure distribution (0 = lowest, 100 = highest)"
+        "label":"residents in the bottom 20% of the EU household expenditure distribution (0 = lowest, 100 = highest)"
     },
     {
         "id":2,
-        "label":"Danish residents in the bottom 40% of the EU household expenditure distribution (0 = lowest, 100 = highest)"
+        "label":"residents in the 20th-40th percentile of the EU household expenditure distribution (0 = lowest, 100 = highest)"
     },
     {
         "id":3,
-        "label":"Danish residents in the 40th-60th percentile of the EU household expenditure distribution (0 = lowest, 100 = highest)"
+        "label":"residents in the 40th-60th percentile of the EU household expenditure distribution (0 = lowest, 100 = highest)"
     },
     {
         "id":4,
-        "label":"Danish residents in the 60th-80th percentile of the EU household expenditure distribution (0 = lowest, 100 = highest)"
+        "label":"residents in the 60th-80th percentile of the EU household expenditure distribution (0 = lowest, 100 = highest)"
     },
     {
         "id":5,
-        "label":"Danish residents in the top 20% of the EU household expenditure distribution  (0 = lowest, 100 = highest)"
+        "label":"residents in the top 20% of the EU household expenditure distribution  (0 = lowest, 100 = highest)"
     }
 ]
