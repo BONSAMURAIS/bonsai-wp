@@ -420,7 +420,6 @@ function adt_get_product_footprint()
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
 
-    print($myVar);
     print($version);
     
     // If cache exists, return the cached data
@@ -442,7 +441,7 @@ function adt_get_product_footprint()
     $response = wp_remote_get($url);
     print($url);
     print("api response:");
-    print($response);
+    // print($response);
     
     // Check for errors
     if (is_wp_error($response)) {
