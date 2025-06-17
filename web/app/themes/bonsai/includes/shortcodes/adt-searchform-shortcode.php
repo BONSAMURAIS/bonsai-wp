@@ -91,7 +91,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <option value="average-person">Average Person</option>
                                 <?php 
                                     foreach($household_compo as $elem) {
-                                        echo '<option value="'. $elem['id'].  '">'. $elem['label'].'</option>';      
+                                        echo '<option value="'. $elem['id'].  '">'. ucfirst($elem['label']).'</option>';      
                                     }
                                 ?>
                                 <!-- <option value="pensioner" disabled>Pensioner</option>
