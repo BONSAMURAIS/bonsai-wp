@@ -276,9 +276,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                     </div> -->
                 </div>
-                <div class="error-message text-left" style="display: none;">
+                <!-- <div class="error-message text-left" style="display: none;">
                     <?= do_shortcode('[block id="nothing-found-error-message"]') ?>
-                </div>
+                </div> -->
             </div>
             <div class="uncertainty-wrapper" style="display: none;">
                 <p>How sure are we on the ranking of the two compared products on a scale from 0-100%?</p>
