@@ -320,7 +320,6 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
 {
     productInfo = [];
 
-    jQuery( "#error-message-content" ).remove(); //at the init
 
     jQuery.ajax({
         type: 'POST',
@@ -339,6 +338,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
         beforeSend: function() {
             jQuery('#autocomplete-input').after('<div class="loading"></div>');
             jQuery('#autocomplete-input').prop('disabled', true);
+            jQuery( "#error-message-content" ).remove(); //at the init
         },
         success: (response) => {
             let dataArray = response.data;
@@ -347,9 +347,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             jQuery('#autocomplete-input').prop('disabled', false);
             
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
-                console.log("add elent")
                 jQuery('.error-message').first().append("<p id='error-message-content'>test error </p>");
-                console.log("end add elent")
                 jQuery('.error-message').slideDown('fast');
                 adt_show_search_results();
                 console.log('Combination not found in adt_get_product_info()');
@@ -358,7 +356,6 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                 // localStorage.setItem("footprint_data", JSON.stringify(response.data));
                 return;
             } else {
-                console.log('Combination found in adt_get_person_footprint()');
                 jQuery( "#error-message-content" ).remove();
                 jQuery('.error-message').slideUp('fast');
             }
