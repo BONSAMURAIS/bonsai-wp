@@ -20,10 +20,10 @@ add_shortcode( 'adt_searchform', function($atts) {
 
     ob_start();
     $household_compo_raw = file_get_contents (__DIR__ . "/../../mappings/household_compo.json");
-    $household_compo= json_decode($household_compo_raw,true);
+    $household_compo = json_decode($household_compo_raw,true);
 
     error_log("test");
-    error_log($household_compo);
+    error_log(printr($household_compo_raw));
 
     ?>
 
