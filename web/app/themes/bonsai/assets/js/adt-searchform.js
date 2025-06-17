@@ -1512,14 +1512,14 @@ function adt_get_product_by_encoded_string()
     if (typeValue === 'market') {
         type = 'Cradle to consumer';
     }
+    console.log("test");
+    console.log(jQuery('#database-version').val(obj.database_version));
+    console.log(obj);
 
     jQuery('#location').val(obj.footprint_location);
     jQuery('#year').val(obj.footprint_year);
     jQuery('#climate-metric').val('gwp100');
     jQuery('#database-version').val(obj.database_version);
-    console.log("test");
-    console.log(jQuery('#database-version').val(obj.database_version));
-    console.log(obj);
     // jQuery('#database-version option:selected').text(obj.database_version);
 
     adt_get_product_info(obj.title, obj.code, obj.uuid, chosenValues);
