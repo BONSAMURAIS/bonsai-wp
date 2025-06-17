@@ -3171,7 +3171,7 @@ ob_start();
 										</div>
 									</div>
 									<div class="error-message text-left" style="display: none;">
-										Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.                
+										Test - Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.                
 									</div>
 								</div>
 								<div class="row align-equal search-result basic" style="display: none;">
