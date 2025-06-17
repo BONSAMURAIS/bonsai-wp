@@ -19,6 +19,10 @@ add_shortcode( 'adt_searchform', function($atts) {
     ]);
 
     ob_start();
+    $household_compo= json_decode(file_get_contents ("../../mappings/household_compo.json"),true);
+
+    error_log($household_compo);
+
     ?>
 
     <div class="co2-form-wrapper">
@@ -84,6 +88,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <label class="select" for="household-composition">
                             <select id="household-composition">
                                 <option value="average-person">Average Person</option>
+                                    <?php 
+                                    foreach($test as $t) {
+                                        echo '<option value="'. $t['Name'].  '">'. $t['Name'].'</option>';      
+                                    }
+                                ?>
                                 <!-- <option value="pensioner" disabled>Pensioner</option>
                                 <option value="couple-with-kids" disabled>Couple with kids</option>
                                 <option value="couple-without-kids" disabled>Couple without kids</option>
@@ -279,7 +288,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </div> -->
                 </div>
                 <div class="error-message text-left" style="display: none;">
-                    
                     <!-- <?= do_shortcode('[block id="nothing-found-error-message"]') ?> -->
                 </div>
             </div>
