@@ -324,7 +324,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                 </svg>
                             </label>
-                            <p>equal</p>
+                            <!-- <p>equal</p> -->
+                            <p>test</p>
                         </div>
                         <p class="product-result">0.00</p>
                         <p class="product-result-unit">kg CO2eq</p>
