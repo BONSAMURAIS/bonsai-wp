@@ -271,7 +271,9 @@ function adt_get_person_footprint(regionCode, version = 'v1.2.0')
             jQuery('#autocomplete-input').prop('disabled', false);
             
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
+                console.log("add elent")
                 jQuery('.error-message').first().append("<p id='error-message-content'>test error </p>");
+                console.log("end add elent")
                 jQuery('.error-message').slideDown('fast');
                 adt_show_search_results();
                 console.log('Combination not found in adt_get_product_info()');
