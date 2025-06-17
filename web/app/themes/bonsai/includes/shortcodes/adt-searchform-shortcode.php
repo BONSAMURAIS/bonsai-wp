@@ -21,8 +21,8 @@ add_shortcode( 'adt_searchform', function($atts) {
     ob_start();
     $household_compo_raw = file_get_contents (__DIR__ . "/../../mappings/household_compo.json");
     $household_compo = json_decode($household_compo_raw,true);
-    error_log("test");
-    error_log($household_compo_raw);
+    $income_gpe_raw = file_get_contents (__DIR__ . "/../../mappings/income_gpe.json");
+    $income_gpe = json_decode($income_gpe_raw,true);
 
     ?>
 
@@ -88,16 +88,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                         <label class="select" for="household-composition">
                             <select id="household-composition">
-                                <option value="average-person">Average Person</option>
                                 <?php 
                                     foreach($household_compo as $elem) {
                                         echo '<option value="'. $elem['id'].  '">'. ucfirst($elem['label']).'</option>';      
                                     }
                                 ?>
-                                <!-- <option value="pensioner" disabled>Pensioner</option>
-                                <option value="couple-with-kids" disabled>Couple with kids</option>
-                                <option value="couple-without-kids" disabled>Couple without kids</option>
-                                <option value="single" disabled>Single (with and without kids)</option> -->
                             </select>
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
@@ -113,9 +108,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                         <label class="select" for="income-group">
                             <select id="income-group">
-                                <option value="average-income-group">Average income group</option>
-                                <!-- <option value="five-specific" disabled>5 specific income groups (ranging from
-                                20% poorest to 20% richest)</option> -->
+                                <?php 
+                                    foreach($income_gpe as $elem) {
+                                        echo '<option value="'. $elem['id'].  '">'. ucfirst($elem['label']).'</option>';      
+                                    }
+                                ?>
                             </select>
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
