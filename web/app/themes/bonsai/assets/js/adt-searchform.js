@@ -347,7 +347,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             jQuery('#autocomplete-input').prop('disabled', false);
             
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
-                jQuery('.error-message').first().append("<p id='error-message-content'>test error </p>");
+                jQuery('.error-message').first().append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
                 jQuery('.error-message').slideDown('fast');
                 adt_show_search_results();
                 console.log('Combination not found in adt_get_product_info()');
