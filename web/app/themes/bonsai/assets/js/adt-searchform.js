@@ -137,6 +137,7 @@ jQuery(document).ready(function($){
 
     $('.co2-form-result #co2-form-result-header .select-wrapper select').on('change', function() {
         let selectedValue = $('input[name="switch-one"]:checked').val();
+        console.log("test click has been done")
         
         if (selectedValue === 'person') {
             let countryCode = $('#location').val();
