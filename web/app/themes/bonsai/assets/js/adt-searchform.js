@@ -57,7 +57,8 @@ jQuery(document).ready(function($){
     let chosenFootprintType = $('#footprint-type input[name="footprint_type"]:checked').val();
 
     $(searchform.products).each(function() {
-        if (chosenFootprintType === "product" && this.code.includes("M_")) {
+        if (chosenFootprintType === "product" && this.code.includes("M_")
+        ) {
             return true;
         }
 
@@ -69,8 +70,8 @@ jQuery(document).ready(function($){
             return true;
         }
 
-        if (this.code.includes('C_') || this.code.includes('EF_')) {
-            this.code = this.code.replace(/^(C_|EF_)/, 'A_');
+        if (this.code.includes('A_')  ) {
+            this.code = this.code.replace(/^(A_)/, 'C_');
         }
         
         productTitleArray.push(this.title);
