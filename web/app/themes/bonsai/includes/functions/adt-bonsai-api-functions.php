@@ -420,7 +420,7 @@ function adt_get_product_footprint()
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
 
-    error_log("test");
+
     
     // If cache exists, return the cached data
     if ($cachedFootprints !== false) {
@@ -434,12 +434,15 @@ function adt_get_product_footprint()
             }
         }
         
-    error_log("end test");
+    error_log("api call");  
     // API URL
     $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry;
+    error_log( $url );  
 
     // Make the API request
     $response = wp_remote_get($url);
+    error_log("end api call");  
+
     
     // Check for errors
     if (is_wp_error($response)) {
