@@ -5,8 +5,8 @@ jQuery(document).ready(function($){
         if (isChecked) {
             let value = $(this).val();
 
-            $('input.search').attr('placeholder', 'Find footprint by '+value);
-            $('input.search').attr('placeholder', 'Find footprint by '+"testestestestestestes");
+            // $('input.search').attr('placeholder', 'Find footprint by '+value);
+            $('input.search').attr('placeholder', 'test placeholder');
 
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change'); // Fix applied here
