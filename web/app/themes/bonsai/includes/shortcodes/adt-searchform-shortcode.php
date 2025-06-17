@@ -317,13 +317,16 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <div class="unit-select-wrapper">
                             <label class="select" for="amount">
                                 <input type="number" id="amount" class="amount" value="1" max="1000" min="1">
-                                <!-- <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                                </svg> -->
                             </label>
                             <label class="select" for="unit">
                                 <select id="unit" class="unit">
                                     <option value="kg">kg</option>
+                                    <option value="tonne">tonne</option>
+                                    <option value="g">g</option>
+                                    <option value="kDKK">kDKK</option>
+                                    <option value="mDKK">mDKK</option>
+                                    <option value="kEUR">kEUR</option>
+                                    <option value="mEUR">mEUR</option>
                                 </select>
                                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
