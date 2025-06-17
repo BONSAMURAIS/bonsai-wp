@@ -1,5 +1,4 @@
 jQuery(document).ready(function($){
-    console.log("tester");
     $('.co2-form input[name="switch-one"]').on('change', function(){
         let isChecked = $(this).is(':checked');
         
@@ -59,9 +58,6 @@ jQuery(document).ready(function($){
     let chosenFootprintType = $('#footprint-type input[name="footprint_type"]:checked').val();
 
     $(searchform.products).each(function() {
-        if (this.code.startsWith('A_')) {
-            console.log("at the launch only A_ b4 code:",this.code)
-        }
         if (chosenFootprintType === "product" && this.code.includes("M_")
         ) {
             return true;
@@ -76,8 +72,9 @@ jQuery(document).ready(function($){
         }
         
         if (this.code.startsWith('A_')) {
+            console.log("replace 'A_' with 'C_' code:",this.code)
             this.code = this.code.replace(/^A_/, 'C_');
-            console.log("at the launch only A_ after code:",this.code)
+            console.log("after replace 'A_' with 'C_' code:",this.code)
         }
         
         productTitleArray.push(this.title);
@@ -97,9 +94,6 @@ jQuery(document).ready(function($){
         productUuidArray = [];
 
         $(searchform.products).each(function() {
-            if (this.code.startsWith('A_')) {
-                console.log("newtest at change code b4:",this.code)
-            }
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
                 return true;
             }
@@ -114,7 +108,6 @@ jQuery(document).ready(function($){
             
             if (this.code.startsWith('A_')) {
                 this.code = this.code.replace(/^A_/, 'C_');
-                console.log("at change code after:",this.code)
             }
             
             productTitleArray.push(this.title);
@@ -274,9 +267,6 @@ function adt_get_person_footprint(regionCode, version = 'v1.2.0')
         success: (response) => {
             let dataArray = response.data;
 
-            console.log("adt_get_person_footprint success : response.data");
-            console.log(response.data);
-
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
             
@@ -351,8 +341,6 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
         },
         success: (response) => {
             let dataArray = response.data;
-            console.log("test");
-            console.log("dataArray=",dataArray);
 
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
@@ -899,7 +887,6 @@ async function adt_update_comparison_info(dataArray = null)
                 defaultValue = valueForItems;
             }
 
-            console.log("dataArray.all_data");
             console.log(dataArray.all_data);
             if (dataArray.all_data) {
                 $element.find('.product-result-unit').text('kg CO2eq');
@@ -1344,9 +1331,6 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
         suggestionSelected = true;
         chosenValuesArray = adt_get_chosen_values();
-
-        console.log("selectSuggestion code");
-        console.log(code);
 
         adt_push_parameter_to_url(text, code, uuid, chosenValuesArray);
         adt_get_product_info(text, code, uuid, chosenValuesArray);

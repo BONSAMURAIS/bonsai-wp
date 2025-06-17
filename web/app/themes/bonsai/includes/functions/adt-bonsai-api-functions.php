@@ -98,7 +98,7 @@ function adt_get_bonsai_product_list() {
 
         $postId = wp_insert_post($post_data);
 
-        error_log("sad");
+        error_log("adt_get_bonsai_product_list - postdata = ");
         error_log(print_r($post_data));
 
         $updatedPostIds[] = $postId;
@@ -437,13 +437,12 @@ function adt_get_product_footprint()
             }
         }
         
-    error_log("api call");  
     // API URL
     $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry;
     
     // Make the API request
     $response = wp_remote_get($url);
-    error_log( "response=" );  
+    error_log( "api call response=" );  
     error_log( print_r($response, true) );
     error_log("end api call");  
 
