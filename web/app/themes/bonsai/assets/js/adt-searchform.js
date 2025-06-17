@@ -270,14 +270,17 @@ function adt_get_person_footprint(regionCode, version = 'v1.2.0')
             jQuery('#autocomplete-input').prop('disabled', false);
             
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
+                jQuery('.error-message').append(<p id="error-message-content">test error </p>);
                 jQuery('.error-message').slideDown('fast');
                 adt_show_search_results();
                 console.log('Combination not found in adt_get_product_info()');
+                
                 // Save product data even though an error occurred
                 // This is so the user can go try to search again with other countries
                 // localStorage.setItem("footprint_data", JSON.stringify(response.data));
                 return;
             } else {
+                jQuery('.error-message').remove(<p id="error-message-content">test error </p>);
                 jQuery('.error-message').slideUp('fast');
             }
             
