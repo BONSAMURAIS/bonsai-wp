@@ -6,6 +6,7 @@ jQuery(document).ready(function($){
             let value = $(this).val();
 
             $('input.search').attr('placeholder', 'Find footprint by '+value);
+            $('input.search').attr('placeholder', 'Find footprint by '+"testestestestestestes");
 
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change'); // Fix applied here
@@ -343,8 +344,8 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             jQuery('#autocomplete-input').prop('disabled', true);
         },
         success: (response) => {
-            console.log("test");
             let dataArray = response.data;
+            console.log("test");
             console.log("dataArray=",dataArray);
 
             jQuery('.loading').remove();
