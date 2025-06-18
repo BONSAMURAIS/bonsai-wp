@@ -29,8 +29,8 @@ function adt_get_person_footprint()
     error_log("url");
     error_log($url);
 
-    // error_log("response");
-    // error_log(printr($response));
+    error_log("response");
+    error_log(printr($response));
     // error_log("testste");
     
     // Check for errors
@@ -66,6 +66,8 @@ function adt_get_person_footprint()
     $chinValue = 0;
 
     foreach ($footprintsArray as $key => $footprint) {
+        error_log("footprint['act_code']=");
+        error_log($footprint['act_code']);
         switch ($footprint['act_code']) {
             case 'F_GOVE':
                 $governmentValue = $footprint['value'];
