@@ -183,6 +183,7 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
 
     // Make the API request
     $recipeResponse = wp_remote_get($url);
+    error_log("test adt_get_person_footprint_recipe");
 
     // Check for errors
     if (is_wp_error($recipeResponse)) {
@@ -234,6 +235,8 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
             'error' => 'No recipes found or an error occurred.'
         ];
     }
+    error_log("recipeResult");
+    error_log(print_r($recipeResult));
 
     return $recipeResult;
 }
