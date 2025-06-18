@@ -32,6 +32,8 @@ function adt_get_person_footprint()
     // error_log("response");
     // error_log($response);
     // error_log("testste");
+    error_log("response");
+    error_log(print_r($response));
     
     // Check for errors
     if (is_wp_error($response)) {
@@ -134,7 +136,7 @@ function adt_get_person_footprint()
     ];
 
     error_log("data");
-    error_log($data);
+    error_log(print_r($data));
 
     $productCode = "";
     $cachedFootprintArray = [
