@@ -276,6 +276,7 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
         },
         success: (response) => {
             let dataArray = response.data;
+            console.log("get_person_footprint : dataArray=",dataArray);
 
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
@@ -908,6 +909,7 @@ async function adt_update_comparison_info(dataArray = null)
                 jQuery('.emission-header-unit').text('[kg CO2eq]');
 
                 jQuery(dataArray.all_data).each(function (i) {
+                    console.log(dataArray.all_data);
                     console.log(dataArray.all_data);
                     let unit = dataArray.all_data[i].unit_reference;
 
