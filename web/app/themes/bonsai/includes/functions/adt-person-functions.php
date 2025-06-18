@@ -197,7 +197,7 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
     
     // Parse the JSON response
     $result = json_decode($body, true);
-    error_log("result page 1");
+    error_log("body page 1");
     error_log(print_r($body));
 
     $productCount = $result['count'];
