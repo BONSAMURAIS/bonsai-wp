@@ -106,13 +106,14 @@ function adt_get_person_footprint()
 
     // Find matching recipe codes and add the values together.
     // Unique product_codes from the first array
-    $productCodes = array_column($householdRecipeData, 'product_code');
-    $productCodes = array_unique($productCodes);
+    // $productCodes = array_column($householdRecipeData, 'product_code');
+    // $productCodes = array_unique($productCodes);
 
     // Merge data
     $mergedResults = [];
     foreach ($productCodes as $code) {
-        $mergedItem = adt_accumulate_value([$householdRecipeData, $governmentRecipeData, $chinRecipeData], $code);
+        // $mergedItem = adt_accumulate_value([$householdRecipeData, $governmentRecipeData, $chinRecipeData], $code);
+        $mergedItem = adt_accumulate_value([$governmentRecipeData], $code);
         if ($mergedItem) {
             $mergedResults[] = $mergedItem;
         }
@@ -128,8 +129,8 @@ function adt_get_person_footprint()
         'version' => $version,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
         'recipe' => $mergedRecipes,
-        'governmentRecipe' => $governmentRecipeData,
-        'chinRecipe' => $chinRecipeData,
+        // 'governmentRecipe' => $governmentRecipeData,
+        // 'chinRecipe' => $chinRecipeData,
     ];
 
     $productCode = "";
