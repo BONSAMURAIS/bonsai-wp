@@ -26,7 +26,7 @@ function adt_get_person_footprint()
     $response = wp_remote_get($url);
     error_log("url");
     error_log($url);
-    error_log("$chosenActCode");
+    error_log("chosenActCode");
     error_log($chosenActCode);
     // error_log("response");
     // error_log(printr($response));
