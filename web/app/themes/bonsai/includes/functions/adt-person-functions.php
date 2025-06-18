@@ -131,10 +131,10 @@ function adt_get_person_footprint()
         'chinRecipe' => $chinRecipeData,
     ];
 
-    // $productCode = "";
-    // $cachedFootprintArray = [
-    //     $productCode => $data,
-    // ];
+    $productCode = "";
+    $cachedFootprintArray = [
+        $productCode => $data,
+    ];
 
     error_log("totalValue");
     error_log($totalValue);
@@ -142,7 +142,7 @@ function adt_get_person_footprint()
     error_log(print_r($data));
 
     // Cache the locations for 24 hour (86400 seconds)
-    // set_transient('adt_person_footprint_cache', $cachedFootprintArray, 86400);
+    set_transient('adt_person_footprint_cache', $cachedFootprintArray, 86400);
     wp_send_json_success($data);
 }
 
