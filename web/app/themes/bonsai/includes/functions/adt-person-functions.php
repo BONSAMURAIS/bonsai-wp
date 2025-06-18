@@ -144,7 +144,7 @@ function adt_get_person_footprint()
 
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_person_footprint_cache', $cachedFootprintArray, 86400);
-    wp_send_json_success($data);
+    wp_send_json_success($recipes);
 }
 
 add_action('wp_ajax_adt_get_person_footprint', 'adt_get_person_footprint');
