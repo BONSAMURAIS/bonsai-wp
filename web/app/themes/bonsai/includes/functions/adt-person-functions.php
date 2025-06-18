@@ -32,8 +32,7 @@ function adt_get_person_footprint()
     // error_log("response");
     // error_log($response);
     // error_log("testste");
-    error_log("response");
-    error_log(print_r($response));
+
     
     // Check for errors
     if (is_wp_error($response)) {
@@ -43,6 +42,8 @@ function adt_get_person_footprint()
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
+    error_log("result");
+    error_log(print_r($result));
 
     // echo '<pre>';
     // var_dump($result);
@@ -134,9 +135,6 @@ function adt_get_person_footprint()
         'governmentRecipe' => $governmentRecipeData,
         'chinRecipe' => $chinRecipeData,
     ];
-
-    error_log("data");
-    error_log(print_r($data));
 
     $productCode = "";
     $cachedFootprintArray = [
