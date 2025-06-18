@@ -69,18 +69,16 @@ function adt_get_person_footprint()
     $chinValue = 0;
 
     foreach ($footprintsArray as $key => $footprint) {
-        error_log("footprint['act_code']=");
         if (str_contains($footprint['act_code'],'F_GOVE')){
             $governmentValue = $footprint['value'];
             break;
+        } else if (str_contains($footprint['act_code'],'F_HOUS')){
+            $householdValue = $footprint['value'];
+            break;
+        } else if (str_contains($footprint['act_code'],'I_CHIN')){
+            $chinValue = $footprint['value'];
+            break;
         }
-        // else if (str_contains($footprint['act_code'],'F_HOUS')){
-        //     $householdValue = $footprint['value'];
-        //     break;
-        // }else if (str_contains($footprint['act_code'],'I_CHIN')){
-        //     $chinValue = $footprint['value'];
-        //     break;
-        // }
     }
     
     // add values together because the website wants to display the total emission for a country
