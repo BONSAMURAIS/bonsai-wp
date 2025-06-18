@@ -262,6 +262,7 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
     jQuery.ajax({
         type: 'POST',
         url: localize._ajax_url,
+        dataType: 'json',
         data: {
             _ajax_nonce: localize._ajax_nonce,
             action: 'adt_get_person_footprint', //reference in adt-person-functions.php
