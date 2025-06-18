@@ -5,7 +5,7 @@ defined('ABSPATH') || exit;
 function adt_get_person_footprint()
 {
     $chosenCountry = $_POST['region_code'];
-    // $chosenActCode = $_POST['act_code'];
+    $chosenActCode = $_POST['act_code'];
     $version = $_POST['version'];
 
     // Check if the data is already cached
@@ -24,8 +24,8 @@ function adt_get_person_footprint()
 
     // Make the API request
     $response = wp_remote_get($url);
-    // error_log("url");
-    // error_log($url);
+    error_log("url");
+    error_log($url);
     // error_log("response");
     // error_log(printr($response));
     // error_log("testste");
