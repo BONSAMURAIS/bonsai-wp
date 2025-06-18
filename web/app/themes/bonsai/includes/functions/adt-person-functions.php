@@ -118,7 +118,7 @@ function adt_get_person_footprint()
 
     $mergedRecipes['results'] = $mergedResults;
 
-    error_log(print_r($recipes));
+    // error_log(print_r($recipes));
     $data = [
         'id' => $footprintsArray[0]['id'],
         'act_code' => $footprintsArray[0]['act_code'],
@@ -135,17 +135,10 @@ function adt_get_person_footprint()
     ];
 
     $json_string = json_encode($data, JSON_PRETTY_PRINT);
-    // error_log("type data=");
-    // $type = gettype($data);
-    // error_log($type);
-    // error_log("type json_string=");
-    // $type = gettype($json_string);
-    // error_log($type);
-    // error_log($json_string);
 
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_person_footprint_cache', $cachedFootprintArray, 86400);
-    wp_send_json_success($recipes);
+    wp_send_json_success(json_encode($recipes));
 }
 
 add_action('wp_ajax_adt_get_person_footprint', 'adt_get_person_footprint');
