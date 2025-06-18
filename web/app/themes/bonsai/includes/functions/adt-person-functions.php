@@ -209,8 +209,7 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
     }
     
     $pages = ceil($productCount / 100);
-    error_log("pages");
-    error_log($pages);
+
     
     // TODO: Throttled again for loading through the pages?
     for ($i = 2; $i <= $pages; $i++) {
@@ -223,9 +222,6 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
         
         $body = wp_remote_retrieve_body($response);
         $result = json_decode($body, true);
-        error_log("result page");
-        error_log($i);
-        error_log($body);
         if (!empty($result['results'])) {
             $recipeResult = array_merge($recipeResult, $result['results']);
         }
@@ -237,6 +233,8 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
             'error' => 'No recipes found or an error occurred.'
         ];
     }
+
+    error_log("retrieve recipes OK");
     
     return $recipeResult;
 }
