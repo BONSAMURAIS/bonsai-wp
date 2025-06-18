@@ -123,7 +123,8 @@ function adt_get_person_footprint()
     ];
 
     $json_string = json_encode($data, JSON_PRETTY_PRINT);
-    $test = json_encode($recipes['data']);
+    error_log("test");
+    $test = json_encode($recipes);
     error_log($test);
 
     // Cache the locations for 24 hour (86400 seconds)
