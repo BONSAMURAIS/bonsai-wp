@@ -235,6 +235,8 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
     }
 
     error_log("retrieve recipes OK");
+    error_log(print_r($recipeResult));
+    // error_log("end retrieve recipes ");
     
     return $recipeResult;
 }
