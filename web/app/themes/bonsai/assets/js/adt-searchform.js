@@ -275,7 +275,7 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
         },
         success: (response) => {
             let dataArray = response.data;
-            console.log("get_person_footprint : dataArray=",dataArray);
+            console.log("get_person_footprint : dataArray=");
             console.log(dataArray);
 
             jQuery('.loading').remove();
