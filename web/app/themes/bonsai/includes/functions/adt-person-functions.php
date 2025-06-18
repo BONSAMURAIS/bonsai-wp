@@ -126,8 +126,8 @@ function adt_get_person_footprint()
         'version' => $version,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
         'recipe' => $mergedRecipes,
-        // 'governmentRecipe' => $recipes,
-        // 'chinRecipe' => $chinRecipeData,
+        'governmentRecipe' => "",
+        'chinRecipe' => "",
     ];
 
     $productCode = "";
