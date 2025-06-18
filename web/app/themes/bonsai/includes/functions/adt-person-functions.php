@@ -198,7 +198,7 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
     // Parse the JSON response
     $result = json_decode($body, true);
     error_log("result page 1");
-    error_log(print_r($result));
+    error_log(print_r($body));
 
     $productCount = $result['count'];
 
@@ -231,7 +231,7 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
         $result = json_decode($body, true);
         error_log("result page");
         error_log($i);
-        error_log($result);
+        error_log($body);
         if (!empty($result['results'])) {
             $recipeResult = array_merge($recipeResult, $result['results']);
         }
