@@ -184,19 +184,21 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
     // Make the API request
     $recipeResponse = wp_remote_get($url);
     error_log("test adt_get_person_footprint_recipe");
-
+    
     // Check for errors
     if (is_wp_error($recipeResponse)) {
         return [
             'error' => $recipeResponse->get_error_message()
         ];
     }
-
+    
     // Get the response body
     $body = wp_remote_retrieve_body($recipeResponse);
-
+    
     // Parse the JSON response
     $result = json_decode($body, true);
+    error_log("result page 1");
+    error_log($result);
 
     $productCount = $result['count'];
 
@@ -213,6 +215,8 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
     }
     
     $pages = ceil($productCount / 100);
+    error_log("pages");
+    error_log($pages);
     
     // TODO: Throttled again for loading through the pages?
     for ($i = 2; $i <= $pages; $i++) {
@@ -225,7 +229,9 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
         
         $body = wp_remote_retrieve_body($response);
         $result = json_decode($body, true);
-        
+        error_log("result page");
+        error_log($i);
+        error_log($result);
         if (!empty($result['results'])) {
             $recipeResult = array_merge($recipeResult, $result['results']);
         }
