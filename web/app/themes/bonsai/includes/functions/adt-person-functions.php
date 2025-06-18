@@ -90,6 +90,7 @@ function adt_get_person_footprint()
      */
     // $householdRecipeData = adt_get_person_footprint_recipe('F_HOUS', $chosenCountry, $version);
     $recipes = adt_get_person_footprint_recipe($footprint['act_code'], $chosenCountry, $version);
+    $recipes = wp_remote_retrieve_body($recipes);
     // $chinRecipeData = adt_get_person_footprint_recipe('I_CHIN', $chosenCountry, $version);
 
     /**
@@ -104,8 +105,8 @@ function adt_get_person_footprint()
 
     // Find matching recipe codes and add the values together.
     // Unique product_codes from the first array
-    $productCodes = array_column($recipes, 'product_code');
-    $productCodes = array_unique($productCodes);
+    // $productCodes = array_column($recipes, 'product_code');
+    // $productCodes = array_unique($productCodes);
 
     $data = [
         'id' => $footprintsArray[0]['id'],
@@ -122,14 +123,14 @@ function adt_get_person_footprint()
         $productCode => $data,
     ];
 
-    $json_string = json_encode($data, JSON_PRETTY_PRINT);
-    error_log("test");
-    $test = json_encode($recipes);
-    error_log($test);
+    // $json_string = json_encode($data, JSON_PRETTY_PRINT);
+    // error_log("test");
+    // $test = json_encode($recipes);
+    // error_log($test);
 
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_person_footprint_cache', $cachedFootprintArray, 86400);
-    wp_send_json_success($test);
+    wp_send_json_success($data);
 }
 
 add_action('wp_ajax_adt_get_person_footprint', 'adt_get_person_footprint');
