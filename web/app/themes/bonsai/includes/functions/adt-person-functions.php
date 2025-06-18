@@ -126,7 +126,7 @@ function adt_get_person_footprint()
         'value' => $totalValue,
         'version' => $version,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
-        'recipe' => $recipes,
+        'recipe' => $recipes['data'],
     ];
 
     $productCode = "";
