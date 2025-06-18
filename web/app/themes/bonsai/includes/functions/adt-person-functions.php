@@ -90,7 +90,6 @@ function adt_get_person_footprint()
      */
     // $householdRecipeData = adt_get_person_footprint_recipe('F_HOUS', $chosenCountry, $version);
     $recipes = adt_get_person_footprint_recipe($footprint['act_code'], $chosenCountry, $version);
-    $recipes = wp_remote_retrieve_body($recipes);
     error_log("recipes");
     error_log($recipes);
     // $chinRecipeData = adt_get_person_footprint_recipe('I_CHIN', $chosenCountry, $version);
@@ -227,6 +226,7 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
 
     error_log("retrieve recipes OK");
     $recipeResultJson = json_encode($recipeResult, JSON_PRETTY_PRINT);
+    error_log($recipeResultJson);
     
     return $recipeResult;
 }
