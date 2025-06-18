@@ -275,7 +275,10 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
         },
         success: (response) => {
             let dataArray = response.data;
-            console.log("test test")
+            console.log("response")
+            console.log(response)
+            console.log("dataArray")
+            console.log(dataArray)
 
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
@@ -320,9 +323,6 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
             console.log('successfull run of adt_get_person_footprint()');
         },
         error: (response) => {
-            console.log("error");
-            console.log("response=",response);
-
             // Request was throttled
             jQuery('#initial-error-message').html('<p>'+response.responseJSON?.data.error+'</p>');
             jQuery('#initial-error-message').slideDown('fast');

@@ -112,7 +112,6 @@ function adt_get_person_footprint()
     // Merge data
     $mergedResults = [];
     foreach ($productCodes as $code) {
-        // $mergedItem = adt_accumulate_value([$householdRecipeData, $governmentRecipeData, $chinRecipeData], $code);
         $mergedItem = adt_accumulate_value([$governmentRecipeData], $code);
         if ($mergedItem) {
             $mergedResults[] = $mergedItem;
@@ -139,8 +138,8 @@ function adt_get_person_footprint()
     ];
 
     $json_string = json_encode($data, JSON_PRETTY_PRINT);
-    error_log("data=");
-    error_log($json_string);
+    // error_log("data=");
+    // error_log($json_string);
 
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_person_footprint_cache', $cachedFootprintArray, 86400);
@@ -183,9 +182,7 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
 
     // Make the API request
     $recipeResponse = wp_remote_get($url);
-    error_log("test adt_get_person_footprint_recipe url : ");
-    error_log($url);
-    
+
     // Check for errors
     if (is_wp_error($recipeResponse)) {
         return [
@@ -198,20 +195,16 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
     
     // Parse the JSON response
     $result = json_decode($body, true);
-    error_log("body page 1");
-    error_log(print_r($body));
 
     $productCount = $result['count'];
 
     $recipeResult = $result['results'];
 
     if (empty($result)) {
-        error_log("adt_get_person_footprint_recipe empty result");
         return 'No person recipe found or an error occurred.';
     }
     
     if (array_key_exists('detail', $result)) {
-        error_log("adt_get_person_footprint_recipe key detail exist");
         return 'Error: ' . $result['detail'];
     }
     
@@ -240,14 +233,10 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
     
     // Handle potential errors in the recipeResponse
     if (empty($recipeResult)) {
-        error_log("adt_get_person_footprint_recipe empty resultRecipe");
         return [
             'error' => 'No recipes found or an error occurred.'
         ];
     }
     
-    error_log("adt_get_person_footprint_recipe found resultRecipe");
-
-
     return $recipeResult;
 }
