@@ -319,14 +319,14 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
             console.log('successfull run of adt_get_person_footprint()');
         },
-        error: (response) => {
-            console.log("error");
-            console.log("response=",response);
+        // error: (response) => {
+        //     console.log("error");
+        //     console.log("response=",response);
 
-            // Request was throttled
-            jQuery('#initial-error-message').html('<p>'+response.responseJSON?.data.error+'</p>');
-            jQuery('#initial-error-message').slideDown('fast');
-        }
+        //     // Request was throttled
+        //     jQuery('#initial-error-message').html('<p>'+response.responseJSON?.data.error+'</p>');
+        //     jQuery('#initial-error-message').slideDown('fast');
+        // }
     });
 }
 
