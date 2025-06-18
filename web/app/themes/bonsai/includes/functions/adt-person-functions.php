@@ -133,6 +133,9 @@ function adt_get_person_footprint()
         'chinRecipe' => $chinRecipeData,
     ];
 
+    error_log("data");
+    error_log(print_r($data));
+
     $productCode = "";
     $cachedFootprintArray = [
         $productCode => $data,
