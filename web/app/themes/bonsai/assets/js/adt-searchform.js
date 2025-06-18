@@ -9,7 +9,7 @@ jQuery(document).ready(function($){
 
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change'); // Fix applied here
-                $('#footprint-type>.radio-choice').each(function(){
+                $('#footprint-type .radio-choice').each(function(){
                     $(this).toggle();
                 });
                 
