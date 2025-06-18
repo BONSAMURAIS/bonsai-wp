@@ -107,18 +107,6 @@ function adt_get_person_footprint()
     $productCodes = array_column($recipes, 'product_code');
     $productCodes = array_unique($productCodes);
 
-    // Merge data
-    $mergedResults = [];
-    foreach ($productCodes as $code) {
-        $mergedItem = adt_accumulate_value([$recipes], $code);
-        if ($mergedItem) {
-            $mergedResults[] = $mergedItem;
-        }
-    }
-
-    $mergedRecipes['results'] = $mergedResults;
-
-    // error_log(print_r($recipes));
     $data = [
         'id' => $footprintsArray[0]['id'],
         'act_code' => $footprintsArray[0]['act_code'],
@@ -135,10 +123,12 @@ function adt_get_person_footprint()
     ];
 
     $json_string = json_encode($data, JSON_PRETTY_PRINT);
+    $test = json_encode($recipes['data']);
+    error_log($test);
 
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_person_footprint_cache', $cachedFootprintArray, 86400);
-    wp_send_json_success( json_encode($recipes['data']));
+    wp_send_json_success($data);
 }
 
 add_action('wp_ajax_adt_get_person_footprint', 'adt_get_person_footprint');
