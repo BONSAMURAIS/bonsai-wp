@@ -20,7 +20,7 @@ function adt_get_person_footprint()
     }
 
     // API URL - does not work with region_code yet
-    $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry."&version=".$version."&act_code=".$chosenActCode;
+    $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry."&version=".$version;//."&act_code=".$chosenActCode;
 
     // Make the API request
     $response = wp_remote_get($url);
