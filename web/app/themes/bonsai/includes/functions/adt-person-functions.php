@@ -203,27 +203,29 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
     $recipeResult = $result['results'];
 
     if (empty($result)) {
+        error_log("adt_get_person_footprint_recipe empty result");
         return 'No person recipe found or an error occurred.';
     }
-
+    
     if (array_key_exists('detail', $result)) {
+        error_log("adt_get_person_footprint_recipe key detail exist");
         return 'Error: ' . $result['detail'];
     }
-
+    
     $pages = ceil($productCount / 100);
-
+    
     // TODO: Throttled again for loading through the pages?
     for ($i = 2; $i <= $pages; $i++) {
         $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" . $actCode . "&region_code=" . $chosenCountry . "&version=" . $newestVersion;
         $response = wp_remote_get($api_url);
-
+        
         if (is_wp_error($response)) {
             continue;
         }
-
+        
         $body = wp_remote_retrieve_body($response);
         $result = json_decode($body, true);
-
+        
         if (!empty($result['results'])) {
             $recipeResult = array_merge($recipeResult, $result['results']);
         }
@@ -231,12 +233,14 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
     
     // Handle potential errors in the recipeResponse
     if (empty($recipeResult)) {
+        error_log("adt_get_person_footprint_recipe empty resultRecipe");
         return [
             'error' => 'No recipes found or an error occurred.'
         ];
     }
-    error_log("recipeResult");
-    error_log(print_r($recipeResult));
+    
+    error_log("adt_get_person_footprint_recipe found resultRecipe");
+
 
     return $recipeResult;
 }
