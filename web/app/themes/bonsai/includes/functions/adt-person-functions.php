@@ -28,6 +28,7 @@ function adt_get_person_footprint()
     error_log($url);
     error_log("response");
     error_log(printr($response));
+    error_log("testste");
     
     // Check for errors
     if (is_wp_error($response)) {
