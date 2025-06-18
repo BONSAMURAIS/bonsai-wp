@@ -91,7 +91,7 @@ function adt_get_person_footprint()
     // $householdRecipeData = adt_get_person_footprint_recipe('F_HOUS', $chosenCountry, $version);
     $recipes = adt_get_person_footprint_recipe($footprint['act_code'], $chosenCountry, $version);
     error_log("recipes");
-    error_log($recipes);
+    error_log(print_r($recipes));
     // $chinRecipeData = adt_get_person_footprint_recipe('I_CHIN', $chosenCountry, $version);
 
     /**
