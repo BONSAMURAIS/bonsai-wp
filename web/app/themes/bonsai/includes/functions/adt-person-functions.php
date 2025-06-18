@@ -8,8 +8,8 @@ function adt_get_person_footprint()
     $chosenActCode = $_POST['act_code'];
     $version = $_POST['version'];
 
-    error_log("chosenActCode");
-    error_log($chosenActCode);
+    // error_log("chosenActCode");
+    // error_log($chosenActCode);
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_person_footprint_cache');
     
@@ -26,13 +26,6 @@ function adt_get_person_footprint()
 
     // Make the API request
     $response = wp_remote_get($url);
-    error_log("url");
-    error_log($url);
-
-    // error_log("response");
-    // error_log($response);
-    // error_log("testste");
-
     
     // Check for errors
     if (is_wp_error($response)) {
@@ -42,12 +35,6 @@ function adt_get_person_footprint()
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
-    error_log("result");
-    error_log(print_r($result));
-
-    // echo '<pre>';
-    // var_dump($result);
-    // echo '</pre>';
     
     if (isset($result['count']) && $result['count'] === 0) {
         wp_send_json_error(['error' => 'Footprint not found']);
@@ -90,8 +77,8 @@ function adt_get_person_footprint()
      */
     // $householdRecipeData = adt_get_person_footprint_recipe('F_HOUS', $chosenCountry, $version);
     $recipes = adt_get_person_footprint_recipe($footprint['act_code'], $chosenCountry, $version);
-    error_log("recipes");
-    error_log(print_r($recipes));
+    // error_log("recipes");
+    // error_log(print_r($recipes));
     // $chinRecipeData = adt_get_person_footprint_recipe('I_CHIN', $chosenCountry, $version);
 
     /**
@@ -170,8 +157,8 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
 
     // Make the API request
     $recipeResponse = wp_remote_get($url);
-    error_log("url");
-    error_log($url);
+    // error_log("url");
+    // error_log($url);
 
     // Check for errors
     if (is_wp_error($recipeResponse)) {
@@ -224,9 +211,9 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
         ];
     }
 
-    error_log("retrieve recipes OK");
-    $recipeResultJson = json_encode($recipeResult, JSON_PRETTY_PRINT);
-    error_log($recipeResultJson);
+    // error_log("retrieve recipes OK");
+    // $recipeResultJson = json_encode($recipeResult, JSON_PRETTY_PRINT);
+    // error_log($recipeResultJson);
     
     return $recipeResult;
 }
