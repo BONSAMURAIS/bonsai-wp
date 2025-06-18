@@ -5,7 +5,7 @@ defined('ABSPATH') || exit;
 function adt_get_person_footprint()
 {
     $chosenCountry = $_POST['region_code'];
-    $chosenActCode = $_POST['act_code'];
+    // $chosenActCode = $_POST['act_code'];
     $version = $_POST['version'];
 
     // Check if the data is already cached
