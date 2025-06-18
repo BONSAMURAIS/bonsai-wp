@@ -90,7 +90,6 @@ function adt_get_person_footprint()
      */
     // $householdRecipeData = adt_get_person_footprint_recipe('F_HOUS', $chosenCountry, $version);
     $recipes = adt_get_person_footprint_recipe($footprint['act_code'], $chosenCountry, $version);
-    $recipes['results'] = $recipes;
     // $chinRecipeData = adt_get_person_footprint_recipe('I_CHIN', $chosenCountry, $version);
 
     /**
@@ -105,19 +104,19 @@ function adt_get_person_footprint()
 
     // Find matching recipe codes and add the values together.
     // Unique product_codes from the first array
-    // $productCodes = array_column($recipes, 'product_code');
-    // $productCodes = array_unique($productCodes);
+    $productCodes = array_column($recipes, 'product_code');
+    $productCodes = array_unique($productCodes);
 
-    // // Merge data
-    // $mergedResults = [];
-    // foreach ($productCodes as $code) {
-    //     $mergedItem = adt_accumulate_value([$recipes], $code);
-    //     if ($mergedItem) {
-    //         $mergedResults[] = $mergedItem;
-    //     }
-    // }
+    // Merge data
+    $mergedResults = [];
+    foreach ($productCodes as $code) {
+        $mergedItem = adt_accumulate_value([$recipes], $code);
+        if ($mergedItem) {
+            $mergedResults[] = $mergedItem;
+        }
+    }
 
-    // $mergedRecipes['results'] = $mergedResults;
+    $mergedRecipes['results'] = $mergedResults;
 
     $data = [
         'id' => $footprintsArray[0]['id'],
@@ -126,7 +125,7 @@ function adt_get_person_footprint()
         'value' => $totalValue,
         'version' => $version,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
-        'recipe' => $recipes,
+        'recipe' => $mergedRecipes,
         // 'governmentRecipe' => $recipes,
         // 'chinRecipe' => $chinRecipeData,
     ];
