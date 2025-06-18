@@ -134,7 +134,7 @@ function adt_get_person_footprint()
     ];
 
     error_log("data");
-    error_log(print_r($data));
+    error_log($data);
 
     $productCode = "";
     $cachedFootprintArray = [
