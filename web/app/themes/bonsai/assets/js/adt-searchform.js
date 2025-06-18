@@ -274,7 +274,8 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
             jQuery('#autocomplete-input').after('<div class="loading"></div>');
             jQuery('#autocomplete-input').prop('disabled', true);
         },
-        success: (response) => {
+        success: function(response) {
+            console.log("success")
             let dataArray = response.data;
             console.log("response")
             console.log(response)
