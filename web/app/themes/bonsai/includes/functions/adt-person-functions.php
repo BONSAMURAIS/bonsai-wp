@@ -136,10 +136,8 @@ function adt_get_person_footprint()
         $productCode => $data,
     ];
 
-    error_log("totalValue");
-    error_log($totalValue);
     $json_string = json_encode($data, JSON_PRETTY_PRINT);
-    error_log("json_string");
+    error_log("data=");
     error_log($json_string);
 
     // Cache the locations for 24 hour (86400 seconds)
