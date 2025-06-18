@@ -138,8 +138,9 @@ function adt_get_person_footprint()
 
     error_log("totalValue");
     error_log($totalValue);
-    error_log("data");
-    error_log(print_r($data));
+    $json_string = json_encode($data, JSON_PRETTY_PRINT);
+    error_log("json_string");
+    error_log($json_string);
 
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_person_footprint_cache', $cachedFootprintArray, 86400);
