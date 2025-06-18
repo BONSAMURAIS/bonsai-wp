@@ -8,6 +8,8 @@ function adt_get_person_footprint()
     $chosenActCode = $_POST['act_code'];
     $version = $_POST['version'];
 
+    error_log("chosenActCode");
+    error_log($chosenActCode);
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_person_footprint_cache');
     
@@ -26,8 +28,7 @@ function adt_get_person_footprint()
     $response = wp_remote_get($url);
     error_log("url");
     error_log($url);
-    error_log("chosenActCode");
-    error_log($chosenActCode);
+
     // error_log("response");
     // error_log(printr($response));
     // error_log("testste");
