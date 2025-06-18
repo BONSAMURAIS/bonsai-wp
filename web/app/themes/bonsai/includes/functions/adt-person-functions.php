@@ -118,6 +118,7 @@ function adt_get_person_footprint()
 
     $mergedRecipes['results'] = $mergedResults;
 
+    error_log(print_r($recipes));
     $data = [
         'id' => $footprintsArray[0]['id'],
         'act_code' => $footprintsArray[0]['act_code'],
@@ -125,7 +126,7 @@ function adt_get_person_footprint()
         'value' => $totalValue,
         'version' => $version,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
-        'recipe' => $recipes['data'],
+        'recipe' => $recipes,
     ];
 
     $productCode = "";
