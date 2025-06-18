@@ -257,9 +257,9 @@ jQuery(document).ready(function($){
 
 function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.2.0', f_demand_cat = "F_GOVE")
 {
-    act_code = f_demand_cat + "|"+income_gpe+"_"+household_compo;
+    PIPE="%7C1-5"// % 7C1-5 = |
+    act_code = f_demand_cat + "%7C1-5"+income_gpe+"_"+household_compo;
     console.log("act_code=",act_code);
-    console.log("localize._ajax_url=",localize._ajax_url);
     jQuery.ajax({
         type: 'POST',
         url: localize._ajax_url,
