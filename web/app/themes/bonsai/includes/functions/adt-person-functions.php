@@ -106,8 +106,8 @@ function adt_get_person_footprint()
 
     // Find matching recipe codes and add the values together.
     // Unique product_codes from the first array
-    // $productCodes = array_column($householdRecipeData, 'product_code');
-    // $productCodes = array_unique($productCodes);
+    $productCodes = array_column($governmentRecipeData, 'product_code');
+    $productCodes = array_unique($productCodes);
 
     // Merge data
     $mergedResults = [];
