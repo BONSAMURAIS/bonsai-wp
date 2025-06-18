@@ -265,7 +265,7 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
         url: localize._ajax_url,
         data: {
             _ajax_nonce: localize._ajax_nonce,
-            action: 'adt_get_person_footprint',
+            // action: 'adt_get_person_footprint',
             version: version,
             act_code: act_code,
             region_code: countryCode,
