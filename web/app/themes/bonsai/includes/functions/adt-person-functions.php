@@ -23,6 +23,10 @@ function adt_get_person_footprint()
 
     // Make the API request
     $response = wp_remote_get($url);
+    error_log("url");
+    error_log($url);
+    error_log("response");
+    error_log($response);
     
     // Check for errors
     if (is_wp_error($response)) {
