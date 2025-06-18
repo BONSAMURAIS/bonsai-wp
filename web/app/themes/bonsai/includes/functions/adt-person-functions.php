@@ -136,6 +136,9 @@ function adt_get_person_footprint()
         $productCode => $data,
     ];
 
+    error_log("totalValue");
+    error_log($totalValue);
+
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_person_footprint_cache', $cachedFootprintArray, 86400);
     wp_send_json_success($data);
