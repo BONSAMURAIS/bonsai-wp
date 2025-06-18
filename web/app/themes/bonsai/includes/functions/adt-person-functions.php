@@ -85,8 +85,6 @@ function adt_get_person_footprint()
     // add values together because the website wants to display the total emission for a country
     $totalValue = $governmentValue + $householdValue + $chinValue;
     
-    error_log("totalValue");
-    error_log($totalValue);
     /**
      * In this function we have to get the recipe info from 3 different codes.
      * F_GOVE, F_HOUS and I_CHIN.
@@ -140,7 +138,6 @@ function adt_get_person_footprint()
 
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_person_footprint_cache', $cachedFootprintArray, 86400);
-
     wp_send_json_success($data);
 }
 
