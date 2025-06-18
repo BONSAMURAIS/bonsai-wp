@@ -235,7 +235,9 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
     }
 
     error_log("retrieve recipes OK");
-    error_log(print_r($recipeResult));
+    $json_string = json_encode($recipeResult, JSON_PRETTY_PRINT);
+    error_log($json_string);
+
     // error_log("end retrieve recipes ");
     
     return $recipeResult;
