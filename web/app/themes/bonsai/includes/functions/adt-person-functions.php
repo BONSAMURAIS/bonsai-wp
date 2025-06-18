@@ -70,24 +70,23 @@ function adt_get_person_footprint()
 
     foreach ($footprintsArray as $key => $footprint) {
         error_log("footprint['act_code']=");
-        if ($footprint['act_code'].include('F_GOVE')){
+        if (str_contains($footprint['act_code'],'F_GOVE')){
             $governmentValue = $footprint['value'];
             break;
-        }else if  ($footprint['act_code'].include('F_HOUS')){
+        }else if (str_contains($footprint['act_code'],'F_HOUS')){
             $householdValue = $footprint['value'];
             break;
-        }else if  ($footprint['act_code'].include('I_CHIN')){
+        }else if (str_contains($footprint['act_code'],'I_CHIN')){
             $chinValue = $footprint['value'];
             break;
         }
-
     }
-    error_log("totalValue");
-    error_log($totalValue);
-
+    
     // add values together because the website wants to display the total emission for a country
     $totalValue = $governmentValue + $householdValue + $chinValue;
-
+    
+    error_log("totalValue");
+    error_log($totalValue);
     /**
      * In this function we have to get the recipe info from 3 different codes.
      * F_GOVE, F_HOUS and I_CHIN.
