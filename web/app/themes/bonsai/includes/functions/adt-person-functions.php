@@ -8,8 +8,6 @@ function adt_get_person_footprint()
     $chosenActCode = $_POST['act_code'];
     $version = $_POST['version'];
 
-    // error_log("chosenActCode");
-    // error_log($chosenActCode);
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_person_footprint_cache');
     
@@ -70,16 +68,7 @@ function adt_get_person_footprint()
     
     // add values together because the website wants to display the total emission for a country
     $totalValue = $governmentValue + $householdValue + $chinValue;
-    
-    /**
-     * In this function we have to get the recipe info from 3 different codes.
-     * F_GOVE, F_HOUS and I_CHIN.
-     */
-    // $householdRecipeData = adt_get_person_footprint_recipe('F_HOUS', $chosenCountry, $version);
     $recipes = adt_get_person_footprint_recipe($footprint['act_code'], $chosenCountry, $version);
-    // error_log("recipes");
-    // error_log(print_r($recipes));
-    // $chinRecipeData = adt_get_person_footprint_recipe('I_CHIN', $chosenCountry, $version);
 
     /**
      * TODO: the arrays above contains a maximum of 100 items.
@@ -110,11 +99,6 @@ function adt_get_person_footprint()
     $cachedFootprintArray = [
         $productCode => $data,
     ];
-
-    // $json_string = json_encode($data, JSON_PRETTY_PRINT);
-    // error_log("test");
-    // $test = json_encode($recipes);
-    // error_log($test);
 
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_person_footprint_cache', $cachedFootprintArray, 86400);
@@ -210,10 +194,6 @@ function adt_get_person_footprint_recipe($actCode, $chosenCountry, $newestVersio
             'error' => 'No recipes found or an error occurred.'
         ];
     }
-
-    // error_log("retrieve recipes OK");
-    // $recipeResultJson = json_encode($recipeResult, JSON_PRETTY_PRINT);
-    // error_log($recipeResultJson);
     
     return $recipeResult;
 }
