@@ -234,8 +234,8 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                             unset($result['results'][$new_recipe_key]);
                             error_log("after count");
                             error_log(count($result['results']));
+                            break;
                         }
-                        break;
      
                     }
                 }
