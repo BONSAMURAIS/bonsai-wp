@@ -222,7 +222,6 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             if (!empty($result['results'])) {
                 foreach ($recipeResult as $recipe) {
                     foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
-                        error_log($recipe["value"]);
                         if ($recipe["product_code"] == $new_recipe_val["product_code"]){
                             error_log("b4 val");
                             error_log("count");
