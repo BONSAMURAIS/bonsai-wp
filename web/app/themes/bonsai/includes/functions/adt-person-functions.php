@@ -57,8 +57,13 @@ function adt_get_person_footprint()
     $value = get_total_value($fdemand_categories,$country,$act_code,$version);
     $recipes = adt_get_person_footprint_recipe($fdemand_categories, $country, $act_code, $version);
 
-    // error_log("json_encode(recipes)");
-    // error_log(json_encode($recipes));
+    
+    //sort per value
+    usort($recipes, function ($a, $b) {
+        return $a['value'] <=> $b['value'];
+    });
+    error_log("json_encode(recipes)");
+    error_log(json_encode($recipes));
 
     $data = [
         'id' => $footprintsArray[0]['id'],
