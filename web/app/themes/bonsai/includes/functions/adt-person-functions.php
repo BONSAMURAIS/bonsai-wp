@@ -189,8 +189,9 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         // Parse the JSON response
         $result = json_decode($body, true);
         $productCount = $result['count'];
-        
-        $recipeResult = array_merge($recipeResult, $result['results']);
+
+        error_log("before loop recipeResult count");
+        error_log(count($recipeResult));      
         
         if (empty($result)) {
             return 'No person recipe found or an error occurred.';
@@ -199,12 +200,21 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         if (array_key_exists('detail', $result)) {
             return 'Error: ' . $result['detail'];
         }
+
+        if (!empty($result['results'])) {
+            foreach ($recipeResult as $recipe) {
+                foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
+                    if ($recipe["product_code"] == $new_recipe_val["product_code"]){
+                        $recipe["value"] += $new_recipe_val["value"];
+                        unset($result['results'][$new_recipe_key]);
+                    }
+                }
+            }
+            $recipeResult = array_merge($recipeResult, $result['results']);
+        }
         
         $pages = ceil($productCount / 100);
 
-
-        
-            
         // TODO: Throttled again for loading through the pages?
         for ($i = 1; $i <= $pages; $i++) {
             $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version;
@@ -216,41 +226,31 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             
             $body = wp_remote_retrieve_body($response);
             $result = json_decode($body, true);
-            // error_log("test");
-            // error_log(json_encode($result['results']));
             
             if (!empty($result['results'])) {
                 foreach ($recipeResult as $recipe) {
                     foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
                         if ($recipe["product_code"] == $new_recipe_val["product_code"]){
-                            error_log("b4 val count");
-                            error_log("count");
-                            error_log(count($result['results']));
-                            error_log($recipe["product_code"]);
-                            error_log($recipe["value"]);
+                            // error_log("b4 val count");
+                            // error_log("count");
+                            // error_log(count($result['results']));
+                            // error_log($recipe["product_code"]);
+                            // error_log($recipe["value"]);
                             $recipe["value"] += $new_recipe_val["value"];
-                            error_log("aft val");
-                            error_log($recipe["value"]);
+                            // error_log("aft val");
+                            // error_log($recipe["value"]);
                             unset($result['results'][$new_recipe_key]);
-                            error_log("after count");
-                            error_log(count($result['results']));
+                            // error_log("after count");
+                            // error_log(count($result['results']));
                             // break;
                         }
      
                     }
                 }
-
-            }
-                // error_log(json_encode($result['results']));
-                // error_log(json_encode($result['results'][0]["product_code"]));
-                // error_log(json_encode($result['results'][0]["value"]));
-                // // error_log(print_r(json_encode($recipe)));
-                // // error_log(print_r(json_encode($new_recipe)));
-      
-                // $result['results']
-                // $recipeResult = array_merge($recipeResult, );
-
-            
+                $recipeResult = array_merge($recipeResult, $result['results']);
+                error_log("after loop recipeResult count");
+                error_log(count($recipeResult));
+            }            
         }
         
         // Handle potential errors in the recipeResponse
@@ -260,17 +260,11 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             ];
         }
 
-        error_log("recipeResult count");
+        error_log("final after recipeResult count");
         error_log(count($recipeResult));
 
     }
 
-    // $final_result = remove_duplicates_and_add_up_values($recipeResult);
     return [];
     return $recipeResult;
 }
-
-// function remove_duplicates_and_add_up_values(array $recipeResult): array{
-//     $unique_
-//     return result;
-// }
