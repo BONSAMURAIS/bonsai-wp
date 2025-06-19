@@ -219,6 +219,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                 $status_code = wp_remote_retrieve_response_code($response);
                 error_log("status_code");
                 error_log($status_code);
+                error_log($status_code == 200);
             }
         
         // // TODO: Throttled again for loading through the pages?
