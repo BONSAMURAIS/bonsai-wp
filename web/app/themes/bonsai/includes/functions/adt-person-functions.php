@@ -217,11 +217,14 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             error_log(print_r(json_encode($result['results'])));
 
             if (!empty($result['results'])) {
-                foreach ($recipeResult as $elem) {
-                    foreach ($result['results'] as $new_elem) {
-                        // error_log("test");
-                        // error_log(print_r(json_encode($elem)));
-                        // error_log(print_r(json_encode($new_elem)));
+                foreach ($recipeResult as $key => $val) {
+                    foreach ($result['results'] as $k => $v) {
+                        error_log("test ");
+                        error_log(print_r(json_encode($key)));
+                        error_log(print_r(json_encode($val)));
+                        error_log("test---");
+                        error_log(print_r(json_encode($k)));
+                        error_log(print_r(json_encode($v)));
                         break;
                     }
                 }
