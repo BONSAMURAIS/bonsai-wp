@@ -1030,6 +1030,8 @@ async function adt_update_recipe(dataArray, boxToUpdate)
     // Recipe return structure changed
     let recipeArray = dataArray.recipe.results;
 
+    console.log("recipeArray=",recipeArray);
+
     for (const recipe of recipeArray) {
         // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
 
