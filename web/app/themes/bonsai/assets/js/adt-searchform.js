@@ -1,8 +1,3 @@
-function capitalize(str) {
-  if (!str) return '';
-  return str[0].toUpperCase() + str.slice(1).toLowerCase();
-}
-
 jQuery(document).ready(function($){
     $('.co2-form input[name="switch-one"]').on('change', function(){
         let isChecked = $(this).is(':checked');
@@ -259,6 +254,11 @@ jQuery(document).ready(function($){
         adt_get_product_by_encoded_string();
     }
 });
+
+function capitalize(str) {
+  if (!str) return '';
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
 
 function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.2.0')
 {
