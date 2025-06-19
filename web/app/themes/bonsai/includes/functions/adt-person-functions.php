@@ -2,6 +2,8 @@
 
 defined('ABSPATH') || exit;
 
+$SEPARATOR = "|";
+
 function adt_get_person_footprint()
 {
     error_log("-- adt_get_person_footprint --");
@@ -22,7 +24,7 @@ function adt_get_person_footprint()
     }
 
     $fdemand_aux = "F_HOUS";
-    $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry."&version=".$version."&act_code=".$fdemand_aux."|".$chosenActCode; //TODO change if call with F_HOUS does not exist
+    $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$chosenActCode; //TODO change if call with F_HOUS does not exist
     // error_log("-- adt_get_person_footprint url");
     // error_log($url);
     $response = wp_remote_get($url);
@@ -56,7 +58,7 @@ function adt_get_person_footprint()
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
     $value = get_total_value($fdemand_categories,$chosenCountry,$chosenActCode,$version);
 
-    $recipes = adt_get_person_footprint_recipe($footprint['act_code'], $chosenCountry, $version);
+    $recipes = adt_get_person_footprint_recipe($fdemand_categories, $chosenActCode, $chosenCountry, $version);
 
     /**
      * TODO: the arrays above contains a maximum of 100 items.
@@ -93,10 +95,10 @@ function adt_get_person_footprint()
     wp_send_json_success($data);
 }
 
-function get_total_value(array $fdemand_categories, string $country, string $act_code, int|string $version) {
+function get_total_value(array $fdemand_categories, string $country, string $act_code, int|string $version) : int {
     $total = 0;
     foreach ($fdemand_categories as $cat){
-        $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$cat."|".$act_code;
+        $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$cat.$SEPARATOR.$act_code;
         $response = wp_remote_get($url);
        
         // Check for errors
@@ -160,66 +162,74 @@ function adt_accumulate_value($arrays, $productCode) {
 }
 
 
-function adt_get_person_footprint_recipe($actCode, $chosenCountry, $version): array
+function adt_get_person_footprint_recipe(array $fdemand_categories, string $country, string $act_code, int|string $version): array
 {
     // Example:
-    // https://lca.aau.dk/api/recipes-country/?act_code=F_GOVE&region_code=AU
-    // And version is not used yet.
-    $url = 'https://lca.aau.dk/api/recipes-country/?act_code='.$actCode.'&region_code='.$chosenCountry.'&version='.$version;
+    // https://lca.aau.dk/api/recipes-country/?act_code=F_GOVE|1-5_average&region_code=AU
 
-    // Make the API request
-    $recipeResponse = wp_remote_get($url);
+    $recipeResult = [];
+    foreach ($fdemand_categories as $cat){
+        $url = 'https://lca.aau.dk/api/recipes-country/?act_code='.$cat.$SEPARATOR.$actCode.'&region_code='.$chosenCountry.'&version='.$version;
 
-    // Check for errors
-    if (is_wp_error($recipeResponse)) {
-        return [
-            'error' => $recipeResponse->get_error_message()
-        ];
-    }
-    
-    // Get the response body
-    $body = wp_remote_retrieve_body($recipeResponse);
-    
-    // Parse the JSON response
-    $result = json_decode($body, true);
+        // Make the API request
+        $recipeResponse = wp_remote_get($url);
 
-    $productCount = $result['count'];
-
-    $recipeResult = $result['results'];
-
-    if (empty($result)) {
-        return 'No person recipe found or an error occurred.';
-    }
-    
-    if (array_key_exists('detail', $result)) {
-        return 'Error: ' . $result['detail'];
-    }
-    
-    $pages = ceil($productCount / 100);
-
-    
-    // TODO: Throttled again for loading through the pages?
-    for ($i = 2; $i <= $pages; $i++) {
-        $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" . $actCode . "&region_code=" . $chosenCountry . "&version=" . $version;
-        $response = wp_remote_get($api_url);
-        
-        if (is_wp_error($response)) {
-            continue;
+        // Check for errors
+        if (is_wp_error($recipeResponse)) {
+            return [
+                'error' => $recipeResponse->get_error_message()
+            ];
         }
         
-        $body = wp_remote_retrieve_body($response);
+        // Get the response body
+        $body = wp_remote_retrieve_body($recipeResponse);
+        
+        // Parse the JSON response
         $result = json_decode($body, true);
-        if (!empty($result['results'])) {
-            $recipeResult = array_merge($recipeResult, $result['results']);
+
+        $productCount = $result['count'];
+
+        $recipeResult = array_merge($recipeResult, $result['results']);
+
+        if (empty($result)) {
+            return 'No person recipe found or an error occurred.';
         }
+        
+        if (array_key_exists('detail', $result)) {
+            return 'Error: ' . $result['detail'];
+        }
+        
+        $pages = ceil($productCount / 100);
+
+        
+        // TODO: Throttled again for loading through the pages?
+        for ($i = 2; $i <= $pages; $i++) {
+            $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" . $actCode . "&region_code=" . $chosenCountry . "&version=" . $version;
+            $response = wp_remote_get($api_url);
+            
+            if (is_wp_error($response)) {
+                continue;
+            }
+            
+            $body = wp_remote_retrieve_body($response);
+            $result = json_decode($body, true);
+            if (!empty($result['results'])) {
+                $recipeResult = array_merge($recipeResult, $result['results']);
+            }
+        }
+        
+        // Handle potential errors in the recipeResponse
+        if (empty($recipeResult)) {
+            return [
+                'error' => 'No recipes found or an error occurred.'
+            ];
+        }
+
+        error_log("recipeResult count");
+        error_log(count($recipeResult));
+
     }
-    
-    // Handle potential errors in the recipeResponse
-    if (empty($recipeResult)) {
-        return [
-            'error' => 'No recipes found or an error occurred.'
-        ];
-    }
+
     
     return $recipeResult;
 }
