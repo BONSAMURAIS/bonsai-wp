@@ -201,6 +201,14 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         }
         
         $pages = ceil($productCount / 100);
+
+        foreach ($recipeResult as $recipe) {
+            error_log("test recipe prod code");
+            error_log($recipe["product_code"]);
+            error_log($recipe["value"]);
+
+        }
+        
             
         // TODO: Throttled again for loading through the pages?
         for ($i = 1; $i <= $pages; $i++) {
@@ -217,18 +225,18 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             // error_log(json_encode($result['results']));
             
             if (!empty($result['results'])) {
-                error_log(json_encode($result['results']));
-                error_log(json_encode($result['results'][0]["product_code"]));
-                error_log(json_encode($result['results'][0]["value"]));
-                // error_log(print_r(json_encode($recipe)));
-                // error_log(print_r(json_encode($new_recipe)));
-                // // foreach ($recipeResult as $recipe) {
-                    foreach ($result['results'] as $new_recipe) {
-                        error_log("test prod code");
-                        error_log($new_recipe["product_code"]);
+                // error_log(json_encode($result['results']));
+                // error_log(json_encode($result['results'][0]["product_code"]));
+                // error_log(json_encode($result['results'][0]["value"]));
+                // // error_log(print_r(json_encode($recipe)));
+                // // error_log(print_r(json_encode($new_recipe)));
+                // // // foreach ($recipeResult as $recipe) {
+                //     foreach ($result['results'] as $new_recipe) {
+                //         error_log("test prod code");
+                //         error_log($new_recipe["product_code"]);
      
-                    }
-                // }
+                //     }
+                // // }
                 // $result['results']
                 // $recipeResult = array_merge($recipeResult, );
 
