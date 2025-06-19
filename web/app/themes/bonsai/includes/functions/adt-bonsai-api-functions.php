@@ -440,9 +440,9 @@ function adt_get_product_footprint()
     
     // Make the API request
     $response = wp_remote_get($url);
-    // error_log( "api call response=" );  
-    // error_log( print_r($response, true) );
-    // error_log("end api call");  
+    error_log( "api call response=" );  
+    error_log( print_r($response, true) );
+    error_log("end api call");  
 
     
     // Check for errors

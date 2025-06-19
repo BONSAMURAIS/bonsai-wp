@@ -66,8 +66,8 @@ function adt_get_person_footprint()
     // get only the first 20 elements
     $recipes = array_slice($recipes, 0, 20);
 
-    error_log("json_encode(recipes)");
-    error_log(json_encode($recipes));
+    // error_log("json_encode(recipes)");
+    // error_log(json_encode($recipes));
 
     $data = [
         'id' => $footprintsArray[0]['id'],

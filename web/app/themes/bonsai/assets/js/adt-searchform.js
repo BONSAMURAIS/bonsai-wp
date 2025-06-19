@@ -137,7 +137,6 @@ jQuery(document).ready(function($){
 
     $('.co2-form-result #co2-form-result-header .select-wrapper select').on('change', function() {
         let selectedValue = $('input[name="switch-one"]:checked').val();
-        console.log("test click has been done")
         
         if (selectedValue === 'person') {
             let countryCode = $('#location').val();
@@ -331,6 +330,9 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
 function adt_get_product_info(productTitle, productCode, productUuid, chosenValues) 
 {
     productInfo = [];
+
+    console.log("productTitle, productCode, productUuid=",productTitle, productCode, productUuid);
+    console.log("footprint_location, footprint_type, footprint_year,database_version=",footprint_location, footprint_type, footprint_year,database_version);
 
 
     jQuery.ajax({
