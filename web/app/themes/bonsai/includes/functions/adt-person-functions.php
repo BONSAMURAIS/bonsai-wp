@@ -7,7 +7,7 @@ $SEPARATOR = "|";
 function adt_get_person_footprint()
 {
     error_log("-- adt_get_person_footprint --");
-
+    global $SEPARATOR;
     $chosenCountry = $_POST['region_code'];
     $chosenActCode = $_POST['act_code'];
     $version = $_POST['version'];
@@ -96,6 +96,7 @@ function adt_get_person_footprint()
 }
 
 function get_total_value(array $fdemand_categories, string $country, string $act_code, int|string $version) : int {
+    global $SEPARATOR;
     $total = 0;
     foreach ($fdemand_categories as $cat){
         $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$cat.$SEPARATOR.$act_code;
@@ -167,6 +168,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
     // Example:
     // https://lca.aau.dk/api/recipes-country/?act_code=F_GOVE|1-5_average&region_code=AU
 
+    global $SEPARATOR;
     $recipeResult = [];
     foreach ($fdemand_categories as $cat){
         $url = 'https://lca.aau.dk/api/recipes-country/?act_code='.$cat.$SEPARATOR.$actCode.'&region_code='.$chosenCountry.'&version='.$version;
@@ -204,7 +206,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         
         // TODO: Throttled again for loading through the pages?
         for ($i = 2; $i <= $pages; $i++) {
-            $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" . $actCode . "&region_code=" . $chosenCountry . "&version=" . $version;
+            $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$actCode. "&region_code=" . $chosenCountry . "&version=" . $version;
             $response = wp_remote_get($api_url);
             
             if (is_wp_error($response)) {
