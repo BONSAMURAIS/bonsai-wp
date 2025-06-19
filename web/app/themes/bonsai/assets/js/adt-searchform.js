@@ -257,7 +257,7 @@ jQuery(document).ready(function($){
 
 function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.2.0')
 {
-    act_code ="|"+income_gpe+"_"+household_compo; //fdemandCat will be prefixed
+    act_code =income_gpe+"_"+household_compo; //fdemandCat will be prefixed
     console.log("act_code=",act_code);
     jQuery.ajax({
         type: 'POST',

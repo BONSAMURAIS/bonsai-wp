@@ -21,7 +21,8 @@ function adt_get_person_footprint()
         }
     }
 
-    $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry."&version=".$version."&act_code=F_HOUS".$chosenActCode; //TODO change if call with F_HOUS does not exist
+    $fdemand_aux = "F_HOUS";
+    $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry."&version=".$version."&act_code=".$fdemand_aux."|".$chosenActCode; //TODO change if call with F_HOUS does not exist
     // error_log("-- adt_get_person_footprint url");
     // error_log($url);
     $response = wp_remote_get($url);
@@ -95,7 +96,7 @@ function adt_get_person_footprint()
 function get_total_value(array $fdemand_categories, string $country, string $act_code, int|string $version) {
     $total = 0;
     foreach ($fdemand_categories as $cat){
-        $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$cat.$act_code;
+        $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$cat."|".$act_code;
         $response = wp_remote_get($url);
        
         // Check for errors
