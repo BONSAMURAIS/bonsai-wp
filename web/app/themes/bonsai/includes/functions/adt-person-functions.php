@@ -4,6 +4,8 @@ defined('ABSPATH') || exit;
 
 function adt_get_person_footprint()
 {
+    error_log("test adt_get_person_footprint");
+
     $chosenCountry = $_POST['region_code'];
     $chosenActCode = $_POST['act_code'];
     $version = $_POST['version'];
