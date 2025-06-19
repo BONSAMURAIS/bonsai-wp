@@ -140,12 +140,28 @@ function get_total_value(array $fdemand_categories, string $country, string $act
         }
         error_log("loop body");
         error_log($body);
-
+        error_log('value');
         $footprintsArray = $result['results'];
-
-
-
-        
+        foreach ($footprintsArray as $key => $footprint) {
+            if (str_contains($footprint['act_code'],'F_GOVE')){
+                $governmentValue = $footprint['value'];
+                $total += $footprint['value'];
+                error_log($footprint['value']);
+                break;
+            } else if (str_contains($footprint['act_code'],'F_HOUS')){
+                $householdValue = $footprint['value'];
+                $total += $footprint['value'];
+                error_log($footprint['value']);
+                break;
+            } else if (str_contains($footprint['act_code'],'I_CHIN')){
+                $chinValue = $footprint['value'];
+                $total += $footprint['value'];
+                error_log($footprint['value']);
+                break;
+            }
+        }
+        error_log($total);
+  
     } 
 
     return $total;
