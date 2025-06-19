@@ -204,8 +204,8 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             // $pages = ceil($productCount / 100);
             
             $page_counter = 1;
-            $status_code = 200;
-            while($status_code == 200){
+            $status_code = true;
+            while($status_code == true){
                 $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $page_counter . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version;
                 $response = wp_remote_get($api_url);
                 $body = wp_remote_retrieve_body($response);
@@ -214,9 +214,11 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                 
                 // Parse the JSON response
                 $result = json_decode($body, true);
-
+                
                 $page_counter++;
-                $status_code = $response['status'];
+                $status_code = $response['success'];
+                error_log("status_code");
+                error_log($status_code);
             }
         
         // // TODO: Throttled again for loading through the pages?
