@@ -22,7 +22,7 @@ web/.htaccess
 web/.htpasswd
 
 # Logs
-# *.log
+*.log
 
 # Dotenv
 .env
