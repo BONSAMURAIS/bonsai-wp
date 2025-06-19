@@ -60,7 +60,7 @@ function adt_get_person_footprint()
     
     //sort per value
     usort($recipes, function ($a, $b) {
-        return $a['value'] <=> $b['value'];
+        return $b['value'] <=> $a['value']; //b before a for descending order
     });
     error_log("json_encode(recipes)");
     error_log(json_encode($recipes));
