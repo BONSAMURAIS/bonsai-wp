@@ -57,20 +57,8 @@ function adt_get_person_footprint()
     $value = get_total_value($fdemand_categories,$country,$act_code,$version);
     $recipes = adt_get_person_footprint_recipe($fdemand_categories, $country, $act_code, $version);
 
-    error_log("json_encode(recipes)");
-    error_log(json_encode($recipes));
-
-    /**
-     * TODO: the arrays above contains a maximum of 100 items.
-     * Therefore we need to send more requests to get all the data.
-     * 
-     * I have gotten the results from all the pages in the function adt_get_person_footprint_recipe.
-     */
-
-    // Find matching recipe codes and add the values together.
-    // Unique product_codes from the first array
-    // $productCodes = array_column($recipes, 'product_code');
-    // $productCodes = array_unique($productCodes);
+    // error_log("json_encode(recipes)");
+    // error_log(json_encode($recipes));
 
     $data = [
         'id' => $footprintsArray[0]['id'],
@@ -167,7 +155,6 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
 
     global $SEPARATOR;
     $recipeResult = [];
-    error_log("-- adt_get_person_footprint_recipe");
     
     foreach ($fdemand_categories as $cat){
         $url = 'https://lca.aau.dk/api/recipes-country/?act_code='.$cat.$SEPARATOR.$act_code.'&region_code='.$country.'&version='.$version;
@@ -193,8 +180,8 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         $result = json_decode($body, true);
         $productCount = $result['count'];
 
-        error_log("before loop recipeResult count");
-        error_log(count($recipeResult));      
+        // error_log("before loop recipeResult count");
+        // error_log(count($recipeResult));      
         
         if (empty($result)) {
             return 'No person recipe found or an error occurred.';
@@ -251,8 +238,8 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                     }
                 }
                 $recipeResult = array_merge($recipeResult, $result['results']);
-                error_log("after loop recipeResult count");
-                error_log(count($recipeResult));
+                // error_log("after loop recipeResult count");
+                // error_log(count($recipeResult));
             }            
         }
         
@@ -262,12 +249,9 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                 'error' => 'No recipes found or an error occurred.'
             ];
         }
-
-        error_log("final after recipeResult count");
-        error_log(count($recipeResult));
-
+        // error_log("final after recipeResult count");
+        // error_log(count($recipeResult));
     }
 
-    // return [];
     return $recipeResult;
 }
