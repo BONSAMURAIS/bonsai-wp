@@ -8,8 +8,8 @@ function adt_get_person_footprint()
 {
     error_log("-- adt_get_person_footprint --");
     global $SEPARATOR;
-    $chosenCountry = $_POST['region_code'];
-    $chosenActCode = $_POST['act_code'];
+    $country = $_POST['region_code'];
+    $act_code = $_POST['act_code'];
     $version = $_POST['version'];
 
     // Check if the data is already cached
@@ -17,14 +17,14 @@ function adt_get_person_footprint()
     
     // If cache exists, return the cached data
     if ($cachedFootprints !== false) {
-        if (array_key_exists($chosenCountry, $cachedFootprints) && $cachedFootprints[$chosenCountry]['chosen_country'] === $chosenCountry) {
-            wp_send_json_success($cachedFootprints[$chosenCountry]);
+        if (array_key_exists($country, $cachedFootprints) && $cachedFootprints[$country]['chosen_country'] === $country) {
+            wp_send_json_success($cachedFootprints[$country]);
             die();
         }
     }
 
     $fdemand_aux = "F_HOUS";
-    $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$chosenActCode; //TODO change if call with F_HOUS does not exist
+    $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$act_code; //TODO change if call with F_HOUS does not exist
     // error_log("-- adt_get_person_footprint url");
     // error_log($url);
     $response = wp_remote_get($url);
@@ -56,9 +56,9 @@ function adt_get_person_footprint()
     $footprintsArray = $result['results'];
 
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
-    $value = get_total_value($fdemand_categories,$chosenCountry,$chosenActCode,$version);
+    $value = get_total_value($fdemand_categories,$country,$act_code,$version);
 
-    $recipes = adt_get_person_footprint_recipe($fdemand_categories, $chosenActCode, $chosenCountry, $version);
+    $recipes = adt_get_person_footprint_recipe($fdemand_categories, $act_code, $country, $version);
 
     /**
      * TODO: the arrays above contains a maximum of 100 items.
@@ -78,7 +78,7 @@ function adt_get_person_footprint()
     $data = [
         'id' => $footprintsArray[0]['id'],
         'act_code' => $footprintsArray[0]['act_code'],
-        'region_code' => $chosenCountry,
+        'region_code' => $country,
         'value' => $value,
         'version' => $version,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
@@ -171,7 +171,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
     global $SEPARATOR;
     $recipeResult = [];
     foreach ($fdemand_categories as $cat){
-        $url = 'https://lca.aau.dk/api/recipes-country/?act_code='.$cat.$SEPARATOR.$actCode.'&region_code='.$chosenCountry.'&version='.$version;
+        $url = 'https://lca.aau.dk/api/recipes-country/?act_code='.$cat.$SEPARATOR.$actCode.'&region_code='.$country.'&version='.$version;
 
         // Make the API request
         $recipeResponse = wp_remote_get($url);
@@ -206,7 +206,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         
         // TODO: Throttled again for loading through the pages?
         for ($i = 2; $i <= $pages; $i++) {
-            $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$actCode. "&region_code=" . $chosenCountry . "&version=" . $version;
+            $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$actCode. "&region_code=" . $country . "&version=" . $version;
             $response = wp_remote_get($api_url);
             
             if (is_wp_error($response)) {
