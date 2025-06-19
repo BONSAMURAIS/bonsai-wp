@@ -58,7 +58,7 @@ function adt_get_person_footprint()
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
     $value = get_total_value($fdemand_categories,$country,$act_code,$version);
 
-    $recipes = adt_get_person_footprint_recipe($fdemand_categories, $act_code, $country, $version);
+    $recipes = adt_get_person_footprint_recipe($fdemand_categories, $country, $act_code, $version);
 
     /**
      * TODO: the arrays above contains a maximum of 100 items.
