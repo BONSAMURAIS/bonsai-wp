@@ -29,8 +29,6 @@ function adt_get_person_footprint()
     
     // Check for errors
     if (is_wp_error($response)) {
-        error_log("is_wp_error(response)= true");
-        
         return 'Error: ' . $response->get_error_message();
     }
     
@@ -121,7 +119,7 @@ function get_total_value(array $fdemand_categories, string $country, string $act
     error_log("get_total_value");
 
     foreach ($fdemand_categories as $cat){
-        $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$category."|".$act_code;
+        $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$cat.$act_code;
         $response = wp_remote_get($url);
 
         error_log("loop url");
@@ -170,6 +168,7 @@ function get_total_value(array $fdemand_categories, string $country, string $act
                 break;
             }
         }
+        error_log("total");
         error_log($total);
   
     } 
