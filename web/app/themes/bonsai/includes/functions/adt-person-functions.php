@@ -215,7 +215,18 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             $body = wp_remote_retrieve_body($response);
             $result = json_decode($body, true);
             if (!empty($result['results'])) {
-                $recipeResult = array_merge($recipeResult, $result['results']);
+                foreach ($recipeResult as $elem) {
+                    foreach ($result['results'] as $new_elem) {
+                        error_log("test");
+                        error_log($elem);
+                        error_log($new_elem);
+                        break;
+                        unset($array[$elementKey]);
+                    }
+                }
+                // $result['results']
+                // $recipeResult = array_merge($recipeResult, );
+
             }
         }
         
@@ -232,6 +243,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
     }
 
     // $final_result = remove_duplicates_and_add_up_values($recipeResult);
+    return [];
     return $recipeResult;
 }
 
