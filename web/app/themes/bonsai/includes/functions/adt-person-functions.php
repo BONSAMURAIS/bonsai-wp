@@ -22,16 +22,22 @@ function adt_get_person_footprint()
     }
 
     $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry."&version=".$version."&act_code=F_HOUS|".$chosenActCode; //TODO change if call with F_HOUS does not exist
+    error_log("-- adt_get_person_footprint url");
+    error_log($url);
     $response = wp_remote_get($url);
+
     
     // Check for errors
     if (is_wp_error($response)) {
+        error_log("is_wp_error(response)= true");
+        
         return 'Error: ' . $response->get_error_message();
     }
     
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
+    error_log("retrieve body = true");
     
     if (isset($result['count']) && $result['count'] === 0) {
         wp_send_json_error(['error' => 'Footprint not found']);
@@ -50,8 +56,7 @@ function adt_get_person_footprint()
     $footprintsArray = $result['results'];
 
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
-    error_log("-- adt_get_person_footprint url");
-    error_log($url);
+
 
     $value = get_total_value($fdemand_categories,$chosenCountry,$chosenActCode,$version);
     $governmentValue = 0;
