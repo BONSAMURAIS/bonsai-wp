@@ -1028,7 +1028,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
     }
 
     // Recipe return structure changed
-    let recipeArray = dataArray.recipe.results;
+    let recipeArray = dataArray.recipe;
 
     console.log("recipeArray=",recipeArray);
 
