@@ -221,6 +221,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                 error_log($status_code);
                 error_log($status_code == 200);
             }
+            error_log("out of loop");
         
         // // TODO: Throttled again for loading through the pages?
         // for ($i = 1; $i <= $pages; $i++) {
@@ -250,7 +251,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
 
     }
 
-    $final_result = remove_duplicates_and_add_up_values($recipeResult);
+    // $final_result = remove_duplicates_and_add_up_values($recipeResult);
     // return $recipeResult;
     return [];
 }
