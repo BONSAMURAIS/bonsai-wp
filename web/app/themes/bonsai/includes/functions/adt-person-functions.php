@@ -216,7 +216,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                 $result = json_decode($body, true);
                 
                 $page_counter++;
-                $status_code = $response['success'];
+                $status_code = $response['status'];
                 error_log("status_code");
                 error_log($status_code);
             }
