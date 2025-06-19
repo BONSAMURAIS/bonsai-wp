@@ -208,18 +208,32 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             while($status_code == 200){
                 $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $page_counter . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version;
                 $response = wp_remote_get($api_url);
+                if (is_wp_error($response)) {
+                    return [
+                        'error' => $recipeResponse->get_error_message()
+                    ];
+                }
                 $body = wp_remote_retrieve_body($response);
                 error_log("response");
                 error_log(json_encode($response));
                 
                 // Parse the JSON response
                 $result = json_decode($body, true);
+                if (empty($result)) {
+                    return 'No person recipe found or an error occurred.';
+                }
+                if (array_key_exists('detail', $result)) {
+                    return 'Error: ' . $result['detail'];
+                }
+
+                if (!empty($result['results'])) {
+                    $recipeResult = array_merge($recipeResult, $result['results']);
+                }
                 
                 $page_counter++;
                 $status_code = wp_remote_retrieve_response_code($response);
-                error_log("status_code");
-                error_log($status_code);
-                error_log($status_code == 200);
+                error_log("count recipeResult");
+                error_log(count($recipeResult));
             }
             error_log("out of loop");
         
@@ -252,8 +266,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
     }
 
     // $final_result = remove_duplicates_and_add_up_values($recipeResult);
-    // return $recipeResult;
-    return [];
+    return $recipeResult;
 }
 
 // function remove_duplicates_and_add_up_values(array $recipeResult): array{
