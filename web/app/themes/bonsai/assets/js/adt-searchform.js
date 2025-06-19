@@ -1031,6 +1031,10 @@ async function adt_update_recipe(dataArray, boxToUpdate)
     let recipeArray = dataArray.recipe;
 
     console.log("recipeArray=",recipeArray);
+    function capitalize(str) {
+        if (!str) return '';
+        return str[0].toUpperCase() + str.slice(1).toLowerCase();
+    }
 
     for (const recipe of recipeArray) {
         // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
@@ -1112,7 +1116,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         }
 
         rowMarkup = '<tr>';
-        rowMarkup += '<td><a href=" ' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + recipe.flow_input + '</a></td>';
+        rowMarkup += '<td><a href=" ' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + capitalize(recipe.flow_input) + '</a></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
