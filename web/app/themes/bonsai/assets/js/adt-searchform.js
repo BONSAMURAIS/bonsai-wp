@@ -332,7 +332,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
     productInfo = [];
 
     console.log("productTitle, productCode, productUuid=",productTitle, productCode, productUuid);
-    console.log("footprint_location, footprint_type, footprint_year,database_version=",footprint_location, footprint_type, footprint_year,database_version);
+    console.log("footprint_location, footprint_type, footprint_year,database_version=",chosenValues['footprint_location'], chosenValues['footprint_type'], chosenValues['footprint_year'],chosenValues['database_version']);
 
 
     jQuery.ajax({
