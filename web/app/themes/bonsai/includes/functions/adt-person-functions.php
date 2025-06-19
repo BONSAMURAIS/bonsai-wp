@@ -4,7 +4,7 @@ defined('ABSPATH') || exit;
 
 function adt_get_person_footprint()
 {
-    error_log("test finally adt_get_person_footprint");
+    error_log("-- adt_get_person_footprint --");
 
     $chosenCountry = $_POST['region_code'];
     $chosenActCode = $_POST['act_code'];
@@ -50,6 +50,9 @@ function adt_get_person_footprint()
     $footprintsArray = $result['results'];
 
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
+    error_log("-- adt_get_person_footprint url");
+    error_log($url);
+
     $value = get_total_value($fdemand_categories,$chosenCountry,$chosenActCode,$version);
     $governmentValue = 0;
     $householdValue = 0;
