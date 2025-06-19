@@ -204,8 +204,8 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             // $pages = ceil($productCount / 100);
             
             $page_counter = 1;
-            $status_code = true;
-            while($status_code == true){
+            $status_code = 200;
+            while($status_code == 200){
                 $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $page_counter . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version;
                 $response = wp_remote_get($api_url);
                 $body = wp_remote_retrieve_body($response);
