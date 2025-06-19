@@ -183,12 +183,11 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         
         // Get the response body
         $body = wp_remote_retrieve_body($recipeResponse);
-        error_log("body");
-        error_log($body);
+        // error_log("body");
+        // error_log($body);
         
         // Parse the JSON response
         $result = json_decode($body, true);
-        
         $productCount = $result['count'];
         
         $recipeResult = array_merge($recipeResult, $result['results']);
@@ -218,8 +217,8 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                 foreach ($recipeResult as $elem) {
                     foreach ($result['results'] as $new_elem) {
                         error_log("test");
-                        error_log($elem);
-                        error_log($new_elem);
+                        error_log(print_r($elem));
+                        error_log(print_r($new_elem));
                         break;
                         unset($array[$elementKey]);
                     }
