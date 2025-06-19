@@ -239,7 +239,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                         error_log("----- test recipe code");
                         error_log($recipe["value"]);
                         error_log(" - test NEW recipe prod code");
-                        error_log($new_recipe["product_code"]);
+                        error_log($new_recipe_val["product_code"]);
                         error_log("-----");
                         break;
      
