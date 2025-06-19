@@ -388,34 +388,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><a href="#">Electricity (market for)</a></td>
-                                    <td>AU</td>
-                                    <td>0.37 MJ</td>
-                                    <td>0.2</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">Heat for non-ferrous metals (market for)</a></td>
-                                    <td>AU</td>
-                                    <td>0.37 MJ</td>
-                                    <td>0.2</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">Other land transportation services (market for)</a></td>
-                                    <td>AU</td>
-                                    <td>0.37 MJ</td>
-                                    <td>0.2</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">Petroleum coke (market for)</a></td>
-                                    <td>AU</td>
-                                    <td>0.37 MJ</td>
-                                    <td>0.2</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Sum of not-displayed inputs</td>
-                                    <td>0.118</td>
-                                </tr>
                             </tbody>
                         </table>
 
