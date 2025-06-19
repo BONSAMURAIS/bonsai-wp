@@ -57,6 +57,9 @@ function adt_get_person_footprint()
     $value = get_total_value($fdemand_categories,$country,$act_code,$version);
     $recipes = adt_get_person_footprint_recipe($fdemand_categories, $country, $act_code, $version);
 
+    error_log("json_encode(recipes)");
+    error_log(json_encode($recipes));
+
     /**
      * TODO: the arrays above contains a maximum of 100 items.
      * Therefore we need to send more requests to get all the data.
@@ -265,6 +268,6 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
 
     }
 
-    return [];
+    // return [];
     return $recipeResult;
 }
