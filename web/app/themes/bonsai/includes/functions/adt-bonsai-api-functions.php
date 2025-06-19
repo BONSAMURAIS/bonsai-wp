@@ -329,6 +329,7 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion): a
 {
     // Get the whole recipe list for the product
     $recipeUrl = 'https://lca.aau.dk/api/recipes/?flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion;
+    error_log("recipeUrl=$recipeUrl");
 
     // Make the API request
     $recipeResponse = wp_remote_get($recipeUrl);
@@ -436,7 +437,7 @@ function adt_get_product_footprint()
         }
         
     // API URL
-    $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry;
+    $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry."version=".$version;
     
     // Make the API request
     $response = wp_remote_get($url);
