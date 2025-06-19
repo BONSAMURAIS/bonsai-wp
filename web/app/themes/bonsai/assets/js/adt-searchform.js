@@ -255,11 +255,6 @@ jQuery(document).ready(function($){
     }
 });
 
-function capitalize(str) {
-  if (!str) return '';
-  return str[0].toUpperCase() + str.slice(1).toLowerCase();
-}
-
 function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.2.0')
 {
     act_code =income_gpe+"_"+household_compo; //fdemandCat will be prefixed
@@ -1117,7 +1112,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         }
 
         rowMarkup = '<tr>';
-        rowMarkup += '<td><a href=" ' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + capitalize(recipe.flow_input) + '</a></td>';
+        rowMarkup += '<td><a href=" ' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + recipe.flow_input + '</a></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
