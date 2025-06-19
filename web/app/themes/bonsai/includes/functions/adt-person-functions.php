@@ -210,7 +210,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                 $response = wp_remote_get($api_url);
                 $body = wp_remote_retrieve_body($response);
                 error_log("response");
-                error_log($response);
+                error_log(print_r($response));
                 
                 // Parse the JSON response
                 $result = json_decode($body, true);
