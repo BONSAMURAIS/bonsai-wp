@@ -170,12 +170,16 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
 
     global $SEPARATOR;
     $recipeResult = [];
+    error_log("-- adt_get_person_footprint_recipe");
+    
     foreach ($fdemand_categories as $cat){
         $url = 'https://lca.aau.dk/api/recipes-country/?act_code='.$cat.$SEPARATOR.$act_code.'&region_code='.$country.'&version='.$version;
-
+        
+        error_log("url");
+        error_log($url);
         // Make the API request
         $recipeResponse = wp_remote_get($url);
-
+        
         // Check for errors
         if (is_wp_error($recipeResponse)) {
             return [
@@ -185,6 +189,8 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         
         // Get the response body
         $body = wp_remote_retrieve_body($recipeResponse);
+        error_log("body");
+        error_log($body);
         
         // Parse the JSON response
         $result = json_decode($body, true);
