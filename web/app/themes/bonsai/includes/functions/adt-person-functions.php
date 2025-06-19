@@ -25,8 +25,6 @@ function adt_get_person_footprint()
 
     $fdemand_aux = "F_HOUS";
     $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$act_code; //TODO change if call with F_HOUS does not exist
-    // error_log("-- adt_get_person_footprint url");
-    // error_log($url);
     $response = wp_remote_get($url);
 
     
@@ -57,7 +55,6 @@ function adt_get_person_footprint()
 
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
     $value = get_total_value($fdemand_categories,$country,$act_code,$version);
-
     $recipes = adt_get_person_footprint_recipe($fdemand_categories, $country, $act_code, $version);
 
     /**
@@ -65,9 +62,6 @@ function adt_get_person_footprint()
      * Therefore we need to send more requests to get all the data.
      * 
      * I have gotten the results from all the pages in the function adt_get_person_footprint_recipe.
-     * But below I use the $householdRecipeData array to get the product codes. 
-     * If there is product codes in the other two arrays, which are not present in $householdRecipeData,
-     * then they will not be included in the final result.
      */
 
     // Find matching recipe codes and add the values together.
@@ -173,71 +167,92 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
     error_log("-- adt_get_person_footprint_recipe");
     
     foreach ($fdemand_categories as $cat){
-        $url = 'https://lca.aau.dk/api/recipes-country/?act_code='.$cat.$SEPARATOR.$act_code.'&region_code='.$country.'&version='.$version;
+        // $url = 'https://lca.aau.dk/api/recipes-country/?act_code='.$cat.$SEPARATOR.$act_code.'&region_code='.$country.'&version='.$version;
         
-        error_log("url");
-        error_log($url);
-        // Make the API request
-        $recipeResponse = wp_remote_get($url);
+        // error_log("url");
+        // error_log($url);
+        // // Make the API request
+        // $recipeResponse = wp_remote_get($url);
         
-        // Check for errors
-        if (is_wp_error($recipeResponse)) {
-            return [
-                'error' => $recipeResponse->get_error_message()
-            ];
-        }
+        // // Check for errors
+        // if (is_wp_error($recipeResponse)) {
+        //     return [
+        //         'error' => $recipeResponse->get_error_message()
+        //     ];
+        // }
         
-        // Get the response body
-        $body = wp_remote_retrieve_body($recipeResponse);
-        error_log("body");
-        error_log($body);
+        // // Get the response body
+        // $body = wp_remote_retrieve_body($recipeResponse);
+        // error_log("body");
+        // error_log($body);
         
-        // Parse the JSON response
-        $result = json_decode($body, true);
-
-        $productCount = $result['count'];
-
-        $recipeResult = array_merge($recipeResult, $result['results']);
-
-        if (empty($result)) {
-            return 'No person recipe found or an error occurred.';
-        }
+        // // Parse the JSON response
+        // $result = json_decode($body, true);
         
-        if (array_key_exists('detail', $result)) {
-            return 'Error: ' . $result['detail'];
-        }
+        // $productCount = $result['count'];
         
-        $pages = ceil($productCount / 100);
-
+        // $recipeResult = array_merge($recipeResult, $result['results']);
         
-        // TODO: Throttled again for loading through the pages?
-        for ($i = 2; $i <= $pages; $i++) {
-            $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version;
-            $response = wp_remote_get($api_url);
+        // if (empty($result)) {
+        //     return 'No person recipe found or an error occurred.';
+        // }
+        
+        // if (array_key_exists('detail', $result)) {
+            //     return 'Error: ' . $result['detail'];
+            // }
             
-            if (is_wp_error($response)) {
-                continue;
-            }
+            // $pages = ceil($productCount / 100);
             
-            $body = wp_remote_retrieve_body($response);
-            $result = json_decode($body, true);
-            if (!empty($result['results'])) {
-                $recipeResult = array_merge($recipeResult, $result['results']);
-            }
-        }
-        
-        // Handle potential errors in the recipeResponse
-        if (empty($recipeResult)) {
-            return [
-                'error' => 'No recipes found or an error occurred.'
-            ];
-        }
+            $page_counter = 1;
+            $status_code = 200;
+            while($status_code == 200){
+                $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $page_counter . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version;
+                $response = wp_remote_get($api_url);
+                $body = wp_remote_retrieve_body($response);
+                error_log("body");
+                error_log($body);
+                
+                // Parse the JSON response
+                $result = json_decode($body, true);
 
-        error_log("recipeResult count");
-        error_log(count($recipeResult));
+                $page_counter++;
+                $status_code = $response['status'];
+            }
+        
+        // // TODO: Throttled again for loading through the pages?
+        // for ($i = 1; $i <= $pages; $i++) {
+        //     $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version;
+        //     $response = wp_remote_get($api_url);
+            
+        //     if (is_wp_error($response)) {
+        //         continue;
+        //     }
+            
+        //     $body = wp_remote_retrieve_body($response);
+        //     $result = json_decode($body, true);
+        //     if (!empty($result['results'])) {
+        //         $recipeResult = array_merge($recipeResult, $result['results']);
+        //     }
+        // }
+        
+        // // Handle potential errors in the recipeResponse
+        // if (empty($recipeResult)) {
+        //     return [
+        //         'error' => 'No recipes found or an error occurred.'
+        //     ];
+        // }
+
+        // error_log("recipeResult count");
+        // error_log(count($recipeResult));
 
     }
 
-    
-    return $recipeResult;
+    $final_result = remove_duplicates_and_add_up_values($recipeResult);
+    // return $recipeResult;
+    return [];
 }
+
+// function remove_duplicates_and_add_up_values(array $recipeResult): array{
+//     $unique_
+//     return result;
+// }
