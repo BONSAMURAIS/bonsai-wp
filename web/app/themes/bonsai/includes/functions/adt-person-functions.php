@@ -22,8 +22,8 @@ function adt_get_person_footprint()
     }
 
     $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry."&version=".$version."&act_code=F_HOUS".$chosenActCode; //TODO change if call with F_HOUS does not exist
-    error_log("-- adt_get_person_footprint url");
-    error_log($url);
+    // error_log("-- adt_get_person_footprint url");
+    // error_log($url);
     $response = wp_remote_get($url);
 
     
@@ -35,7 +35,6 @@ function adt_get_person_footprint()
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
-    error_log("retrieve body = true");
     
     if (isset($result['count']) && $result['count'] === 0) {
         wp_send_json_error(['error' => 'Footprint not found']);
@@ -54,28 +53,8 @@ function adt_get_person_footprint()
     $footprintsArray = $result['results'];
 
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
-
-
     $value = get_total_value($fdemand_categories,$chosenCountry,$chosenActCode,$version);
-    $governmentValue = 0;
-    $householdValue = 0;
-    $chinValue = 0;
 
-    foreach ($footprintsArray as $key => $footprint) {
-        if (str_contains($footprint['act_code'],'F_GOVE')){
-            $governmentValue = $footprint['value'];
-            break;
-        } else if (str_contains($footprint['act_code'],'F_HOUS')){
-            $householdValue = $footprint['value'];
-            break;
-        } else if (str_contains($footprint['act_code'],'I_CHIN')){
-            $chinValue = $footprint['value'];
-            break;
-        }
-    }
-    
-    // add values together because the website wants to display the total emission for a country
-    $totalValue = $governmentValue + $householdValue + $chinValue;
     $recipes = adt_get_person_footprint_recipe($footprint['act_code'], $chosenCountry, $version);
 
     /**
@@ -97,7 +76,7 @@ function adt_get_person_footprint()
         'id' => $footprintsArray[0]['id'],
         'act_code' => $footprintsArray[0]['act_code'],
         'region_code' => $chosenCountry,
-        'value' => $totalValue,
+        'value' => $value,
         'version' => $version,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
         'recipe' => $recipes,
@@ -115,16 +94,10 @@ function adt_get_person_footprint()
 
 function get_total_value(array $fdemand_categories, string $country, string $act_code, int|string $version) {
     $total = 0;
-
-    error_log("get_total_value");
-
     foreach ($fdemand_categories as $cat){
         $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$cat.$act_code;
         $response = wp_remote_get($url);
-
-        error_log("loop url");
-        error_log($url);
-        
+       
         // Check for errors
         if (is_wp_error($response)) {
             return 'Error: ' . $response->get_error_message();
@@ -146,33 +119,16 @@ function get_total_value(array $fdemand_categories, string $country, string $act
         if (array_key_exists('detail', $result)) {
             wp_send_json_error(['error' => $result['detail']], 503);
         }
-        error_log("loop body");
-        error_log($body);
-        error_log('value');
+
         $footprintsArray = $result['results'];
         foreach ($footprintsArray as $key => $footprint) {
-            if (str_contains($footprint['act_code'],'F_GOVE')){
+            if (str_contains($footprint['act_code'], $cat)){
                 $governmentValue = $footprint['value'];
                 $total += $footprint['value'];
-                error_log($footprint['value']);
-                break;
-            } else if (str_contains($footprint['act_code'],'F_HOUS')){
-                $householdValue = $footprint['value'];
-                $total += $footprint['value'];
-                error_log($footprint['value']);
-                break;
-            } else if (str_contains($footprint['act_code'],'I_CHIN')){
-                $chinValue = $footprint['value'];
-                $total += $footprint['value'];
-                error_log($footprint['value']);
                 break;
             }
         }
-        error_log("total");
-        error_log($total);
-  
     } 
-
     return $total;
 }
 
