@@ -223,11 +223,11 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                 foreach ($recipeResult as $recipe) {
                     foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
                         if ($recipe["product_code"] == $new_recipe_val["product_code"]){
-                            error_log("b4 val");
+                            error_log("b4 val count");
                             error_log("count");
                             error_log(count($result['results']));
-                            error_log($recipe["value"]);
                             error_log($recipe["product_code"]);
+                            error_log($recipe["value"]);
                             $recipe["value"] += $new_recipe_val["value"];
                             error_log("aft val");
                             error_log($recipe["value"]);
