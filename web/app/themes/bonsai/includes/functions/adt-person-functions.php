@@ -21,7 +21,7 @@ function adt_get_person_footprint()
         }
     }
 
-    $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry."&version=".$version."&act_code=F_HOUS|".$chosenActCode; //TODO change if call with F_HOUS does not exist
+    $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$chosenCountry."&version=".$version."&act_code=F_HOUS".$chosenActCode; //TODO change if call with F_HOUS does not exist
     error_log("-- adt_get_person_footprint url");
     error_log($url);
     $response = wp_remote_get($url);
