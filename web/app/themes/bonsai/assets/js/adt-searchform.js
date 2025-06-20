@@ -5,17 +5,19 @@ jQuery(document).ready(function($){
         if (isChecked) {
             let value = $(this).val();
 
+            console.log("test");
+            console.log($('#footprint-type .radio-choice'));
+
             $('input.search').attr('placeholder', 'Find footprint by '+value);
 
+            $('#footprint-type .radio-choice').each(function(){
+                $(this).toggle();
+            });
+            $('.most-popular-wrapper').toggle();
+            $('.search-input-wrapper').toggle();
+            $('.person-choices').toggle();
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change'); // Fix applied here
-                $('#footprint-type .radio-choice').each(function(){
-                    $(this).toggle();
-                });
-                
-                $('.most-popular-wrapper').toggle();
-                $('.search-input-wrapper').toggle();
-                $('.person-choices').toggle();
                 // Get data from the API
                 // https://lca.aau.dk/api/footprint-country/
                 let countryCode = $('#location').val();
@@ -25,13 +27,6 @@ jQuery(document).ready(function($){
                 adt_get_person_footprint(countryCode, income_gpe, household_compo, version);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
-                $('#footprint-type .radio-choice').each(function(){
-                    $(this).toggle();
-                });
-
-                $('.most-popular-wrapper').toggle();
-                $('.search-input-wrapper').toggle();
-                $('.person-choices').toggle();
             }
         }
     });
