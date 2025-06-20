@@ -316,6 +316,7 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion): a
 {
     // Get the whole recipe list for the product
     $recipeUrl = 'https://lca.aau.dk/api/recipes/?flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion;
+    error_log("test recipes");
     error_log("recipeUrl=$recipeUrl");
 
     // Make the API request
