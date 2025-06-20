@@ -377,6 +377,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
             console.log(compareButtons)
             if (compareButtons.length > 0) {
+                console.log("OK compareButtons.length > 0");
                 adt_update_original_info(dataArray); //ici
             } else {
                 adt_update_comparison_info(dataArray);
@@ -557,7 +558,7 @@ async function adt_update_original_info(dataArray)
 
         if (dataArray.all_data) {
             $element.find('.product-result-unit').text('kg CO2eq');
-            jQuery('.emission-message').text('Where do emissions for 1 kg come from?');
+            jQuery('.emission-message').text('');
             jQuery('.emission-header-unit').text('[kg CO2eq]');
 
             jQuery(dataArray.all_data).each(function (i) {
