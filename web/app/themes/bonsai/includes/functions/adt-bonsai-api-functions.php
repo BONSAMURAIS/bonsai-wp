@@ -318,28 +318,29 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion): a
     $recipeUrl = 'https://lca.aau.dk/api/recipes/?flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion;
     error_log("test recipes");
     error_log("recipeUrl=$recipeUrl");
-
+    
     // Make the API request
     $recipeResponse = wp_remote_get($recipeUrl);
-
+    
     // Check for errors
     if (is_wp_error($recipeResponse)) {
         return [
             'error' => $recipeResponse->get_error_message()
         ];
     }
-
+    
     // Retrieve and decode the recipeResponse body
     $recipeBody = wp_remote_retrieve_body($recipeResponse);
     $recipeResult = json_decode($recipeBody, true);
-
+    
     // Handle potential errors in the recipeResponse
     if (empty($recipeResult)) {
         return [
             'error' => 'No recipes found or an error occurred.'
         ];
     }
-
+    
+    error_log("recipeBody=$recipeBody");
     return $recipeResult;
 }
 
