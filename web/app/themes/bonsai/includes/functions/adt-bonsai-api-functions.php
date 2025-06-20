@@ -27,12 +27,9 @@ function adt_get_bonsai_product_list() {
 
     // Get the response body
     $body = wp_remote_retrieve_body($response);
-
-    // Parse the JSON response
     $result = json_decode($body, true);
 
     $productCount = $result['count'];
-
     $products = $result['results'];
 
     if (empty($result)) {
@@ -114,9 +111,7 @@ function adt_get_bonsai_product_list() {
 
         if ($codePrefix === 'M') {
             update_post_meta($postId, 'adt_flowtype', 'market');
-        } 
-        
-        if ($codePrefix === 'C' || $codePrefix === 'EF') {
+        } else if ($codePrefix === 'C' || $codePrefix === 'EF') {
             update_post_meta($postId, 'adt_flowtype', 'product');
         }
 
@@ -124,8 +119,6 @@ function adt_get_bonsai_product_list() {
             update_post_meta($postId, 'adt_flowtype', $product['flow_type']);
         }
     }
-
-    // adt_delete_old_bonsai_products($updatedPostIds);
 }
 
 if (isset($_GET['get_future_bonsai_products'])) {
@@ -147,8 +140,6 @@ function adt_get_old_bonsai_product_list() {
 
     // Get the response body
     $body = wp_remote_retrieve_body($response);
-
-    // Parse the JSON response
     $products = json_decode($body, true);
 
     foreach ($products as $product) {
@@ -219,8 +210,6 @@ function adt_get_bonsai_footprint_list() {
 
     // Get the response body
     $body = wp_remote_retrieve_body($response);
-
-    // Parse the JSON response
     $result = json_decode($body, true);
 
     $updatedPostIds = [];
@@ -258,8 +247,6 @@ function adt_get_bonsai_footprint_list() {
         update_post_meta($postId, 'region_code', $product['region_code']);
     }
 }
-
-// add_action('template_redirect', 'adt_get_bonsai_footprint_list');
 
 function adt_delete_old_bonsai_products(array $updatedPostIds) 
 {

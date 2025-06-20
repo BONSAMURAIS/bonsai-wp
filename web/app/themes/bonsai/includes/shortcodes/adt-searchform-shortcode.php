@@ -299,13 +299,8 @@ add_shortcode( 'adt_searchform', function($atts) {
             <div class="row align-equal search-result basic" style="display: flex;">
                 <div class="col medium-6 small-12 large-6">
                     <div class="col-inner">
-                        <p class="product-title">Aluminium</p>
+                        <p class="product-title"></p>
                         <div class="product-tag-wrapper">
-                            <span class="product-tag footprint-type">Cradle To Gate</span>
-                            <span class="product-tag country">Australia</span>
-                            <span class="product-tag year">2016</span>
-                            <span class="product-tag climate-metrics">GWP100</span>
-                            <span class="product-tag version">v.1.1.0</span>
                         </div>
                         <div class="unit-select-wrapper">
                             <label class="select" for="amount">
@@ -320,7 +315,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <!-- <p>equal</p> -->
                             <p>test</p>
                         </div>
-                        <p class="product-result">0.00</p>
+                        <p class="product-result"></p>
                         <p class="product-result-unit">kg CO2eq</p>
                         <div class="tooltip-wrapper">
                             <a href="#info-product">
@@ -343,13 +338,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div class="col-inner">
                         <div class="calculation-wrapper">
                             <div class="choices">
-                                <p class="product-title">Aluminium</p>
+                                <p class="product-title"></p>
                                 <div class="product-tag-wrapper">
-                                    <!-- <span class="product-tag footprint-type">Cradle To Gate</span>
-                                    <span class="product-tag country">Australia</span>
-                                    <span class="product-tag year">2016</span>
-                                    <span class="product-tag climate-metrics">GWP100</span>
-                                    <span class="product-tag version">v.1.1.0</span> -->
                                 </div>
                                 <div class="unit-select-wrapper">
                                     <label class="select" for="amount">
@@ -366,7 +356,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 </div>
                             </div>
                             <div class="calculation-result">
-                                <p class="product-result">5.91</p>
+                                <p class="product-result">NaN</p>
                                 <p class="product-result-unit">kg CO2eq</p>
                             </div>
                         </div>
