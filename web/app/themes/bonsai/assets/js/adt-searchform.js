@@ -89,9 +89,7 @@ jQuery(document).ready(function($){
         $(searchform.products).each(function() {
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
                 return true;
-            }
-            
-            if (
+            } else if (
                 chosenFootprintType === "market" 
                 && (this.code.includes('C_') || this.code.includes('EF_') || this.code.includes('A_'))
             ) {
@@ -463,17 +461,16 @@ function adt_update_tags(boxToUpdate)
         jQuery('.search-result > .col'+whichChild+' .product-title').each(function() {
             let dataCode = jQuery(this).attr('data-code');
 
-            if (dataCode && dataCode.includes("M_")) {
-                type = 'Cradle to consumer';
+            if (dataCode){
+                if (dataCode.includes("M_")) {
+                    type = 'Cradle to consumer';
+                } else if (dataCode.includes('C_') || dataCode.includes('EF_') || dataCode.includes('A_')) {
+                    type = 'Cradle to gate';
+                } else if (dataCode.includes("F_")) {
+                    type = 'Cradle to grave';
+                }
             }
 
-            if (dataCode 
-                && (dataCode.includes('C_') || dataCode.includes('EF_') || dataCode.includes('A_'))
-            ) {
-                type = 'Cradle to gate';
-            }else if (dataCode && dataCode.includes("F_")) {
-                type = 'Cradle to grave';
-            }
         });
     }
 
