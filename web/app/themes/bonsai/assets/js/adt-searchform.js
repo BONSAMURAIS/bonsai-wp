@@ -1022,10 +1022,6 @@ async function adt_update_recipe(dataArray, boxToUpdate)
     let recipeArray = dataArray.recipe;
 
     console.log("recipeArray=",recipeArray);
-    function capitalize(str) {
-        if (!str) return '';
-        return str[0].toUpperCase() + str.slice(1).toLowerCase();
-    }
 
     for (const recipe of recipeArray) {
         // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
@@ -1160,7 +1156,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
             success: (response) => {
                 let productTitle = response.data;
 
-                jQuery('td a[data-code="'+productCode+'"]').text(productTitle);
+                jQuery('td a[data-code="'+productCode+'"]').text(capitalize(productTitle));
             }
         });
     });
@@ -1650,4 +1646,9 @@ function adt_push_parameter_to_url(text, code, uuid, chosenValuesArray)
     // Add to URL
     const getParameter = `?data=${base64String}`;
     history.pushState(null, '', getParameter);
+}
+
+function capitalize(str) {
+    if (!str) return '';
+    return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
