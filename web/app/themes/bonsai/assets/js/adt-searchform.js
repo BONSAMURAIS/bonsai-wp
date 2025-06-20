@@ -1,4 +1,5 @@
 jQuery(document).ready(function($){
+    c_animationDuration = 500;
     $('.co2-form input[name="switch-one"]').on('change', function(){
         let isChecked = $(this).is(':checked');
         
@@ -296,10 +297,6 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
 
             adt_show_search_results();
 
-            // jQuery('#initial-error-message').slideUp('fast');
-
-            c_animationDuration = 500;
-
             jQuery('html, body').animate({
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
             }, c_animationDuration);
@@ -376,8 +373,9 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             }
 
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
-            
+            console.log("product info --- b4 compare btn")
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
+            console.log(compareButtons)
             if (compareButtons.length > 0) {
                 adt_update_original_info(dataArray); //ici
             } else {
@@ -386,11 +384,9 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
 
             adt_show_search_results();
 
-            // jQuery('#initial-error-message').slideUp('fast');
-
             jQuery('html, body').animate({
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
-            }, 500); // 500ms = 0.5 second animation time
+            }, c_animationDuration);
         },
         error: (response) => {
             // Request was throttled
@@ -643,7 +639,7 @@ async function adt_update_original_info(dataArray)
                     jQuery(this).val(numberInput);
                     jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
                     setTimeout(() => {
-                        jQuery('.error-message').fadeOut(500, function() {
+                        jQuery('.error-message').fadeOut(c_animationDuration, function() {
                             jQuery(this).remove();
                         });
                     }, 2000);
@@ -838,7 +834,7 @@ async function adt_update_comparison_info(dataArray = null)
                         jQuery(this).val(numberInput);
                         jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
                         setTimeout(() => {
-                            jQuery('.error-message').fadeOut(500, function() {
+                            jQuery('.error-message').fadeOut(c_animationDuration, function() {
                                 jQuery(this).remove();
                             });
                         }, 2000);
@@ -980,7 +976,7 @@ async function adt_update_comparison_info(dataArray = null)
                         jQuery(this).val(numberInput);
                         jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
                         setTimeout(() => {
-                            jQuery('.error-message').fadeOut(500, function() {
+                            jQuery('.error-message').fadeOut(c_animationDuration, function() {
                                 jQuery(this).remove();
                             });
                         }, 2000);
