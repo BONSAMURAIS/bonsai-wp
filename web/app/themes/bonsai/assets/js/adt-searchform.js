@@ -347,6 +347,9 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
         success: (response) => {
             let dataArray = response.data;
 
+            console.log("test product info dataArray");
+            console.log(dataArray);
+
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
             
@@ -390,6 +393,8 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
         },
         error: (response) => {
             // Request was throttled
+            console.log("adt_get_product_info ERROR");
+            console.log(response);
             jQuery('#initial-error-message').html('<p>'+response.responseJSON?.data.error+'</p>');
             jQuery('#initial-error-message').slideDown('fast');
         }
