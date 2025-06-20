@@ -558,7 +558,7 @@ async function adt_update_original_info(dataArray)
 
         if (dataArray.all_data) {
             $element.find('.product-result-unit').text('kg CO2eq');
-            jQuery('.emission-message').text('');
+            jQuery('.emission-message').text('Where do emissions for 1 kg come from?');
             jQuery('.emission-header-unit').text('[kg CO2eq]');
 
             jQuery(dataArray.all_data).each(function (i) {
