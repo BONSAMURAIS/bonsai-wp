@@ -347,33 +347,39 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
         },
         success: (response) => {
             let dataArray = response.data;
-            console.log("dataArray=",dataArray)
+
+            console.log("test product info dataArray");
+            console.log(dataArray);
 
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
             
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
+                jQuery('.error-message').first().append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
+                jQuery('.error-message').slideDown('fast');
                 adt_show_search_results();
-                console.log('Combination not found in adt_get_person_footprint()');
-                
+                console.log('Combination not found in adt_get_product_info()');
                 // Save product data even though an error occurred
                 // This is so the user can go try to search again with other countries
                 // localStorage.setItem("footprint_data", JSON.stringify(response.data));
                 return;
             } else {
+                jQuery( "#error-message-content" ).remove();
                 jQuery('.error-message').slideUp('fast');
             }
             
             // Error message
-            if (response.data && !response.data.title && !response.data.act_code) {
+            if (response.data && !response.data.title) {
                 jQuery('.error-message').slideDown('fast');
             } else {
                 jQuery('.error-message').slideUp('fast');
             }
 
+            localStorage.setItem("footprint_data", JSON.stringify(response.data));
+            
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
             if (compareButtons.length > 0) {
-                adt_update_original_info(dataArray);
+                adt_update_original_info(dataArray); //ici
             } else {
                 adt_update_comparison_info(dataArray);
             }
@@ -382,59 +388,9 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
 
             // jQuery('#initial-error-message').slideUp('fast');
 
-            c_animationDuration = 500;
-
             jQuery('html, body').animate({
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
-            }, c_animationDuration);
-            
-            // Try this
-            localStorage.setItem("footprint_data", JSON.stringify(response.data));
-            console.log('successfull run of adt_get_person_footprint()');
-
-            // console.log("test product info dataArray");
-            // console.log(dataArray);
-
-            // jQuery('.loading').remove();
-            // jQuery('#autocomplete-input').prop('disabled', false);
-            
-            // if (response.data && response.data.error && response.data.error.includes("Product not found")) {
-            //     jQuery('.error-message').first().append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
-            //     jQuery('.error-message').slideDown('fast');
-            //     adt_show_search_results();
-            //     console.log('Combination not found in adt_get_product_info()');
-            //     // Save product data even though an error occurred
-            //     // This is so the user can go try to search again with other countries
-            //     // localStorage.setItem("footprint_data", JSON.stringify(response.data));
-            //     return;
-            // } else {
-            //     jQuery( "#error-message-content" ).remove();
-            //     jQuery('.error-message').slideUp('fast');
-            // }
-            
-            // // Error message
-            // if (response.data && !response.data.title) {
-            //     jQuery('.error-message').slideDown('fast');
-            // } else {
-            //     jQuery('.error-message').slideUp('fast');
-            // }
-
-            // localStorage.setItem("footprint_data", JSON.stringify(response.data));
-            
-            // let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
-            // if (compareButtons.length > 0) {
-            //     adt_update_original_info(dataArray); //ici
-            // } else {
-            //     adt_update_comparison_info(dataArray);
-            // }
-
-            // adt_show_search_results();
-
-            // // jQuery('#initial-error-message').slideUp('fast');
-
-            // jQuery('html, body').animate({
-            //     scrollTop: jQuery(".co2-form-result").offset().top - 90
-            // }, 500); // 500ms = 0.5 second animation time
+            }, 500); // 500ms = 0.5 second animation time
         },
         error: (response) => {
             // Request was throttled
