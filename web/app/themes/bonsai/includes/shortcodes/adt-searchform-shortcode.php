@@ -65,13 +65,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <input type="radio" id="grave" name="footprint_type" value="grave" />
                             <label for="grave">Cradle to grave</label>
                         </div>
-                        <!-- <select id="footprint-type">
-                            <option value="product">Cradle to gate (i.e. production)</option>
-                            <option value="market">Cradle to consumer (i.e., markets)</option>
-                        </select>
-                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                        </svg> -->
                     </div>
                 </div>
             </div>
@@ -352,11 +345,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <div class="choices">
                                 <p class="product-title">Aluminium</p>
                                 <div class="product-tag-wrapper">
-                                    <span class="product-tag footprint-type">Cradle To Gate</span>
+                                    <!-- <span class="product-tag footprint-type">Cradle To Gate</span>
                                     <span class="product-tag country">Australia</span>
                                     <span class="product-tag year">2016</span>
                                     <span class="product-tag climate-metrics">GWP100</span>
-                                    <span class="product-tag version">v.1.1.0</span>
+                                    <span class="product-tag version">v.1.1.0</span> -->
                                 </div>
                                 <div class="unit-select-wrapper">
                                     <label class="select" for="amount">
