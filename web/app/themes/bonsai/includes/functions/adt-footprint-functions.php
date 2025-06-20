@@ -48,36 +48,6 @@ add_action('init', function(){
 
 });
 
-function adt_get_all_footprints(): array
-{
-    // $args = [
-    //     'post_type' => 'footprint',
-    //     'posts_per_page' => -1,
-    // ];
-
-    // $query = new WP_Query($args);
-
-    // $array = [];
-
-    // foreach ($query->posts as $key => $post) {
-    //     $postId = $post->ID;
-
-    //     $code = get_post_meta($postId, 'adt_code', true);
-    //     $unit = get_post_meta($postId, 'adt_characteristic_unit', true);
-    //     $uuid = get_post_meta($postId, 'adt_uuid', true);
-
-    //     $array[$key] = [
-    //         'title' => $post->post_title,
-    //         'content' => $post->post_content,
-    //         'code' => $code,
-    //         'unit' => $unit,
-    //         'uuid' => $uuid,
-    //     ];
-    // }
-
-    // return $array;
-}
-
 function adt_get_footprint_name_by_code($code)
 {
     $args = [
@@ -104,16 +74,6 @@ function adt_get_footprint_name_by_code($code)
 
     return $footprintTitle;
 }
-
-/**
- * Old API endpoint for products - the Bonsai API
- * To get the older products for cradle to gate also get products from activity names
- */
-function adt_get_bonsai_activity_names() {
-  
-}
-
-// add_action('template_redirect', 'adt_get_bonsai_activity_names');
 
 function adt_convert_number_by_units(string $fromUnit, string $toUnit): float
 {
