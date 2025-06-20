@@ -65,17 +65,14 @@ jQuery(document).ready(function($){
         }
 
         if (
-            chosenFootprintType === "market" && this.code.includes('C_')
-            || chosenFootprintType === "market" && this.code.includes('EF_')
-            || chosenFootprintType === "market" && this.code.includes('A_')
+            chosenFootprintType === "market" 
+            && (this.code.includes('C_') || this.code.includes('EF_') || this.code.includes('A_'))
         ) {
             return true;
         }
         
         if (this.code.startsWith('A_')) {
-            console.log("replace 'A_' with 'C_' code:",this.code)
             this.code = this.code.replace(/^A_/, 'C_');
-            console.log("after replace 'A_' with 'C_' code:",this.code)
         }
         
         productTitleArray.push(this.title);
@@ -100,9 +97,8 @@ jQuery(document).ready(function($){
             }
             
             if (
-                chosenFootprintType === "market" && this.code.includes('C_')
-                || chosenFootprintType === "market" && this.code.includes('EF_')
-                || chosenFootprintType === "market" && this.code.includes('A_')
+                chosenFootprintType === "market" 
+                && (this.code.includes('C_') || this.code.includes('EF_') || this.code.includes('A_'))
             ) {
                 return true;
             }
@@ -256,7 +252,7 @@ jQuery(document).ready(function($){
 
 function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.2.0')
 {
-    act_code =income_gpe+"_"+household_compo; //fdemandCat will be prefixed
+    act_code = income_gpe+"_"+household_compo; //fdemandCat will be prefixed in adt-person-functions.php
     console.log("act_code=",act_code);
     jQuery.ajax({
         type: 'POST',
@@ -309,11 +305,12 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
 
             // jQuery('#initial-error-message').slideUp('fast');
 
+            c_animationDuration = 500;
+
             jQuery('html, body').animate({
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
-            }, 500); // 500ms = 0.5 second animation time
+            }, c_animationDuration);
             
-            // adt_update_tags('original');
             // Try this
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
             console.log('successfull run of adt_get_person_footprint()');
@@ -449,9 +446,7 @@ function adt_update_tags(boxToUpdate)
     
     if (typeValue === 'market') {
         type = 'Cradle to consumer';
-    }
-
-    if (typeValue === 'grave') {
+    } else if (typeValue === 'grave') {
         type = 'Cradle to grave';
     }
 
@@ -477,15 +472,11 @@ function adt_update_tags(boxToUpdate)
                 type = 'Cradle to consumer';
             }
 
-            if (
-                dataCode && (dataCode.includes('C_')
-                || dataCode.includes('EF_')
-                || dataCode.includes('A_'))
+            if (dataCode 
+                && (dataCode.includes('C_') || dataCode.includes('EF_') || dataCode.includes('A_'))
             ) {
                 type = 'Cradle to gate';
-            }
-
-            if (dataCode && dataCode.includes("F_")) {
+            }else if (dataCode && dataCode.includes("F_")) {
                 type = 'Cradle to grave';
             }
         });
