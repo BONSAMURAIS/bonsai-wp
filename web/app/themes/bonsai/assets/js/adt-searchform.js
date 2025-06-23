@@ -376,8 +376,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
             console.log(compareButtons)
             if (compareButtons.length > 0) {
-                console.log("OK compareButtons.length > 0");
-                adt_update_original_info(dataArray); //ici
+                adt_update_original_info(dataArray); 
             } else {
                 adt_update_comparison_info(dataArray);
                 console.log("adt_update_comparison_info compareButtons.length < 0");
@@ -563,10 +562,10 @@ async function adt_update_original_info(dataArray)
             console.log("dataArray.all_data:",dataArray.all_data);
             let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
             console.log("unit_ref =",unit_ref);
-            $element.find('.product-result-unit').text('kg CO2eq');
+            $element.find('.product-result-unit').text(unit_ref+' CO2eq');
             //change unit here
-            jQuery('.emission-message').text('Where do emissions for 1 kg come from?');
-            jQuery('.emission-header-unit').text('[kg CO2eq]');
+            jQuery('.emission-message').text('Where do emissions for 1 '+unit_ref+' come from?');
+            jQuery('.emission-header-unit').text('['+unit_ref+' CO2eq]');
             
             jQuery(dataArray.all_data).each(function (i) {
                 
@@ -593,6 +592,7 @@ async function adt_update_original_info(dataArray)
             defaultValue = parseFloat($element.find('.product-result').text());
             
             $element.find('select.unit').on('change', function () {
+                //TODO add more unit selection
                 let chosenValue = jQuery(this).val();
                 
                 jQuery('.search-result .col:first-child .amount').val('1');
@@ -910,10 +910,12 @@ async function adt_update_comparison_info(dataArray = null)
 
             console.log(dataArray.all_data);
             if (dataArray.all_data) {
-                console.log("element",$element);
-
+                console.log("adt_update_comparison_info element=",$element);
+                console.log("dataArray.all_data:",dataArray.all_data);
+                let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
+                console.log("unit_ref =",unit_ref);
                 $element.find('.product-result-unit').text('kg CO2eq');
-                jQuery('.emission-message').text('Where do emissions for 1 kg come from?');
+                jQuery('.emission-message').text('Where do emissions for 1 assad come from?');
                 jQuery('.emission-header-unit').text('[kg CO2eq]');
 
                 jQuery(dataArray.all_data).each(function (i) {
