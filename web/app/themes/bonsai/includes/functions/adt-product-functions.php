@@ -99,7 +99,7 @@ function adt_get_product_name_by_code()
     $productTitle = "";
 
     foreach ($products as $product) {
-        $productTitle = $product->post_title;
+        $productTitle =  preg_replace('/\s*\([^)]*\)/', '', $product->post_title);
         break;
     }
 
