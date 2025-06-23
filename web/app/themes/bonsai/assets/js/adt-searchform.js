@@ -738,12 +738,7 @@ async function adt_update_comparison_info(dataArray = null)
             $element.find('select.unit').empty();
 
             jQuery(dataArray.all_data).each(function (i) {
-                let unit = dataArray.all_data[i].unit_reference;
-
-                if (unit === 'Meuro') unit = 'EUR';
-                if (unit === 'tonnes') unit = 'kg';
-                if (unit === 'TJ' && !dataArray.all_data[i].description.includes('electricity')) unit = 'MJ';
-                if (unit === 'TJ' && dataArray.all_data[i].description.includes('electricity')) unit = 'kWh';
+                let unit = conver_unit(dataArray.all_data[i].unit_reference,dataArray.all_data[i].description);
 
                 $element.attr('data-set-' + i, dataArray.all_data[i].id);
                 $element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
