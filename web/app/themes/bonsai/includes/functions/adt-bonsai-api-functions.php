@@ -462,9 +462,13 @@ function adt_get_product_footprint()
     $footprints = $result['results'];
     $versionArray = [];
 
+    $unit_reference = "";
+    $unit_emission = "";
     foreach ($footprints as $footprint) {
         $versionArray[] = $footprint['version'];
         $footprintTitle = $footprint['description'];
+        $unit_reference = $footprint['unit_reference'];
+        $unit_emission = $footprint['unit_emission'];
     }
 
     $newestVersion = adt_get_newest_version($versionArray);
@@ -539,13 +543,12 @@ function adt_get_product_footprint()
                      */
                     if ( str_contains(strtolower($footprint['description']), 'electricity') ) {
                         $multiplier = adt_convert_number_by_units('TJ', 'kWh');
-                        $footprint['value'] = $footprint['value'] / $multiplier * 1000;
                         $footprint['unit_reference'] = 'kWh';
                     } else {
                         $multiplier = adt_convert_number_by_units('TJ', 'MJ');
-                        $footprint['value'] = $footprint['value'] / $multiplier * 1000;
                         $footprint['unit_reference'] = 'MJ';
                     }
+                    $footprint['value'] = $footprint['value'] / $multiplier * 1000;
 
                     break;
                 
@@ -565,6 +568,8 @@ function adt_get_product_footprint()
         'title' => $footprintTitle,
         'flow_code' => $productCode,
         'chosen_country' => $chosenCountry,
+        "unit_reference" => $unit_reference,
+        "unit_emission" => $unit_emission,
         'uuid' => $productUuid,
         'version' => $newestVersion,
         'all_data' => $chosenFootprint,
