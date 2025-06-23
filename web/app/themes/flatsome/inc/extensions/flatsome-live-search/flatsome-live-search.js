@@ -55,6 +55,9 @@ jQuery(document).ready(function ($) {
 
           if( search_categories.length ){
                 var searchForm = $(this).find('.search-field').devbridgeAutocomplete();
+                console.log("flatsome")
+                console.log(searchForm)
+                console.log("end flatsome")
 
                 search_categories.on( 'change', function( e ){
 
