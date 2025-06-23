@@ -244,7 +244,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </div>
                             <label class="select" for="database-version">
                                 <select id="database-version">
-                                    <option value="v1.2.0" selected="selected">v1.2.0</option>
+                                    <option value="v1.0.0" selected="selected">v1.0.0</option>
                                     <!-- <option value="v1.1.0">v1.1.0</option>
                                     <option value="v1.0.0">v1.0.0</option> -->
                                 </select>

@@ -244,7 +244,7 @@ jQuery(document).ready(function($){
     }
 });
 
-function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.2.0')
+function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.0.0')
 {
     act_code = income_gpe+"_"+household_compo; //fdemandCat will be prefixed in adt-person-functions.php
     console.log("act_code=",act_code);
@@ -1035,7 +1035,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
 
         if (recipe.region_inflow === undefined) {
             recipe.region_inflow = recipe.region_code;
-        }
+        }   
 
         if (recipe.value_emission === undefined) {
             recipe.value_emission = recipe.value;
