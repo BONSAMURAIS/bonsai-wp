@@ -6,7 +6,6 @@ jQuery(document).ready(function($){
         if (isChecked) {
             let value = $(this).val();
 
-            console.log("test");
             console.log($('#footprint-type .radio-choice'));
 
             $('input.search').attr('placeholder', 'Find footprint by '+value);
@@ -1030,6 +1029,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
     console.log("recipeArray=",recipeArray);
 
     for (const recipe of recipeArray) {
+        console.log("test")
         // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
 
         // Convert to base64
