@@ -357,6 +357,7 @@ function adt_get_updated_recipe_info()
     $productCode = $_POST['productCode'];
     $chosenCountry = $_POST['country'];
     $newestVersion = $_POST['version'];
+    $metric = "gwp100";
 
     // Check if the data is already cached
     $cachedRecipe = get_transient('adt_recipe_cache');
@@ -367,7 +368,7 @@ function adt_get_updated_recipe_info()
     }
 
     // Need unitInflow
-    $url = 'https://lca.aau.dk/api/recipes/?unit_inflow='.$unitInflow.'&flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion;
+    $url = 'https://lca.aau.dk/api/recipes/?unit_inflow='.$unitInflow.'&flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion."&metric=".$metric;
     // Make the API request
     $response = wp_remote_get($url);
 
