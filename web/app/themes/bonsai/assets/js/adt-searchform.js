@@ -544,13 +544,14 @@ async function adt_update_original_info(dataArray)
         let defaultValue = 0;
         
         if (!dataArray.all_data) {
+            console.log("!dataArray.all_data");
             $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
-
+            
             $element.find('.product-result-unit').text(dataArray.unit_emission);
-
+            
             // Just let the first item be default instead of null
             let valueForItems = dataArray.value;
-
+            
             let formatted = new Intl.NumberFormat('en-US', {
                 minimumFractionDigits: 3,
                 maximumFractionDigits: 3
@@ -559,16 +560,17 @@ async function adt_update_original_info(dataArray)
             $element.find('.product-result').text(formatted);
             defaultValue = valueForItems;
         }
-
+        
         if (dataArray.all_data) {
+            console.log("dataArray.all_data");
             $element.find('.product-result-unit').text('kg CO2eq');
             //change unit here
             jQuery('.emission-message').text('Where do emissions for 1 kg come from?');
             jQuery('.emission-header-unit').text('[kg CO2eq]');
-
+            
             jQuery(dataArray.all_data).each(function (i) {
                 let unit = dataArray.all_data[i].unit_reference;
-
+                
                 if (unit === 'Meuro') unit = 'EUR';
                 if (unit === 'tonnes') unit = 'kg';
                 if (unit === 'TJ' && !dataArray.all_data[i].description.includes('electricity')) unit = 'MJ';
@@ -577,16 +579,16 @@ async function adt_update_original_info(dataArray)
                 $element.attr('data-set-' + i, dataArray.all_data[i].id);
                 $element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
             });
-
+            
             let defaultUnit = $element.find('select.unit').val();
             // Just let the first item be default instead of null
             let valueForItems = dataArray.all_data[0].value;
             let convertedValueForItems = null;
-
+            
             if (convertedValueForItems) {
                 valueForItems = convertedValueForItems;
             }
-
+            
             let formatted = new Intl.NumberFormat('en-US', {
                 minimumFractionDigits: 3,
                 maximumFractionDigits: 3
@@ -594,6 +596,7 @@ async function adt_update_original_info(dataArray)
             
             $element.find('.product-result').text(formatted);
             defaultValue = parseFloat($element.find('.product-result').text());
+            console.log("formatted");
 
             $element.find('select.unit').on('change', function () {
                 let chosenValue = jQuery(this).val();
