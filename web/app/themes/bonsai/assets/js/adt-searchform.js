@@ -560,6 +560,7 @@ async function adt_update_original_info(dataArray)
         }
         
         if (dataArray.all_data) {
+            console.log("dataArray.all_data:",dataArray.all_dat);
             $element.find('.product-result-unit').text('kg CO2eq');
             //change unit here
             jQuery('.emission-message').text('Where do emissions for 1 kg come from?');
