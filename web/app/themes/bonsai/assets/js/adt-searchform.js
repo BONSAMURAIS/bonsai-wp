@@ -593,7 +593,6 @@ async function adt_update_original_info(dataArray)
             
             $element.find('.product-result').text(formatted);
             defaultValue = parseFloat($element.find('.product-result').text());
-            console.log("formatted");
             
             $element.find('select.unit').on('change', function () {
                 let chosenValue = jQuery(this).val();
@@ -629,7 +628,6 @@ async function adt_update_original_info(dataArray)
             });
         }
         
-        console.log("formatted");
         $element.find('.amount').each(function () {
             let inputElement = jQuery(this).closest('.col-inner');
 
