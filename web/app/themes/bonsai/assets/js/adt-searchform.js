@@ -597,10 +597,10 @@ async function adt_update_original_info(dataArray)
             $element.find('.product-result').text(formatted);
             defaultValue = parseFloat($element.find('.product-result').text());
             console.log("formatted");
-
+            
             $element.find('select.unit').on('change', function () {
                 let chosenValue = jQuery(this).val();
-
+                
                 jQuery('.search-result .col:first-child .amount').val('1');
                 jQuery('.search-result .col:first-child select.unit').each(async function () {
                     jQuery(this).val(chosenValue);
@@ -616,22 +616,23 @@ async function adt_update_original_info(dataArray)
                                 // Then just divide by 1000 to get the value in kg
                                 // valueForItems = item.value / 1000;
                             }
-
+                            
                             break;
                         }
                     }
-
+                    
                     let formatted = new Intl.NumberFormat('en-US', {
                         minimumFractionDigits: 3,
                         maximumFractionDigits: 3
                     }).format(valueForItems);
-
+                    
                     jQuery(newElement).find('.product-result').text(formatted);
                     defaultValue = parseFloat(jQuery('.product-result', newElement).text());
                 });
             });
         }
-
+        
+        console.log("formatted");
         $element.find('.amount').each(function () {
             let inputElement = jQuery(this).closest('.col-inner');
 
@@ -1142,6 +1143,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
 
     // Append "other" row at the end if it exists
     tableMarkup += otherRowMarkup;
+    console.log("tableMarkup = ", tableMarkup);
 
     // Display the table
     jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
