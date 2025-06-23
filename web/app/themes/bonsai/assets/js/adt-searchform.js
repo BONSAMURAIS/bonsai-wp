@@ -1,35 +1,33 @@
 jQuery(document).ready(function($){
+    console.log(document)
+    c_animationDuration = 500;
     $('.co2-form input[name="switch-one"]').on('change', function(){
         let isChecked = $(this).is(':checked');
         
         if (isChecked) {
             let value = $(this).val();
 
+            console.log($('#footprint-type .radio-choice'));
+
             $('input.search').attr('placeholder', 'Find footprint by '+value);
 
+            $('#footprint-type .radio-choice').each(function(){
+                $(this).toggle();
+            });
+            $('.most-popular-wrapper').toggle();
+            $('.search-input-wrapper').toggle();
+            $('.person-choices').toggle();
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change'); // Fix applied here
-                $('#footprint-type .radio-choice').each(function(){
-                    $(this).toggle();
-                });
-                
-                $('.most-popular-wrapper').toggle();
-                $('.search-input-wrapper').toggle();
-                $('.person-choices').toggle();
                 // Get data from the API
                 // https://lca.aau.dk/api/footprint-country/
                 let countryCode = $('#location').val();
                 let version = $('#database-version').val();
-                adt_get_person_footprint(countryCode, version);
+                let income_gpe = $('#income-group').val();
+                let household_compo = $('#household-composition').val();
+                adt_get_person_footprint(countryCode, income_gpe, household_compo, version);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
-                $('#footprint-type .radio-choice').each(function(){
-                    $(this).toggle();
-                });
-
-                $('.most-popular-wrapper').toggle();
-                $('.search-input-wrapper').toggle();
-                $('.person-choices').toggle();
             }
         }
     });
@@ -55,22 +53,24 @@ jQuery(document).ready(function($){
     let productCodeArray = [];
     let productUuidArray = [];
     let chosenFootprintType = $('#footprint-type input[name="footprint_type"]:checked').val();
+    console.log("searchform=",searchform)
 
+    //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
     $(searchform.products).each(function() {
-        if (chosenFootprintType === "product" && this.code.includes("M_")) {
-            return true;
-        }
-
-        if (
-            chosenFootprintType === "market" && this.code.includes('C_')
-            || chosenFootprintType === "market" && this.code.includes('EF_')
-            || chosenFootprintType === "market" && this.code.includes('A_')
+        if (chosenFootprintType === "product" && this.code.includes("M_")
         ) {
             return true;
         }
 
-        if (this.code.includes('C_') || this.code.includes('EF_')) {
-            this.code = this.code.replace(/^(C_|EF_)/, 'A_');
+        if (
+            chosenFootprintType === "market" 
+            && (this.code.includes('C_') || this.code.includes('EF_') || this.code.includes('A_'))
+        ) {
+            return true;
+        }
+        
+        if (this.code.startsWith('A_')) {
+            this.code = this.code.replace(/^A_/, 'C_');
         }
         
         productTitleArray.push(this.title);
@@ -78,7 +78,8 @@ jQuery(document).ready(function($){
         productCodeArray.push(this.code);
         productUuidArray.push(this.uuid);    
     });
-
+    
+    // when radio button 'Cradle to consumer' is selected 
     // If user chooses to change footprint type then get new data
     $('#footprint-type input[name="footprint_type"]').on('change', function() {
         chosenFootprintType = $(this).val();
@@ -89,22 +90,20 @@ jQuery(document).ready(function($){
         productUuidArray = [];
 
         $(searchform.products).each(function() {
+            console.log("this.code=",this.code);
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
                 return true;
-            }
-    
-            if (
-                chosenFootprintType === "market" && this.code.includes('C_')
-                || chosenFootprintType === "market" && this.code.includes('EF_')
-                || chosenFootprintType === "market" && this.code.includes('A_')
+            } else if (
+                chosenFootprintType === "market" 
+                && (this.code.includes('C_') || this.code.includes('EF_') || this.code.includes('A_'))
             ) {
                 return true;
             }
-    
-            if (this.code.includes('C_') || this.code.includes('EF_')) {
-                this.code = this.code.replace(/^(C_|EF_)/, 'A_');
+            
+            if (this.code.startsWith('A_')) {
+                this.code = this.code.replace(/^A_/, 'C_');
             }
-
+            
             productTitleArray.push(this.title);
             productContentArray.push(this.content);
             productCodeArray.push(this.code);
@@ -133,7 +132,11 @@ jQuery(document).ready(function($){
         let selectedValue = $('input[name="switch-one"]:checked').val();
         
         if (selectedValue === 'person') {
-            adt_get_person_footprint($('#location').val(), $('#database-version').val());
+            let countryCode = $('#location').val();
+            let version = $('#database-version').val();
+            let income_gpe = $('#income-group').val();
+            let household_compo = $('#household-composition').val();
+            adt_get_person_footprint(countryCode, income_gpe, household_compo, version);
         } else {
 
             // Get last searched data instead, this does not always contain all data
@@ -244,33 +247,35 @@ jQuery(document).ready(function($){
     }
 });
 
-function adt_get_person_footprint(regionCode, version = 'v1.1.0')
+function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.0.0')
 {
+    act_code = income_gpe+"_"+household_compo; //fdemandCat will be prefixed in adt-person-functions.php
+    console.log("act_code=",act_code);
     jQuery.ajax({
         type: 'POST',
         url: localize._ajax_url,
         data: {
             _ajax_nonce: localize._ajax_nonce,
-            action: 'adt_get_person_footprint',
-            region_code: regionCode,
+            action: 'adt_get_person_footprint', //reference in adt-person-functions.php
             version: version,
+            act_code: act_code,
+            region_code: countryCode,
         },
         beforeSend: function() {
             jQuery('#autocomplete-input').after('<div class="loading"></div>');
             jQuery('#autocomplete-input').prop('disabled', true);
         },
-        success: (response) => {
+        success: function(response) {
             let dataArray = response.data;
-
-            console.log(response.data);
+            console.log("dataArray=",dataArray)
 
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
             
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
-                jQuery('.error-message').slideDown('fast');
                 adt_show_search_results();
-                console.log('Combination not found in adt_get_product_info()');
+                console.log('Combination not found in adt_get_person_footprint()');
+                
                 // Save product data even though an error occurred
                 // This is so the user can go try to search again with other countries
                 // localStorage.setItem("footprint_data", JSON.stringify(response.data));
@@ -295,18 +300,16 @@ function adt_get_person_footprint(regionCode, version = 'v1.1.0')
 
             adt_show_search_results();
 
-            jQuery('#initial-error-message').slideUp('fast');
-
             jQuery('html, body').animate({
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
-            }, 500); // 500ms = 0.5 second animation time
+            }, c_animationDuration);
             
-            // adt_update_tags('original');
             // Try this
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
             console.log('successfull run of adt_get_person_footprint()');
         },
         error: (response) => {
+            console.log("error: ",response);
             // Request was throttled
             jQuery('#initial-error-message').html('<p>'+response.responseJSON?.data.error+'</p>');
             jQuery('#initial-error-message').slideDown('fast');
@@ -317,6 +320,11 @@ function adt_get_person_footprint(regionCode, version = 'v1.1.0')
 function adt_get_product_info(productTitle, productCode, productUuid, chosenValues) 
 {
     productInfo = [];
+
+    console.log("-- adt_get_product_info --");
+    console.log("productTitle, productCode, productUuid=",productTitle, productCode, productUuid);
+    console.log("footprint_location, footprint_type, footprint_year,database_version=",chosenValues['footprint_location'], chosenValues['footprint_type'], chosenValues['footprint_year'],chosenValues['database_version']);
+
 
     jQuery.ajax({
         type: 'POST',
@@ -335,14 +343,19 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
         beforeSend: function() {
             jQuery('#autocomplete-input').after('<div class="loading"></div>');
             jQuery('#autocomplete-input').prop('disabled', true);
+            jQuery( "#error-message-content" ).remove(); //at the init
         },
         success: (response) => {
             let dataArray = response.data;
+
+            console.log("test product info dataArray");
+            console.log(dataArray);
 
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
             
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
+                jQuery('.error-message').first().append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
                 jQuery('.error-message').slideDown('fast');
                 adt_show_search_results();
                 console.log('Combination not found in adt_get_product_info()');
@@ -351,6 +364,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                 // localStorage.setItem("footprint_data", JSON.stringify(response.data));
                 return;
             } else {
+                jQuery( "#error-message-content" ).remove();
                 jQuery('.error-message').slideUp('fast');
             }
             
@@ -362,24 +376,26 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             }
 
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
-            
+            console.log("product info --- b4 compare btn")
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
+            console.log(compareButtons)
             if (compareButtons.length > 0) {
-                adt_update_original_info(dataArray);
+                adt_update_original_info(dataArray); 
             } else {
                 adt_update_comparison_info(dataArray);
+                console.log("adt_update_comparison_info compareButtons.length < 0");
             }
 
             adt_show_search_results();
 
-            jQuery('#initial-error-message').slideUp('fast');
-
             jQuery('html, body').animate({
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
-            }, 500); // 500ms = 0.5 second animation time
+            }, c_animationDuration);
         },
         error: (response) => {
             // Request was throttled
+            console.log("adt_get_product_info ERROR");
+            console.log(response);
             jQuery('#initial-error-message').html('<p>'+response.responseJSON?.data.error+'</p>');
             jQuery('#initial-error-message').slideDown('fast');
         }
@@ -429,9 +445,7 @@ function adt_update_tags(boxToUpdate)
     
     if (typeValue === 'market') {
         type = 'Cradle to consumer';
-    }
-
-    if (typeValue === 'grave') {
+    } else if (typeValue === 'grave') {
         type = 'Cradle to grave';
     }
 
@@ -453,21 +467,16 @@ function adt_update_tags(boxToUpdate)
         jQuery('.search-result > .col'+whichChild+' .product-title').each(function() {
             let dataCode = jQuery(this).attr('data-code');
 
-            if (dataCode && dataCode.includes("M_")) {
-                type = 'Cradle to consumer';
+            if (dataCode){
+                if (dataCode.includes("M_")) {
+                    type = 'Cradle to consumer';
+                } else if (dataCode.includes('C_') || dataCode.includes('EF_') || dataCode.includes('A_')) {
+                    type = 'Cradle to gate';
+                } else if (dataCode.includes("F_")) {
+                    type = 'Cradle to grave';
+                }
             }
 
-            if (
-                dataCode && (dataCode.includes('C_')
-                || dataCode.includes('EF_')
-                || dataCode.includes('A_'))
-            ) {
-                type = 'Cradle to gate';
-            }
-
-            if (dataCode && dataCode.includes("F_")) {
-                type = 'Cradle to grave';
-            }
         });
     }
 
@@ -513,6 +522,7 @@ function adt_change_data_set()
 
 async function adt_update_original_info(dataArray) 
 {
+    console.log("adt_update_original_info");
     jQuery('.search-result .col:first-child p.product-title').each(function () {
         if (!dataArray.all_data) {
             jQuery(this).text('Emission per person');
@@ -529,18 +539,20 @@ async function adt_update_original_info(dataArray)
 
     
     for (const element of jQuery('.search-result .col:first-child')) {
+        console.log("element=",element);
         let $element = jQuery(element);
         $element.find('select.unit').empty();
         let defaultValue = 0;
         
         if (!dataArray.all_data) {
+            console.log("!dataArray.all_data");
             $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
-
+            
             $element.find('.product-result-unit').text(dataArray.unit_emission);
-
+            
             // Just let the first item be default instead of null
             let valueForItems = dataArray.value;
-
+            
             let formatted = new Intl.NumberFormat('en-US', {
                 minimumFractionDigits: 3,
                 maximumFractionDigits: 3
@@ -549,33 +561,32 @@ async function adt_update_original_info(dataArray)
             $element.find('.product-result').text(formatted);
             defaultValue = valueForItems;
         }
-
+        
         if (dataArray.all_data) {
-            $element.find('.product-result-unit').text('kg CO2eq');
-            jQuery('.emission-message').text('Where do emissions for 1 kg come from?');
-            jQuery('.emission-header-unit').text('[kg CO2eq]');
-
+            console.log("dataArray.all_data:",dataArray.all_data);
+            let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
+            console.log("unit_ref =",unit_ref);
+            $element.find('.product-result-unit').text(unit_ref+' CO2eq');
+            //change unit here
+            jQuery('.emission-message').text('Where do emissions for 1 '+unit_ref+' come from?');
+            jQuery('.emission-header-unit').text('['+unit_ref+' CO2eq]');
+            
             jQuery(dataArray.all_data).each(function (i) {
-                let unit = dataArray.all_data[i].unit_reference;
-
-                if (unit === 'Meuro') unit = 'EUR';
-                if (unit === 'tonnes') unit = 'kg';
-                if (unit === 'TJ' && !dataArray.all_data[i].description.includes('electricity')) unit = 'MJ';
-                if (unit === 'TJ' && dataArray.all_data[i].description.includes('electricity')) unit = 'kWh';
-
+                
+                let unit = convert_unit(dataArray.all_data[i].unit_reference, dataArray.all_data[i].description);
                 $element.attr('data-set-' + i, dataArray.all_data[i].id);
                 $element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
             });
-
+            
             let defaultUnit = $element.find('select.unit').val();
             // Just let the first item be default instead of null
             let valueForItems = dataArray.all_data[0].value;
             let convertedValueForItems = null;
-
+            
             if (convertedValueForItems) {
                 valueForItems = convertedValueForItems;
             }
-
+            
             let formatted = new Intl.NumberFormat('en-US', {
                 minimumFractionDigits: 3,
                 maximumFractionDigits: 3
@@ -583,10 +594,11 @@ async function adt_update_original_info(dataArray)
             
             $element.find('.product-result').text(formatted);
             defaultValue = parseFloat($element.find('.product-result').text());
-
+            
             $element.find('select.unit').on('change', function () {
+                //TODO add more unit selection
                 let chosenValue = jQuery(this).val();
-
+                
                 jQuery('.search-result .col:first-child .amount').val('1');
                 jQuery('.search-result .col:first-child select.unit').each(async function () {
                     jQuery(this).val(chosenValue);
@@ -602,22 +614,22 @@ async function adt_update_original_info(dataArray)
                                 // Then just divide by 1000 to get the value in kg
                                 // valueForItems = item.value / 1000;
                             }
-
+                            
                             break;
                         }
                     }
-
+                    
                     let formatted = new Intl.NumberFormat('en-US', {
                         minimumFractionDigits: 3,
                         maximumFractionDigits: 3
                     }).format(valueForItems);
-
+                    
                     jQuery(newElement).find('.product-result').text(formatted);
                     defaultValue = parseFloat(jQuery('.product-result', newElement).text());
                 });
             });
         }
-
+        
         $element.find('.amount').each(function () {
             let inputElement = jQuery(this).closest('.col-inner');
 
@@ -634,7 +646,7 @@ async function adt_update_original_info(dataArray)
                     jQuery(this).val(numberInput);
                     jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
                     setTimeout(() => {
-                        jQuery('.error-message').fadeOut(500, function() {
+                        jQuery('.error-message').fadeOut(c_animationDuration, function() {
                             jQuery(this).remove();
                         });
                     }, 2000);
@@ -656,6 +668,22 @@ async function adt_update_original_info(dataArray)
     adt_update_tags('original');
 
     await adt_update_recipe(dataArray, 'original');
+}
+
+function convert_unit(unit, description){
+    if (unit === 'Meuro'){
+        unit = 'EUR';
+    } else if (unit === 'tonnes') {
+        unit = 'kg';
+    } else if (unit === 'TJ'){
+        if (!description.includes('electricity')){
+            unit = 'MJ';
+        } else {
+            unit = 'kWh';
+        }
+    }
+    //default?
+    return unit;
 }
 
 // Comparison code
@@ -709,17 +737,13 @@ async function adt_update_comparison_info(dataArray = null)
     });
 
     if (dataArray.all_data) {
+        //test
         for (const element of jQuery('.search-result .col:nth-child(2)')) {
             let $element = jQuery(element);
             $element.find('select.unit').empty();
 
             jQuery(dataArray.all_data).each(function (i) {
-                let unit = dataArray.all_data[i].unit_reference;
-
-                if (unit === 'Meuro') unit = 'EUR';
-                if (unit === 'tonnes') unit = 'kg';
-                if (unit === 'TJ' && !dataArray.all_data[i].description.includes('electricity')) unit = 'MJ';
-                if (unit === 'TJ' && dataArray.all_data[i].description.includes('electricity')) unit = 'kWh';
+                let unit = conver_unit(dataArray.all_data[i].unit_reference,dataArray.all_data[i].description);
 
                 $element.attr('data-set-' + i, dataArray.all_data[i].id);
                 $element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
@@ -829,7 +853,7 @@ async function adt_update_comparison_info(dataArray = null)
                         jQuery(this).val(numberInput);
                         jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
                         setTimeout(() => {
-                            jQuery('.error-message').fadeOut(500, function() {
+                            jQuery('.error-message').fadeOut(c_animationDuration, function() {
                                 jQuery(this).remove();
                             });
                         }, 2000);
@@ -886,18 +910,17 @@ async function adt_update_comparison_info(dataArray = null)
 
             console.log(dataArray.all_data);
             if (dataArray.all_data) {
+                console.log("adt_update_comparison_info element=",$element);
+                console.log("dataArray.all_data:",dataArray.all_data);
+                let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
+                console.log("unit_ref =",unit_ref);
                 $element.find('.product-result-unit').text('kg CO2eq');
-                jQuery('.emission-message').text('Where do emissions for 1 kg come from?');
+                jQuery('.emission-message').text('Where do emissions for 1 assad come from?');
                 jQuery('.emission-header-unit').text('[kg CO2eq]');
 
                 jQuery(dataArray.all_data).each(function (i) {
                     console.log(dataArray.all_data);
-                    let unit = dataArray.all_data[i].unit_reference;
-
-                    if (unit === 'Meuro') unit = 'EUR';
-                    if (unit === 'tonnes') unit = 'kg';
-                    if (unit === 'TJ' && !dataArray.all_data[i].description.includes('electricity')) unit = 'MJ';
-                    if (unit === 'TJ' && dataArray.all_data[i].description.includes('electricity')) unit = 'kWh';
+                    let unit = convert_unit(dataArray.all_data[i].unit_reference,dataArray.all_data[i].description);
 
                     $element.attr('data-set-' + i, dataArray.all_data[i].id);
                     $element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
@@ -970,7 +993,7 @@ async function adt_update_comparison_info(dataArray = null)
                         jQuery(this).val(numberInput);
                         jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
                         setTimeout(() => {
-                            jQuery('.error-message').fadeOut(500, function() {
+                            jQuery('.error-message').fadeOut(c_animationDuration, function() {
                                 jQuery(this).remove();
                             });
                         }, 2000);
@@ -1009,7 +1032,9 @@ async function adt_update_recipe(dataArray, boxToUpdate)
     }
 
     // Recipe return structure changed
-    let recipeArray = dataArray.recipe.results;
+    let recipeArray = dataArray.recipe;// does not return the 
+
+    console.log("recipeArray=",recipeArray);
 
     for (const recipe of recipeArray) {
         // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
@@ -1026,7 +1051,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
 
         if (recipe.region_inflow === undefined) {
             recipe.region_inflow = recipe.region_code;
-        }
+        }   
 
         if (recipe.value_emission === undefined) {
             recipe.value_emission = recipe.value;
@@ -1091,7 +1116,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         }
 
         rowMarkup = '<tr>';
-        rowMarkup += '<td><a href=" ' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + recipe.flow_input + '</a></td>';
+        rowMarkup += '<td><a href=" ' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + "recipe.flow_input" + '</a></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
@@ -1144,7 +1169,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
             success: (response) => {
                 let productTitle = response.data;
 
-                jQuery('td a[data-code="'+productCode+'"]').text(productTitle);
+                jQuery('td a[data-code="'+productCode+'"]').text(capitalize(productTitle));
             }
         });
     });
@@ -1236,6 +1261,8 @@ function adt_download_recipe_csv()
 function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray) 
 {
     const words = productTitleArray;
+    console.log("words=",words);
+
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
     const $suggestions = jQuery('#suggestions');
@@ -1243,19 +1270,22 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     let currentIndex = -1;
     let suggestionSelected = false;
     let chosenValuesArray = adt_get_chosen_values();
+    console.log("chosenValuesArray=",chosenValuesArray);
 
     $input.on('input', function () {
         const query = $input.val().toLowerCase();
+        console.log("query=",query);
         const matches = words
-            .map((word, index) => ({ word, code: productCodeArray[index], uuid: productUuidArray[index] }))
-            .filter(item => item.word.toLowerCase().includes(query));
+        .map((word, index) => ({ word, code: productCodeArray[index], uuid: productUuidArray[index] }))
+        .filter(item => item.word.toLowerCase().includes(query));
         $suggestions.empty();
         currentIndex = -1;
         suggestionSelected = false;
-
+        
         if (matches.length > 0 && query) {
             jQuery(this).css('border-radius', '50px 50px 0 0').css('border-bottom', 'none');
             $suggestionsWrapper.show();
+            console.log("matches=",matches);
 
             matches.forEach(match => {
                 const $div = jQuery('<div>')
@@ -1634,4 +1664,9 @@ function adt_push_parameter_to_url(text, code, uuid, chosenValuesArray)
     // Add to URL
     const getParameter = `?data=${base64String}`;
     history.pushState(null, '', getParameter);
+}
+
+function capitalize(str) {
+    if (!str) return '';
+    return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }

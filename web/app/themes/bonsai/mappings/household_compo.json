@@ -1,0 +1,22 @@
+[
+    {
+        "id":"average",
+        "label":"average household"
+    },
+    {
+        "id":"re",
+        "label":"retired household"
+    },
+    {
+        "id":"oa",
+        "label":"households with only one adult, potentially plus children"
+    },
+    {
+        "id":"wc",
+        "label":"household with more adults and at least one child"
+    },
+    {
+        "id":"nc",
+        "label":"household with more adults and no children"
+    }
+]

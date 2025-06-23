@@ -27,12 +27,9 @@ function adt_get_bonsai_product_list() {
 
     // Get the response body
     $body = wp_remote_retrieve_body($response);
-
-    // Parse the JSON response
     $result = json_decode($body, true);
 
     $productCount = $result['count'];
-
     $products = $result['results'];
 
     if (empty($result)) {
@@ -98,6 +95,9 @@ function adt_get_bonsai_product_list() {
 
         $postId = wp_insert_post($post_data);
 
+        // error_log("adt_get_bonsai_product_list - postdata = ");
+        // error_log(print_r($post_data));
+
         $updatedPostIds[] = $postId;
 
         update_post_meta($postId, 'adt_code', $product['code']);
@@ -111,9 +111,7 @@ function adt_get_bonsai_product_list() {
 
         if ($codePrefix === 'M') {
             update_post_meta($postId, 'adt_flowtype', 'market');
-        } 
-        
-        if ($codePrefix === 'C' || $codePrefix === 'EF') {
+        } else if ($codePrefix === 'C' || $codePrefix === 'EF') {
             update_post_meta($postId, 'adt_flowtype', 'product');
         }
 
@@ -121,8 +119,6 @@ function adt_get_bonsai_product_list() {
             update_post_meta($postId, 'adt_flowtype', $product['flow_type']);
         }
     }
-
-    // adt_delete_old_bonsai_products($updatedPostIds);
 }
 
 if (isset($_GET['get_future_bonsai_products'])) {
@@ -144,8 +140,6 @@ function adt_get_old_bonsai_product_list() {
 
     // Get the response body
     $body = wp_remote_retrieve_body($response);
-
-    // Parse the JSON response
     $products = json_decode($body, true);
 
     foreach ($products as $product) {
@@ -216,8 +210,6 @@ function adt_get_bonsai_footprint_list() {
 
     // Get the response body
     $body = wp_remote_retrieve_body($response);
-
-    // Parse the JSON response
     $result = json_decode($body, true);
 
     $updatedPostIds = [];
@@ -255,8 +247,6 @@ function adt_get_bonsai_footprint_list() {
         update_post_meta($postId, 'region_code', $product['region_code']);
     }
 }
-
-// add_action('template_redirect', 'adt_get_bonsai_footprint_list');
 
 function adt_delete_old_bonsai_products(array $updatedPostIds) 
 {
@@ -326,28 +316,31 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion): a
 {
     // Get the whole recipe list for the product
     $recipeUrl = 'https://lca.aau.dk/api/recipes/?flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion;
-
+    // error_log("test recipes");
+    // error_log("recipeUrl=$recipeUrl");
+    
     // Make the API request
     $recipeResponse = wp_remote_get($recipeUrl);
-
+    
     // Check for errors
     if (is_wp_error($recipeResponse)) {
         return [
             'error' => $recipeResponse->get_error_message()
         ];
     }
-
+    
     // Retrieve and decode the recipeResponse body
     $recipeBody = wp_remote_retrieve_body($recipeResponse);
     $recipeResult = json_decode($recipeBody, true);
-
+    $recipeResult = $recipeResult["results"];
+    
     // Handle potential errors in the recipeResponse
     if (empty($recipeResult)) {
         return [
             'error' => 'No recipes found or an error occurred.'
         ];
     }
-
+    
     return $recipeResult;
 }
 
@@ -407,7 +400,6 @@ function adt_get_updated_recipe_info()
 add_action('wp_ajax_adt_get_updated_recipe_info', 'adt_get_updated_recipe_info');
 add_action('wp_ajax_nopriv_adt_get_updated_recipe_info', 'adt_get_updated_recipe_info');
 
-
 function adt_get_product_footprint()
 {
     $productCode = $_POST['code'];
@@ -420,7 +412,7 @@ function adt_get_product_footprint()
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
-    
+
     // If cache exists, return the cached data
     if ($cachedFootprints !== false) {
         if (
@@ -428,16 +420,21 @@ function adt_get_product_footprint()
             && $cachedFootprints[$productCode]['chosen_country'] === $chosenCountry
             && $cachedFootprints[$productCode]['version'] === $version
             ) {
-            wp_send_json_success($cachedFootprints[$productCode]);
-            die();
+                wp_send_json_success($cachedFootprints[$productCode]);
+                die();
+            }
         }
-    }
-
+        
     // API URL
-    $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry;
-
+    $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry."&version=".$version;
+    
     // Make the API request
     $response = wp_remote_get($url);
+    error_log( "url=$url " );  
+    error_log( "api call response=" );  
+    error_log( print_r($response, true) );
+    error_log("end api call");  
+
     
     // Check for errors
     if (is_wp_error($response)) {
@@ -465,9 +462,13 @@ function adt_get_product_footprint()
     $footprints = $result['results'];
     $versionArray = [];
 
+    $unit_reference = "";
+    $unit_emission = "";
     foreach ($footprints as $footprint) {
         $versionArray[] = $footprint['version'];
         $footprintTitle = $footprint['description'];
+        $unit_reference = $footprint['unit_reference'];
+        $unit_emission = $footprint['unit_emission'];
     }
 
     $newestVersion = adt_get_newest_version($versionArray);
@@ -542,13 +543,12 @@ function adt_get_product_footprint()
                      */
                     if ( str_contains(strtolower($footprint['description']), 'electricity') ) {
                         $multiplier = adt_convert_number_by_units('TJ', 'kWh');
-                        $footprint['value'] = $footprint['value'] / $multiplier * 1000;
                         $footprint['unit_reference'] = 'kWh';
                     } else {
                         $multiplier = adt_convert_number_by_units('TJ', 'MJ');
-                        $footprint['value'] = $footprint['value'] / $multiplier * 1000;
                         $footprint['unit_reference'] = 'MJ';
                     }
+                    $footprint['value'] = $footprint['value'] / $multiplier * 1000;
 
                     break;
                 
@@ -568,6 +568,8 @@ function adt_get_product_footprint()
         'title' => $footprintTitle,
         'flow_code' => $productCode,
         'chosen_country' => $chosenCountry,
+        "unit_reference" => $unit_reference,
+        "unit_emission" => $unit_emission,
         'uuid' => $productUuid,
         'version' => $newestVersion,
         'all_data' => $chosenFootprint,

@@ -19,6 +19,11 @@ add_shortcode( 'adt_searchform', function($atts) {
     ]);
 
     ob_start();
+    $household_compo_raw = file_get_contents (__DIR__ . "/../../mappings/household_compo.json");
+    $household_compo = json_decode($household_compo_raw,true);
+    $income_gpe_raw = file_get_contents (__DIR__ . "/../../mappings/income_gpe.json");
+    $income_gpe = json_decode($income_gpe_raw,true);
+
     ?>
 
     <div class="co2-form-wrapper">
@@ -60,13 +65,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <input type="radio" id="grave" name="footprint_type" value="grave" />
                             <label for="grave">Cradle to grave</label>
                         </div>
-                        <!-- <select id="footprint-type">
-                            <option value="product">Cradle to gate (i.e. production)</option>
-                            <option value="market">Cradle to consumer (i.e., markets)</option>
-                        </select>
-                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                        </svg> -->
                     </div>
                 </div>
             </div>
@@ -83,11 +81,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                         <label class="select" for="household-composition">
                             <select id="household-composition">
-                                <option value="average-person">Average Person</option>
-                                <!-- <option value="pensioner" disabled>Pensioner</option>
-                                <option value="couple-with-kids" disabled>Couple with kids</option>
-                                <option value="couple-without-kids" disabled>Couple without kids</option>
-                                <option value="single" disabled>Single (with and without kids)</option> -->
+                                <?php 
+                                    foreach($household_compo as $elem) {
+                                        echo '<option value="'. $elem['id'].  '">'. ucfirst($elem['label']).'</option>';      
+                                    }
+                                ?>
                             </select>
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
@@ -103,9 +101,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                         <label class="select" for="income-group">
                             <select id="income-group">
-                                <option value="average-income-group">Average income group</option>
-                                <!-- <option value="five-specific" disabled>5 specific income groups (ranging from
-                                20% poorest to 20% richest)</option> -->
+                                <?php 
+                                    foreach($income_gpe as $elem) {
+                                        echo '<option value="'. $elem['id'].  '">'. ucfirst($elem['label']).'</option>';      
+                                    }
+                                ?>
                             </select>
                             <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
@@ -124,7 +124,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </svg>
                 </button>
                 <div id="initial-error-message" style="display: none;">
-                    <?= do_shortcode('[block id="nothing-found-error-message"]') ?>
+                    <?= do_shortcode('[block id="nothing-found-error-message"  style="color: blue;"]') ?> 
                 </div>
                 <div id="suggestions-wrapper" style="display: none;">
                     <div class="search-history">
@@ -244,8 +244,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </div>
                             <label class="select" for="database-version">
                                 <select id="database-version">
-                                    <option value="v1.1.0">v1.1.0</option>
-                                    <option value="v1.0.0">v1.0.0</option>
+                                    <option value="v1.0.0" selected="selected">v1.0.0</option>
+                                    <!-- <option value="v1.1.0">v1.1.0</option>
+                                    <option value="v1.0.0">v1.0.0</option> -->
                                 </select>
                                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
@@ -278,7 +279,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </div> -->
                 </div>
                 <div class="error-message text-left" style="display: none;">
-                    <?= do_shortcode('[block id="nothing-found-error-message"]') ?>
+                    <!-- <?= do_shortcode('[block id="nothing-found-error-message"]') ?> -->
                 </div>
             </div>
             <div class="uncertainty-wrapper" style="display: none;">
@@ -298,33 +299,23 @@ add_shortcode( 'adt_searchform', function($atts) {
             <div class="row align-equal search-result basic" style="display: flex;">
                 <div class="col medium-6 small-12 large-6">
                     <div class="col-inner">
-                        <p class="product-title">Aluminium</p>
+                        <p class="product-title"></p>
                         <div class="product-tag-wrapper">
-                            <span class="product-tag footprint-type">Cradle To Gate</span>
-                            <span class="product-tag country">Australia</span>
-                            <span class="product-tag year">2016</span>
-                            <span class="product-tag climate-metrics">GWP100</span>
-                            <span class="product-tag version">v.1.1.0</span>
                         </div>
                         <div class="unit-select-wrapper">
                             <label class="select" for="amount">
                                 <input type="number" id="amount" class="amount" value="1" max="1000" min="1">
-                                <!-- <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                                </svg> -->
                             </label>
                             <label class="select" for="unit">
-                                <select id="unit" class="unit">
-                                    <option value="kg">kg</option>
-                                </select>
+                                <select id="unit" class="unit"></select>
                                 <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                 </svg>
                             </label>
                             <p>equal</p>
                         </div>
-                        <p class="product-result">0.00</p>
-                        <p class="product-result-unit">kg CO2eq</p>
+                        <p class="product-result"></p>
+                        <p class="product-result-unit"></p>
                         <div class="tooltip-wrapper">
                             <a href="#info-product">
                                 Read more about the result
@@ -346,27 +337,15 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div class="col-inner">
                         <div class="calculation-wrapper">
                             <div class="choices">
-                                <p class="product-title">Aluminium</p>
+                                <p class="product-title"></p>
                                 <div class="product-tag-wrapper">
-                                    <span class="product-tag footprint-type">Cradle To Gate</span>
-                                    <span class="product-tag country">Australia</span>
-                                    <span class="product-tag year">2016</span>
-                                    <span class="product-tag climate-metrics">GWP100</span>
-                                    <span class="product-tag version">v.1.1.0</span>
                                 </div>
                                 <div class="unit-select-wrapper">
                                     <label class="select" for="amount">
-                                        <input type="number" id="amount" class="amount" value="1" max="1000" min="1">
-                                        <!-- <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                                        </svg> -->
+                                        <input type="number" id="amount" class="amount" value="1" max="1000" min="1" />
                                     </label>
                                     <label class="select" for="unit">
-                                        <select id="unit" class="unit">
-                                            <option value="kg">kg</option>
-                                            <option value="g">g</option>
-                                            <option value="ton">ton</option>
-                                        </select>
+                                        <select id="unit" class="unit"></select>
                                         <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                         </svg>
@@ -375,11 +354,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 </div>
                             </div>
                             <div class="calculation-result">
-                                <p class="product-result">5.91</p>
-                                <p class="product-result-unit">kg CO2eq</p>
+                                <p class="product-result"></p>
+                                <p class="product-result-unit"></p>
                             </div>
                         </div>
-                        <p class="big-font emission-message">Where do emissions for 1kg come from?</p>
+                        <p class="big-font emission-message"></p>
 
                         <table class="emissions-table">
                             <thead>
@@ -391,34 +370,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td><a href="#">Electricity (market for)</a></td>
-                                    <td>AU</td>
-                                    <td>0.37 MJ</td>
-                                    <td>0.2</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">Heat for non-ferrous metals (market for)</a></td>
-                                    <td>AU</td>
-                                    <td>0.37 MJ</td>
-                                    <td>0.2</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">Other land transportation services (market for)</a></td>
-                                    <td>AU</td>
-                                    <td>0.37 MJ</td>
-                                    <td>0.2</td>
-                                </tr>
-                                <tr>
-                                    <td><a href="#">Petroleum coke (market for)</a></td>
-                                    <td>AU</td>
-                                    <td>0.37 MJ</td>
-                                    <td>0.2</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">Sum of not-displayed inputs</td>
-                                    <td>0.118</td>
-                                </tr>
                             </tbody>
                         </table>
 
