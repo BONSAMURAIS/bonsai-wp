@@ -312,7 +312,7 @@ function adt_get_locations(): array
     return $locations;
 }
 
-function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion,$metric='gwp100'): array
+function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion,$metric='GWP100'): array
 {
     // Get the whole recipe list for the product
     $recipeUrl = 'https://lca.aau.dk/api/recipes/?flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion.'&metric='.$metric;
@@ -357,7 +357,7 @@ function adt_get_updated_recipe_info()
     $productCode = $_POST['productCode'];
     $chosenCountry = $_POST['country'];
     $newestVersion = $_POST['version'];
-    $metric = "gwp100";
+    $metric = "GWP100";
 
     // Check if the data is already cached
     $cachedRecipe = get_transient('adt_recipe_cache');
@@ -410,7 +410,7 @@ function adt_get_product_footprint()
     // Everything if from year 2016, but this might get updated.
     $chosenYear = $_POST['footprint_year'];
     $version = $_POST['database_version'];
-    $metric = 'gwp100';
+    $metric = 'GWP100';
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
