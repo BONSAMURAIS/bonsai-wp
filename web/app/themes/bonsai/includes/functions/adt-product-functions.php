@@ -68,7 +68,7 @@ function adt_get_all_products_by_footprint(): array
         $test = $post->post_title;
 
         $array[$key] = [
-            'title' =>  "TEST " + $test,
+            'title' =>  "TEST " . $test,
             'content' => $post->post_content,
             'code' => $code,
             'unit' => $unit,
