@@ -896,6 +896,8 @@ async function adt_update_comparison_info(dataArray = null)
 
             console.log(dataArray.all_data);
             if (dataArray.all_data) {
+                console.log("element",$element);
+
                 $element.find('.product-result-unit').text('kg CO2eq');
                 jQuery('.emission-message').text('Where do emissions for 1 kg come from?');
                 jQuery('.emission-header-unit').text('[kg CO2eq]');
