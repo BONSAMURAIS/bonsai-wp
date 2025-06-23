@@ -52,6 +52,7 @@ jQuery(document).ready(function($){
     let productCodeArray = [];
     let productUuidArray = [];
     let chosenFootprintType = $('#footprint-type input[name="footprint_type"]:checked').val();
+    console.log("searchform=",searchform)
 
     $(searchform.products).each(function() {
         if (chosenFootprintType === "product" && this.code.includes("M_")
