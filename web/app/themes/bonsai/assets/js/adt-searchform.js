@@ -1264,6 +1264,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     let currentIndex = -1;
     let suggestionSelected = false;
     let chosenValuesArray = adt_get_chosen_values();
+    console.log("chosenValuesArray=",chosenValuesArray);
 
     $input.on('input', function () {
         const query = $input.val().toLowerCase();
