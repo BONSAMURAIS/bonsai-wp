@@ -342,6 +342,9 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion): a
     }
     
     error_log("recipeBody=$recipeBody");
+    $test = json_encode($recipeResult);
+    error_log("recipeResult=$test");
+
     return $recipeResult;
 }
 
