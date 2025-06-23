@@ -109,8 +109,6 @@ jQuery(document).ready(function($){
 
         jQuery('#autocomplete-input').val('');
 
-        console.log("productTitleArray=",productTitleArray);
-
         adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
         // return if comparison is active
@@ -1260,6 +1258,8 @@ function adt_download_recipe_csv()
 function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray) 
 {
     const words = productTitleArray;
+    console.log("words=",words);
+
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
     const $suggestions = jQuery('#suggestions');
