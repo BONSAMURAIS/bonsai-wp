@@ -87,6 +87,7 @@ jQuery(document).ready(function($){
         productUuidArray = [];
 
         $(searchform.products).each(function() {
+            console.log("this.code=",this.code);
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
                 return true;
             } else if (
@@ -107,6 +108,8 @@ jQuery(document).ready(function($){
         });
 
         jQuery('#autocomplete-input').val('');
+
+        console.log("productTitleArray=",productTitleArray);
 
         adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
