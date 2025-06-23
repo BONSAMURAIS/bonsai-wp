@@ -67,7 +67,7 @@ function adt_get_all_products_by_footprint(): array
         $uuid = get_post_meta($postId, 'adt_uuid', true);
 
         $array[$key] = [
-            'title' =>  preg_replace('/\s*\([^)]*\)/', '',$post->post_title),
+            'title' =>  $post->post_title,
             'content' => $post->post_content,
             'code' => $code,
             'unit' => $unit,
@@ -99,7 +99,7 @@ function adt_get_product_name_by_code()
     $productTitle = "";
 
     foreach ($products as $product) {
-        $productTitle =  preg_replace('/\s*\([^)]*\)/', '', $product->post_title);
+        $productTitle =  $product->post_title;
         break;
     }
 
