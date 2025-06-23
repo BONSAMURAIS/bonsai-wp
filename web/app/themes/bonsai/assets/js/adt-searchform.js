@@ -521,7 +521,6 @@ async function adt_update_original_info(dataArray)
 {
     console.log("adt_update_original_info");
     jQuery('.search-result .col:first-child p.product-title').each(function () {
-        console.log("test");
         if (!dataArray.all_data) {
             jQuery(this).text('Emission per person');
             jQuery(this).attr('data-code', dataArray.act_code);
@@ -561,7 +560,6 @@ async function adt_update_original_info(dataArray)
         }
         
         if (dataArray.all_data) {
-            console.log("dataArray.all_data");
             $element.find('.product-result-unit').text('kg CO2eq');
             //change unit here
             jQuery('.emission-message').text('Where do emissions for 1 kg come from?');
@@ -1024,12 +1022,11 @@ async function adt_update_recipe(dataArray, boxToUpdate)
     }
 
     // Recipe return structure changed
-    let recipeArray = dataArray.recipe;
+    let recipeArray = dataArray.recipe;// does not return the 
 
     console.log("recipeArray=",recipeArray);
 
     for (const recipe of recipeArray) {
-        console.log("test")
         // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
 
         // Convert to base64
@@ -1143,7 +1140,6 @@ async function adt_update_recipe(dataArray, boxToUpdate)
 
     // Append "other" row at the end if it exists
     tableMarkup += otherRowMarkup;
-    console.log("tableMarkup = ", tableMarkup);
 
     // Display the table
     jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);

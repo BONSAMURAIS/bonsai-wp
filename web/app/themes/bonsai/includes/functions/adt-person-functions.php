@@ -247,8 +247,6 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                     }
                 }
                 $recipeResult = array_merge($recipeResult, $result['results']);
-                // error_log("after loop recipeResult count");
-                // error_log(count($recipeResult));
             }            
         }
         
@@ -258,8 +256,6 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                 'error' => 'No recipes found or an error occurred.'
             ];
         }
-        // error_log("final after recipeResult count");
-        // error_log(count($recipeResult));
     }
 
     return $recipeResult;
