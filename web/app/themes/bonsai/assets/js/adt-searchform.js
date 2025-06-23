@@ -1,4 +1,5 @@
 jQuery(document).ready(function($){
+    console.log(document)
     c_animationDuration = 500;
     $('.co2-form input[name="switch-one"]').on('change', function(){
         let isChecked = $(this).is(':checked');
