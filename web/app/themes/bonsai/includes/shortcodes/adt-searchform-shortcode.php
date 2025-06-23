@@ -356,8 +356,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 </div>
                             </div>
                             <div class="calculation-result">
-                                <p class="product-result">NaN</p>
-                                <p class="product-result-unit">kg CO2eq</p>
+                                <p class="product-result"></p>
+                                <p class="product-result-unit"></p>
                             </div>
                         </div>
                         <p class="big-font emission-message"></p>
