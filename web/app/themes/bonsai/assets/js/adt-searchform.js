@@ -381,6 +381,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                 adt_update_original_info(dataArray); //ici
             } else {
                 adt_update_comparison_info(dataArray);
+                console.log("adt_update_comparison_info compareButtons.length < 0");
             }
 
             adt_show_search_results();
@@ -519,7 +520,9 @@ function adt_change_data_set()
 
 async function adt_update_original_info(dataArray) 
 {
+    console.log("adt_update_original_info");
     jQuery('.search-result .col:first-child p.product-title').each(function () {
+        console.log("test");
         if (!dataArray.all_data) {
             jQuery(this).text('Emission per person');
             jQuery(this).attr('data-code', dataArray.act_code);
@@ -535,6 +538,7 @@ async function adt_update_original_info(dataArray)
 
     
     for (const element of jQuery('.search-result .col:first-child')) {
+        console.log("element=",element);
         let $element = jQuery(element);
         $element.find('select.unit').empty();
         let defaultValue = 0;
@@ -558,6 +562,7 @@ async function adt_update_original_info(dataArray)
 
         if (dataArray.all_data) {
             $element.find('.product-result-unit').text('kg CO2eq');
+            //change unit here
             jQuery('.emission-message').text('Where do emissions for 1 kg come from?');
             jQuery('.emission-header-unit').text('[kg CO2eq]');
 
