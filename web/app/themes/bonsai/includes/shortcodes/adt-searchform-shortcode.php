@@ -360,7 +360,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <p class="product-result-unit">kg CO2eq</p>
                             </div>
                         </div>
-                        <p class="big-font emission-message">Where do emissions for 1kg come from?</p>
+                        <p class="big-font emission-message"></p>
 
                         <table class="emissions-table">
                             <thead>
