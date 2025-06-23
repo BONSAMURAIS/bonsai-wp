@@ -561,19 +561,16 @@ async function adt_update_original_info(dataArray)
         
         if (dataArray.all_data) {
             console.log("dataArray.all_data:",dataArray.all_data);
+            let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
+            console.log("unit_ref =",unit_ref);
             $element.find('.product-result-unit').text('kg CO2eq');
             //change unit here
             jQuery('.emission-message').text('Where do emissions for 1 kg come from?');
             jQuery('.emission-header-unit').text('[kg CO2eq]');
             
             jQuery(dataArray.all_data).each(function (i) {
-                let unit = dataArray.all_data[i].unit_reference;
                 
-                if (unit === 'Meuro') unit = 'EUR';
-                if (unit === 'tonnes') unit = 'kg';
-                if (unit === 'TJ' && !dataArray.all_data[i].description.includes('electricity')) unit = 'MJ';
-                if (unit === 'TJ' && dataArray.all_data[i].description.includes('electricity')) unit = 'kWh';
-
+                let unit = convert_unit(dataArray.all_data[i].unit_reference, dataArray.all_data[i].description);
                 $element.attr('data-set-' + i, dataArray.all_data[i].id);
                 $element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
             });
@@ -667,6 +664,22 @@ async function adt_update_original_info(dataArray)
     adt_update_tags('original');
 
     await adt_update_recipe(dataArray, 'original');
+}
+
+function convert_unit(unit, description){
+    if (unit === 'Meuro'){
+        unit = 'EUR';
+    } else if (unit === 'tonnes') {
+        unit = 'kg';
+    } else if (unit === 'TJ'){
+        if (!description.includes('electricity')){
+            unit = 'MJ';
+        } else {
+            unit = 'kWh';
+        }
+    }
+    //default?
+    return unit;
 }
 
 // Comparison code
