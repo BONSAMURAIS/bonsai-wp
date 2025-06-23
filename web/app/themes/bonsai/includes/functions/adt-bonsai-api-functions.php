@@ -332,6 +332,7 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion): a
     // Retrieve and decode the recipeResponse body
     $recipeBody = wp_remote_retrieve_body($recipeResponse);
     $recipeResult = json_decode($recipeBody, true);
+    $recipeResult = $recipeResult["results"];
     
     // Handle potential errors in the recipeResponse
     if (empty($recipeResult)) {
