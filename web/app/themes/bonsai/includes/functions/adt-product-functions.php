@@ -65,9 +65,10 @@ function adt_get_all_products_by_footprint(): array
         $code = get_post_meta($postId, 'adt_code', true);
         $unit = get_post_meta($postId, 'adt_characteristic_unit', true);
         $uuid = get_post_meta($postId, 'adt_uuid', true);
+        $test = $post->post_title;
 
         $array[$key] = [
-            'title' => "TEST " + $post->post_title,
+            'title' =>  "TEST " + $test,
             'content' => $post->post_content,
             'code' => $code,
             'unit' => $unit,
