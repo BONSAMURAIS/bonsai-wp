@@ -401,7 +401,10 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             }
 
             console.log("flow_code",dataArray['flow_code'])
+            console.log("dataArray['flow_code'] & !dataArray['title'] = ",dataArray['flow_code'] & !dataArray['title'])
             if(dataArray['flow_code'] & !dataArray['title']){
+                console.log("in if cond")
+                console.log("in if cond")
                 jQuery.ajax({
                     type: 'POST',
                     url: localize._ajax_url,
