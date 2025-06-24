@@ -4,8 +4,9 @@ jQuery(document).ready(function($){
     c_unit_kgco2 = 'kg CO2eq';
 
     let test = $('#main-tile').find('.product-title');
-    let productCode = test.data('code');
+    let productCode = test[0].data('code');
     console.log("test product=",test);
+    console.log("test product[0]=",test[0]);
     console.log("productCode=",productCode);
 
     jQuery.ajax({
