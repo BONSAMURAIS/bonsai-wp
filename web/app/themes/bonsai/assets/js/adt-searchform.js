@@ -1456,7 +1456,7 @@ function adt_get_product_by_encoded_string()
     jQuery('#climate-metric').val('gwp100');
     jQuery('#database-version').val(obj.database_version);
 
-    adt_get_product_info(productTitle, obj.code, obj.uuid, chosenValues);
+    adt_get_product_info(obj.title, obj.code, obj.uuid, chosenValues);
 }
 
 // Makes sure to run the function when users go back and forth in browser
