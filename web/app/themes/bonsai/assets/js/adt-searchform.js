@@ -864,7 +864,7 @@ async function adt_update_comparison_info(dataArray = null){
 
             console.log(dataArray.all_data);
             if (dataArray.all_data) {
-                let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
+                let unit_ref = dataArray.all_data[0].unit_reference;
                 $element.find('.product-result-unit').text(c_unit_kgco2);
                 jQuery('.emission-message').text('Where do emissions for 1 assad come from?'); //what s its use?
                 jQuery('.emission-header-unit').text('['+c_unit_kgco2+']');
@@ -1628,8 +1628,22 @@ function setMaxValueMessage(element, defaultValue , classElement){
 }
 
 function setUnitOptions(element, i, dataArray, unit_ref){
-    let unit = convert_unit(unit_ref, dataArray.all_data[i].description);
-    element.attr('data-set-' + i, dataArray.all_data[i].id);
-    element.find('select.unit').append(`<option value="${unit_ref}">${unit}</option>`);
+    let unitList = [];
+    
+    if (unit_ref === 'Meuro'){
+        unitList = ["EUR","kEUR","mEUR", "DKK","kDKK","mDKK"];
+    } else if (unit_ref === 'tonnes') {
+        unitList = ["g","kg","tonnes"];
+    } else if (unit_ref === 'TJ'){
+        if (description.includes('electricity')){
+            unitList = ['kWh'];
+        } else {
+            unitList = ['MJ'];
+        }
+    }
+    for (unit in unitList){
+        element.attr('data-set-' + i, dataArray.all_data[i].id);
+        element.find('select.unit').append(`<option value="${unit}">${unit}</option>`);
+    }
 
 }
