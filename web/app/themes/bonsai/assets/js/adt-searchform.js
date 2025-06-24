@@ -1567,6 +1567,7 @@ function setMaxValueMessage(element, defaultValue , classElement){
 
     jQuery('.amount', inputElement).on('input', function () {
         let numberInput = parseInt(jQuery(this).val());
+        console.log("numberInput=",numberInput);
         let maxNumber = parseInt(jQuery(this).attr('max'));
 
         if (isNaN(numberInput) || numberInput <= 0) {
