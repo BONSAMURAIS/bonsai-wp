@@ -1568,7 +1568,6 @@ function setMaxValueMessage(element, defaultValue , classElement){
     jQuery('.amount', inputElement).on('input', function () {
         let numberInput = parseInt(jQuery(this).val());
         let maxNumber = parseInt(jQuery(this).attr('max'));
-        console.log("maxNumber=", maxNumber);
 
         if (isNaN(numberInput) || numberInput <= 0) {
             numberInput = 0;
@@ -1582,7 +1581,7 @@ function setMaxValueMessage(element, defaultValue , classElement){
                 jQuery('.error-message').fadeOut(c_animationDuration, function() {
                     jQuery(this).remove();
                 });
-            }, 2000);
+            }, 1000);
         }
 
         let calculatedValue = defaultValue * numberInput;
