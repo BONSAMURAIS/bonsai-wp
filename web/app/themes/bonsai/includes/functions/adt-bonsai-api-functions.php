@@ -574,7 +574,6 @@ function adt_get_product_footprint()
     }
 
     $recipeData = adt_get_product_recipe($productCode, $chosenCountry, $newestVersion);
-    $foodprintName = adt_get_footprint_name_by_code($productCode);
     
     $data = [
         'title' => $footprintTitle,
