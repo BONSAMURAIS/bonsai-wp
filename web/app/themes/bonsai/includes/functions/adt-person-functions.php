@@ -38,17 +38,17 @@ function adt_get_person_footprint()
     $result = json_decode($body, true);
     
     if (isset($result['count']) && $result['count'] === 0) {
-        $data = [
-            'id' => -1,
-            'act_code' => $footprintsArray[0]['act_code'],
-            'region_code' => $country,
-            'value' => -1,
-            'version' => $version,
-            'unit_emission' => 'kgCO2',
-            'recipe' => [],
-        ];
-        wp_send_json_error($data);
-        // wp_send_json_error(['error' => 'Footprint not found']);
+        // $data = [
+        //     'id' => -1,
+        //     'act_code' => $footprintsArray[0]['act_code'],
+        //     'region_code' => $country,
+        //     'value' => -1,
+        //     'version' => $version,
+        //     'unit_emission' => 'kgCO2',
+        //     'recipe' => [],
+        // ];
+        // wp_send_json_error($data);
+        wp_send_json_error(['error' => 'Footprint not found']);
     }
     
     // Handle potential errors in the response
