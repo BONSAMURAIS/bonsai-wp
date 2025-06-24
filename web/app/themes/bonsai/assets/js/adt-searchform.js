@@ -621,7 +621,7 @@ async function adt_update_original_info(dataArray)
             });
         }
         
-        setMaxValueMessage($element, defaultValue);
+        setMaxValueMessage($element, defaultValue, '.col:first-child');
     }
 
     adt_update_tags('original');
@@ -789,7 +789,7 @@ async function adt_update_comparison_info(dataArray = null){
                 });
             });
 
-            setMaxValueMessage($element, defaultValue);
+            setMaxValueMessage($element, defaultValue, '.col:nth-child(2)');
 
         }
     }
@@ -889,7 +889,7 @@ async function adt_update_comparison_info(dataArray = null){
                 });
             }
 
-            setMaxValueMessage($element, defaultValue);
+            setMaxValueMessage($element, defaultValue, '.col:nth-child(2)');
 
         }
     }
@@ -1561,7 +1561,7 @@ function setTileTitle(elementClass,dataArray){
     });
 }
 
-function setMaxValueMessage(element, defaultValue){
+function setMaxValueMessage(element, defaultValue , classElement){
     element.find('.amount').each(function () {
     let inputElement = jQuery(this).closest('.col-inner');
 
@@ -1592,8 +1592,8 @@ function setMaxValueMessage(element, defaultValue){
             maximumFractionDigits: 3
         }).format(calculatedValue);
 
-        jQuery('.search-result .col:first-child .amount').val(numberInput);
-        jQuery('.search-result .col:first-child .product-result').text(formattedCalculatedValue);
+        jQuery('.search-result '+classElement+' .amount').val(numberInput);
+        jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
     });
 });
 }
