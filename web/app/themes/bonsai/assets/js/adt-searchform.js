@@ -3,8 +3,10 @@ jQuery(document).ready(function($){
     c_animationDuration = 500;
     c_unit_kgco2 = 'kg CO2eq';
 
-    let test = $('#main-tile').find('.product-title');
+    let test = $('#main-tile').find('.product-title')[0];
     let productCode = test.data('code');
+    console.log("test product=",test);
+    console.log("productCode=",productCode);
 
     jQuery.ajax({
         type: 'POST',
