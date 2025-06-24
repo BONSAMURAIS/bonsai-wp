@@ -3,7 +3,7 @@ jQuery(document).ready(function($){
     c_animationDuration = 500;
     c_unit_kgco2 = 'kg CO2eq';
 
-    let test = $('#main-tile');
+    let test = $('#main-tile').find('.product-title');
     console.log(test)
 
     $('label.select').each(function() {
