@@ -400,6 +400,8 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                 jQuery('.error-message').slideUp('fast');
             }
 
+            console.log("flow_code",dataArray['flow_code'])
+
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
             if (compareButtons.length > 0) {
