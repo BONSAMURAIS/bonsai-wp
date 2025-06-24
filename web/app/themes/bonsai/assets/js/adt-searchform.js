@@ -197,6 +197,7 @@ jQuery(document).ready(function($){
                 if (searchHistory.length > 0) {
                     let chosenValues = adt_get_chosen_values();
                     let firstItem = searchHistory[0];
+                    console.log("firstItem.productTitle, firstItem.productCode = ", firstItem.productTitle, firstItem.productCode)
                     adt_get_product_info(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, chosenValues);
                     adt_push_parameter_to_url(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, chosenValues);
                 }
@@ -399,6 +400,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
 
             console.log("test product info dataArray");
             console.log(dataArray);
+            console.log("dataArray['title']=",dataArray['title']);
 
             jQuery('.loading').remove();
             jQuery('#autocomplete-input').prop('disabled', false);
