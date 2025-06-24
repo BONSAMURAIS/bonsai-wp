@@ -1448,11 +1448,7 @@ function adt_get_product_by_encoded_string()
             let productTitle = response.data;
             console.log("init productTitle=",productTitle);
             adt_get_product_info(productTitle, obj.code, obj.uuid, chosenValues);
-            jQuery('.search-result .col:first-child p.product-title').each(function () {
-                if (jQuery('#autocomplete-input').val()) {
-                    jQuery(this).text(capitalize(jQuery('#autocomplete-input').val()));
-                }
-            });
+            jQuery('#main-tile-prod-title').text(capitalize(productTitle));
         }
     });
 }

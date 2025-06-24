@@ -298,8 +298,8 @@ add_shortcode( 'adt_searchform', function($atts) {
             </div>
             <div class="row align-equal search-result basic" style="display: flex;">
                 <div class="col medium-6 small-12 large-6">
-                    <div id="main-tile" class="col-inner">
-                        <p class="product-title"></p>
+                    <div class="col-inner">
+                        <p id="main-tile-prod-title" class="product-title"></p>
                         <div class="product-tag-wrapper">
                         </div>
                         <div class="unit-select-wrapper">
