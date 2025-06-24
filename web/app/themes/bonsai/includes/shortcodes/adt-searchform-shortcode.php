@@ -312,8 +312,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                 </svg>
                             </label>
-                            <p>equal</p>
                         </div>
+                        <br/>
+                        <p>produces</p>
                         <p class="product-result"></p>
                         <p class="product-result-unit"></p>
                         <div class="tooltip-wrapper">
@@ -350,8 +351,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                                             <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                         </svg>
                                     </label>
-                                    <p>equal</p>
                                 </div>
+                                <br/>
+                                <p>produces</p>
                             </div>
                             <div class="calculation-result">
                                 <p class="product-result"></p>
