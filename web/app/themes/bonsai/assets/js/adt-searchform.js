@@ -627,6 +627,7 @@ async function adt_update_original_info(dataArray)
             jQuery('.amount', inputElement).on('input', function () {
                 let numberInput = parseInt(jQuery(this).val());
                 let maxNumber = parseInt(jQuery(this).attr('max'));
+                console.log("max=",max);
 
                 if (isNaN(numberInput) || numberInput <= 0) {
                     numberInput = 0;
