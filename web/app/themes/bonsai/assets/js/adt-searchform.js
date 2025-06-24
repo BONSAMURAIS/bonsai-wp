@@ -3,9 +3,9 @@ jQuery(document).ready(function($){
     c_animationDuration = 500;
     c_unit_kgco2 = 'kg CO2eq';
 
-    $('label.select').each(function(e) {
+    $('label.select').each(function() {
         console.log( "label-select" );
-        console.log( e );
+        console.log(this);
     });
 
     $('.co2-form input[name="switch-one"]').on('change', function(){
