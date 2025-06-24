@@ -522,7 +522,13 @@ async function adt_update_original_info(dataArray)
     console.log("adt_update_original_info");
     console.log("dataArray.title=",dataArray.title);
     jQuery('.search-result .col:first-child p.product-title').each(function () {
-        setTileTitle(this,dataArray);
+        if (!dataArray.all_data) {
+            jQuery(this).text('Emission per person');
+            jQuery(this).attr('data-code', dataArray.act_code);
+        } else {
+            jQuery(this).text(capitalize(dataArray.title));
+            jQuery(this).attr('data-code', dataArray.flow_code);
+        }
 
         if (jQuery('#autocomplete-input').val()) {
             jQuery(this).text(jQuery('#autocomplete-input').val());
@@ -715,7 +721,13 @@ jQuery(document).ready(function($){
 async function adt_update_comparison_info(dataArray = null)
 {
     jQuery('.search-result .col:nth-child(2) p.product-title').each(function() {
-        setTileTitle(this,dataArray);
+        if (!dataArray.all_data) {
+            jQuery(this).text('Emission per person');
+            jQuery(this).attr('data-code', dataArray.act_code);
+        } else {
+            jQuery(this).text(capitalize(dataArray.title));
+            jQuery(this).attr('data-code', dataArray.flow_code);
+        }
 
         if (jQuery('#autocomplete-input').val()) {
             jQuery(this).text(jQuery('#autocomplete-input').val());
@@ -862,7 +874,13 @@ async function adt_update_comparison_info(dataArray = null)
     // Test begin
     if (!dataArray.all_data) {
         jQuery('.search-result .col:nth-child(2) p.product-title').each(function () {
-            setTileTitle(this,dataArray);
+            if (!dataArray.all_data) {
+                jQuery(this).text('Emission per person');
+                jQuery(this).attr('data-code', dataArray.act_code);
+            } else {
+                jQuery(this).text(capitalize(dataArray.title));
+                jQuery(this).attr('data-code', dataArray.flow_code);
+            }
         });
 
         
@@ -1646,16 +1664,4 @@ function adt_push_parameter_to_url(text, code, uuid, chosenValuesArray)
 function capitalize(str) {
     if (!str) return '';
     return str[0].toUpperCase() + str.slice(1).toLowerCase();
-}
-
-function setTileTitle(this, dataArray){
-    console.log('set tile title')
-    console.log("dataArray=",dataArray)
-    if (!dataArray.all_data) {
-        jQuery(this).text('Emission per person');
-        jQuery(this).attr('data-code', dataArray.act_code);
-    } else {
-        jQuery(this).text(capitalize(dataArray.title));
-        jQuery(this).attr('data-code', dataArray.flow_code);
-    }
 }
