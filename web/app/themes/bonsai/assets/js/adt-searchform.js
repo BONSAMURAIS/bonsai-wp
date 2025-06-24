@@ -1046,7 +1046,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
             success: (response) => {
                 let productTitle = response.data;
 
-                jQuery('td a[data-code="'+productCode+'"]').text(productTitle);
+                jQuery('td a[data-code="'+productCode+'"]').text(capitalize(productTitle));
             }
         });
     });
