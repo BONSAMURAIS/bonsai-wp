@@ -6,7 +6,7 @@ jQuery(document).ready(function($){
     $('label.select').each(function() {
         console.log( "label-select" );
         let select = $(this).first();
-        if (Array.isArray(select) && select.length <= 1){
+        if (select.length <= 1){
             console.log("$(this).children(':nth-child(2)')=",$(this).children(':nth-child(2)'));
             $(this).children(':nth-child(2)').hide();
             console.log("hide $(this).children(':nth-child(2)')=",$(this).children(':nth-child(2)'));
