@@ -332,16 +332,21 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion,$me
     // Retrieve and decode the recipeResponse body
     $recipeBody = wp_remote_retrieve_body($recipeResponse);
     $recipeResult = json_decode($recipeBody, true);
-    $recipeResult = $recipeResult["results"];
+    $recipes = $recipeResult["results"];
+
+        //sort per value
+    usort($recipes, function ($a, $b) {
+        return $b['value'] <=> $a['value']; //b before a for descending order
+    });
     
     // Handle potential errors in the recipeResponse
-    if (empty($recipeResult)) {
+    if (empty($recipes)) {
         return [
             'error' => 'No recipes found or an error occurred.'
         ];
     }
     
-    return $recipeResult;
+    return $recipes;
 }
 
 
