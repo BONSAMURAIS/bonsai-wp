@@ -1,6 +1,8 @@
 jQuery(document).ready(function($){
     console.log(document)
     c_animationDuration = 500;
+    c_unit_kgco2 = 'kg CO2eq';
+
     $('.co2-form input[name="switch-one"]').on('change', function(){
         let isChecked = $(this).is(':checked');
         
@@ -560,13 +562,13 @@ async function adt_update_original_info(dataArray)
         }
         
         if (dataArray.all_data) {
+            $element.find('.product-result-unit').text(c_unit_kgco2);
             console.log("dataArray.all_data:",dataArray.all_data);
             let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
             console.log("unit_ref =",unit_ref);
-            $element.find('.product-result-unit').text(unit_ref+' CO2eq');
             //change unit here
             jQuery('.emission-message').text('Where do emissions for 1 '+unit_ref+' come from?');
-            jQuery('.emission-header-unit').text('['+unit_ref+' CO2eq]');
+            jQuery('.emission-header-unit').text('['+c_unit_kgco2+']');
             
             jQuery(dataArray.all_data).each(function (i) {
                 
@@ -911,9 +913,9 @@ async function adt_update_comparison_info(dataArray = null)
                 console.log("dataArray.all_data:",dataArray.all_data);
                 let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
                 console.log("unit_ref =",unit_ref);
-                $element.find('.product-result-unit').text('kg CO2eq');
-                jQuery('.emission-message').text('Where do emissions for 1 assad come from?');
-                jQuery('.emission-header-unit').text('[kg CO2eq]');
+                $element.find('.product-result-unit').text(c_unit_kgco2);
+                jQuery('.emission-message').text('Where do emissions for 1 assad come from?'); //what s its use?
+                jQuery('.emission-header-unit').text('['+c_unit_kgco2+']');
 
                 jQuery(dataArray.all_data).each(function (i) {
                     console.log(dataArray.all_data);
