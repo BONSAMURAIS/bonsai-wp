@@ -401,6 +401,25 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             }
 
             console.log("flow_code",dataArray['flow_code'])
+            if(dataArray['flow_code'] & !dataArray['title']){
+                jQuery.ajax({
+                    type: 'POST',
+                    url: localize._ajax_url,
+                    data: {
+                        _ajax_nonce: localize._ajax_nonce,
+                        action: 'adt_get_product_name_by_code',
+                        code: productCode,
+                    },
+                    success: (response) => {
+                        let productTitle = response.data;
+                        console.log("after flow productTitle=",productTitle);
+                        
+                        dataArray['title'] = capitalize(productTitle);
+                        console.log("after flow dataArray=",dataArray);
+                    }
+                });
+
+            }
 
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
