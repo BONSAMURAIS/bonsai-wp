@@ -336,7 +336,7 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion,$me
 
     //sort per value
     usort($recipes, function ($a, $b) {
-        return $b['value'] <=> $a['value']; //b before a for descending order
+        return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
     });
     
     // Handle potential errors in the recipeResponse
