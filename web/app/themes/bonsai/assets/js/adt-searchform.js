@@ -5,7 +5,10 @@ jQuery(document).ready(function($){
 
     $('label.select').each(function() {
         console.log( "label-select" );
-        console.log(this);
+        let select = $(this).first().val();
+        if (Array.isArray(select) && select.length <= 1){
+            $(this).children(':nth-child(2)').hide();
+        }
     });
 
     $('.co2-form input[name="switch-one"]').on('change', function(){
