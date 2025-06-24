@@ -248,8 +248,7 @@ function adt_get_bonsai_footprint_list() {
     }
 }
 
-function adt_delete_old_bonsai_products(array $updatedPostIds) 
-{
+function adt_delete_old_bonsai_products(array $updatedPostIds) {
     $args = array(
         'post_type'      => 'product',
         'posts_per_page' => -1,
@@ -265,8 +264,7 @@ function adt_delete_old_bonsai_products(array $updatedPostIds)
     }
 }
 
-function adt_get_locations(): array
-{
+function adt_get_locations(): array{
     // Check if the data is already cached
     $cachedLocations = get_transient('adt_locations_cache');
     
@@ -312,8 +310,7 @@ function adt_get_locations(): array
     return $locations;
 }
 
-function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion,$metric='GWP100'): array
-{
+function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion,$metric='GWP100'): array{
     // Get the whole recipe list for the product
     $recipeUrl = 'https://lca.aau.dk/api/recipes/?flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion.'&metric='.$metric;
     // error_log("test recipes");
@@ -358,8 +355,7 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion,$me
  * Use transient to store and get data, as a form of caching.
  * This will make sure we do not make too many requests to the API.
  */
-function adt_get_updated_recipe_info()
-{
+function adt_get_updated_recipe_info(){
     
     $unitInflow = $_POST['unitInflow'];
     $productCode = $_POST['productCode'];
@@ -409,8 +405,7 @@ function adt_get_updated_recipe_info()
 add_action('wp_ajax_adt_get_updated_recipe_info', 'adt_get_updated_recipe_info');
 add_action('wp_ajax_nopriv_adt_get_updated_recipe_info', 'adt_get_updated_recipe_info');
 
-function adt_get_product_footprint()
-{
+function adt_get_product_footprint(){
     $productCode = $_POST['code'];
     $productUuid = $_POST['uuid'];
     $chosenCountry = $_POST['footprint_location'];
@@ -594,6 +589,8 @@ function adt_get_product_footprint()
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_recipe_cache', $cachedFootprintArray, 86400);
 
+    error_log("test get_prod foot");
+    error_log(json_encode($data));
     wp_send_json_success($data);
 }
 

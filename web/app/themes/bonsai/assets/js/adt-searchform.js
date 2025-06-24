@@ -689,7 +689,6 @@ async function adt_update_comparison_info(dataArray = null){
 
 
     if (dataArray.all_data) {
-        //test
         for (const element of jQuery('.search-result .col:nth-child(2)')) {
             let $element = jQuery(element);
             $element.find('select.unit').empty();
@@ -912,14 +911,11 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         whichChild = 'nth-child(2)';
     }
 
-    // Recipe return structure changed
-    let recipeArray = dataArray.recipe;// does not return the 
+    let recipeArray = dataArray.recipe;
 
     console.log("recipeArray=",recipeArray);
 
     for (const recipe of recipeArray) {
-        // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
-
         // Convert to base64
         const jsonString = JSON.stringify(recipe);
         const base64String = btoa(jsonString);  // base64 encode
