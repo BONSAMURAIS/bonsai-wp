@@ -739,10 +739,14 @@ async function adt_update_comparison_info(dataArray = null){
             $element.find('select.unit').empty();
 
             jQuery(dataArray.all_data).each(function (i) {
-                let unit = convert_unit(dataArray.all_data[i].unit_reference,dataArray.all_data[i].description);
+                const unit_ref = dataArray.all_data[i].unit_reference;
+                let unit = convert_unit(unit_ref,dataArray.all_data[i].description);
 
                 $element.attr('data-set-' + i, dataArray.all_data[i].id);
-                $element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
+                if(unit_ref=="tonnes"){
+                    console.log("add more kg")
+                }
+                $element.find('select.unit').append(`<option value="${unit_ref}">${unit}</option>`);
             });
 
             let defaultUnit = $element.find('select.unit').val();
