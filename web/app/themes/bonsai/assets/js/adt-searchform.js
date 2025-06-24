@@ -621,7 +621,7 @@ async function adt_update_original_info(dataArray)
             });
         }
         
-        setMaxValueMessage($element);
+        setMaxValueMessage($element, defaultValue);
     }
 
     adt_update_tags('original');
@@ -1623,7 +1623,7 @@ function setTileTitle(elementClass,dataArray){
     });
 }
 
-function setMaxValueMessage(element){
+function setMaxValueMessage(element, defaultValue){
     element.find('.amount').each(function () {
     let inputElement = jQuery(this).closest('.col-inner');
 
