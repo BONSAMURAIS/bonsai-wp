@@ -33,6 +33,12 @@ jQuery(document).ready(function($){
             }
         }
     });
+    
+    $('#household-composition').on('change',function(){
+        let household_compo = $('#household-composition').val();
+        console.log("change");
+        console.log("household_compo=",household_compo);
+    })
 
     $('input[name="switch-two"]').on('change', function(){
         let isChecked = $(this).is(':checked');
@@ -246,8 +252,7 @@ jQuery(document).ready(function($){
     }
 });
 
-function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.0.0')
-{
+function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.0.0'){
     act_code = income_gpe+"_"+household_compo; //fdemandCat will be prefixed in adt-person-functions.php
     console.log("act_code=",act_code);
     jQuery.ajax({
@@ -316,8 +321,7 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
     });
 }
 
-function adt_get_product_info(productTitle, productCode, productUuid, chosenValues) 
-{
+function adt_get_product_info(productTitle, productCode, productUuid, chosenValues) {
     productInfo = [];
 
     console.log("-- adt_get_product_info --");
@@ -423,8 +427,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
     adt_save_local_search_history(productTitle, productCode, productUuid, chosenValues);
 }
 
-function adt_get_chosen_values()
-{
+function adt_get_chosen_values(){
     let chosenArray = [];
 
     chosenArray['footprint_type'] = jQuery('#footprint-type input[name="footprint_type"]').val(); 
@@ -435,8 +438,7 @@ function adt_get_chosen_values()
     return chosenArray;
 }
 
-function adt_update_tags(boxToUpdate)
-{
+function adt_update_tags(boxToUpdate){
     let typeValue = jQuery('#footprint-type input[name="footprint_type"]:checked').val();
     let type = 'Cradle to gate';
     
@@ -503,8 +505,7 @@ function adt_update_tags(boxToUpdate)
     });
 }
 
-function adt_change_data_set()
-{
+function adt_change_data_set(){
     let dataArray = JSON.parse(localStorage.getItem("footprint_data"));
 
     jQuery('.search-result').each(function() {
@@ -517,8 +518,7 @@ function adt_change_data_set()
     });
 }
 
-async function adt_update_original_info(dataArray) 
-{
+async function adt_update_original_info(dataArray) {
     console.log("adt_update_original_info");
     console.log("dataArray.title=",dataArray.title);
     setTileTitle('.search-result .col:first-child p.product-title',dataArray);
