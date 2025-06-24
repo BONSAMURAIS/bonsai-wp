@@ -400,6 +400,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                 jQuery('.error-message').slideUp('fast');
             }
 
+            //todo - refactor
             if(dataArray['flow_code']  !== null & dataArray['title'] == null){
                 jQuery.ajax({
                     type: 'POST',
@@ -1455,25 +1456,7 @@ function adt_get_product_by_encoded_string()
     jQuery('#climate-metric').val('gwp100');
     jQuery('#database-version').val(obj.database_version);
 
-    console.log("init adt_get_product_by_encoded_string")
-
-    jQuery.ajax({
-        type: 'POST',
-        url: localize._ajax_url,
-        data: {
-            _ajax_nonce: localize._ajax_nonce,
-            action: 'adt_get_product_name_by_code',
-            code: obj.code,
-        },
-        success: (response) => {
-            let productTitle = response.data;
-            console.log("init productTitle=",productTitle);
-            jQuery('#main-tile-prod-title').text(capitalize(productTitle));
-            adt_get_product_info(productTitle, obj.code, obj.uuid, chosenValues);
-            jQuery('#main-tile-prod-title').text(capitalize(productTitle));
-            console.log("teteet jQuery('#main-tile-prod-title')=",jQuery('#main-tile-prod-title'));
-        }
-    });
+    adt_get_product_info(productTitle, obj.code, obj.uuid, chosenValues);
 }
 
 // Makes sure to run the function when users go back and forth in browser
