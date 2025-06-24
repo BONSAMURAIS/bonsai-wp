@@ -7,6 +7,7 @@ jQuery(document).ready(function($){
     // let productCode = test[0].data('code');
     console.log("test product=",test);
     console.log("test product[0]=",test[0]);
+    console.log("test product[0].attr=",test[0].attr("data-code"));
     // console.log("productCode=",productCode);
 
     // jQuery.ajax({
