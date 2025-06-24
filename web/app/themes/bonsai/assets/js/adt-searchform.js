@@ -714,7 +714,7 @@ jQuery(document).ready(function($){
 async function adt_update_comparison_info(dataArray = null)
 {
     setTileTitle('.search-result .col:nth-child(2) p.product-title',dataArray);
-    jQuery('.search-result .col:first-child p.product-title').each(function () {
+    jQuery('.search-result .col:nth-child(2) p.product-title').each(function () {
         if (jQuery('#autocomplete-input').val()) {
             jQuery(this).text(jQuery('#autocomplete-input').val());
         }
