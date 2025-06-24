@@ -527,7 +527,7 @@ async function adt_update_original_info(dataArray)
             jQuery(this).text('Emission per person');
             jQuery(this).attr('data-code', dataArray.act_code);
         } else {
-            jQuery(this).text(dataArray.title);
+            jQuery(this).text(capitalize(dataArray.title));
             jQuery(this).attr('data-code', dataArray.flow_code);
         }
 
@@ -567,7 +567,7 @@ async function adt_update_original_info(dataArray)
             let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
             console.log("unit_ref =",unit_ref);
             //change unit here
-            jQuery('.emission-message').text('Where do emissions for 1 '+unit_ref+' come from?');
+            jQuery('.emission-message').text('Where do emissions for 1 '+unit_ref+' of '+dataArray.title+' come from?');
             jQuery('.emission-header-unit').text('['+c_unit_kgco2+']');
             
             jQuery(dataArray.all_data).each(function (i) {
@@ -726,7 +726,7 @@ async function adt_update_comparison_info(dataArray = null)
             jQuery(this).text('Emission per person');
             jQuery(this).attr('data-code', dataArray.act_code);
         } else {
-            jQuery(this).text(dataArray.title);
+            jQuery(this).text(capitalize(dataArray.title));
             jQuery(this).attr('data-code', dataArray.flow_code);
         }
 
@@ -879,7 +879,7 @@ async function adt_update_comparison_info(dataArray = null)
                 jQuery(this).text('Emission per person');
                 jQuery(this).attr('data-code', dataArray.act_code);
             } else {
-                jQuery(this).text(dataArray.title);
+                jQuery(this).text(capitalize(dataArray.title));
                 jQuery(this).attr('data-code', dataArray.flow_code);
             }
         });
