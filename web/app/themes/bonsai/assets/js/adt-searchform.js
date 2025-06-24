@@ -604,7 +604,7 @@ async function adt_update_original_info(dataArray) {
                 let unit_ref = dataArray.all_data[0].unit_reference;
                 console.log("unit_ref =",unit_ref);
                 
-                setUnitOptions($element, i, unit_ref);
+                setUnitOptions($element, i, dataArray, unit_ref);
 
             });
             
@@ -1627,7 +1627,7 @@ function setMaxValueMessage(element, defaultValue , classElement){
 });
 }
 
-function setUnitOptions(element, i, unit_ref){
+function setUnitOptions(element, i, dataArray, unit_ref){
     let unit = convert_unit(unit_ref, dataArray.all_data[i].description);
     element.attr('data-set-' + i, dataArray.all_data[i].id);
     element.find('select.unit').append(`<option value="${unit_ref}">${unit}</option>`);
