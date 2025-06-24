@@ -1643,7 +1643,7 @@ function setUnitOptions(element, i, dataArray, unit_ref){
     }
 
     console.log("unitList=",unitList);
-    for (unit in unitList){
+    for (const unit of unitList){
         console.log("unit=",unit);
         element.attr('data-set-' + i, dataArray.all_data[i].id);
         element.find('select.unit').append(`<option value="${unit}">${unit}</option>`);
