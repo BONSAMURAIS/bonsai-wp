@@ -404,8 +404,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             console.log("dataArray['flow_code'] & !dataArray['title'] = ",dataArray['flow_code'] & !dataArray['title'])
             console.log("dataArray['flow_code'] = ",dataArray['flow_code']  !== null)
             console.log("!dataArray['title'] = ",dataArray['title']  == null)
-            if(dataArray['flow_code'] & !dataArray['title']){
-                console.log("in if cond")
+            if(dataArray['flow_code']  !== null & dataArray['title'] == null){
                 console.log("in if cond")
                 jQuery.ajax({
                     type: 'POST',
