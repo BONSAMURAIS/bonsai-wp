@@ -640,6 +640,7 @@ async function adt_update_original_info(dataArray) {
                     let newElement = jQuery(this).closest('.col-inner');
 
                     for (const item of dataArray.all_data) {
+                        console.log("item=",item)
                         if (item.unit_reference === chosenValue) {
                             valueForItems = item.value;
                             // Can I change this number earlier in the flow?
