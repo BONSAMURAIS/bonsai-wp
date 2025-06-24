@@ -400,24 +400,24 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                 jQuery('.error-message').slideUp('fast');
             }
 
-            //todo - refactor
-            if(dataArray['flow_code']  !== null & dataArray['title'] == null){
-                jQuery.ajax({
-                    type: 'POST',
-                    url: localize._ajax_url,
-                    data: {
-                        _ajax_nonce: localize._ajax_nonce,
-                        action: 'adt_get_product_name_by_code',
-                        code: productCode,
-                    },
-                    success: (response) => {
-                        let productTitle = response.data;
-                        dataArray['title'] = capitalize(productTitle);
-                        adt_update_original_info(dataArray); 
-                        adt_show_search_results();
-                    }
-                });
-            }
+            // //todo - refactor
+            // if(dataArray['flow_code']  !== null & dataArray['title'] == null){
+            //     jQuery.ajax({
+            //         type: 'POST',
+            //         url: localize._ajax_url,
+            //         data: {
+            //             _ajax_nonce: localize._ajax_nonce,
+            //             action: 'adt_get_product_name_by_code',
+            //             code: productCode,
+            //         },
+            //         success: (response) => {
+            //             let productTitle = response.data;
+            //             dataArray['title'] = capitalize(productTitle);
+            //             adt_update_original_info(dataArray); 
+            //             adt_show_search_results();
+            //         }
+            //     });
+            // }
             
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
