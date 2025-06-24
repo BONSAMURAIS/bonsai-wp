@@ -420,11 +420,9 @@ function adt_get_product_footprint(){
 
     // If cache exists, return the cached data
     if ($cachedFootprints !== false) {
-        if (
-            array_key_exists($productCode, $cachedFootprints) 
+        if (array_key_exists($productCode, $cachedFootprints) 
             && $cachedFootprints[$productCode]['chosen_country'] === $chosenCountry
-            && $cachedFootprints[$productCode]['version'] === $version
-            ) {
+            && $cachedFootprints[$productCode]['version'] === $version) {
                 wp_send_json_success($cachedFootprints[$productCode]);
                 die();
             }
@@ -591,6 +589,8 @@ function adt_get_product_footprint(){
 
     error_log("test get_prod foot");
     error_log(json_encode($data));
+    error_log("test recipeData recipeData");
+    error_log(json_encode($recipeData));
     wp_send_json_success($data);
 }
 
