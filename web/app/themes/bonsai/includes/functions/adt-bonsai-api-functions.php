@@ -331,9 +331,6 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion,$me
     $recipeResult = json_decode($recipeBody, true);
     $recipes = $recipeResult["results"];
 
-    error_log("test json_encode(recipes)");
-    error_log(json_encode($recipes));
-
     //sort per value
     usort($recipes, function ($a, $b) {
         return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
