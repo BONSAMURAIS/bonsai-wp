@@ -20,9 +20,7 @@ jQuery(document).ready(function($){
             $('.search-input-wrapper').toggle();
             $('.person-choices').toggle();
             if (value === 'person') {
-                $('#grave').prop('checked', true).trigger('change'); // Fix applied here
-                // Get data from the API
-                // https://lca.aau.dk/api/footprint-country/
+                $('#grave').prop('checked', true).trigger('change');
                 let countryCode = $('#location').val();
                 let version = $('#database-version').val();
                 let income_gpe = $('#income-group').val();
@@ -35,10 +33,20 @@ jQuery(document).ready(function($){
     });
     
     $('#household-composition').on('change',function(){
+        let countryCode = $('#location').val();
+        let version = $('#database-version').val();
+        let income_gpe = $('#income-group').val();
         let household_compo = $('#household-composition').val();
-        console.log("change");
-        console.log("household_compo=",household_compo);
-    })
+        adt_get_person_footprint(countryCode, income_gpe, household_compo, version);
+    });
+    $('#income-group').on('change',function(){
+        let countryCode = $('#location').val();
+        let version = $('#database-version').val();
+        let income_gpe = $('#income-group').val();
+        let household_compo = $('#household-composition').val();
+        adt_get_person_footprint(countryCode, income_gpe, household_compo, version);
+    });
+
 
     $('input[name="switch-two"]').on('change', function(){
         let isChecked = $(this).is(':checked');
