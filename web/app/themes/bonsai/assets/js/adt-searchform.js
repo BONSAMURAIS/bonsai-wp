@@ -1664,6 +1664,7 @@ function setUnitOptions(element, i, dataArray, unit_ref){
     }
 
     console.log("unitList=",unitList);
+    console.log("element=",element);
     for (const unit of unitList){
         console.log("unit=",unit);
         element.attr('data-set-' + i, dataArray.all_data[i].id);
