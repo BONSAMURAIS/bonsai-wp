@@ -5,15 +5,9 @@ jQuery(document).ready(function($){
 
     $('label.select').each(function() {
         console.log( "label-select" );
-        let select = $(this).first().val();
-        console.log("$(this)=",$(this));
-        console.log("$(this).first()=",$(this).first());
-        console.log("select=",select);
+        let select = $(this).first();
         if (Array.isArray(select) && select.length <= 1){
-            console.log("$(this).children(':nth-child(2)')=",$(this).children(':nth-child(2)'));
-            
             $(this).children(':nth-child(2)').hide();
-            console.log("hide $(this).children(':nth-child(2)')=",$(this).children(':nth-child(2)'));
         }
     });
 
