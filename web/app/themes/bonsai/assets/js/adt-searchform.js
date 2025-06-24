@@ -609,6 +609,7 @@ async function adt_update_original_info(dataArray) {
             });
             
             let defaultUnit = $element.find('select.unit').val();
+            console.log()
             // Just let the first item be default instead of null
             let valueForItems = dataArray.all_data[0].value;
             let convertedValueForItems = null;
@@ -628,6 +629,7 @@ async function adt_update_original_info(dataArray) {
             $element.find('select.unit').on('change', function () {
                 //TODO add more unit selection
                 let chosenValue = jQuery(this).val();
+                console.log("chosen value =",chosenValue)
                 
                 jQuery('.search-result .col:first-child .amount').val('1');
                 jQuery('.search-result .col:first-child select.unit').each(async function () {
