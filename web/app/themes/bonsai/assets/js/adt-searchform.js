@@ -597,17 +597,15 @@ async function adt_update_original_info(dataArray) {
         if (dataArray.all_data) {
             $element.find('.product-result-unit').text(c_unit_kgco2);
             console.log("dataArray.all_data:",dataArray.all_data);
-            let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
-            console.log("unit_ref =",unit_ref);
-            //change unit here
             jQuery('.emission-message').text('Where do emissions for 1kg of CO2eq come from?');
             jQuery('.emission-header-unit').text('['+c_unit_kgco2+']');
             
             jQuery(dataArray.all_data).each(function (i) {
+                let unit_ref = dataArray.all_data[0].unit_reference;
+                console.log("unit_ref =",unit_ref);
                 
-                let unit = convert_unit(dataArray.all_data[i].unit_reference, dataArray.all_data[i].description);
-                $element.attr('data-set-' + i, dataArray.all_data[i].id);
-                $element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
+                setUnitOptions($element, i, unit_ref);
+
             });
             
             let defaultUnit = $element.find('select.unit').val();
@@ -866,10 +864,7 @@ async function adt_update_comparison_info(dataArray = null){
 
             console.log(dataArray.all_data);
             if (dataArray.all_data) {
-                console.log("adt_update_comparison_info element=",$element);
-                console.log("dataArray.all_data:",dataArray.all_data);
                 let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
-                console.log("unit_ref =",unit_ref);
                 $element.find('.product-result-unit').text(c_unit_kgco2);
                 jQuery('.emission-message').text('Where do emissions for 1 assad come from?'); //what s its use?
                 jQuery('.emission-header-unit').text('['+c_unit_kgco2+']');
@@ -1630,4 +1625,11 @@ function setMaxValueMessage(element, defaultValue , classElement){
         jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
     });
 });
+}
+
+function setUnitOptions(element, i, unit){
+    let unit = convert_unit(dataArray.all_data[i].unit_reference, dataArray.all_data[i].description);
+    element.attr('data-set-' + i, dataArray.all_data[i].id);
+    element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
+
 }
