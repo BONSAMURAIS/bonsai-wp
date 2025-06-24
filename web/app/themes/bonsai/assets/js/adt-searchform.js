@@ -1634,14 +1634,29 @@ function setUnitOptions(element, i, dataArray, unit_ref){
     let unitList = [];
     
     if (unit_ref === 'Meuro'){
-        unitList = ["EUR","kEUR","mEUR", "DKK","kDKK","mDKK"];
+        unitList = [
+            {ratio:1,label:"EUR"},
+            {ratio:1e3,label:"kEUR"},
+            {ratio:1e6,label:"mEUR"},
+            {ratio:1,label:"DKK"},
+            {ratio:1,label:"kDKK"},
+            {ratio:1,label:"mDKK"}
+        ];
     } else if (unit_ref === 'tonnes') {
-        unitList = ["g","kg","tonnes"];
+        unitList = [
+            {ratio:1e-3,label:"g"},
+            {ratio:1,label:"kg"},
+            {ratio:1e3,label:"tonnes"},
+        ];
     } else if (unit_ref === 'TJ'){
         if (description.includes('electricity')){
-            unitList = ['kWh'];
+            unitList = [
+                {ratio:1,label:"kWh"},
+            ];
         } else {
-            unitList = ['MJ'];
+            unitList = [
+                {ratio:1,label:"MJ"},
+            ];
         }
     }
 
@@ -1649,7 +1664,7 @@ function setUnitOptions(element, i, dataArray, unit_ref){
     for (const unit of unitList){
         console.log("unit=",unit);
         element.attr('data-set-' + i, dataArray.all_data[i].id);
-        element.find('select.unit').append(`<option value="${unit}">${unit}</option>`);
+        element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
 
 }
