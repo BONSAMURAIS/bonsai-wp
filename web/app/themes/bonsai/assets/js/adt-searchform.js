@@ -59,13 +59,11 @@ jQuery(document).ready(function($){
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
     $(searchform.products).each(function() {
-        if (chosenFootprintType === "product" && this.code.includes("M_")
-        ) {
+        if (chosenFootprintType === "product" && this.code.includes("M_")) {
             return true;
         }
 
-        if (
-            chosenFootprintType === "market" 
+        if (chosenFootprintType === "market" 
             && (this.code.includes('C_') || this.code.includes('EF_') || this.code.includes('A_'))
         ) {
             return true;
@@ -522,6 +520,7 @@ function adt_change_data_set()
 async function adt_update_original_info(dataArray) 
 {
     console.log("adt_update_original_info");
+    console.log("dataArray.title=",dataArray.title);
     jQuery('.search-result .col:first-child p.product-title').each(function () {
         if (!dataArray.all_data) {
             jQuery(this).text('Emission per person');
