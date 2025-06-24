@@ -7,6 +7,7 @@ jQuery(document).ready(function($){
         console.log( "label-select" );
         let select = $(this).first();
         if (select.length <= 1){
+            console.log("select.length=",select.length);
             let arrowImg = $(this).children(':nth-child(2)')
             arrowImg.hide();
             arrowImg.prop('disabled', true);
