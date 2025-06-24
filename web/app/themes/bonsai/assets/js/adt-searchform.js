@@ -4,6 +4,23 @@ jQuery(document).ready(function($){
     c_unit_kgco2 = 'kg CO2eq';
 
     let test = $('#main-tile').find('.product-title');
+    let productCode = test.data('code');
+
+    jQuery.ajax({
+        type: 'POST',
+        url: localize._ajax_url,
+        data: {
+            _ajax_nonce: localize._ajax_nonce,
+            action: 'adt_get_product_name_by_code',
+            code: productCode,
+        },
+        success: (response) => {
+            let productTitle = response.data;
+            console.log("test:",productCode);
+
+            // jQuery('td a[data-code="'+productCode+'"]').text(capitalize(productTitle));
+        }
+    });
     console.log(test)
 
     $('label.select').each(function() {
