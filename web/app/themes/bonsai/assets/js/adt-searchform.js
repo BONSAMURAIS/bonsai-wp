@@ -559,7 +559,7 @@ async function adt_update_original_info(dataArray)
             let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
             console.log("unit_ref =",unit_ref);
             //change unit here
-            jQuery('.emission-message').text('Where do emissions for 1 '+unit_ref+' of '+dataArray.title+' come from?');
+            jQuery('.emission-message').text('Where do emissions for 1 '+unit_ref+' of '+jQuery('#autocomplete-input').val()+' come from?');
             jQuery('.emission-header-unit').text('['+c_unit_kgco2+']');
             
             jQuery(dataArray.all_data).each(function (i) {
