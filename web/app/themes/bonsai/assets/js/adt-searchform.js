@@ -3,31 +3,6 @@ jQuery(document).ready(function($){
     c_animationDuration = 500;
     c_unit_kgco2 = 'kg CO2eq';
 
-    let test = $('#main-tile').find('.product-title');
-    // let productCode = test[0].data('code');
-    console.log("test product=",test);
-    console.log("test product[0]=",test.first());
-    console.log("test product[0].attr=",test.first().attr("data-code"));
-    // console.log("test product[0].attr=",test[0].attr("data-code"));
-    // console.log("productCode=",productCode);
-
-    // jQuery.ajax({
-    //     type: 'POST',
-    //     url: localize._ajax_url,
-    //     data: {
-    //         _ajax_nonce: localize._ajax_nonce,
-    //         action: 'adt_get_product_name_by_code',
-    //         code: productCode,
-    //     },
-    //     success: (response) => {
-    //         let productTitle = response.data;
-    //         console.log("test:",productCode);
-
-    //         // jQuery('td a[data-code="'+productCode+'"]').text(capitalize(productTitle));
-    //     }
-    // });
-    // console.log(test)
-
     $('label.select').each(function() {
         let listOptions = $(this).find('option');
         if (listOptions.length <= 1){
@@ -1441,6 +1416,7 @@ function adt_initialize_local_search_history()
     });
 }
 
+//init get the first time the product 
 function adt_get_product_by_encoded_string()
 {
     const params = new URLSearchParams(window.location.search);
@@ -1458,10 +1434,23 @@ function adt_get_product_by_encoded_string()
     jQuery('#year').val(obj.footprint_year);
     jQuery('#climate-metric').val('gwp100');
     jQuery('#database-version').val(obj.database_version);
-    // jQuery('#database-version option:selected').text(obj.database_version);
 
-    console.log("init asas")
-    adt_get_product_info(obj.title, obj.code, obj.uuid, chosenValues);
+    console.log("init adt_get_product_by_encoded_string")
+
+    jQuery.ajax({
+        type: 'POST',
+        url: localize._ajax_url,
+        data: {
+            _ajax_nonce: localize._ajax_nonce,
+            action: 'adt_get_product_name_by_code',
+            code: obj.code,
+        },
+        success: (response) => {
+            let productTitle = response.data;
+            console.log("init productTitle=",productTitle);
+            adt_get_product_info(productTitle, obj.code, obj.uuid, chosenValues);
+        }
+    });
 }
 
 // Makes sure to run the function when users go back and forth in browser
