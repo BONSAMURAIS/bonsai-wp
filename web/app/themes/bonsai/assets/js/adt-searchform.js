@@ -524,7 +524,7 @@ async function adt_update_original_info(dataArray)
     setTileTitle('.search-result .col:first-child p.product-title',dataArray);
     jQuery('.search-result .col:first-child p.product-title').each(function () {
         if (jQuery('#autocomplete-input').val()) {
-            jQuery(this).text(jQuery('#autocomplete-input').val());
+            jQuery(this).text(capitalize(jQuery('#autocomplete-input').val()));
         }
     });
 
@@ -1144,7 +1144,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
             success: (response) => {
                 let productTitle = response.data;
 
-                jQuery('td a[data-code="'+productCode+'"]').text(capitalize(productTitle));
+                jQuery('td a[data-code="'+productCode+'"]').text(productTitle);
             }
         });
     });
