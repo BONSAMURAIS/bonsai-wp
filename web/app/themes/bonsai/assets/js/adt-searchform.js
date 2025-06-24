@@ -737,20 +737,19 @@ async function adt_update_comparison_info(dataArray = null){
                     // Because comparison is active also get the uncertainty of the comparison
                     adt_uncertainty_calculation(originalSample, comparisonSample);
 
-                    if (item.unit_reference === 'TJ' && !item.description.includes('electricity')) {
-                        console.log('does not contain electricity');
-                        convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'MJ', valueForItems);
-                        // multiply by 1000 to convert from MJ per tonnes to MJ per kg
-                        convertedValueForItems = convertedValueForItems * 1000;
-                        item.value = convertedValueForItems;
+                    if (item.unit_reference === 'TJ'){
+                        if(!item.description.includes('electricity')){
+                            console.log('does not contain electricity');
+                            convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'MJ', valueForItems);
+                            // multiply by 1000 to convert from MJ per tonnes to MJ per kg
+                            convertedValueForItems = convertedValueForItems * 1000;
+                            item.value = convertedValueForItems;
+                        }else{
+                            console.log('ELECTRICITY is found');
+                            convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'kWh', valueForItems);
+                            item.value = convertedValueForItems;
+                        }
                     }
-
-                    if (item.unit_reference === 'TJ' && item.description.includes('electricity')) {
-                        console.log('ELECTRICITY is found');
-                        convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'kWh', valueForItems);
-                        item.value = convertedValueForItems;
-                    }
-
                     break;
                 }
             }
