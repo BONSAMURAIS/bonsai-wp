@@ -422,9 +422,10 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                         console.log("after flow dataArray=",dataArray);
                     }
                 });
-
+                
             }
-
+            
+            console.log("inside loop flow dataArray=",dataArray);
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
             if (compareButtons.length > 0) {
