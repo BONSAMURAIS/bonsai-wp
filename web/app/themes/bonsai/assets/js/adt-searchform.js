@@ -1641,7 +1641,9 @@ function setUnitOptions(element, i, dataArray, unit_ref){
             unitList = ['MJ'];
         }
     }
+    
     for (unit in unitList){
+        console.log("unit=",unit);
         element.attr('data-set-' + i, dataArray.all_data[i].id);
         element.find('select.unit').append(`<option value="${unit}">${unit}</option>`);
     }
