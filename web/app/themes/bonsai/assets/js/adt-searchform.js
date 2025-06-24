@@ -875,7 +875,7 @@ async function adt_update_comparison_info(dataArray = null)
     if (!dataArray.all_data) {
         jQuery('.search-result .col:nth-child(2) p.product-title').each(function () {
             if (!dataArray.all_data) {
-                jQuery(this).text('Emission per person');
+                jQuery(this).text('TEST Emission per person');
                 jQuery(this).attr('data-code', dataArray.act_code);
             } else {
                 jQuery(this).text(capitalize(dataArray.title));
