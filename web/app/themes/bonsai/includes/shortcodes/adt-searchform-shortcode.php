@@ -196,7 +196,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                         <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="select-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                 </svg>
                             </label>
@@ -213,7 +213,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <select id="year">
                                     <option value="2016">2016</option>
                                 </select>
-                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="select-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                 </svg>
                             </label>    
@@ -230,7 +230,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <select id="climate-metric">
                                     <option value="gwp100">GWP100</option>
                                 </select>
-                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="select-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                 </svg>
                             </label>    
@@ -248,7 +248,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     <!-- <option value="v1.1.0">v1.1.0</option>
                                     <option value="v1.0.0">v1.0.0</option> -->
                                 </select>
-                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="select-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                 </svg>
                             </label>    

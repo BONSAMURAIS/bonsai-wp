@@ -3,6 +3,11 @@ jQuery(document).ready(function($){
     c_animationDuration = 500;
     c_unit_kgco2 = 'kg CO2eq';
 
+    $('label.select').each(function(e) {
+        console.log( "label-select" );
+        console.log( e );
+    });
+
     $('.co2-form input[name="switch-one"]').on('change', function(){
         let isChecked = $(this).is(':checked');
         
