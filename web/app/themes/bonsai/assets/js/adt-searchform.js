@@ -696,6 +696,7 @@ jQuery(document).ready(function($){
         console.log('comparison added');
 
         $('.search-result').each(function() {
+            console.log("this=",$(this))
             let original = $(this).find('.col:first-child');
             let clone = original.clone();
             
