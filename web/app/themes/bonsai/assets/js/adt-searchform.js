@@ -400,12 +400,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                 jQuery('.error-message').slideUp('fast');
             }
 
-            console.log("flow_code",dataArray['flow_code'])
-            console.log("dataArray['flow_code'] & !dataArray['title'] = ",dataArray['flow_code'] & !dataArray['title'])
-            console.log("dataArray['flow_code'] = ",dataArray['flow_code']  !== null)
-            console.log("!dataArray['title'] = ",dataArray['title']  == null)
             if(dataArray['flow_code']  !== null & dataArray['title'] == null){
-                console.log("in if cond")
                 jQuery.ajax({
                     type: 'POST',
                     url: localize._ajax_url,
@@ -420,12 +415,12 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                         
                         dataArray['title'] = capitalize(productTitle);
                         console.log("after flow dataArray=",dataArray);
+                        adt_update_original_info(dataArray); 
+                        adt_show_search_results();
                     }
                 });
-                
             }
             
-            console.log("inside loop flow dataArray=",dataArray);
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
             if (compareButtons.length > 0) {
