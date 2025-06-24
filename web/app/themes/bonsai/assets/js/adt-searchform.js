@@ -9,7 +9,7 @@ jQuery(document).ready(function($){
         if (listOptions.length <= 1){
             let arrowImg = $(this).children(':nth-child(2)')
             arrowImg.hide();
-            arrowImg.prop('disabled', true);
+            $(this).prop('disabled', true);
         }
     });
 
