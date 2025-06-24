@@ -90,7 +90,6 @@ jQuery(document).ready(function($){
         productUuidArray = [];
 
         $(searchform.products).each(function() {
-            console.log("this.code=",this.code);
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
                 return true;
             } else if (
@@ -376,9 +375,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             }
 
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
-            console.log("product info --- b4 compare btn")
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
-            console.log(compareButtons)
             if (compareButtons.length > 0) {
                 adt_update_original_info(dataArray); 
             } else {
@@ -1261,8 +1258,6 @@ function adt_download_recipe_csv()
 function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray) 
 {
     const words = productTitleArray;
-    console.log("words=",words);
-
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
     const $suggestions = jQuery('#suggestions');
@@ -1270,7 +1265,6 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     let currentIndex = -1;
     let suggestionSelected = false;
     let chosenValuesArray = adt_get_chosen_values();
-    console.log("chosenValuesArray=",chosenValuesArray);
 
     $input.on('input', function () {
         const query = $input.val().toLowerCase();
