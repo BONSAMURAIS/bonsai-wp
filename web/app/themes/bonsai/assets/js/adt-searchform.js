@@ -1447,9 +1447,10 @@ function adt_get_product_by_encoded_string()
         success: (response) => {
             let productTitle = response.data;
             console.log("init productTitle=",productTitle);
-            adt_get_product_info(productTitle, obj.code, obj.uuid, chosenValues);
-            console.log("teteet jQuery('#main-tile-prod-title')=",jQuery('#main-tile-prod-title'));
             jQuery('#main-tile-prod-title').text(capitalize(productTitle));
+            adt_get_product_info(productTitle, obj.code, obj.uuid, chosenValues);
+            jQuery('#main-tile-prod-title').text(capitalize(productTitle));
+            console.log("teteet jQuery('#main-tile-prod-title')=",jQuery('#main-tile-prod-title'));
         }
     });
 }
