@@ -343,7 +343,7 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
     });
 }
 
-function adt_get_product_info(productTitle, productCode, productUuid, chosenValues) {
+function adt_get_product_info(productTitle, productCode, productUuid, chosenValues, init=false) {
     productInfo = [];
 
     console.log("-- adt_get_product_info --");
@@ -400,24 +400,26 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                 jQuery('.error-message').slideUp('fast');
             }
 
-            // //todo - refactor
-            // if(dataArray['flow_code']  !== null & dataArray['title'] == null){
-            //     jQuery.ajax({
-            //         type: 'POST',
-            //         url: localize._ajax_url,
-            //         data: {
-            //             _ajax_nonce: localize._ajax_nonce,
-            //             action: 'adt_get_product_name_by_code',
-            //             code: productCode,
-            //         },
-            //         success: (response) => {
-            //             let productTitle = response.data;
-            //             dataArray['title'] = capitalize(productTitle);
-            //             adt_update_original_info(dataArray); 
-            //             adt_show_search_results();
-            //         }
-            //     });
-            // }
+            //todo - refactor
+            if(init){
+                if(dataArray['flow_code']  !== null & dataArray['title'] == null){
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: localize._ajax_url,
+                        data: {
+                            _ajax_nonce: localize._ajax_nonce,
+                            action: 'adt_get_product_name_by_code',
+                            code: productCode,
+                        },
+                        success: (response) => {
+                            let productTitle = response.data;
+                            dataArray['title'] = capitalize(productTitle);
+                            adt_update_original_info(dataArray); 
+                            adt_show_search_results();
+                        }
+                    });
+                }
+            }
             
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
@@ -1456,7 +1458,7 @@ function adt_get_product_by_encoded_string()
     jQuery('#climate-metric').val('gwp100');
     jQuery('#database-version').val(obj.database_version);
 
-    adt_get_product_info(obj.title, obj.code, obj.uuid, chosenValues);
+    adt_get_product_info(obj.title, obj.code, obj.uuid, chosenValues, true);
 }
 
 // Makes sure to run the function when users go back and forth in browser
