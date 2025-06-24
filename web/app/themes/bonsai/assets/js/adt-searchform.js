@@ -1454,20 +1454,13 @@ function adt_get_product_by_encoded_string()
     chosenValues['footprint_year'] = obj.footprint_year;
     chosenValues['database_version'] = obj.database_version;
 
-    // set preset values in the search form and select boxes
-    let typeValue = jQuery('#footprint-type input[name="footprint_type"]:checked').val();
-    let type = 'Cradle to gate';
-    
-    if (typeValue === 'market') {
-        type = 'Cradle to consumer';
-    }
-
     jQuery('#location').val(obj.footprint_location);
     jQuery('#year').val(obj.footprint_year);
     jQuery('#climate-metric').val('gwp100');
     jQuery('#database-version').val(obj.database_version);
     // jQuery('#database-version option:selected').text(obj.database_version);
 
+    console.log("init asas")
     adt_get_product_info(obj.title, obj.code, obj.uuid, chosenValues);
 }
 
