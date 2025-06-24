@@ -1627,9 +1627,9 @@ function setMaxValueMessage(element, defaultValue , classElement){
 });
 }
 
-function setUnitOptions(element, i, unit){
-    let unit = convert_unit(dataArray.all_data[i].unit_reference, dataArray.all_data[i].description);
+function setUnitOptions(element, i, unit_ref){
+    let unit = convert_unit(unit_ref, dataArray.all_data[i].description);
     element.attr('data-set-' + i, dataArray.all_data[i].id);
-    element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
+    element.find('select.unit').append(`<option value="${unit_ref}">${unit}</option>`);
 
 }
