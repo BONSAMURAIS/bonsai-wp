@@ -789,39 +789,8 @@ async function adt_update_comparison_info(dataArray = null){
                 });
             });
 
-            $element.find('.amount').each(function () {
-                let inputElement = jQuery(this).closest('.col-inner');
+            setMaxValueMessage($element, defaultValue);
 
-                jQuery('.amount', inputElement).on('input', function () {
-                    let numberInput = parseInt(jQuery(this).val());
-                    let maxNumber = parseInt(jQuery(this).attr('max'));
-
-                    if (isNaN(numberInput) || numberInput <= 0) {
-                        numberInput = 0;
-                    }
-
-                    if (numberInput > maxNumber) {
-                        numberInput = maxNumber;
-                        jQuery(this).val(numberInput);
-                        jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
-                        setTimeout(() => {
-                            jQuery('.error-message').fadeOut(c_animationDuration, function() {
-                                jQuery(this).remove();
-                            });
-                        }, 2000);
-                    }
-
-                    let calculatedValue = defaultValue * numberInput;
-
-                    let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
-                        minimumFractionDigits: 3,
-                        maximumFractionDigits: 3
-                    }).format(calculatedValue);
-
-                    jQuery('.search-result .col:nth-child(2) .amount').val(numberInput);
-                    jQuery('.search-result .col:nth-child(2) .product-result').text(formattedCalculatedValue);
-                });
-            });
         }
     }
 
@@ -920,39 +889,8 @@ async function adt_update_comparison_info(dataArray = null){
                 });
             }
 
-            $element.find('.amount').each(function () {
-                let inputElement = jQuery(this).closest('.col-inner');
+            setMaxValueMessage($element, defaultValue);
 
-                jQuery('.amount', inputElement).on('input', function () {
-                    let numberInput = parseInt(jQuery(this).val());
-                    let maxNumber = parseInt(jQuery(this).attr('max'));
-
-                    if (isNaN(numberInput) || numberInput <= 0) {
-                        numberInput = 0;
-                    }
-
-                    if (numberInput > maxNumber) {
-                        numberInput = maxNumber;
-                        jQuery(this).val(numberInput);
-                        jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
-                        setTimeout(() => {
-                            jQuery('.error-message').fadeOut(c_animationDuration, function() {
-                                jQuery(this).remove();
-                            });
-                        }, 2000);
-                    }
-
-                    let calculatedValue = defaultValue * numberInput;
-
-                    let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
-                        minimumFractionDigits: 3,
-                        maximumFractionDigits: 3
-                    }).format(calculatedValue);
-
-                    jQuery('.search-result .col:nth-child(2) .amount').val(numberInput);
-                    jQuery('.search-result .col:nth-child(2) .product-result').text(formattedCalculatedValue);
-                });
-            });
         }
     }
 
