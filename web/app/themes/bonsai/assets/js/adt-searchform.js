@@ -4,7 +4,6 @@ jQuery(document).ready(function($){
     c_unit_kgco2 = 'kg CO2eq';
 
     $('label.select').each(function() {
-        console.log( "label-select" );
         let listOptions = $(this).find('option');
         if (listOptions.length <= 1){
             let arrowImg = $(this).children(':nth-child(2)')
