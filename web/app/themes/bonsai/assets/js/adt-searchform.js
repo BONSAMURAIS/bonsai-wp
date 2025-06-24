@@ -1649,6 +1649,8 @@ function capitalize(str) {
 }
 
 function setTileTitle(dataArray){
+    console.log('set tile title')
+    console.log("dataArray=",dataArray)
     if (!dataArray.all_data) {
         jQuery(this).text('Emission per person');
         jQuery(this).attr('data-code', dataArray.act_code);
