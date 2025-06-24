@@ -558,6 +558,8 @@ function adt_get_product_footprint()
                     # code...
                     break;
             }
+            // restrict  significant number to 3
+            $footprint['value'] = roundToSignificantFigures($footprint['value']);
 
             $chosenFootprint[] = $footprint;
         }
@@ -596,4 +598,21 @@ function adt_get_newest_version(array $versions): string
 {
     usort($versions, 'version_compare');
     return end($versions);
+}
+
+function roundToSignificantFigures($num, $sigFigs = 3) {
+    if ($num == 0) {
+        return '0';
+    }
+
+    $d = floor(log10(abs($num)));
+    $power = $sigFigs - 1 - $d;
+    $magnitude = pow(10, $power);
+    $rounded = round($num * $magnitude) / $magnitude;
+
+    // Calculate number of decimal places to display
+    $decimals = max(0, $sigFigs - 1 - floor(log10(abs($rounded))));
+    
+    // Format to the right number of decimal places
+    return number_format($rounded, $decimals, '.', '');
 }
