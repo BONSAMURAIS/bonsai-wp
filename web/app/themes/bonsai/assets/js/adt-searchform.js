@@ -629,6 +629,7 @@ async function adt_update_original_info(dataArray) {
             $element.find('select.unit').on('change', function () {
                 //TODO add more unit selection
                 let chosenValue = jQuery(this).val();
+                console.log("jQuery(this) =",jQuery(this))
                 console.log("chosen value =",chosenValue)
                 
                 jQuery('.search-result .col:first-child .amount').val('1');
