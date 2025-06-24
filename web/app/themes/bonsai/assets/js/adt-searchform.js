@@ -412,10 +412,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                     },
                     success: (response) => {
                         let productTitle = response.data;
-                        console.log("after flow productTitle=",productTitle);
-                        
                         dataArray['title'] = capitalize(productTitle);
-                        console.log("after flow dataArray=",dataArray);
                         adt_update_original_info(dataArray); 
                         adt_show_search_results();
                     }
