@@ -33,6 +33,8 @@ jQuery(document).ready(function($){
     });
     
     $('#household-composition').on('change',function(){
+        console.log("change household");
+        console.log("countryCode, income_gpe, household_compo, version = ", countryCode, income_gpe, household_compo, version);
         let countryCode = $('#location').val();
         let version = $('#database-version').val();
         let income_gpe = $('#income-group').val();
@@ -40,6 +42,8 @@ jQuery(document).ready(function($){
         adt_get_person_footprint(countryCode, income_gpe, household_compo, version);
     });
     $('#income-group').on('change',function(){
+        console.log("change income");
+        console.log("countryCode, income_gpe, household_compo, version = ", countryCode, income_gpe, household_compo, version);
         let countryCode = $('#location').val();
         let version = $('#database-version').val();
         let income_gpe = $('#income-group').val();
