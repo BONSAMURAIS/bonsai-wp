@@ -1669,7 +1669,9 @@ function setUnitOptions(element, i, dataArray, unit_ref){
     }
 
     if (unitList.length>1 & element.find('#unit-arrow')){
-        element.find('#unit-arrow').show()
+        console.log("element.find('#unit-arrow')=",element.find('#unit-arrow'))
+        element.find('#unit-arrow').show();
+        console.log("after element.find('#unit-arrow')=",element.find('#unit-arrow'))
     }
 
 }
