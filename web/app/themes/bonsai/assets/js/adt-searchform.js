@@ -48,7 +48,7 @@ jQuery(document).ready(function($){
         let income_gpe = $('#income-group').val();
         let household_compo = $('#household-composition').val();
         let climate_metric = $('#climate-metric').val();
-        console.log("countryCode, income_gpe, household_compo, version = ", countryCode, income_gpe, household_compo, version,climate_metric);
+        console.log("countryCode, income_gpe, household_compo, version ,climate_metric= ", countryCode, income_gpe, household_compo, version,climate_metric);
         adt_get_person_footprint(countryCode, income_gpe, household_compo, version,climate_metric);
     });
     $('#income-group').on('change',function(){
@@ -278,6 +278,7 @@ jQuery(document).ready(function($){
 function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.0.0', metric){
     act_code = income_gpe+"_"+household_compo; //fdemandCat will be prefixed in adt-person-functions.php
     console.log("act_code=",act_code);
+    console.log("metric=",metric);
     jQuery.ajax({
         type: 'POST',
         url: localize._ajax_url,
@@ -350,7 +351,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
 
     console.log("-- adt_get_product_info --");
     console.log("productTitle, productCode, productUuid=",productTitle, productCode, productUuid);
-    console.log("footprint_location, footprint_type, footprint_year,database_version=",chosenValues['footprint_location'], chosenValues['footprint_type'], chosenValues['footprint_year'],chosenValues['database_version']);
+    console.log("footprint_location, footprint_type, footprint_year,database_version,metric=",chosenValues['footprint_location'], chosenValues['footprint_type'], chosenValues['footprint_year'],chosenValues['database_version'],chosenValues['metric']);
 
 
     jQuery.ajax({
