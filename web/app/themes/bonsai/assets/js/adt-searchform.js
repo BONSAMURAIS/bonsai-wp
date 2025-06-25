@@ -571,6 +571,9 @@ async function adt_update_original_info(dataArray) {
         }
     });
 
+    setUnitOptions($element, 0, dataArray, unit_ref);
+
+
     
     for (const element of jQuery('.search-result .col:first-child')) {
         console.log("element=",element);
@@ -605,7 +608,6 @@ async function adt_update_original_info(dataArray) {
             let unit_ref = dataArray.all_data[0].unit_reference;
             console.log("unit_ref =",unit_ref);
             
-            setUnitOptions($element, 0, dataArray, unit_ref);
             jQuery(dataArray.all_data).each(function (i) {
 
             });
@@ -1668,9 +1670,7 @@ function setUnitOptions(element, i, dataArray, unit_ref){
         element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
 
-    console.log("unitList.length>1=",unitList.length>1)
-    console.log("unitList.length>1 &  element.find('.unit-arrow').length>0=",unitList.length>1 & element.find('.unit-arrow').length>0)
-    console.log("element.find('.unit-arrow') =",element.find('.unit-arrow'))
+    //todo hide for person
     if (unitList.length>1 & element.find('.unit-arrow').length >0){
         jQuery('.unit-arrow').each(function(index, arrow) {
             console.log("arrow=",arrow)
