@@ -1637,7 +1637,7 @@ function setUnitOptions(element, i, dataArray, unit_ref){
             {ratio:1e3,label:"tonne(s)"},
         ];
     } else if (unit_ref === 'MJ'){
-        if (dataArray.all_data[i].description.includes('electricity')){
+        if (dataArray.all_data[i].flow_code.includes('_elec') || dataArray.all_data[i].flow_code.includes('_POW')){
             unitList = [
                 {ratio:1,label:"kWh"},
             ];
