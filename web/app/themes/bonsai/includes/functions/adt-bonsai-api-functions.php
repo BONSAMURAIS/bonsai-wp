@@ -358,7 +358,8 @@ function adt_get_updated_recipe_info(){
     $productCode = $_POST['productCode'];
     $chosenCountry = $_POST['country'];
     $newestVersion = $_POST['version'];
-    $metric = "GWP100";
+    $metric = $_POST['metric'];
+    // $metric = "GWP100";
 
     // Check if the data is already cached
     $cachedRecipe = get_transient('adt_recipe_cache');
@@ -410,7 +411,8 @@ function adt_get_product_footprint(){
     // Everything if from year 2016, but this might get updated.
     $chosenYear = $_POST['footprint_year'];
     $version = $_POST['database_version'];
-    $metric = 'GWP100';
+    $metric = $_POST['metric'];
+    // $metric = 'GWP100';
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
@@ -563,7 +565,7 @@ function adt_get_product_footprint(){
         }
     }
 
-    $recipeData = adt_get_product_recipe($productCode, $chosenCountry, $newestVersion);
+    $recipeData = adt_get_product_recipe($productCode, $chosenCountry, $newestVersion, $metric);
     
     $data = [
         'title' => $footprintTitle,

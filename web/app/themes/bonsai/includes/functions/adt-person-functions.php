@@ -10,6 +10,8 @@ function adt_get_person_footprint(){
     $country = $_POST['region_code'];
     $act_code = $_POST['act_code'];
     $version = $_POST['version'];
+    $metric = $_POST['metric'];
+    // $metric='GWP100';
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_person_footprint_cache');
@@ -23,7 +25,6 @@ function adt_get_person_footprint(){
     }
 
     $fdemand_aux = "F_HOUS";
-    $metric='GWP100';
     $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$act_code."&metric=".$metric; //TODO change if call with F_HOUS does not exist
     $response = wp_remote_get($url);
 
@@ -54,8 +55,8 @@ function adt_get_person_footprint(){
     $footprintsArray = $result['results'];
 
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
-    $value = get_total_value($fdemand_categories,$country,$act_code,$version);
-    $recipes = adt_get_person_footprint_recipe($fdemand_categories, $country, $act_code, $version);
+    $value = get_total_value($fdemand_categories,$country,$act_code,$version,$metric);
+    $recipes = adt_get_person_footprint_recipe($fdemand_categories, $country, $act_code, $version,$metric);
 
     
     //sort per value
@@ -216,7 +217,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
 
         // TODO: Throttled again for loading through the pages?
         for ($i = 1; $i <= $pages; $i++) {
-            $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version;
+            $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version."&metric=".$metric;
             $response = wp_remote_get($api_url);
             
             if (is_wp_error($response)) {
