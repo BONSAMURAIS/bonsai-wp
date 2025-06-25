@@ -1663,13 +1663,11 @@ function setUnitOptions(element, i, dataArray, unit_ref){
         }
     }
 
-    console.log("unitList=",unitList);
-    console.log("element=",element);
     for (const unit of unitList){
         element.attr('data-set-' + i, dataArray.all_data[i].id);
         element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
         console.log("element.find('select.unit').children(':nth-child(2)')=");
-        console.log(element.find('label.select[name="unit"]'));
+        console.log(element.find('#unit-arrow'));
         element.find('select.unit').children(':nth-child(2)').show();
     }
 
