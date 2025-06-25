@@ -573,7 +573,7 @@ async function adt_update_original_info(dataArray) {
 
     if (dataArray.all_data) {
         let test = jQuery('.search-result .col:first-child').first();
-        setUnitOptions($element, 0, dataArray, unit_ref);
+        setUnitOptions(test, 0, dataArray, unit_ref);
     }
     
     for (const element of jQuery('.search-result .col:first-child')) {
