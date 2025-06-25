@@ -625,7 +625,9 @@ async function adt_update_original_info(dataArray) {
             $element.find('select.unit').on('change', function () {
                 //TODO add more unit selection
                 let unitRatio = jQuery(this).val();
+                let unitRatio_name = jQuery(this).find('option:selected').text();
                 console.log("jQuery(this) =",jQuery(this))
+                console.log("unitRatio_name =",unitRatio_name)
                 console.log("unitRatio =",unitRatio)
                 
                 jQuery('.search-result .col:first-child .amount').val('1');
@@ -638,6 +640,15 @@ async function adt_update_original_info(dataArray) {
                         console.log("item=",item)
                         console.log("item.value=",item.value)
                         console.log("item.value*ratio=",item.value*unitRatio)
+                        if (item.unit_reference == "DKK"){ //TODO to rafactor
+                            // if(){
+
+                            // }
+                            valueForItems = item.value*unitRatio;
+                        }else{
+                            valueForItems = item.value*unitRatio;
+                            
+                        }
                         if (item.unit_reference === unitRatio) { //will never go there
                             valueForItems = item.value;                           
                             break;
