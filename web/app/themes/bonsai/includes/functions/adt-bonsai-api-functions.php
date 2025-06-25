@@ -428,7 +428,7 @@ function adt_get_product_footprint(){
         }
         
     // API URL
-    $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry."&version=".$version."&metric="."metric";
+    $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry."&version=".$version."&metric=".$metric;
     
     // Make the API request
     $response = wp_remote_get($url);
