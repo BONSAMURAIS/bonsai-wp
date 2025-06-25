@@ -1181,7 +1181,6 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
 
     $input.on('input', function () {
         const query = $input.val().toLowerCase();
-        console.log("query=",query);
         const matches = words
         .map((word, index) => ({ word, code: productCodeArray[index], uuid: productUuidArray[index] }))
         .filter(item => item.word.toLowerCase().includes(query));
@@ -1192,7 +1191,6 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         if (matches.length > 0 && query) {
             jQuery(this).css('border-radius', '50px 50px 0 0').css('border-bottom', 'none');
             $suggestionsWrapper.show();
-            console.log("matches=",matches);
 
             matches.forEach(match => {
                 const $div = jQuery('<div>')
