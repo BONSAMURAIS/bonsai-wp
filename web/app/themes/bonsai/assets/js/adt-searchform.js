@@ -1653,6 +1653,10 @@ function setUnitOptions(element, i, dataArray, unit_ref){
             unitList = [
                 {ratio:1,label:"item(s)"},
             ]
+    } else if (unit_ref === 'tonnes (service)'){
+            unitList = [
+                {ratio:1,label:"tonne(s) (service)"},
+            ]
     }
 
     for (const unit of unitList){
