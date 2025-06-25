@@ -640,19 +640,11 @@ async function adt_update_original_info(dataArray) {
                         console.log("item=",item)
                         console.log("item.value=",item.value)
                         console.log("item.value*ratio=",item.value*unitRatio)
-                        if (item.unit_reference == "DKK"){ //TODO to rafactor
-                            // if(){
-
-                            // }
+                        if (unitRatio_name.includes("DKK") & item.unit_reference == "DKK"){ //TODO to rafactor
                             valueForItems = item.value*unitRatio;
-                        }else{
-                            valueForItems = item.value*unitRatio;
-                            
-                        }
-                        if (item.unit_reference === unitRatio) { //will never go there
-                            valueForItems = item.value;                           
                             break;
                         }
+                        valueForItems = item.value*unitRatio;
                     }
                     
                     let formatted = new Intl.NumberFormat('en-US', {
@@ -1629,12 +1621,12 @@ function setUnitOptions(element, i, dataArray, unit_ref){
     
     if (unit_ref === 'DKK'){
         unitList = [
-            {ratio:1,label:"EUR"},
-            {ratio:1e3,label:"kEUR"},
-            {ratio:1e6,label:"mEUR"},
+            {ratio:1e-6,label:"EUR"},
+            {ratio:1e-3,label:"kEUR"},
+            {ratio:1,label:"mEUR"},
             {ratio:1,label:"DKK"},
-            {ratio:1,label:"kDKK"},
-            {ratio:1,label:"mDKK"}
+            {ratio:1e3,label:"kDKK"},
+            {ratio:1e6,label:"mDKK"}
         ];
     } else if (unit_ref === 'tonnes') {
         unitList = [
