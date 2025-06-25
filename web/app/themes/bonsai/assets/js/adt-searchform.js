@@ -626,10 +626,11 @@ async function adt_update_original_info(dataArray) {
                 //TODO add more unit selection
                 let unitRatio = jQuery(this).val();
                 let unitRatio_name = jQuery(this).find('option:selected').text();
+                let currentAmount = jQuery('.search-result .col:first-child .amount').val();
                 console.log("jQuery(this) =",jQuery(this))
                 console.log("unitRatio_name =",unitRatio_name)
                 console.log("unitRatio =",unitRatio)
-                console.log("amount=",jQuery('.search-result .col:first-child .amount').val())
+                console.log("amount=",)
                 
                 // jQuery('.search-result .col:first-child .amount').val('1');
                 jQuery('.search-result .col:first-child select.unit').each(async function () {
@@ -642,10 +643,10 @@ async function adt_update_original_info(dataArray) {
                         console.log("item.value=",item.value)
                         console.log("item.value*ratio=",item.value*unitRatio)
                         if (unitRatio_name.includes("DKK") & item.unit_reference == "DKK"){ //TODO to rafactor
-                            valueForItems = item.value*unitRatio;
+                            valueForItems = item.value*unitRatio*currentAmount;
                             break;
                         }
-                        valueForItems = item.value*unitRatio;
+                        valueForItems = item.value*unitRatio*currentAmount;
                     }
                     
                     let formatted = new Intl.NumberFormat('en-US', {
