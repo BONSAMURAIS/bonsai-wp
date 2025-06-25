@@ -571,9 +571,10 @@ async function adt_update_original_info(dataArray) {
         }
     });
 
-    setUnitOptions($element, 0, dataArray, unit_ref);
-
-
+    if (dataArray.all_data) {
+        let test = jQuery('.search-result .col:first-child').first();
+        setUnitOptions($element, 0, dataArray, unit_ref);
+    }
     
     for (const element of jQuery('.search-result .col:first-child')) {
         console.log("element=",element);
@@ -608,9 +609,10 @@ async function adt_update_original_info(dataArray) {
             let unit_ref = dataArray.all_data[0].unit_reference;
             console.log("unit_ref =",unit_ref);
             
-            jQuery(dataArray.all_data).each(function (i) {
+            // setUnitOptions($element, 0, dataArray, unit_ref);
+            // jQuery(dataArray.all_data).each(function (i) {
 
-            });
+            // });
             
             let defaultUnit = $element.find('select.unit').val();
             console.log()
