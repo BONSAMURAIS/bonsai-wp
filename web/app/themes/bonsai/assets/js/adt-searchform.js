@@ -735,19 +735,22 @@ async function adt_update_comparison_info(dataArray = null){
             $element.find('select.unit').empty();
 
             const unit_ref = dataArray.all_data[i].unit_reference;
+            console.log("comparison : element=",$element);
+            console.log("comparison : element=",$element);
             setUnitOptions($element, 0, dataArray, unit_ref);
-
+            
             // jQuery(dataArray.all_data).each(function (i) {
-            //     let unit = convert_unit(unit_ref,dataArray.all_data[i].description);
-
-            //     $element.attr('data-set-' + i, dataArray.all_data[i].id);
-            //     if(unit_ref=="tonnes"){
-            //         console.log("add more kg")
-            //     }
-            //     $element.find('select.unit').append(`<option value="${unit_ref}">${unit}</option>`);
-            // });
-
+                //     let unit = convert_unit(unit_ref,dataArray.all_data[i].description);
+                
+                //     $element.attr('data-set-' + i, dataArray.all_data[i].id);
+                //     if(unit_ref=="tonnes"){
+                    //         console.log("add more kg")
+                    //     }
+                    //     $element.find('select.unit').append(`<option value="${unit_ref}">${unit}</option>`);
+                    // });
+                    
             let defaultUnit = $element.find('select.unit').val();
+            console.log("comparison : defaultUnit=",defaultUnit);
             // Just let the first item be default instead of null
             console.log(dataArray.all_data[0].value);
             let valueForItems = dataArray.all_data[0].value;
