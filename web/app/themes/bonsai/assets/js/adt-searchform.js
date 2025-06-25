@@ -1669,12 +1669,17 @@ function setUnitOptions(element, i, dataArray, unit_ref){
     }
 
     console.log("unitList.length>1=",unitList.length>1)
-    console.log("unitList.length>1 &  element.find('#unit-arrow')=",unitList.length>1 & element.find('#unit-arrow'))
-    console.log("element.find('#unit-arrow') != null=",element.find('#unit-arrow')!=null)
-    if (unitList.length>1 & element.find('#unit-arrow')!=null){
-        console.log("element.find('#unit-arrow')=",element.find('#unit-arrow'))
-        element.find('#unit-arrow').show();
-        console.log("after element.find('#unit-arrow')=",element.find('#unit-arrow'))
+    console.log("unitList.length>1 &  element.find('.unit-arrow').length>0=",unitList.length>1 & element.find('.unit-arrow').length>0)
+    console.log("element.find('.unit-arrow') =",element.find('.unit-arrow'))
+    if (unitList.length>1 & element.find('.unit-arrow').length >0){
+        for (const arrow of element.find('.unit-arrow')){
+            console.log("arrow=",arrow)
+            arrow.show();
+            console.log("after arrow=",arrow)
+        }
+        // console.log("element.find('#unit-arrow')=",element.find('#unit-arrow'))
+        // element.find('#unit-arrow').show();
+        // console.log("after element.find('#unit-arrow')=",element.find('#unit-arrow'))
     }
 
 }
