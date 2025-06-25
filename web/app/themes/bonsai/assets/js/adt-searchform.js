@@ -1637,7 +1637,7 @@ function setUnitOptions(element, i, dataArray, unit_ref){
         unitList = [
             {ratio:1e-3,label:"g"},
             {ratio:1,label:"kg"},
-            {ratio:1e3,label:"tonnes"},
+            {ratio:1e3,label:"tonne(s)"},
         ];
     } else if (unit_ref === 'TJ'){
         if (description.includes('electricity')){
@@ -1649,6 +1649,10 @@ function setUnitOptions(element, i, dataArray, unit_ref){
                 {ratio:1,label:"MJ"},
             ];
         }
+    } else if (unit_ref === 'items'){
+            unitList = [
+                {ratio:1,label:"item(s)"},
+            ]
     }
 
     for (const unit of unitList){
