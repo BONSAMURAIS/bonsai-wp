@@ -792,25 +792,18 @@ async function adt_update_comparison_info(dataArray = null){
             let defaultValue = parseFloat($element.find('.product-result').text());
 
             $element.find('select.unit').on('change', function () {
-                //TODO add more unit selection
                 let unitRatio = jQuery(this).val();
                 let unitRatio_name = jQuery(this).find('option:selected').text();
                 let currentAmount = jQuery('.search-result .col:nth-child(2) .amount').val();
-                console.log("jQuery(this) =",jQuery(this))
                 console.log("unitRatio_name =",unitRatio_name)
                 console.log("unitRatio =",unitRatio)
-                console.log("amount=",)
                 
-                // jQuery('.search-result .col:nth-child(2) .amount').val('1');
                 jQuery('.search-result .col:nth-child(2) select.unit').each(async function () {
                     jQuery(this).val(unitRatio);
                     let newElement = jQuery(this).closest('.col-inner');
 
-                    console.log("newElement=",newElement)
                     for (const item of dataArray.all_data) {
                         console.log("item=",item)
-                        console.log("item.value=",item.value)
-                        console.log("item.value*ratio=",item.value*unitRatio)
                         if (unitRatio_name.includes("DKK") & item.unit_reference == "DKK"){ //TODO to rafactor
                             valueForItems = item.value*unitRatio*currentAmount;
                             break;
@@ -1641,7 +1634,7 @@ function setUnitOptions(element, i, dataArray, unit_ref){
             {ratio:1e3,label:"tonne(s)"},
         ];
     } else if (unit_ref === 'TJ'){
-        if (description.includes('electricity')){
+        if (dataArray.all_data[i].description.includes('electricity')){
             unitList = [
                 {ratio:1,label:"kWh"},
             ];
