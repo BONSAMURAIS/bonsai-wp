@@ -734,7 +734,7 @@ async function adt_update_comparison_info(dataArray = null){
             let $element = jQuery(element);
             $element.find('select.unit').empty();
 
-            const unit_ref = dataArray.all_data[i].unit_reference;
+            const unit_ref = dataArray.all_data[0].unit_reference;
             console.log("comparison : element=",$element);
             console.log("comparison : element=",$element);
             setUnitOptions($element, 0, dataArray, unit_ref);
