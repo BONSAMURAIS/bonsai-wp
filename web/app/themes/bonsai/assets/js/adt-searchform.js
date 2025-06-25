@@ -1521,18 +1521,22 @@ function adt_uncertainty_calculation(original, comparison)
             numberUncertainty = parseFloat(numberUncertainty) * 100;
             numberUncertainty = Math.round(numberUncertainty * 100) / 100; // Round to two decimal places
 
-            jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('width', numberUncertainty+'%');
-            jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').attr('data-uncertainty', numberUncertainty+'%');
+            let uncertaintyBar = jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background');
+            uncertaintyBar.css('width', numberUncertainty+'%');
+            uncertaintyBar.attr('data-uncertainty', numberUncertainty+'%');
 
             jQuery('.uncertainty-wrapper').slideDown();
 
+            let colorBar = "";
             if (numberUncertainty < 80) {
-                jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('background-color', '#EB594E');
+                colorBar = '#EB594E';
             } else if (numberUncertainty >= 80 && numberUncertainty < 90) {
-                jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('background-color', '#F5DA5A');
+                colorBar = '#F5DA5A';
             } else {
-                jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('background-color', '#C3F138');
+                colorBar = '#C3F138';
             }
+            uncertaintyBar.css('background-color', colorBar);
+            
         }
     });
 }
