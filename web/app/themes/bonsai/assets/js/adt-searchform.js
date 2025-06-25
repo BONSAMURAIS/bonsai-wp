@@ -570,13 +570,6 @@ async function adt_update_original_info(dataArray) {
             jQuery(this).text(capitalize(jQuery('#autocomplete-input').val()));
         }
     });
-
-    if (dataArray.all_data) {
-        let unit_ref = dataArray.all_data[0].unit_reference;
-        console.log("unit_ref =",unit_ref);
-        let test = jQuery('.search-result .col:first-child').first();
-        setUnitOptions(test, 0, dataArray, unit_ref);
-    }
     
     for (const element of jQuery('.search-result .col:first-child')) {
         console.log("element=",element);
@@ -608,12 +601,13 @@ async function adt_update_original_info(dataArray) {
             jQuery('.emission-message').text('Where do emissions for 1kg of CO2eq come from?');
             jQuery('.emission-header-unit').text('['+c_unit_kgco2+']');
             
-
+            let unit_ref = dataArray.all_data[0].unit_reference;
+            console.log("unit_ref =",unit_ref);
             
-            // setUnitOptions($element, 0, dataArray, unit_ref);
-            // jQuery(dataArray.all_data).each(function (i) {
+            setUnitOptions($element, 0, dataArray, unit_ref);
+            jQuery(dataArray.all_data).each(function (i) {
 
-            // });
+            });
             
             let defaultUnit = $element.find('select.unit').val();
             console.log()
