@@ -633,6 +633,7 @@ async function adt_update_original_info(dataArray) {
                     jQuery(this).val(unitRatio);
                     let newElement = jQuery(this).closest('.col-inner');
 
+                    console.log("newElement=",newElement)
                     for (const item of dataArray.all_data) {
                         console.log("item=",item)
                         console.log("item.value=",item.value)
