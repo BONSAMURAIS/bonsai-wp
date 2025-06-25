@@ -1636,7 +1636,7 @@ function setMaxValueMessage(element, defaultValue , classElement){
 function setUnitOptions(element, i, dataArray, unit_ref){
     let unitList = [];
     
-    if (unit_ref === 'Meuro'){
+    if (unit_ref === 'DKK'){
         unitList = [
             {ratio:1,label:"EUR"},
             {ratio:1e3,label:"kEUR"},
@@ -1677,9 +1677,6 @@ function setUnitOptions(element, i, dataArray, unit_ref){
             arrow.style.display = 'block';
             console.log("after arrow=",arrow)
         })
-        // console.log("element.find('#unit-arrow')=",element.find('#unit-arrow'))
-        // element.find('#unit-arrow').show();
-        // console.log("after element.find('#unit-arrow')=",element.find('#unit-arrow'))
     }
 
 }
