@@ -790,37 +790,72 @@ async function adt_update_comparison_info(dataArray = null){
             let defaultValue = parseFloat($element.find('.product-result').text());
 
             $element.find('select.unit').on('change', function () {
-                let chosenValue = jQuery(this).val();
-
+                //TODO add more unit selection
+                let unitRatio = jQuery(this).val();
+                let unitRatio_name = jQuery(this).find('option:selected').text();
+                console.log("jQuery(this) =",jQuery(this))
+                console.log("unitRatio_name =",unitRatio_name)
+                console.log("unitRatio =",unitRatio)
+                
                 jQuery('.search-result .col:nth-child(2) .amount').val('1');
                 jQuery('.search-result .col:nth-child(2) select.unit').each(async function () {
-                    jQuery(this).val(chosenValue);
+                    jQuery(this).val(unitRatio);
                     let newElement = jQuery(this).closest('.col-inner');
 
+                    console.log("newElement=",newElement)
                     for (const item of dataArray.all_data) {
-                        if (item.unit_reference === chosenValue) {
-                            valueForItems = item.value;
-                            // Can I change this number earlier in the flow?
-                            // Convert emission in tonnes per 1 million Euro to kg per 1 Euro
-                            if (chosenValue === 'Meuro') {
-                                // Instead of mulitplying by 1000, divide by 1000000
-                                // Then just divide by 1000 to get the value in kg
-                                // valueForItems = item.value / 1000;
-                            }
-
+                        console.log("item=",item)
+                        console.log("item.value=",item.value)
+                        console.log("item.value*ratio=",item.value*unitRatio)
+                        if (unitRatio_name.includes("DKK") & item.unit_reference == "DKK"){ //TODO to rafactor
+                            valueForItems = item.value*unitRatio;
                             break;
                         }
+                        valueForItems = item.value*unitRatio;
                     }
-
+                    
                     let formatted = new Intl.NumberFormat('en-US', {
                         minimumFractionDigits: 3,
                         maximumFractionDigits: 3
                     }).format(valueForItems);
-
+                    
                     jQuery(newElement).find('.product-result').text(formatted);
                     defaultValue = parseFloat(jQuery('.product-result', newElement).text());
                 });
             });
+
+            // $element.find('select.unit').on('change', function () {
+            //     let chosenValue = jQuery(this).val();
+
+            //     jQuery('.search-result .col:nth-child(2) .amount').val('1');
+            //     jQuery('.search-result .col:nth-child(2) select.unit').each(async function () {
+            //         jQuery(this).val(chosenValue);
+            //         let newElement = jQuery(this).closest('.col-inner');
+
+            //         for (const item of dataArray.all_data) {
+            //             if (item.unit_reference === chosenValue) {
+            //                 valueForItems = item.value;
+            //                 // Can I change this number earlier in the flow?
+            //                 // Convert emission in tonnes per 1 million Euro to kg per 1 Euro
+            //                 if (chosenValue === 'Meuro') {
+            //                     // Instead of mulitplying by 1000, divide by 1000000
+            //                     // Then just divide by 1000 to get the value in kg
+            //                     // valueForItems = item.value / 1000;
+            //                 }
+
+            //                 break;
+            //             }
+            //         }
+
+            //         let formatted = new Intl.NumberFormat('en-US', {
+            //             minimumFractionDigits: 3,
+            //             maximumFractionDigits: 3
+            //         }).format(valueForItems);
+
+            //         jQuery(newElement).find('.product-result').text(formatted);
+            //         defaultValue = parseFloat(jQuery('.product-result', newElement).text());
+            //     });
+            // });
 
             setMaxValueMessage($element, defaultValue, '.col:nth-child(2)');
 
