@@ -1674,7 +1674,7 @@ function setUnitOptions(element, i, dataArray, unit_ref){
     if (unitList.length>1 & element.find('.unit-arrow').length >0){
         jQuery('.unit-arrow').each(function(index, arrow) {
             console.log("arrow=",arrow)
-            arrow.show();
+            arrow.style.display = 'block';
             console.log("after arrow=",arrow)
         })
         // console.log("element.find('#unit-arrow')=",element.find('#unit-arrow'))
