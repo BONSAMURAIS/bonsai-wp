@@ -1668,6 +1668,9 @@ function setUnitOptions(element, i, dataArray, unit_ref){
         element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
 
+    console.log("unitList.length>1=",unitList.length>1)
+    console.log("unitList.length>1 &  element.find('#unit-arrow')=",unitList.length>1 & element.find('#unit-arrow'))
+    console.log("element.find('#unit-arrow') != null=",element.find('#unit-arrow')!=null)
     if (unitList.length>1 & element.find('#unit-arrow')){
         console.log("element.find('#unit-arrow')=",element.find('#unit-arrow'))
         element.find('#unit-arrow').show();
