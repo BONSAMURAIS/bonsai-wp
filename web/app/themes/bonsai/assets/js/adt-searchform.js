@@ -1,6 +1,17 @@
 jQuery(document).ready(function($){
-    console.log(document)
+    console.log("sadsa")
     c_animationDuration = 500;
+    c_unit_kgco2 = 'kg CO2eq';
+
+    $('label.select').each(function() {
+        let listOptions = $(this).find('option');
+        if (listOptions.length <= 1){
+            let arrowImg = $(this).children(':nth-child(2)');
+            arrowImg.hide();
+            $(this).prop('disabled', true);
+        }
+    });
+
     $('.co2-form input[name="switch-one"]').on('change', function(){
         let isChecked = $(this).is(':checked');
         
@@ -18,9 +29,7 @@ jQuery(document).ready(function($){
             $('.search-input-wrapper').toggle();
             $('.person-choices').toggle();
             if (value === 'person') {
-                $('#grave').prop('checked', true).trigger('change'); // Fix applied here
-                // Get data from the API
-                // https://lca.aau.dk/api/footprint-country/
+                $('#grave').prop('checked', true).trigger('change');
                 let countryCode = $('#location').val();
                 let version = $('#database-version').val();
                 let income_gpe = $('#income-group').val();
@@ -31,6 +40,26 @@ jQuery(document).ready(function($){
             }
         }
     });
+    
+    $('#household-composition').on('change',function(){
+        console.log("change household");
+        let countryCode = $('#location').val();
+        let version = $('#database-version').val();
+        let income_gpe = $('#income-group').val();
+        let household_compo = $('#household-composition').val();
+        console.log("countryCode, income_gpe, household_compo, version = ", countryCode, income_gpe, household_compo, version);
+        adt_get_person_footprint(countryCode, income_gpe, household_compo, version);
+    });
+    $('#income-group').on('change',function(){
+        console.log("change income");
+        let countryCode = $('#location').val();
+        let version = $('#database-version').val();
+        let income_gpe = $('#income-group').val();
+        let household_compo = $('#household-composition').val();
+        console.log("countryCode, income_gpe, household_compo, version = ", countryCode, income_gpe, household_compo, version);
+        adt_get_person_footprint(countryCode, income_gpe, household_compo, version);
+    });
+
 
     $('input[name="switch-two"]').on('change', function(){
         let isChecked = $(this).is(':checked');
@@ -53,17 +82,14 @@ jQuery(document).ready(function($){
     let productCodeArray = [];
     let productUuidArray = [];
     let chosenFootprintType = $('#footprint-type input[name="footprint_type"]:checked').val();
-    console.log("searchform=",searchform)
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
     $(searchform.products).each(function() {
-        if (chosenFootprintType === "product" && this.code.includes("M_")
-        ) {
+        if (chosenFootprintType === "product" && this.code.includes("M_")) {
             return true;
         }
 
-        if (
-            chosenFootprintType === "market" 
+        if (chosenFootprintType === "market" 
             && (this.code.includes('C_') || this.code.includes('EF_') || this.code.includes('A_'))
         ) {
             return true;
@@ -90,7 +116,6 @@ jQuery(document).ready(function($){
         productUuidArray = [];
 
         $(searchform.products).each(function() {
-            console.log("this.code=",this.code);
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
                 return true;
             } else if (
@@ -146,6 +171,7 @@ jQuery(document).ready(function($){
                 if (searchHistory.length > 0) {
                     let chosenValues = adt_get_chosen_values();
                     let firstItem = searchHistory[0];
+                    console.log("firstItem.productTitle, firstItem.productCode = ", firstItem.productTitle, firstItem.productCode)
                     adt_get_product_info(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, chosenValues);
                     adt_push_parameter_to_url(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, chosenValues);
                 }
@@ -247,8 +273,7 @@ jQuery(document).ready(function($){
     }
 });
 
-function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.0.0')
-{
+function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.0.0'){
     act_code = income_gpe+"_"+household_compo; //fdemandCat will be prefixed in adt-person-functions.php
     console.log("act_code=",act_code);
     jQuery.ajax({
@@ -317,8 +342,7 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
     });
 }
 
-function adt_get_product_info(productTitle, productCode, productUuid, chosenValues) 
-{
+function adt_get_product_info(productTitle, productCode, productUuid, chosenValues, init=false) {
     productInfo = [];
 
     console.log("-- adt_get_product_info --");
@@ -375,10 +399,29 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
                 jQuery('.error-message').slideUp('fast');
             }
 
+            //todo - refactor
+            if(init){
+                if(dataArray['flow_code']  !== null & dataArray['title'] == null){
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: localize._ajax_url,
+                        data: {
+                            _ajax_nonce: localize._ajax_nonce,
+                            action: 'adt_get_product_name_by_code',
+                            code: productCode,
+                        },
+                        success: (response) => {
+                            let productTitle = response.data;
+                            dataArray['title'] = capitalize(productTitle);
+                            adt_update_original_info(dataArray); 
+                            adt_show_search_results();
+                        }
+                    });
+                }
+            }
+            
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
-            console.log("product info --- b4 compare btn")
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
-            console.log(compareButtons)
             if (compareButtons.length > 0) {
                 adt_update_original_info(dataArray); 
             } else {
@@ -426,8 +469,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
     adt_save_local_search_history(productTitle, productCode, productUuid, chosenValues);
 }
 
-function adt_get_chosen_values()
-{
+function adt_get_chosen_values(){
     let chosenArray = [];
 
     chosenArray['footprint_type'] = jQuery('#footprint-type input[name="footprint_type"]').val(); 
@@ -438,8 +480,7 @@ function adt_get_chosen_values()
     return chosenArray;
 }
 
-function adt_update_tags(boxToUpdate)
-{
+function adt_update_tags(boxToUpdate){
     let typeValue = jQuery('#footprint-type input[name="footprint_type"]:checked').val();
     let type = 'Cradle to gate';
     
@@ -506,8 +547,7 @@ function adt_update_tags(boxToUpdate)
     });
 }
 
-function adt_change_data_set()
-{
+function adt_change_data_set(){
     let dataArray = JSON.parse(localStorage.getItem("footprint_data"));
 
     jQuery('.search-result').each(function() {
@@ -520,23 +560,15 @@ function adt_change_data_set()
     });
 }
 
-async function adt_update_original_info(dataArray) 
-{
+async function adt_update_original_info(dataArray) {
     console.log("adt_update_original_info");
+    console.log("dataArray.title=",dataArray.title);
+    setTileTitle('.search-result .col:first-child p.product-title',dataArray);
     jQuery('.search-result .col:first-child p.product-title').each(function () {
-        if (!dataArray.all_data) {
-            jQuery(this).text('Emission per person');
-            jQuery(this).attr('data-code', dataArray.act_code);
-        } else {
-            jQuery(this).text(dataArray.title);
-            jQuery(this).attr('data-code', dataArray.flow_code);
-        }
-
         if (jQuery('#autocomplete-input').val()) {
-            jQuery(this).text(jQuery('#autocomplete-input').val());
+            jQuery(this).text(capitalize(jQuery('#autocomplete-input').val()));
         }
     });
-
     
     for (const element of jQuery('.search-result .col:first-child')) {
         console.log("element=",element);
@@ -563,22 +595,17 @@ async function adt_update_original_info(dataArray)
         }
         
         if (dataArray.all_data) {
+            $element.find('.product-result-unit').text(c_unit_kgco2);
             console.log("dataArray.all_data:",dataArray.all_data);
-            let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
+            jQuery('.emission-message').text('Where do emissions for 1kg of CO2eq come from?');
+            jQuery('.emission-header-unit').text('['+c_unit_kgco2+']');
+            
+            let unit_ref = dataArray.all_data[0].unit_reference;
             console.log("unit_ref =",unit_ref);
-            $element.find('.product-result-unit').text(unit_ref+' CO2eq');
-            //change unit here
-            jQuery('.emission-message').text('Where do emissions for 1 '+unit_ref+' come from?');
-            jQuery('.emission-header-unit').text('['+unit_ref+' CO2eq]');
             
-            jQuery(dataArray.all_data).each(function (i) {
-                
-                let unit = convert_unit(dataArray.all_data[i].unit_reference, dataArray.all_data[i].description);
-                $element.attr('data-set-' + i, dataArray.all_data[i].id);
-                $element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
-            });
-            
+            setUnitOptions($element, 0, dataArray, unit_ref);
             let defaultUnit = $element.find('select.unit').val();
+            console.log("defaultUnit=",defaultUnit)
             // Just let the first item be default instead of null
             let valueForItems = dataArray.all_data[0].value;
             let convertedValueForItems = null;
@@ -597,26 +624,34 @@ async function adt_update_original_info(dataArray)
             
             $element.find('select.unit').on('change', function () {
                 //TODO add more unit selection
-                let chosenValue = jQuery(this).val();
+                let unitRatio = jQuery(this).val();
+                let unitRatio_name = jQuery(this).find('option:selected').text();
+                let currentAmount = jQuery('.search-result .col:first-child .amount').val();
+                console.log("jQuery(this) =",jQuery(this))
+                console.log("unitRatio_name =",unitRatio_name)
+                console.log("unitRatio =",unitRatio)
+                console.log("amount=",)
                 
-                jQuery('.search-result .col:first-child .amount').val('1');
+                // jQuery('.search-result .col:first-child .amount').val('1');
                 jQuery('.search-result .col:first-child select.unit').each(async function () {
-                    jQuery(this).val(chosenValue);
+                    jQuery(this).val(unitRatio);
                     let newElement = jQuery(this).closest('.col-inner');
 
+                    console.log("newElement=",newElement)
                     for (const item of dataArray.all_data) {
-                        if (item.unit_reference === chosenValue) {
-                            valueForItems = item.value;
-                            // Can I change this number earlier in the flow?
-                            // Convert emission in tonnes per 1 million Euro to kg per 1 Euro
-                            if (chosenValue === 'Meuro') {
-                                // Instead of mulitplying by 1000, divide by 1000000
-                                // Then just divide by 1000 to get the value in kg
-                                // valueForItems = item.value / 1000;
+                        console.log("item=",item)
+                        console.log("item.value=",item.value)
+                        console.log("item.value*ratio=",item.value*unitRatio)
+                        if (item.unit_reference == "DKK"){
+                            if (unitRatio_name.includes("DKK")){ //TODO to rafactor
+                                valueForItems = item.value*unitRatio*currentAmount;
+                                break;
+                            } else if (unitRatio_name.includes("EUR")){
+                                valueForItems = item.value*unitRatio*currentAmount;
+                                break;
                             }
-                            
-                            break;
                         }
+                        valueForItems = item.value*unitRatio*currentAmount;
                     }
                     
                     let formatted = new Intl.NumberFormat('en-US', {
@@ -630,39 +665,7 @@ async function adt_update_original_info(dataArray)
             });
         }
         
-        $element.find('.amount').each(function () {
-            let inputElement = jQuery(this).closest('.col-inner');
-
-            jQuery('.amount', inputElement).on('input', function () {
-                let numberInput = parseInt(jQuery(this).val());
-                let maxNumber = parseInt(jQuery(this).attr('max'));
-
-                if (isNaN(numberInput) || numberInput <= 0) {
-                    numberInput = 0;
-                }
-
-                if (numberInput > maxNumber) {
-                    numberInput = maxNumber;
-                    jQuery(this).val(numberInput);
-                    jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
-                    setTimeout(() => {
-                        jQuery('.error-message').fadeOut(c_animationDuration, function() {
-                            jQuery(this).remove();
-                        });
-                    }, 2000);
-                }
-
-                let calculatedValue = defaultValue * numberInput;
-
-                let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
-                    minimumFractionDigits: 3,
-                    maximumFractionDigits: 3
-                }).format(calculatedValue);
-
-                jQuery('.search-result .col:first-child .amount').val(numberInput);
-                jQuery('.search-result .col:first-child .product-result').text(formattedCalculatedValue);
-            });
-        });
+        setMaxValueMessage($element, defaultValue, '.col:first-child');
     }
 
     adt_update_tags('original');
@@ -693,6 +696,7 @@ jQuery(document).ready(function($){
         console.log('comparison added');
 
         $('.search-result').each(function() {
+            console.log("this=",$(this))
             let original = $(this).find('.col:first-child');
             let clone = original.clone();
             
@@ -720,36 +724,25 @@ jQuery(document).ready(function($){
     });
 });
 
-async function adt_update_comparison_info(dataArray = null)
-{
-    jQuery('.search-result .col:nth-child(2) p.product-title').each(function() {
-        if (!dataArray.all_data) {
-            jQuery(this).text('Emission per person');
-            jQuery(this).attr('data-code', dataArray.act_code);
-        } else {
-            jQuery(this).text(dataArray.title);
-            jQuery(this).attr('data-code', dataArray.flow_code);
-        }
-
+async function adt_update_comparison_info(dataArray = null){
+    setTileTitle('.search-result .col:nth-child(2) p.product-title',dataArray);
+    jQuery('.search-result .col:nth-child(2) p.product-title').each(function () {
         if (jQuery('#autocomplete-input').val()) {
-            jQuery(this).text(jQuery('#autocomplete-input').val());
+            jQuery(this).text(capitalize(jQuery('#autocomplete-input').val()));
         }
     });
 
+
     if (dataArray.all_data) {
-        //test
         for (const element of jQuery('.search-result .col:nth-child(2)')) {
             let $element = jQuery(element);
             $element.find('select.unit').empty();
 
-            jQuery(dataArray.all_data).each(function (i) {
-                let unit = conver_unit(dataArray.all_data[i].unit_reference,dataArray.all_data[i].description);
-
-                $element.attr('data-set-' + i, dataArray.all_data[i].id);
-                $element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
-            });
-
+            const unit_ref = dataArray.all_data[0].unit_reference;
+            setUnitOptions($element, 0, dataArray, unit_ref);
+                    
             let defaultUnit = $element.find('select.unit').val();
+            console.log("comparison : defaultUnit=",defaultUnit);
             // Just let the first item be default instead of null
             console.log(dataArray.all_data[0].value);
             let valueForItems = dataArray.all_data[0].value;
@@ -774,20 +767,19 @@ async function adt_update_comparison_info(dataArray = null)
                     // Because comparison is active also get the uncertainty of the comparison
                     adt_uncertainty_calculation(originalSample, comparisonSample);
 
-                    if (item.unit_reference === 'TJ' && !item.description.includes('electricity')) {
-                        console.log('does not contain electricity');
-                        convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'MJ', valueForItems);
-                        // multiply by 1000 to convert from MJ per tonnes to MJ per kg
-                        convertedValueForItems = convertedValueForItems * 1000;
-                        item.value = convertedValueForItems;
+                    if (item.unit_reference === 'TJ'){
+                        if(!item.description.includes('electricity')){
+                            console.log('does not contain electricity');
+                            convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'MJ', valueForItems);
+                            // multiply by 1000 to convert from MJ per tonnes to MJ per kg
+                            convertedValueForItems = convertedValueForItems * 1000;
+                            item.value = convertedValueForItems;
+                        }else{
+                            console.log('ELECTRICITY is found');
+                            convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'kWh', valueForItems);
+                            item.value = convertedValueForItems;
+                        }
                     }
-
-                    if (item.unit_reference === 'TJ' && item.description.includes('electricity')) {
-                        console.log('ELECTRICITY is found');
-                        convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'kWh', valueForItems);
-                        item.value = convertedValueForItems;
-                    }
-
                     break;
                 }
             }
@@ -805,86 +797,43 @@ async function adt_update_comparison_info(dataArray = null)
             let defaultValue = parseFloat($element.find('.product-result').text());
 
             $element.find('select.unit').on('change', function () {
-                let chosenValue = jQuery(this).val();
-
-                jQuery('.search-result .col:nth-child(2) .amount').val('1');
+                let unitRatio = jQuery(this).val();
+                let unitRatio_name = jQuery(this).find('option:selected').text();
+                let currentAmount = jQuery('.search-result .col:nth-child(2) .amount').val();
+                console.log("unitRatio_name =",unitRatio_name)
+                console.log("unitRatio =",unitRatio)
+                
                 jQuery('.search-result .col:nth-child(2) select.unit').each(async function () {
-                    jQuery(this).val(chosenValue);
+                    jQuery(this).val(unitRatio);
                     let newElement = jQuery(this).closest('.col-inner');
 
                     for (const item of dataArray.all_data) {
-                        if (item.unit_reference === chosenValue) {
-                            valueForItems = item.value;
-                            // Can I change this number earlier in the flow?
-                            // Convert emission in tonnes per 1 million Euro to kg per 1 Euro
-                            if (chosenValue === 'Meuro') {
-                                // Instead of mulitplying by 1000, divide by 1000000
-                                // Then just divide by 1000 to get the value in kg
-                                // valueForItems = item.value / 1000;
-                            }
-
+                        console.log("item=",item)
+                        if (unitRatio_name.includes("DKK") & item.unit_reference == "DKK"){ //TODO to rafactor
+                            valueForItems = item.value*unitRatio*currentAmount;
                             break;
                         }
+                        valueForItems = item.value*unitRatio*currentAmount;
                     }
-
+                    
                     let formatted = new Intl.NumberFormat('en-US', {
                         minimumFractionDigits: 3,
                         maximumFractionDigits: 3
                     }).format(valueForItems);
-
+                    
                     jQuery(newElement).find('.product-result').text(formatted);
                     defaultValue = parseFloat(jQuery('.product-result', newElement).text());
                 });
             });
 
-            $element.find('.amount').each(function () {
-                let inputElement = jQuery(this).closest('.col-inner');
+            setMaxValueMessage($element, defaultValue, '.col:nth-child(2)');
 
-                jQuery('.amount', inputElement).on('input', function () {
-                    let numberInput = parseInt(jQuery(this).val());
-                    let maxNumber = parseInt(jQuery(this).attr('max'));
-
-                    if (isNaN(numberInput) || numberInput <= 0) {
-                        numberInput = 0;
-                    }
-
-                    if (numberInput > maxNumber) {
-                        numberInput = maxNumber;
-                        jQuery(this).val(numberInput);
-                        jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
-                        setTimeout(() => {
-                            jQuery('.error-message').fadeOut(c_animationDuration, function() {
-                                jQuery(this).remove();
-                            });
-                        }, 2000);
-                    }
-
-                    let calculatedValue = defaultValue * numberInput;
-
-                    let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
-                        minimumFractionDigits: 3,
-                        maximumFractionDigits: 3
-                    }).format(calculatedValue);
-
-                    jQuery('.search-result .col:nth-child(2) .amount').val(numberInput);
-                    jQuery('.search-result .col:nth-child(2) .product-result').text(formattedCalculatedValue);
-                });
-            });
         }
     }
 
-    // Test begin
+    // Comparison begins
     if (!dataArray.all_data) {
-        jQuery('.search-result .col:nth-child(2) p.product-title').each(function () {
-            if (!dataArray.all_data) {
-                jQuery(this).text('Emission per person');
-                jQuery(this).attr('data-code', dataArray.act_code);
-            } else {
-                jQuery(this).text(dataArray.title);
-                jQuery(this).attr('data-code', dataArray.flow_code);
-            }
-        });
-
+        setTileTitle('.search-result .col:nth-child(2) p.product-title',dataArray);
         
         for (const element of jQuery('.search-result .col:nth-child(2)')) {
             let $element = jQuery(element);
@@ -910,13 +859,10 @@ async function adt_update_comparison_info(dataArray = null)
 
             console.log(dataArray.all_data);
             if (dataArray.all_data) {
-                console.log("adt_update_comparison_info element=",$element);
-                console.log("dataArray.all_data:",dataArray.all_data);
-                let unit_ref = convert_unit(dataArray.all_data[0].unit_reference, "");
-                console.log("unit_ref =",unit_ref);
-                $element.find('.product-result-unit').text('kg CO2eq');
-                jQuery('.emission-message').text('Where do emissions for 1 assad come from?');
-                jQuery('.emission-header-unit').text('[kg CO2eq]');
+                let unit_ref = dataArray.all_data[0].unit_reference;
+                $element.find('.product-result-unit').text(c_unit_kgco2);
+                jQuery('.emission-message').text('Where do emissions for 1 assad come from?'); //what s its use?
+                jQuery('.emission-header-unit').text('['+c_unit_kgco2+']');
 
                 jQuery(dataArray.all_data).each(function (i) {
                     console.log(dataArray.all_data);
@@ -977,39 +923,8 @@ async function adt_update_comparison_info(dataArray = null)
                 });
             }
 
-            $element.find('.amount').each(function () {
-                let inputElement = jQuery(this).closest('.col-inner');
+            setMaxValueMessage($element, defaultValue, '.col:nth-child(2)');
 
-                jQuery('.amount', inputElement).on('input', function () {
-                    let numberInput = parseInt(jQuery(this).val());
-                    let maxNumber = parseInt(jQuery(this).attr('max'));
-
-                    if (isNaN(numberInput) || numberInput <= 0) {
-                        numberInput = 0;
-                    }
-
-                    if (numberInput > maxNumber) {
-                        numberInput = maxNumber;
-                        jQuery(this).val(numberInput);
-                        jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
-                        setTimeout(() => {
-                            jQuery('.error-message').fadeOut(c_animationDuration, function() {
-                                jQuery(this).remove();
-                            });
-                        }, 2000);
-                    }
-
-                    let calculatedValue = defaultValue * numberInput;
-
-                    let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
-                        minimumFractionDigits: 3,
-                        maximumFractionDigits: 3
-                    }).format(calculatedValue);
-
-                    jQuery('.search-result .col:nth-child(2) .amount').val(numberInput);
-                    jQuery('.search-result .col:nth-child(2) .product-result').text(formattedCalculatedValue);
-                });
-            });
         }
     }
 
@@ -1031,21 +946,18 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         whichChild = 'nth-child(2)';
     }
 
-    // Recipe return structure changed
-    let recipeArray = dataArray.recipe;// does not return the 
+    let recipeArray = dataArray.recipe;
 
     console.log("recipeArray=",recipeArray);
 
     for (const recipe of recipeArray) {
-        // https://lca.aau.dk/api/footprint/?flow_code=A_Pears&region_code=DK&version=v1.1.0
-
         // Convert to base64
         const jsonString = JSON.stringify(recipe);
         const base64String = btoa(jsonString);  // base64 encode
 
         if (recipe.flow_input === undefined) {
             recipe.flow_input = recipe.product_code;
-            jQuery('.emission-message').text('Where do emissions for 1 tonnes come from?');
+            jQuery('.emission-message').text('Where do emissions for 1 tonne of CO2eq come from?');
             jQuery('.emission-header-unit').text('[Tonnes CO2eq]');
         }
 
@@ -1261,8 +1173,6 @@ function adt_download_recipe_csv()
 function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray) 
 {
     const words = productTitleArray;
-    console.log("words=",words);
-
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
     const $suggestions = jQuery('#suggestions');
@@ -1270,11 +1180,9 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     let currentIndex = -1;
     let suggestionSelected = false;
     let chosenValuesArray = adt_get_chosen_values();
-    console.log("chosenValuesArray=",chosenValuesArray);
 
     $input.on('input', function () {
         const query = $input.val().toLowerCase();
-        console.log("query=",query);
         const matches = words
         .map((word, index) => ({ word, code: productCodeArray[index], uuid: productUuidArray[index] }))
         .filter(item => item.word.toLowerCase().includes(query));
@@ -1285,7 +1193,6 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         if (matches.length > 0 && query) {
             jQuery(this).css('border-radius', '50px 50px 0 0').css('border-bottom', 'none');
             $suggestionsWrapper.show();
-            console.log("matches=",matches);
 
             matches.forEach(match => {
                 const $div = jQuery('<div>')
@@ -1520,6 +1427,7 @@ function adt_initialize_local_search_history()
     });
 }
 
+//init get the first time the product 
 function adt_get_product_by_encoded_string()
 {
     const params = new URLSearchParams(window.location.search);
@@ -1533,21 +1441,12 @@ function adt_get_product_by_encoded_string()
     chosenValues['footprint_year'] = obj.footprint_year;
     chosenValues['database_version'] = obj.database_version;
 
-    // set preset values in the search form and select boxes
-    let typeValue = jQuery('#footprint-type input[name="footprint_type"]:checked').val();
-    let type = 'Cradle to gate';
-    
-    if (typeValue === 'market') {
-        type = 'Cradle to consumer';
-    }
-
     jQuery('#location').val(obj.footprint_location);
     jQuery('#year').val(obj.footprint_year);
     jQuery('#climate-metric').val('gwp100');
     jQuery('#database-version').val(obj.database_version);
-    // jQuery('#database-version option:selected').text(obj.database_version);
 
-    adt_get_product_info(obj.title, obj.code, obj.uuid, chosenValues);
+    adt_get_product_info(obj.title, obj.code, obj.uuid, chosenValues, true);
 }
 
 // Makes sure to run the function when users go back and forth in browser
@@ -1624,22 +1523,22 @@ function adt_uncertainty_calculation(original, comparison)
             numberUncertainty = parseFloat(numberUncertainty) * 100;
             numberUncertainty = Math.round(numberUncertainty * 100) / 100; // Round to two decimal places
 
-            jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('width', numberUncertainty+'%');
-            jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').attr('data-uncertainty', numberUncertainty+'%');
+            let uncertaintyBar = jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background');
+            uncertaintyBar.css('width', numberUncertainty+'%');
+            uncertaintyBar.attr('data-uncertainty', numberUncertainty+'%');
 
             jQuery('.uncertainty-wrapper').slideDown();
 
+            let colorBar = "";
             if (numberUncertainty < 80) {
-                jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('background-color', '#EB594E');
+                colorBar = '#EB594E';
+            } else if (numberUncertainty >= 80 && numberUncertainty < 90) {
+                colorBar = '#F5DA5A';
+            } else {
+                colorBar = '#C3F138';
             }
+            uncertaintyBar.css('background-color', colorBar);
 
-            if (numberUncertainty > 80 && numberUncertainty < 90) {
-                jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('background-color', '#F5DA5A');
-            }
-
-            if (numberUncertainty > 90) {
-                jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background').css('background-color', '#C3F138');
-            }
         }
     });
 }
@@ -1669,4 +1568,109 @@ function adt_push_parameter_to_url(text, code, uuid, chosenValuesArray)
 function capitalize(str) {
     if (!str) return '';
     return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+
+function setTileTitle(elementClass,dataArray){
+    jQuery(elementClass).each(function () {
+        if (!dataArray.all_data) {
+            jQuery(this).text('Emission per person');
+            jQuery(this).attr('data-code', dataArray.act_code);
+        } else {
+            jQuery(this).text(capitalize(dataArray.title));
+            jQuery(this).attr('data-code', dataArray.flow_code);
+        }
+    });
+}
+
+function setMaxValueMessage(element, defaultValue , classElement){
+    element.find('.amount').each(function () {
+    let inputElement = jQuery(this).closest('.col-inner');
+
+    jQuery('.amount', inputElement).on('input', function () {
+        let numberInput = parseInt(jQuery(this).val());
+        console.log("numberInput=",numberInput);
+        console.log("jQuery(this).val()=",jQuery(this).val());
+        let maxNumber = parseInt(jQuery(this).attr('max'));
+
+        if (isNaN(numberInput) || numberInput <= 0) {
+            numberInput = 0;
+        }
+
+        if (numberInput > maxNumber) {
+            numberInput = maxNumber;
+            jQuery(this).val(numberInput);
+            jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
+            setTimeout(() => {
+                jQuery('.error-message').fadeOut(c_animationDuration, function() {
+                    jQuery(this).remove();
+                });
+            }, 1000);
+        }
+
+        let calculatedValue = defaultValue * numberInput;
+
+        let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 3,
+            maximumFractionDigits: 3
+        }).format(calculatedValue);
+
+        jQuery('.search-result '+classElement+' .amount').val(numberInput);
+        jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
+    });
+});
+}
+
+function setUnitOptions(element, i, dataArray, unit_ref){
+    let unitList = [];
+
+    console.log("setUnit dataArray:",dataArray);
+    console.log("setUnit dataArray:",dataArray);
+    
+    if (unit_ref === 'DKK'){
+        unitList = [
+            {ratio:1e-6,label:"EUR"},
+            {ratio:1e-3,label:"kEUR"},
+            {ratio:1,label:"mEUR"},
+            {ratio:1,label:"DKK"},
+            {ratio:1e3,label:"kDKK"},
+            {ratio:1e6,label:"mDKK"}
+        ];
+    } else if (unit_ref === 'tonnes') {
+        unitList = [
+            {ratio:1,label:"kg"},
+            {ratio:1e-3,label:"g"},
+            {ratio:1e3,label:"tonne(s)"},
+        ];
+    } else if (unit_ref === 'MJ'){
+        if (dataArray.all_data[i].flow_code.includes('_elec') || dataArray.all_data[i].flow_code.includes('_POW')){
+            unitList = [
+                {ratio:1,label:"kWh"},
+            ];
+        } else {
+            unitList = [
+                {ratio:1,label:"MJ"},
+            ];
+        }
+    } else if (unit_ref === 'items'){
+            unitList = [
+                {ratio:1,label:"item(s)"},
+            ]
+    } else if (unit_ref === 'tonnes (service)'){
+            unitList = [
+                {ratio:1,label:"tonne(s) (service)"},
+            ]
+    }
+
+    for (const unit of unitList){
+        element.attr('data-set-' + i, dataArray.all_data[i].id);
+        element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
+    }
+
+    //todo hide for person
+    if (unitList.length>1 & element.find('.unit-arrow').length >0){
+        jQuery('.unit-arrow').each(function(index, arrow) {
+            arrow.style.display = 'block';
+        })
+    }
+
 }

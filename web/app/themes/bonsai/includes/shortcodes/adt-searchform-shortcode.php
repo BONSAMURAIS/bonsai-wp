@@ -196,7 +196,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                         <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="select-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                 </svg>
                             </label>
@@ -213,7 +213,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <select id="year">
                                     <option value="2016">2016</option>
                                 </select>
-                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="select-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                 </svg>
                             </label>    
@@ -230,7 +230,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <select id="climate-metric">
                                     <option value="gwp100">GWP100</option>
                                 </select>
-                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="select-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                 </svg>
                             </label>    
@@ -248,7 +248,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     <!-- <option value="v1.1.0">v1.1.0</option>
                                     <option value="v1.0.0">v1.0.0</option> -->
                                 </select>
-                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="select-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                 </svg>
                             </label>    
@@ -299,21 +299,22 @@ add_shortcode( 'adt_searchform', function($atts) {
             <div class="row align-equal search-result basic" style="display: flex;">
                 <div class="col medium-6 small-12 large-6">
                     <div class="col-inner">
-                        <p class="product-title"></p>
+                        <p id="main-tile-prod-title" class="product-title"></p>
                         <div class="product-tag-wrapper">
                         </div>
                         <div class="unit-select-wrapper">
                             <label class="select" for="amount">
-                                <input type="number" id="amount" class="amount" value="1" max="1000" min="1">
+                                <input type="number" id="amount" class="amount" value="1" max="999999" min="1" step="1">
                             </label>
                             <label class="select" for="unit">
                                 <select id="unit" class="unit"></select>
-                                <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <svg class="unit-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                 </svg>
                             </label>
-                            <p>equal</p>
                         </div>
+                        <br/>
+                        <p>produces</p>
                         <p class="product-result"></p>
                         <p class="product-result-unit"></p>
                         <div class="tooltip-wrapper">
@@ -342,16 +343,17 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 </div>
                                 <div class="unit-select-wrapper">
                                     <label class="select" for="amount">
-                                        <input type="number" id="amount" class="amount" value="1" max="1000" min="1" />
+                                        <input type="number" id="amount" class="amount" value="1" max="999999" min="1" step="1"/>
                                     </label>
                                     <label class="select" for="unit">
                                         <select id="unit" class="unit"></select>
-                                        <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <svg class="unit-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
                                         </svg>
                                     </label>
-                                    <p>equal</p>
                                 </div>
+                                <br/>
+                                <p>produces</p>
                             </div>
                             <div class="calculation-result">
                                 <p class="product-result"></p>

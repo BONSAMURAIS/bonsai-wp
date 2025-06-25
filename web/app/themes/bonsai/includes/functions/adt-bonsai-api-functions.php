@@ -248,8 +248,7 @@ function adt_get_bonsai_footprint_list() {
     }
 }
 
-function adt_delete_old_bonsai_products(array $updatedPostIds) 
-{
+function adt_delete_old_bonsai_products(array $updatedPostIds) {
     $args = array(
         'post_type'      => 'product',
         'posts_per_page' => -1,
@@ -265,8 +264,7 @@ function adt_delete_old_bonsai_products(array $updatedPostIds)
     }
 }
 
-function adt_get_locations(): array
-{
+function adt_get_locations(): array{
     // Check if the data is already cached
     $cachedLocations = get_transient('adt_locations_cache');
     
@@ -312,10 +310,9 @@ function adt_get_locations(): array
     return $locations;
 }
 
-function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion): array
-{
+function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion,$metric='GWP100'): array{
     // Get the whole recipe list for the product
-    $recipeUrl = 'https://lca.aau.dk/api/recipes/?flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion;
+    $recipeUrl = 'https://lca.aau.dk/api/recipes/?flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion.'&metric='.$metric;
     // error_log("test recipes");
     // error_log("recipeUrl=$recipeUrl");
     
@@ -332,16 +329,21 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion): a
     // Retrieve and decode the recipeResponse body
     $recipeBody = wp_remote_retrieve_body($recipeResponse);
     $recipeResult = json_decode($recipeBody, true);
-    $recipeResult = $recipeResult["results"];
+    $recipes = $recipeResult["results"];
+
+    //sort per value
+    usort($recipes, function ($a, $b) {
+        return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
+    });
     
     // Handle potential errors in the recipeResponse
-    if (empty($recipeResult)) {
+    if (empty($recipes)) {
         return [
             'error' => 'No recipes found or an error occurred.'
         ];
     }
     
-    return $recipeResult;
+    return $recipes;
 }
 
 
@@ -350,13 +352,13 @@ function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion): a
  * Use transient to store and get data, as a form of caching.
  * This will make sure we do not make too many requests to the API.
  */
-function adt_get_updated_recipe_info()
-{
+function adt_get_updated_recipe_info(){
     
     $unitInflow = $_POST['unitInflow'];
     $productCode = $_POST['productCode'];
     $chosenCountry = $_POST['country'];
     $newestVersion = $_POST['version'];
+    $metric = "GWP100";
 
     // Check if the data is already cached
     $cachedRecipe = get_transient('adt_recipe_cache');
@@ -367,7 +369,7 @@ function adt_get_updated_recipe_info()
     }
 
     // Need unitInflow
-    $url = 'https://lca.aau.dk/api/recipes/?unit_inflow='.$unitInflow.'&flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion;
+    $url = 'https://lca.aau.dk/api/recipes/?unit_inflow='.$unitInflow.'&flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion."&metric=".$metric;
     // Make the API request
     $response = wp_remote_get($url);
 
@@ -400,8 +402,7 @@ function adt_get_updated_recipe_info()
 add_action('wp_ajax_adt_get_updated_recipe_info', 'adt_get_updated_recipe_info');
 add_action('wp_ajax_nopriv_adt_get_updated_recipe_info', 'adt_get_updated_recipe_info');
 
-function adt_get_product_footprint()
-{
+function adt_get_product_footprint(){
     $productCode = $_POST['code'];
     $productUuid = $_POST['uuid'];
     $chosenCountry = $_POST['footprint_location'];
@@ -409,28 +410,27 @@ function adt_get_product_footprint()
     // Everything if from year 2016, but this might get updated.
     $chosenYear = $_POST['footprint_year'];
     $version = $_POST['database_version'];
+    $metric = 'GWP100';
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
 
     // If cache exists, return the cached data
     if ($cachedFootprints !== false) {
-        if (
-            array_key_exists($productCode, $cachedFootprints) 
+        if (array_key_exists($productCode, $cachedFootprints) 
             && $cachedFootprints[$productCode]['chosen_country'] === $chosenCountry
-            && $cachedFootprints[$productCode]['version'] === $version
-            ) {
+            && $cachedFootprints[$productCode]['version'] === $version) {
                 wp_send_json_success($cachedFootprints[$productCode]);
                 die();
             }
         }
         
     // API URL
-    $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry."&version=".$version;
+    $url = "https://lca.aau.dk/api/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry."&version=".$version."&metric=".$metric;
     
     // Make the API request
     $response = wp_remote_get($url);
-    error_log( "url=$url " );  
+    error_log( "get prod url=$url " );  
     error_log( "api call response=" );  
     error_log( print_r($response, true) );
     error_log("end api call");  
@@ -556,13 +556,14 @@ function adt_get_product_footprint()
                     # code...
                     break;
             }
+            // restrict  significant number to 3
+            $footprint['value'] = roundToSignificantFigures($footprint['value']);
 
             $chosenFootprint[] = $footprint;
         }
     }
 
     $recipeData = adt_get_product_recipe($productCode, $chosenCountry, $newestVersion);
-    $foodprintName = adt_get_footprint_name_by_code($productCode);
     
     $data = [
         'title' => $footprintTitle,
@@ -583,6 +584,10 @@ function adt_get_product_footprint()
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_recipe_cache', $cachedFootprintArray, 86400);
 
+    error_log("test get_prod foot");
+    error_log(json_encode($data));
+    error_log("test recipeData recipeData");
+    error_log(json_encode($recipeData));
     wp_send_json_success($data);
 }
 
@@ -594,4 +599,21 @@ function adt_get_newest_version(array $versions): string
 {
     usort($versions, 'version_compare');
     return end($versions);
+}
+
+function roundToSignificantFigures($num, $sigFigs = 3) {
+    if ($num == 0) {
+        return '0';
+    }
+
+    $d = floor(log10(abs($num)));
+    $power = $sigFigs - 1 - $d;
+    $magnitude = pow(10, $power);
+    $rounded = round($num * $magnitude) / $magnitude;
+
+    // Calculate number of decimal places to display
+    $decimals = max(0, $sigFigs - 1 - floor(log10(abs($rounded))));
+    
+    // Format to the right number of decimal places
+    return number_format($rounded, $decimals, '.', '');
 }
