@@ -1617,6 +1617,9 @@ function setMaxValueMessage(element, defaultValue , classElement){
 
 function setUnitOptions(element, i, dataArray, unit_ref){
     let unitList = [];
+
+    console.log("setUnit dataArray:",dataArray);
+    console.log("setUnit dataArray:",dataArray);
     
     if (unit_ref === 'DKK'){
         unitList = [
@@ -1633,7 +1636,7 @@ function setUnitOptions(element, i, dataArray, unit_ref){
             {ratio:1e-3,label:"g"},
             {ratio:1e3,label:"tonne(s)"},
         ];
-    } else if (unit_ref === 'TJ'){
+    } else if (unit_ref === 'MJ'){
         if (dataArray.all_data[i].description.includes('electricity')){
             unitList = [
                 {ratio:1,label:"kWh"},
