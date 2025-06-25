@@ -1669,7 +1669,7 @@ function setUnitOptions(element, i, dataArray, unit_ref){
         element.attr('data-set-' + i, dataArray.all_data[i].id);
         element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
         console.log("element.find('select.unit').children(':nth-child(2)')=");
-        console.log(element.find('select.unit').children(':nth-child(2)'));
+        console.log(element.find('select.unit').nextElementSibling);
         element.find('select.unit').children(':nth-child(2)').show();
     }
 
