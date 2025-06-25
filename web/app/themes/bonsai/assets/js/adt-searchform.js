@@ -1630,8 +1630,8 @@ function setUnitOptions(element, i, dataArray, unit_ref){
         ];
     } else if (unit_ref === 'tonnes') {
         unitList = [
-            {ratio:1e-3,label:"g"},
             {ratio:1,label:"kg"},
+            {ratio:1e-3,label:"g"},
             {ratio:1e3,label:"tonne(s)"},
         ];
     } else if (unit_ref === 'TJ'){
