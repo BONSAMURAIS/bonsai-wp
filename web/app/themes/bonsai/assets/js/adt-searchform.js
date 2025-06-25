@@ -1,5 +1,5 @@
 jQuery(document).ready(function($){
-    console.log("TEST TEST")
+    console.log(" ")
     c_animationDuration = 500;
     c_unit_kgco2 = 'kg CO2eq';
 
