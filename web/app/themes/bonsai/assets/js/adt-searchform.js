@@ -642,9 +642,14 @@ async function adt_update_original_info(dataArray) {
                         console.log("item=",item)
                         console.log("item.value=",item.value)
                         console.log("item.value*ratio=",item.value*unitRatio)
-                        if (unitRatio_name.includes("DKK") & item.unit_reference == "DKK"){ //TODO to rafactor
-                            valueForItems = item.value*unitRatio*currentAmount;
-                            break;
+                        if (item.unit_reference == "DKK"){
+                            if (unitRatio_name.includes("DKK")){ //TODO to rafactor
+                                valueForItems = item.value*unitRatio*currentAmount;
+                                break;
+                            } else if (unitRatio_name.includes("EUR")){
+                                valueForItems = item.value*unitRatio*currentAmount;
+                                break;
+                            }
                         }
                         valueForItems = item.value*unitRatio*currentAmount;
                     }
