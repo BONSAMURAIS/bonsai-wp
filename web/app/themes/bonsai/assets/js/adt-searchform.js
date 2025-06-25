@@ -6,7 +6,7 @@ jQuery(document).ready(function($){
     $('label.select').each(function() {
         let listOptions = $(this).find('option');
         if (listOptions.length <= 1){
-            let arrowImg = $(this).children(':nth-child(2)')
+            let arrowImg = $(this).children(':nth-child(2)');
             arrowImg.hide();
             $(this).prop('disabled', true);
         }
@@ -1666,9 +1666,9 @@ function setUnitOptions(element, i, dataArray, unit_ref){
     console.log("unitList=",unitList);
     console.log("element=",element);
     for (const unit of unitList){
-        console.log("unit=",unit);
         element.attr('data-set-' + i, dataArray.all_data[i].id);
         element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
+        element.find('select.unit').children(':nth-child(2)').show();
     }
 
 }
