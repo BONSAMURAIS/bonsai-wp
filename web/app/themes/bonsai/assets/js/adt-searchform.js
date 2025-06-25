@@ -82,7 +82,6 @@ jQuery(document).ready(function($){
     let productCodeArray = [];
     let productUuidArray = [];
     let chosenFootprintType = $('#footprint-type input[name="footprint_type"]:checked').val();
-    console.log("searchform=",searchform)
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
     $(searchform.products).each(function() {
