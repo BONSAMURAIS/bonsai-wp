@@ -631,7 +631,7 @@ async function adt_update_original_info(dataArray) {
                 console.log("unitRatio =",unitRatio)
                 console.log("amount=",jQuery('.search-result .col:first-child .amount').val())
                 
-                jQuery('.search-result .col:first-child .amount').val('1');
+                // jQuery('.search-result .col:first-child .amount').val('1');
                 jQuery('.search-result .col:first-child select.unit').each(async function () {
                     jQuery(this).val(unitRatio);
                     let newElement = jQuery(this).closest('.col-inner');
