@@ -30,6 +30,9 @@ function adt_fetch_gitlab_issues() {
     // Get the response body
     $body = wp_remote_retrieve_body($response);
 
+    error_log("git error body");
+    error_log($body);
+
     // Parse the JSON response
     $issues = json_decode($body, true);
 
