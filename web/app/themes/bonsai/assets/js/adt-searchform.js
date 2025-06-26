@@ -529,6 +529,7 @@ function adt_update_tags(boxToUpdate){
     }
     console.log("updating tags")
     console.log("type=",type)
+    console.log("jQuery(this)=",jQuery(this))
 
     jQuery('.search-result > .col'+whichChild+' .product-tag.footprint-type').each(function() {
         jQuery(this).text(type);
