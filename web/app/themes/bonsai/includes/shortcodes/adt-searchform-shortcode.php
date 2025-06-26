@@ -302,10 +302,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div class="col-inner">
                         <p id="main-tile-prod-title" class="product-title"></p>
                         <div class="product-tag-wrapper">
-                            <span class="product-tag"></span>
-                            <span class="product-tag"></span>
-                            <span class="product-tag"></span>
-                            <span class="product-tag"></span>
+                            <span class="product-tag footprint-type"></span>
+                            <span class="product-tag climate-metrics"></span>
+                            <span class="product-tag year"></span>
+                            <span class="product-tag country"></span>
+                            <span class="product-tag version"></span>
                         </div>
                         <div class="unit-select-wrapper">
                             <label class="select" for="amount">
