@@ -228,7 +228,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </div>
                             <label class="select" for="climate-metric">
                                 <select id="climate-metric">
-                                    <option value="gwp100">GWP100</option>
+                                    <option value="GWP100">GWP100</option>
+                                    <option value="GTP20">GTP20</option>
                                 </select>
                                 <svg class="select-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
@@ -301,6 +302,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div class="col-inner">
                         <p id="main-tile-prod-title" class="product-title"></p>
                         <div class="product-tag-wrapper">
+                            <span class="product-tag footprint-type"></span>
+                            <span class="product-tag climate-metrics"></span>
+                            <span class="product-tag year"></span>
+                            <span class="product-tag country"></span>
+                            <span class="product-tag version"></span>
                         </div>
                         <div class="unit-select-wrapper">
                             <label class="select" for="amount">
@@ -340,6 +346,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <div class="choices">
                                 <p class="product-title"></p>
                                 <div class="product-tag-wrapper">
+                                    <span class="product-tag footprint-type"></span>
+                                    <span class="product-tag climate-metrics"></span>
+                                    <span class="product-tag year"></span>
+                                    <span class="product-tag country"></span>
+                                    <span class="product-tag version"></span>
                                 </div>
                                 <div class="unit-select-wrapper">
                                     <label class="select" for="amount">
