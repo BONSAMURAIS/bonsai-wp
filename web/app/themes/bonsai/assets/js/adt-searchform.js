@@ -144,7 +144,7 @@ jQuery(document).ready(function($){
         // Because the user would need to search for a new product
         let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
         if (compareButtons.length == 0) {
-            // adt_update_tags('comparison');
+            adt_update_tags('comparison');
             return;
         }
 
@@ -676,6 +676,8 @@ async function adt_update_original_info(dataArray) {
         
         setMaxValueMessage($element, defaultValue, '.col:first-child');
     }
+
+    console.log("test")
 
     adt_update_tags('original');
 
