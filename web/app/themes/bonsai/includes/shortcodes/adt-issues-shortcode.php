@@ -40,6 +40,7 @@ function adt_issues_shortcode() {
     </div>
 
     <?php 
+    error_log("test git issues")
     $openedIssues = 0;
     $closedIssues = 0;
 
