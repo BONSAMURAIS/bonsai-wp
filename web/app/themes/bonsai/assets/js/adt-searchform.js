@@ -1301,7 +1301,7 @@ function adt_switch_between_recipe_items()
         chosenValues['footprint_location'] = jQuery(this).data('country');
 
         console.log('Make sure this only run once!');
-        adt_get_product_info(productTitle, productCode, productUuid, chosenValues, true);
+        adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
         
         // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
         const href = jQuery(this).attr('href');
