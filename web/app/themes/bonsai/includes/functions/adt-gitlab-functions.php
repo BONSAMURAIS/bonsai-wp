@@ -6,7 +6,7 @@ use Roots\WPConfig\Config;
 
 function adt_fetch_gitlab_issues() {
     $project_id = '<project-id>'; // Replace with your GitLab project ID
-    // $project_id = rawurlencode('bonsamurais/bonsai');
+    $project_id = rawurlencode('bonsamurais/bonsai');
     // $project_id = rawurlencode('bonsamurais/bonsai/build/footprint_calculator');
     $project_id = rawurlencode('bonsamurais/bonsai/bug-report-website');
     $access_token = Config::get('GITLAB_TOKEN'); // Replace with your GitLab Personal Access Token
