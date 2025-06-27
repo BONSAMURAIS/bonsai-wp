@@ -34,12 +34,14 @@ function adt_issues_shortcode() {
         <input type="text" id="search" placeholder="Search issues" />
         <input type="text" id="labels" placeholder="Labels" readonly />
         <input type="text" id="milestones" placeholder="Milestones" readonly />
-        <a href="https://gitlab.com/bonsamurais/bonsai/build/footprint_calculator/-/issues/new" class="button primary" target="_blank">  
+        <a href="https://gitlab.com/bonsamurais/bonsai/bug-report-website/-/issues/new" class="button primary" target="_blank">  
+            
             New issue
         </a>
     </div>
 
     <?php 
+    error_log("test git issues");
     $openedIssues = 0;
     $closedIssues = 0;
 

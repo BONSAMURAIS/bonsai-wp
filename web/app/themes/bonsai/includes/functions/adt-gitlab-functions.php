@@ -7,7 +7,8 @@ use Roots\WPConfig\Config;
 function adt_fetch_gitlab_issues() {
     $project_id = '<project-id>'; // Replace with your GitLab project ID
     $project_id = rawurlencode('bonsamurais/bonsai');
-    $project_id = rawurlencode('bonsamurais/bonsai/build/footprint_calculator');
+    // $project_id = rawurlencode('bonsamurais/bonsai/build/footprint_calculator');
+    $project_id = rawurlencode('bonsamurais/bonsai/bug-report-website');
     $access_token = Config::get('GITLAB_TOKEN'); // Replace with your GitLab Personal Access Token
     $api_url = "https://gitlab.com/api/v4/projects/{$project_id}/issues";
     // GET https://gitlab.com/api/v4/projects/bonsamurais%2Fbonsai/issues
@@ -29,6 +30,9 @@ function adt_fetch_gitlab_issues() {
 
     // Get the response body
     $body = wp_remote_retrieve_body($response);
+
+    error_log("git error body");
+    error_log($body);
 
     // Parse the JSON response
     $issues = json_decode($body, true);
