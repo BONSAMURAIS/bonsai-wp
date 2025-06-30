@@ -1057,12 +1057,13 @@ async function adt_update_recipe(dataArray, boxToUpdate)
             // }).format(recipe.value_inflow);
             updatedInflow = Number(recipe.value_inflow.toPrecision(3));
         }
-
+        
         if (recipe.value_emission && recipe.value_emission !== NaN) {
-            recipe.value_emission = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 3,
-                maximumFractionDigits: 3
-            }).format(recipe.value_emission);
+            // = new Intl.NumberFormat('en-US', {
+            //     minimumFractionDigits: 3,
+            //     maximumFractionDigits: 3
+            // }).format(recipe.value_emission);
+            recipe.value_emission = Number(recipe.value_emission.toPrecision(3));
         }
 
         rowMarkup += '<span class="inflow-value">' + (updatedInflow ? updatedInflow : '') + '</span>';
