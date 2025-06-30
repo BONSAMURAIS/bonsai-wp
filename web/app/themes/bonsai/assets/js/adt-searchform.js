@@ -1,6 +1,7 @@
 jQuery(document).ready(function($){
     c_animationDuration = 500;
     c_unit_kgco2 = 'kg CO2eq';
+    c_sig_nb = 3;
 
     $('label.select').each(function() {
         let listOptions = $(this).find('option');
@@ -1058,7 +1059,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
             //     minimumFractionDigits: 3,
             //     maximumFractionDigits: 3
             // }).format(recipe.value_inflow);
-            updatedInflow = Number(recipe.value_inflow.toPrecision(3));
+            updatedInflow = Number(recipe.value_inflow.toPrecision(c_sig_nb));
         }
         
         if (recipe.value_emission && recipe.value_emission !== NaN) {
@@ -1066,7 +1067,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
             //     minimumFractionDigits: 3,
             //     maximumFractionDigits: 3
             // }).format(recipe.value_emission);
-            recipe.value_emission = Number(recipe.value_emission.toPrecision(3));
+            recipe.value_emission = Number(recipe.value_emission.toPrecision(c_sig_nb));
         }
 
         rowMarkup += '<span class="inflow-value">' + (updatedInflow ? updatedInflow : '') + '</span>';
