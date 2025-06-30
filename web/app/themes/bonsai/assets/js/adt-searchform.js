@@ -1051,10 +1051,11 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         rowMarkup += '<td class="input-flow">';
 
         if (recipe.value_inflow && recipe.value_inflow !== NaN) {
-            updatedInflow = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 3,
-                maximumFractionDigits: 3
-            }).format(recipe.value_inflow);
+            // updatedInflow = new Intl.NumberFormat('en-US', {
+            //     minimumFractionDigits: 3,
+            //     maximumFractionDigits: 3
+            // }).format(recipe.value_inflow);
+            updatedInflow = Number(recipe.value_inflow.toPrecision(3));
         }
 
         if (recipe.value_emission && recipe.value_emission !== NaN) {
