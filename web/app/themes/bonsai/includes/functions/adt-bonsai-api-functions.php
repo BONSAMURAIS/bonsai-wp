@@ -290,12 +290,12 @@ function adt_get_locations(): array{
 
     // Handle potential errors in the response
     if (empty($result)) {
-        return 'We’re sorry, but there was a problem with an external service provider.  
-Please try again later, or contact support if the issue persists.';
+        return wp_send_json_error(['We’re sorry, but there was a problem with an external service provider.  
+Please try again later, or contact support if the issue persists.']);
     }
 
     if (array_key_exists('detail', $result)) {
-        return 'Error: ' . $result['detail'];
+        return wp_send_json_error(['Error: ' . $result['detail']]);
     }
 
     // Extract locations from the response
@@ -441,7 +441,7 @@ function adt_get_product_footprint(){
     
     // Check for errors
     if (is_wp_error($response)) {
-        return 'Error: ' . $response->get_error_message();
+        return wp_send_json_error(['Error: ' . $response->get_error_message()]);
     }
     
     // Retrieve and decode the response body
