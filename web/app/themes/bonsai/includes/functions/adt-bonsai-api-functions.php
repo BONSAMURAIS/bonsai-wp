@@ -290,8 +290,8 @@ function adt_get_locations(): array{
 
     // Handle potential errors in the response
     if (empty($result)) {
-        return wp_send_json_error(['We’re sorry, but there was a problem with an external service provider.  
-Please try again later, or contact support if the issue persists.']);
+        return ['We’re sorry, but there was a problem with an external service provider.  
+Please try again later, or contact support if the issue persists.'];
     }
 
     if (array_key_exists('detail', $result)) {
