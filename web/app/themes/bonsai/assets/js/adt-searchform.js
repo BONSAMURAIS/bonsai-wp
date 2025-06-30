@@ -90,6 +90,9 @@ jQuery(document).ready(function($){
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
     $(searchform.products).each(function() {
+        if (this.code.toLowerCase() == "M_Beef_ons".toLowerCase() || this.code.toLowerCase() == "C_Beef_ons".toLowerCase()){
+            return true;
+        }
         if (chosenFootprintType === "product" && this.code.includes("M_")) {
             return true;
         }
