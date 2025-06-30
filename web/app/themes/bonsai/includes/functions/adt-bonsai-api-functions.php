@@ -290,7 +290,8 @@ function adt_get_locations(): array{
 
     // Handle potential errors in the response
     if (empty($result)) {
-        return 'No locations found or an error occurred.';
+        return 'We’re sorry, but there was a problem with an external service provider.  
+Please try again later, or contact support if the issue persists.';
     }
 
     if (array_key_exists('detail', $result)) {
@@ -432,10 +433,10 @@ function adt_get_product_footprint(){
     
     // Make the API request
     $response = wp_remote_get($url);
-    error_log( "get prod url=$url " );  
-    error_log( "api call response=" );  
-    error_log( print_r($response, true) );
-    error_log("end api call");  
+    // error_log( "get prod url=$url " );  
+    // error_log( "api call response=" );  
+    // error_log( print_r($response, true) );
+    // error_log("end api call");  
 
     
     // Check for errors
