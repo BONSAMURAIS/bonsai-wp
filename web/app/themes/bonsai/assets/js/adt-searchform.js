@@ -1633,8 +1633,6 @@ function setMaxValueMessage(element, defaultValue , classElement){
 
     jQuery('.amount', inputElement).on('input', function () {
         let numberInput = parseInt(jQuery(this).val());
-        console.log("numberInput=",numberInput);
-        console.log("jQuery(this).val()=",jQuery(this).val());
         let maxNumber = parseInt(jQuery(this).attr('max'));
 
         if (isNaN(numberInput) || numberInput <= 0) {
@@ -1653,26 +1651,33 @@ function setMaxValueMessage(element, defaultValue , classElement){
         }
 
         let calculatedValue = defaultValue * numberInput;
-        let formattedCalculatedValue = Number(calculatedValue).toPrecision(c_sig_nb);
+        let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: c_sig_nb,
+            maximumFractionDigits: c_sig_nb
+        }).format(calculatedValue);
 
         jQuery('.search-result '+classElement+' .amount').val(numberInput);
         jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
-        // resizeTextToFit();
+        jQuery('.search-result '+classElement+' .product-result').css("width","fit-content");
+        resizeTextToFit(classElement);
     });
 });
 }
 
-function resizeTextToFit() {
-  const text = jQuery('.search-result '+classElement+' .product-result');
-  const parent = jQuery('.search-result '+classElement+' .product-result').parent();
+function resizeTextToFit(classElement) {
+    const textList = jQuery('.search-result '+classElement+' .product-result');
+    const parent = jQuery('.search-result '+classElement+' .product-result').parent();
+    let fontSize = 60;
 
-  let fontSize = 60;
-  text.style.fontSize = fontSize + "px";
+    textList.each(function(index, text) { 
 
-  while (text.offsetWidth > parent.offsetWidth && fontSize > 1) {
-    fontSize -= 1;
-    text.style.fontSize = fontSize + "px";
-  }
+        text.style.fontSize = fontSize + "px";
+        
+        while (text.offsetWidth > 300 && fontSize > 1) {
+            fontSize -= 1;
+            text.style.fontSize = fontSize + "px";
+        }
+    });
 }
 
 
