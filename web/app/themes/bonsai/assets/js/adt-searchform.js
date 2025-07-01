@@ -1633,8 +1633,6 @@ function setMaxValueMessage(element, defaultValue , classElement){
 
     jQuery('.amount', inputElement).on('input', function () {
         let numberInput = parseInt(jQuery(this).val());
-        console.log("numberInput=",numberInput);
-        console.log("jQuery(this).val()=",jQuery(this).val());
         let maxNumber = parseInt(jQuery(this).attr('max'));
 
         if (isNaN(numberInput) || numberInput <= 0) {
@@ -1661,7 +1659,7 @@ function setMaxValueMessage(element, defaultValue , classElement){
         jQuery('.search-result '+classElement+' .amount').val(numberInput);
         jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
         jQuery('.search-result '+classElement+' .product-result').css("width","fit-content");
-        // resizeTextToFit(classElement);
+        resizeTextToFit(classElement);
     });
 });
 }
