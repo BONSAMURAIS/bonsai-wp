@@ -1660,6 +1660,7 @@ function setMaxValueMessage(element, defaultValue , classElement){
 
         jQuery('.search-result '+classElement+' .amount').val(numberInput);
         jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
+        jQuery('.search-result '+classElement+' .product-result').css("width","fit-content");
         // resizeTextToFit(classElement);
     });
 });
