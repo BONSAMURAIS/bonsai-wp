@@ -1660,12 +1660,12 @@ function setMaxValueMessage(element, defaultValue , classElement){
 
         jQuery('.search-result '+classElement+' .amount').val(numberInput);
         jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
-        resizeTextToFit();
+        resizeTextToFit(classElement);
     });
 });
 }
 
-function resizeTextToFit() {
+function resizeTextToFit(classElement) {
   const text = jQuery('.search-result '+classElement+' .product-result');
   const parent = jQuery('.search-result '+classElement+' .product-result').parent();
 
