@@ -1653,11 +1653,7 @@ function setMaxValueMessage(element, defaultValue , classElement){
         }
 
         let calculatedValue = defaultValue * numberInput;
-
-        let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
-            minimumFractionDigits: 3,
-            maximumFractionDigits: 3
-        }).format(calculatedValue);
+        let formattedCalculatedValue = Number(calculatedValue).toPrecision(c_sig_nb);
 
         jQuery('.search-result '+classElement+' .amount').val(numberInput);
         jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
