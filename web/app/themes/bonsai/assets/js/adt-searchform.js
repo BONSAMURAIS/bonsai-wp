@@ -1677,7 +1677,7 @@ function resizeTextToFit(classElement) {
     textList.each(function(index, text) { 
         text.style.fontSize = fontSize + "px";
 
-        while (text.offsetWidth > parent.offsetWidth && fontSize > 1) {
+        while (text.offsetWidth > parent[0].offsetWidth && fontSize > 1) {
             fontSize -= 1;
             text.style.fontSize = fontSize + "px";
         }
