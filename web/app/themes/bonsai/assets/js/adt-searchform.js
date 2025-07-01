@@ -1673,7 +1673,7 @@ function resizeTextToFit(classElement) {
     console.log("textList=",textList);
     console.log("parent=",parent);
 
-    textList.forEach(function(text) { 
+    textList.each(function(index, text) { 
         text.style.fontSize = fontSize + "px";
 
         while (text.offsetWidth > parent.offsetWidth && fontSize > 1) {
