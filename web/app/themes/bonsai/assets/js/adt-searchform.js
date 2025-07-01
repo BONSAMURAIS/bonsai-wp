@@ -1681,7 +1681,7 @@ function resizeTextToFit(classElement) {
         console.log("text.width =",text.width);
         text.style.fontSize = fontSize + "px";
         
-        while (text.offsetWidth > parent[0].offsetWidth && fontSize > 1) {
+        while (text.offsetWidth > 300 && fontSize > 1) {
             fontSize -= 1;
             text.style.fontSize = fontSize + "px";
         }
