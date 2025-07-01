@@ -1669,23 +1669,14 @@ function resizeTextToFit(classElement) {
     const parent = jQuery('.search-result '+classElement+' .product-result').parent();
     let fontSize = 60;
 
-    console.log("textList=",textList);
-    console.log("parent=",parent);
-    console.log("parent[0]=",parent[0]);
-    console.log("parent[0].offsetWidth=",parent[0].offsetWidth);
-    console.log("parent[0].scrollWidth=",parent[0].scrollWidth);
-    
     textList.each(function(index, text) { 
-        console.log("text.offsetWidth =",text.offsetWidth);
-        console.log("text.scrollWidth =",text.scrollWidth);
-        console.log("text.width =",text.width);
+
         text.style.fontSize = fontSize + "px";
         
         while (text.offsetWidth > 300 && fontSize > 1) {
             fontSize -= 1;
             text.style.fontSize = fontSize + "px";
         }
-        console.log("after text.offsetWidth =",text.offsetWidth);
     });
 }
 
