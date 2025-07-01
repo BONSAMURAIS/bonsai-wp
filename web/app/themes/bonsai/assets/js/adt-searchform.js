@@ -125,6 +125,9 @@ jQuery(document).ready(function($){
         productUuidArray = [];
 
         $(searchform.products).each(function() {
+            if (this.code.toLowerCase() == "M_Beef_ons".toLowerCase() || this.code.toLowerCase() == "C_Beef_ons".toLowerCase()){
+                return true;
+            }
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
                 return true;
             } else if (
@@ -139,7 +142,7 @@ jQuery(document).ready(function($){
             }
             
             productTitleArray.push(this.title);
-            productContentArray.push(this.content);
+            productContentArray.push(this.content); //ici
             productCodeArray.push(this.code);
             productUuidArray.push(this.uuid);    
         });
