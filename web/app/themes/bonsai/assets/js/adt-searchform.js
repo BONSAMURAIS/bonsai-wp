@@ -1668,7 +1668,7 @@ function setMaxValueMessage(element, defaultValue , classElement){
 function resizeTextToFit(classElement) {
   const text = jQuery('.search-result '+classElement+' .product-result');
   const parent = jQuery('.search-result '+classElement+' .product-result').parent();
-
+  console.log(text)
   let fontSize = 60;
   text.style.fontSize = fontSize + "px";
 
