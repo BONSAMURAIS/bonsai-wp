@@ -1677,14 +1677,15 @@ function resizeTextToFit(classElement) {
     
     textList.each(function(index, text) { 
         console.log("text.offsetWidth =",text.offsetWidth);
+        console.log("text.width =",text.width);
         text.style.fontSize = fontSize + "px";
         
         while (text.offsetWidth > parent[0].offsetWidth && fontSize > 1) {
             fontSize -= 1;
             text.style.fontSize = fontSize + "px";
         }
+        console.log("after text.offsetWidth =",text.offsetWidth);
     });
-    console.log("after text.offsetWidth =",text.offsetWidth);
 }
 
 
