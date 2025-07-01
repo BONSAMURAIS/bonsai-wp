@@ -1653,11 +1653,14 @@ function setMaxValueMessage(element, defaultValue , classElement){
         }
 
         let calculatedValue = defaultValue * numberInput;
-        let formattedCalculatedValue = Number(calculatedValue).toPrecision(c_sig_nb);
+        let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: c_sig_nb,
+            maximumFractionDigits: c_sig_nb
+        }).format(calculatedValue);
 
         jQuery('.search-result '+classElement+' .amount').val(numberInput);
         jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
-        // resizeTextToFit();
+        resizeTextToFit();
     });
 });
 }
