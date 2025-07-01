@@ -1657,9 +1657,24 @@ function setMaxValueMessage(element, defaultValue , classElement){
 
         jQuery('.search-result '+classElement+' .amount').val(numberInput);
         jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
+        resizeTextToFit();
     });
 });
 }
+
+function resizeTextToFit() {
+  const text = jQuery('.search-result '+classElement+' .product-result');
+  const parent = jQuery('.search-result '+classElement+' .product-result').parent();
+
+  let fontSize = 60;
+  text.style.fontSize = fontSize + "px";
+
+  while (text.offsetWidth > parent.offsetWidth && fontSize > 1) {
+    fontSize -= 1;
+    text.style.fontSize = fontSize + "px";
+  }
+}
+
 
 function setUnitOptions(element, i, dataArray, unit_ref){
     let unitList = [];
