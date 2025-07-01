@@ -638,6 +638,8 @@ async function adt_update_original_info(dataArray) {
                 valueForItems = convertedValueForItems;
             }
             
+            console.log("test")
+            console.log(valueForItems)
             let formatted = valueForItems.toPrecision(c_sig_nb);
             
             // let formatted = new Intl.NumberFormat('en-US', {
