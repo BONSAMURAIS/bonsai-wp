@@ -607,7 +607,7 @@ async function adt_update_original_info(dataArray) {
             
             // Just let the first item be default instead of null
             let valueForItems = dataArray.value;
-            let formatted = valueForItems.toPrecision(c_sig_nb);
+            let formatted = Number(valueForItems).toPrecision(c_sig_nb);
             
             // let formatted = new Intl.NumberFormat('en-US', {
             //     minimumFractionDigits: 3,
@@ -640,7 +640,7 @@ async function adt_update_original_info(dataArray) {
             
             console.log("test")
             console.log(valueForItems)
-            let formatted = valueForItems.toPrecision(c_sig_nb);
+            let formatted = Number(valueForItems).toPrecision(c_sig_nb);
             
             // let formatted = new Intl.NumberFormat('en-US', {
             //     minimumFractionDigits: 3,
@@ -682,7 +682,7 @@ async function adt_update_original_info(dataArray) {
                         valueForItems = item.value*unitRatio*currentAmount;
                     }
 
-                  let formatted = valueForItems.toPrecision(c_sig_nb);
+                  let formatted = Number(valueForItems).toPrecision(c_sig_nb);
                     
                     // let formatted = new Intl.NumberFormat('en-US', {
                     //     minimumFractionDigits: 3,
@@ -819,7 +819,7 @@ async function adt_update_comparison_info(dataArray = null){
             if (convertedValueForItems) {
                 valueForItems = convertedValueForItems;
             }
-            let formatted = valueForItems.toPrecision(c_sig_nb);
+            let formatted = Number(valueForItems).toPrecision(c_sig_nb);
 
             // let formatted = new Intl.NumberFormat('en-US', {
             //     minimumFractionDigits: 3,
@@ -849,7 +849,7 @@ async function adt_update_comparison_info(dataArray = null){
                         valueForItems = item.value*unitRatio*currentAmount;
                     }
   
-                let formatted = valueForItems.toPrecision(c_sig_nb);
+                let formatted = Number(valueForItems).toPrecision(c_sig_nb);
                     
                     // let formatted = new Intl.NumberFormat('en-US', {
                     //     minimumFractionDigits: 3,
@@ -883,7 +883,7 @@ async function adt_update_comparison_info(dataArray = null){
                 // Just let the first item be default instead of null
                 let valueForItems = dataArray.value;
 
-                let formatted = valueForItems.toPrecision(c_sig_nb);
+                let formatted = Number(valueForItems).toPrecision(c_sig_nb);
 
                 // let formatted = new Intl.NumberFormat('en-US', {
                 //     minimumFractionDigits: 3,
@@ -918,7 +918,7 @@ async function adt_update_comparison_info(dataArray = null){
                     valueForItems = convertedValueForItems;
                 }
 
-                let formatted = valueForItems.toPrecision(c_sig_nb);
+                let formatted = Number(valueForItems).toPrecision(c_sig_nb);
                 // new Intl.NumberFormat('en-US', {
                 //     minimumFractionDigits: 3,
                 //     maximumFractionDigits: 3
@@ -954,7 +954,7 @@ async function adt_update_comparison_info(dataArray = null){
                         //     minimumFractionDigits: 3,
                         //     maximumFractionDigits: 3
                         // }).format(valueForItems);
-                        let formatted = valueForItems.toPrecision(c_sig_nb);
+                        let formatted = Number(valueForItems).toPrecision(c_sig_nb);
 
 
                         jQuery(newElement).find('.product-result').text(formatted);
