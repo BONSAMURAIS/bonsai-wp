@@ -1,6 +1,7 @@
 jQuery(document).ready(function($){
     c_animationDuration = 500;
     c_unit_kgco2 = 'kg CO2eq';
+    c_sig_nb = 3;
 
     $('label.select').each(function() {
         let listOptions = $(this).find('option');
@@ -90,6 +91,9 @@ jQuery(document).ready(function($){
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
     $(searchform.products).each(function() {
+        if (this.code.toLowerCase() == "M_Beef_ons".toLowerCase() || this.code.toLowerCase() == "C_Beef_ons".toLowerCase() ){//|| this.code.toLowerCase() == "M_Beef_veal".toLowerCase() ){
+            return true;
+        }
         if (chosenFootprintType === "product" && this.code.includes("M_")) {
             return true;
         }
@@ -121,6 +125,9 @@ jQuery(document).ready(function($){
         productUuidArray = [];
 
         $(searchform.products).each(function() {
+        if (this.code.toLowerCase() == "M_Beef_ons".toLowerCase() || this.code.toLowerCase() == "C_Beef_ons".toLowerCase() ){//|| this.code.toLowerCase() == "M_Beef_veal".toLowerCase() ){
+                return true;
+            }
             if (chosenFootprintType === "product" && this.code.includes("M_")) {
                 return true;
             } else if (
@@ -135,7 +142,7 @@ jQuery(document).ready(function($){
             }
             
             productTitleArray.push(this.title);
-            productContentArray.push(this.content);
+            productContentArray.push(this.content); //ici
             productCodeArray.push(this.code);
             productUuidArray.push(this.uuid);    
         });
@@ -600,11 +607,12 @@ async function adt_update_original_info(dataArray) {
             
             // Just let the first item be default instead of null
             let valueForItems = dataArray.value;
+            let formatted = Number(valueForItems).toPrecision(c_sig_nb);
             
-            let formatted = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 3,
-                maximumFractionDigits: 3
-            }).format(valueForItems);
+            // let formatted = new Intl.NumberFormat('en-US', {
+            //     minimumFractionDigits: 3,
+            //     maximumFractionDigits: 3
+            // }).format(valueForItems);
             
             $element.find('.product-result').text(formatted);
             defaultValue = valueForItems;
@@ -630,10 +638,14 @@ async function adt_update_original_info(dataArray) {
                 valueForItems = convertedValueForItems;
             }
             
-            let formatted = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 3,
-                maximumFractionDigits: 3
-            }).format(valueForItems);
+            console.log("test")
+            console.log(valueForItems)
+            let formatted = Number(valueForItems).toPrecision(c_sig_nb);
+            
+            // let formatted = new Intl.NumberFormat('en-US', {
+            //     minimumFractionDigits: 3,
+            //     maximumFractionDigits: 3
+            // }).format(valueForItems);
             
             $element.find('.product-result').text(formatted);
             defaultValue = parseFloat($element.find('.product-result').text());
@@ -669,11 +681,13 @@ async function adt_update_original_info(dataArray) {
                         }
                         valueForItems = item.value*unitRatio*currentAmount;
                     }
+
+                  let formatted = Number(valueForItems).toPrecision(c_sig_nb);
                     
-                    let formatted = new Intl.NumberFormat('en-US', {
-                        minimumFractionDigits: 3,
-                        maximumFractionDigits: 3
-                    }).format(valueForItems);
+                    // let formatted = new Intl.NumberFormat('en-US', {
+                    //     minimumFractionDigits: 3,
+                    //     maximumFractionDigits: 3
+                    // }).format(valueForItems);
                     
                     jQuery(newElement).find('.product-result').text(formatted);
                     defaultValue = parseFloat(jQuery('.product-result', newElement).text());
@@ -805,11 +819,12 @@ async function adt_update_comparison_info(dataArray = null){
             if (convertedValueForItems) {
                 valueForItems = convertedValueForItems;
             }
+            let formatted = Number(valueForItems).toPrecision(c_sig_nb);
 
-            let formatted = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 3,
-                maximumFractionDigits: 3
-            }).format(valueForItems);
+            // let formatted = new Intl.NumberFormat('en-US', {
+            //     minimumFractionDigits: 3,
+            //     maximumFractionDigits: 3
+            // }).format(valueForItems);
 
             $element.find('.product-result').text(formatted);
             let defaultValue = parseFloat($element.find('.product-result').text());
@@ -833,11 +848,13 @@ async function adt_update_comparison_info(dataArray = null){
                         }
                         valueForItems = item.value*unitRatio*currentAmount;
                     }
+  
+                let formatted = Number(valueForItems).toPrecision(c_sig_nb);
                     
-                    let formatted = new Intl.NumberFormat('en-US', {
-                        minimumFractionDigits: 3,
-                        maximumFractionDigits: 3
-                    }).format(valueForItems);
+                    // let formatted = new Intl.NumberFormat('en-US', {
+                    //     minimumFractionDigits: 3,
+                    //     maximumFractionDigits: 3
+                    // }).format(valueForItems);
                     
                     jQuery(newElement).find('.product-result').text(formatted);
                     defaultValue = parseFloat(jQuery('.product-result', newElement).text());
@@ -866,10 +883,12 @@ async function adt_update_comparison_info(dataArray = null){
                 // Just let the first item be default instead of null
                 let valueForItems = dataArray.value;
 
-                let formatted = new Intl.NumberFormat('en-US', {
-                    minimumFractionDigits: 3,
-                    maximumFractionDigits: 3
-                }).format(valueForItems);
+                let formatted = Number(valueForItems).toPrecision(c_sig_nb);
+
+                // let formatted = new Intl.NumberFormat('en-US', {
+                //     minimumFractionDigits: 3,
+                //     maximumFractionDigits: 3
+                // }).format(valueForItems);
                 
                 $element.find('.product-result').text(formatted);
                 defaultValue = valueForItems;
@@ -899,10 +918,11 @@ async function adt_update_comparison_info(dataArray = null){
                     valueForItems = convertedValueForItems;
                 }
 
-                let formatted = new Intl.NumberFormat('en-US', {
-                    minimumFractionDigits: 3,
-                    maximumFractionDigits: 3
-                }).format(valueForItems);
+                let formatted = Number(valueForItems).toPrecision(c_sig_nb);
+                // new Intl.NumberFormat('en-US', {
+                //     minimumFractionDigits: 3,
+                //     maximumFractionDigits: 3
+                // }).format(valueForItems);
                 
                 $element.find('.product-result').text(formatted);
                 defaultValue = parseFloat($element.find('.product-result').text());
@@ -930,10 +950,12 @@ async function adt_update_comparison_info(dataArray = null){
                             }
                         }
 
-                        let formatted = new Intl.NumberFormat('en-US', {
-                            minimumFractionDigits: 3,
-                            maximumFractionDigits: 3
-                        }).format(valueForItems);
+                        // let formatted = new Intl.NumberFormat('en-US', {
+                        //     minimumFractionDigits: 3,
+                        //     maximumFractionDigits: 3
+                        // }).format(valueForItems);
+                        let formatted = Number(valueForItems).toPrecision(c_sig_nb);
+
 
                         jQuery(newElement).find('.product-result').text(formatted);
                         defaultValue = parseFloat(jQuery('.product-result', newElement).text());
@@ -1051,17 +1073,19 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         rowMarkup += '<td class="input-flow">';
 
         if (recipe.value_inflow && recipe.value_inflow !== NaN) {
-            updatedInflow = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 3,
-                maximumFractionDigits: 3
-            }).format(recipe.value_inflow);
+            // updatedInflow = new Intl.NumberFormat('en-US', {
+            //     minimumFractionDigits: 3,
+            //     maximumFractionDigits: 3
+            // }).format(recipe.value_inflow);
+            updatedInflow = Number(recipe.value_inflow.toPrecision(c_sig_nb));
         }
-
+        
         if (recipe.value_emission && recipe.value_emission !== NaN) {
-            recipe.value_emission = new Intl.NumberFormat('en-US', {
-                minimumFractionDigits: 3,
-                maximumFractionDigits: 3
-            }).format(recipe.value_emission);
+            // = new Intl.NumberFormat('en-US', {
+            //     minimumFractionDigits: 3,
+            //     maximumFractionDigits: 3
+            // }).format(recipe.value_emission);
+            recipe.value_emission = Number(recipe.value_emission.toPrecision(c_sig_nb));
         }
 
         rowMarkup += '<span class="inflow-value">' + (updatedInflow ? updatedInflow : '') + '</span>';
@@ -1629,17 +1653,28 @@ function setMaxValueMessage(element, defaultValue , classElement){
         }
 
         let calculatedValue = defaultValue * numberInput;
-
-        let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
-            minimumFractionDigits: 3,
-            maximumFractionDigits: 3
-        }).format(calculatedValue);
+        let formattedCalculatedValue = Number(calculatedValue).toPrecision(c_sig_nb);
 
         jQuery('.search-result '+classElement+' .amount').val(numberInput);
         jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
+        // resizeTextToFit();
     });
 });
 }
+
+function resizeTextToFit() {
+  const text = jQuery('.search-result '+classElement+' .product-result');
+  const parent = jQuery('.search-result '+classElement+' .product-result').parent();
+
+  let fontSize = 60;
+  text.style.fontSize = fontSize + "px";
+
+  while (text.offsetWidth > parent.offsetWidth && fontSize > 1) {
+    fontSize -= 1;
+    text.style.fontSize = fontSize + "px";
+  }
+}
+
 
 function setUnitOptions(element, i, dataArray, unit_ref){
     let unitList = [];
