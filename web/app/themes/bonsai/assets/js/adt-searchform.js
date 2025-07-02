@@ -541,19 +541,6 @@ function adt_update_tags(boxToUpdate){
     });
 }
 
-function adt_change_data_set(){
-    let dataArray = JSON.parse(localStorage.getItem("footprint_data"));
-
-    jQuery('.search-result').each(function() {
-        let element = jQuery(this);
-        jQuery(dataArray.all_data).each(function(i) {
-            if (dataArray.all_data[i].id == dataSet) {
-                jQuery(element).attr('data-set-'+i, dataSet);
-            }
-        });
-    });
-}
-
 async function adt_update_original_info(dataArray) {
     console.log("adt_update_original_info");
     console.log("dataArray.title=",dataArray.title);
@@ -1401,25 +1388,6 @@ function adt_get_product_by_encoded_string()
 window.addEventListener('popstate', function(event) {
     adt_get_product_by_encoded_string();
 });
-
-function adt_find_multiplier_for_lowest_number(data)
-{
-    let minValue = null;
-    
-    // Find the minimum non-null value_inflow
-    jQuery.each(data, function(index, item) {
-        if (item.value_inflow !== null) {
-            if (minValue === null || item.value_inflow < minValue) {
-                minValue = item.value_inflow;
-            }
-        }
-    });
-    
-    let multiplier = 1;
-    if (minValue !== null && minValue > 0) {
-        multiplier = 1 / minValue;
-    }
-}
 
 function adt_get_converted_number_by_units(fromUnit, toUnit, number) 
 {
