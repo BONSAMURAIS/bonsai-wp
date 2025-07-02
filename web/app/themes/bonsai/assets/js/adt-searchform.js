@@ -1460,7 +1460,7 @@ function adt_uncertainty_calculation(original, comparison)
     });
 }
 
-function adt_push_parameter_to_url(text, code, uuid, chosenValuesArray)
+function adt_push_parameter_to_url(text, code, uuid, userSelection)
 {
     // Do this to make sure you can go back in browser
     // Convert to base64
@@ -1468,11 +1468,11 @@ function adt_push_parameter_to_url(text, code, uuid, chosenValuesArray)
         title: text,
         code: code,
         uuid: uuid,
-        metric: chosenValuesArray['metric'],
-        footprint_location: chosenValuesArray['footprint_location'],
-        footprint_type: chosenValuesArray['footprint_type'],
-        footprint_year: chosenValuesArray['footprint_year'],
-        database_version: chosenValuesArray['database_version'],
+        metric: userSelection.climate_metric,
+        footprint_location: userSelection.countryCode,
+        footprint_type: userSelection.footprint_type,
+        footprint_year: userSelection.year,
+        database_version: userSelection.version,
     };
 
     const jsonString = JSON.stringify(allData);
