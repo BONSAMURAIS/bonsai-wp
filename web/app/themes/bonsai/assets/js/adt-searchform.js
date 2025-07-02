@@ -36,14 +36,7 @@ jQuery(document).ready(function($){
                 $('#grave').prop('checked', true).trigger('change');
                 console.log("dfsdfdsf");
                 let userSelection = new UserSelection();
-                console.log("userSelection.countryCode =", userSelection.countryCode)
-                let countryCode = $('#location').val();
-                let version = $('#database-version').val();
-                let income_gpe = $('#income-group').val();
-                let household_compo = $('#household-composition').val();
-                let climate_metric = $('#climate-metric').val();
-                climate_metric = "GWP100";
-                adt_get_person_footprint(countryCode, income_gpe, household_compo, version,climate_metric);
+                adt_get_person_footprint(userSelection.countryCode, userSelection.income_gpe, userSelection.household_compo, userSelection.version, userSelection.climate_metric);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
             }
@@ -295,7 +288,7 @@ jQuery(document).ready(function($){
 });
 
 function adt_get_person_footprint(countryCode, income_gpe, household_compo, version = 'v1.0.0', metric){
-    act_code = income_gpe+"_"+household_compo; //fdemandCat will be prefixed in adt-person-functions.php
+    let act_code = income_gpe+"_"+household_compo; //fdemandCat will be prefixed in adt-person-functions.php
     console.log("act_code=",act_code);
     console.log("metric=",metric);
     let autocomplete_input = jQuery('#autocomplete-input'); 
