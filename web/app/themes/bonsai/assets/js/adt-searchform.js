@@ -436,29 +436,6 @@ function adt_get_product_info(productTitle, productCode, productUuid, userSelect
         }
     });
 
-    // Save the data to wp_adt_popular_searches
-    jQuery.ajax({
-        type: 'POST',
-        url: localize._ajax_url,
-        data: {
-            _ajax_nonce: localize._ajax_nonce,
-            action: 'adt_log_popular_search',
-            search_phrase: productTitle,
-            product_code: productCode,
-            product_uuid: productUuid,
-            metric: userSelection.climate_metric,
-            footprint_location: userSelection.countryCode,
-            footprint_type: userSelection.footprint_type,
-            footprint_year: userSelection.year,
-            database_version: userSelection.version,
-        },
-        beforeSend: function() {
-            
-        },
-        success: (response) => {
-        }
-    });
-
     adt_save_local_search_history(productTitle, productCode, productUuid, userSelection);
 }
 
