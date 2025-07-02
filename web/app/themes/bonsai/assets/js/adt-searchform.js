@@ -1214,7 +1214,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         $suggestionsWrapper.hide();
         jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
         suggestionSelected = true;
-        chosenValuesArray = new UserSelection();
+        let chosenValuesArray = new UserSelection();
         
         adt_push_parameter_to_url(text, code, uuid, chosenValuesArray);
         adt_get_product_info(text, code, uuid, chosenValuesArray);
