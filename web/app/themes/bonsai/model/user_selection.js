@@ -5,6 +5,7 @@ class UserSelection{
         this.income_gpe = jQuery('#income-group').val();
         this.household_compo = jQuery('#household-composition').val();
         this.climate_metric = jQuery('#climate-metric').val() ?? "GWP100";
+        this.footprint_type = jQuery('#footprint-type input[name="footprint_type').val();
     }
 }
 

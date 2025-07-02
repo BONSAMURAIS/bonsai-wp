@@ -46,12 +46,11 @@ jQuery(document).ready(function($){
         let userSelection = new UserSelection();
         adt_get_person_footprint(userSelection.countryCode, userSelection.income_gpe, userSelection.household_compo, userSelection.version, userSelection.climate_metric);
     });
-    
+
     $('#income-group').on('change',function(){
         console.log("change income");
         let userSelection = new UserSelection();
         adt_get_person_footprint(userSelection.countryCode, userSelection.income_gpe, userSelection.household_compo, userSelection.version, userSelection.climate_metric);
-        console.log("countryCode, income_gpe, household_compo, version = ", countryCode, income_gpe, household_compo, version);
     });
 
 
@@ -1147,6 +1146,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     let currentIndex = -1;
     let suggestionSelected = false;
     let chosenValuesArray = adt_get_chosen_values();
+    chosenValuesArray = new UserSelection();
 
     $input.on('input', function () {
         const query = $input.val().toLowerCase();
