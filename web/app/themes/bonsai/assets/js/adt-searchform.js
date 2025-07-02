@@ -283,10 +283,7 @@ function adt_get_person_footprint(userSelection){
             metric: userSelection.climate_metric,
             region_code: userSelection.countryCode,
         },
-        beforeSend: function() {
-            autocomplete_input.after('<div class="loading"></div>');
-            autocomplete_input.prop('disabled', true);
-        },
+        beforeSend: Utils.displayLoading(),
         success: function(response) {
             let dataArray = response.data;
             console.log("dataArray=",dataArray)
@@ -363,11 +360,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, userSelect
             footprint_year: userSelection.year,
             database_version: userSelection.version,
         },
-        beforeSend: function() {
-            jQuery('#autocomplete-input').after('<div class="loading"></div>');
-            jQuery('#autocomplete-input').prop('disabled', true);
-            jQuery( "#error-message-content" ).remove(); //at the init
-        },
+        beforeSend: Utils.displayLoading(),
         success: (response) => {
             let dataArray = response.data;
 
