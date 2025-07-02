@@ -1,8 +1,9 @@
 import UserSelection from '../../model/user_selection.js'; 
-c_animationDuration = 500;
+import * as c_Animation from '../../constants/animation.js'; 
+import * as c_Config from '../../constants/config.js'; 
+
 
 jQuery(document).ready(function($){
-    c_animationDuration = 500;
     c_unit_kgco2 = 'kg CO2eq';
     c_sig_nb = 3;
 
@@ -351,7 +352,7 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
 
             jQuery('html, body').animate({
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
-            }, c_animationDuration);
+            }, c_Animation.DURATION);
             
             // Try this
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
@@ -460,7 +461,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
 
             jQuery('html, body').animate({
                 scrollTop: jQuery(".co2-form-result").offset().top - 90
-            }, c_animationDuration);
+            }, c_Animation.DURATION);
         },
         error: (response) => {
             // Request was throttled
@@ -1592,7 +1593,7 @@ function setMaxValueMessage(element, defaultValue , classElement){
             jQuery(this).val(numberInput);
             jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
             setTimeout(() => {
-                jQuery('.error-message').fadeOut(c_animationDuration, function() {
+                jQuery('.error-message').fadeOut(c_Animation.DURATION, function() {
                     jQuery(this).remove();
                 });
             }, 1000);
