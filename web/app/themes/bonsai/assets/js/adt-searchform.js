@@ -270,7 +270,7 @@ jQuery(document).ready(function($){
 function adt_get_person_footprint(userSelection){
     let act_code = userSelection.income_gpe+"_"+userSelection.household_compo; //fdemandCat will be prefixed in adt-person-functions.php
     console.log("act_code=",act_code);
-    console.log("metric=",userSelection.metric);
+    console.log("metric=",userSelection.climate_metric);
     let autocomplete_input = jQuery('#autocomplete-input'); 
     jQuery.ajax({
         type: 'POST',
@@ -280,7 +280,7 @@ function adt_get_person_footprint(userSelection){
             action: 'adt_get_person_footprint', //reference in adt-person-functions.php
             version: userSelection.version,
             act_code: act_code,
-            metric: userSelection.metric,
+            metric: userSelection.climate_metric,
             region_code: userSelection.countryCode,
         },
         beforeSend: function() {
