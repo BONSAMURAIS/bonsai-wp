@@ -922,34 +922,26 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         if (recipe.unit_inflow === 'tonnes') {
             recipe.unit_inflow = 'kg';
         }
-
-        // If unit_inflow "TJ" per tonnes convert to MJ per kg
-        if (recipe.unit_inflow === 'TJ' && !recipe.flow_reference.includes('electricity')) {
-            updatedInflow = await adt_get_converted_number_by_units('TJ', 'MJ', recipe.value_inflow);
-            // from MJ per tonnes to MJ per kg
-            recipe.value_emission = recipe.value_emission * 1000;
-            recipe.unit_inflow = 'MJ';
-
-            // Wait for the conversion to complete before continuing
-            if (!updatedInflow) {
-            console.error('Conversion failed for TJ to MJ');
-            return;
-            }
-        }
-
+        
         // If unit_inflow "TJ" per tonnes with electricity convert to kWh per kg
-        if (recipe.unit_inflow === 'TJ' && recipe.flow_reference.includes('electricity')) {
-            updatedInflow = await adt_get_converted_number_by_units('TJ', 'kWh', recipe.value_inflow);
-            // from tonnes to kg
-            recipe.value_emission = recipe.value_emission;
-            recipe.unit_inflow = 'kWh';
-
+        if (recipe.unit_inflow === c_Unit.TJ){
+            let final_unit = ""; 
+            if(recipe.flow_reference.includes('electricity')) {
+                final_unit = c_Unit.KWH;
+            }else{
+                final_unit = c_Unit.MJ;
+                recipe.value_emission = recipe.value_emission * 1000;
+            }
+            recipe.unit_inflow = final_unit;
+            updatedInflow = await adt_get_converted_number_by_units(c_Unit.TJ, MJ, recipe.value_inflow);
             // Wait for the conversion to complete before continuing
             if (!updatedInflow) {
-            console.error('Conversion failed for TJ to kWh');
-            return;
+                console.error('Conversion failed for '+c_Unit.TJ+'to'+ final_unit);
+                return;
             }
         }
+
+
 
         // If unit_inflow "item" per tonnes just convert tonnes to kg
         if (recipe.unit_inflow === 'item') {
