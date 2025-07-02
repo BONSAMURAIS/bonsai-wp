@@ -1,3 +1,5 @@
+import UserSelection from '../../model/user_selection.js'; 
+
 jQuery(document).ready(function($){
     c_animationDuration = 500;
     c_unit_kgco2 = 'kg CO2eq';
@@ -30,6 +32,9 @@ jQuery(document).ready(function($){
             $('.person-choices').toggle();
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change');
+                console.log("dfsdfdsf");
+                let userSelection = new UserSelection();
+                console.log("userSelection.countryCode =", userSelection.countryCode)
                 let countryCode = $('#location').val();
                 let version = $('#database-version').val();
                 let income_gpe = $('#income-group').val();
@@ -291,6 +296,7 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
     act_code = income_gpe+"_"+household_compo; //fdemandCat will be prefixed in adt-person-functions.php
     console.log("act_code=",act_code);
     console.log("metric=",metric);
+    let autocomplete_input = jQuery('#autocomplete-input'); 
     jQuery.ajax({
         type: 'POST',
         url: localize._ajax_url,
@@ -303,15 +309,16 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
             region_code: countryCode,
         },
         beforeSend: function() {
-            jQuery('#autocomplete-input').after('<div class="loading"></div>');
-            jQuery('#autocomplete-input').prop('disabled', true);
+            autocomplete_input.after('<div class="loading"></div>');
+            autocomplete_input.prop('disabled', true);
         },
         success: function(response) {
             let dataArray = response.data;
             console.log("dataArray=",dataArray)
+            let error_msg = jQuery('.error-message');
 
             jQuery('.loading').remove();
-            jQuery('#autocomplete-input').prop('disabled', false);
+            autocomplete_input.prop('disabled', false);
             
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
                 adt_show_search_results();
@@ -322,14 +329,14 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
                 // localStorage.setItem("footprint_data", JSON.stringify(response.data));
                 return;
             } else {
-                jQuery('.error-message').slideUp('fast');
+                error_msg.slideUp('fast');
             }
             
             // Error message
             if (response.data && !response.data.title && !response.data.act_code) {
-                jQuery('.error-message').slideDown('fast');
+                error_msg.slideDown('fast');
             } else {
-                jQuery('.error-message').slideUp('fast');
+                error_msg.slideUp('fast');
             }
 
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
@@ -351,9 +358,11 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
         },
         error: (response) => {
             console.log("error: ",response);
+            let error_initMsg = jQuery('#initial-error-message');
+
             // Request was throttled
-            jQuery('#initial-error-message').html('<p>'+response.responseJSON?.data.error+'</p>');
-            jQuery('#initial-error-message').slideDown('fast');
+            error_initMsg.html('<p>'+response.responseJSON?.data.error+'</p>');
+            error_initMsg.slideDown('fast');
         }
     });
 }
@@ -599,25 +608,6 @@ async function adt_update_original_info(dataArray) {
         $element.find('select.unit').empty();
         let defaultValue = 0;
         
-        if (!dataArray.all_data) {
-            console.log("!dataArray.all_data");
-            $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
-            
-            $element.find('.product-result-unit').text(dataArray.unit_emission);
-            
-            // Just let the first item be default instead of null
-            let valueForItems = dataArray.value;
-            let formatted = Number(valueForItems).toPrecision(c_sig_nb);
-            
-            // let formatted = new Intl.NumberFormat('en-US', {
-            //     minimumFractionDigits: 3,
-            //     maximumFractionDigits: 3
-            // }).format(valueForItems);
-            
-            $element.find('.product-result').text(formatted);
-            defaultValue = valueForItems;
-        }
-        
         if (dataArray.all_data) {
             $element.find('.product-result-unit').text(c_unit_kgco2);
             console.log("dataArray.all_data:",dataArray.all_data);
@@ -642,11 +632,6 @@ async function adt_update_original_info(dataArray) {
             console.log(valueForItems)
             let formatted = Number(valueForItems).toPrecision(c_sig_nb);
             
-            // let formatted = new Intl.NumberFormat('en-US', {
-            //     minimumFractionDigits: 3,
-            //     maximumFractionDigits: 3
-            // }).format(valueForItems);
-            
             $element.find('.product-result').text(formatted);
             defaultValue = parseFloat($element.find('.product-result').text());
             
@@ -660,7 +645,6 @@ async function adt_update_original_info(dataArray) {
                 console.log("unitRatio =",unitRatio)
                 console.log("amount=",)
                 
-                // jQuery('.search-result .col:first-child .amount').val('1');
                 jQuery('.search-result .col:first-child select.unit').each(async function () {
                     jQuery(this).val(unitRatio);
                     let newElement = jQuery(this).closest('.col-inner');
@@ -684,41 +668,31 @@ async function adt_update_original_info(dataArray) {
 
                   let formatted = Number(valueForItems).toPrecision(c_sig_nb);
                     
-                    // let formatted = new Intl.NumberFormat('en-US', {
-                    //     minimumFractionDigits: 3,
-                    //     maximumFractionDigits: 3
-                    // }).format(valueForItems);
-                    
                     jQuery(newElement).find('.product-result').text(formatted);
                     defaultValue = parseFloat(jQuery('.product-result', newElement).text());
                 });
             });
+        } else {
+            console.log("!dataArray.all_data");
+            $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
+            
+            $element.find('.product-result-unit').text(dataArray.unit_emission);
+            
+            // Just let the first item be default instead of null
+            let valueForItems = dataArray.value;
+            let formatted = Number(valueForItems).toPrecision(c_sig_nb);
+            
+            $element.find('.product-result').text(formatted);
+            defaultValue = valueForItems;
         }
         
         setMaxValueMessage($element, defaultValue, '.col:first-child');
     }
 
-    console.log("test")
 
     adt_update_tags('original');
 
     await adt_update_recipe(dataArray, 'original');
-}
-
-function convert_unit(unit, description){
-    if (unit === 'Meuro'){
-        unit = 'EUR';
-    } else if (unit === 'tonnes') {
-        unit = 'kg';
-    } else if (unit === 'TJ'){
-        if (!description.includes('electricity')){
-            unit = 'MJ';
-        } else {
-            unit = 'kWh';
-        }
-    }
-    //default?
-    return unit;
 }
 
 // Comparison code
@@ -800,15 +774,15 @@ async function adt_update_comparison_info(dataArray = null){
                     adt_uncertainty_calculation(originalSample, comparisonSample);
 
                     if (item.unit_reference === 'TJ'){
-                        if(!item.description.includes('electricity')){
+                        if(item.description.includes('electricity')){
+                            console.log('ELECTRICITY is found');
+                            convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'kWh', valueForItems);
+                            item.value = convertedValueForItems;
+                        }else{
                             console.log('does not contain electricity');
                             convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'MJ', valueForItems);
                             // multiply by 1000 to convert from MJ per tonnes to MJ per kg
                             convertedValueForItems = convertedValueForItems * 1000;
-                            item.value = convertedValueForItems;
-                        }else{
-                            console.log('ELECTRICITY is found');
-                            convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'kWh', valueForItems);
                             item.value = convertedValueForItems;
                         }
                     }
@@ -820,11 +794,6 @@ async function adt_update_comparison_info(dataArray = null){
                 valueForItems = convertedValueForItems;
             }
             let formatted = Number(valueForItems).toPrecision(c_sig_nb);
-
-            // let formatted = new Intl.NumberFormat('en-US', {
-            //     minimumFractionDigits: 3,
-            //     maximumFractionDigits: 3
-            // }).format(valueForItems);
 
             $element.find('.product-result').text(formatted);
             let defaultValue = parseFloat($element.find('.product-result').text());
@@ -850,11 +819,6 @@ async function adt_update_comparison_info(dataArray = null){
                     }
   
                 let formatted = Number(valueForItems).toPrecision(c_sig_nb);
-                    
-                    // let formatted = new Intl.NumberFormat('en-US', {
-                    //     minimumFractionDigits: 3,
-                    //     maximumFractionDigits: 3
-                    // }).format(valueForItems);
                     
                     jQuery(newElement).find('.product-result').text(formatted);
                     defaultValue = parseFloat(jQuery('.product-result', newElement).text());
@@ -882,13 +846,7 @@ async function adt_update_comparison_info(dataArray = null){
 
                 // Just let the first item be default instead of null
                 let valueForItems = dataArray.value;
-
                 let formatted = Number(valueForItems).toPrecision(c_sig_nb);
-
-                // let formatted = new Intl.NumberFormat('en-US', {
-                //     minimumFractionDigits: 3,
-                //     maximumFractionDigits: 3
-                // }).format(valueForItems);
                 
                 $element.find('.product-result').text(formatted);
                 defaultValue = valueForItems;
@@ -919,11 +877,7 @@ async function adt_update_comparison_info(dataArray = null){
                 }
 
                 let formatted = Number(valueForItems).toPrecision(c_sig_nb);
-                // new Intl.NumberFormat('en-US', {
-                //     minimumFractionDigits: 3,
-                //     maximumFractionDigits: 3
-                // }).format(valueForItems);
-                
+
                 $element.find('.product-result').text(formatted);
                 defaultValue = parseFloat($element.find('.product-result').text());
 
@@ -950,10 +904,6 @@ async function adt_update_comparison_info(dataArray = null){
                             }
                         }
 
-                        // let formatted = new Intl.NumberFormat('en-US', {
-                        //     minimumFractionDigits: 3,
-                        //     maximumFractionDigits: 3
-                        // }).format(valueForItems);
                         let formatted = Number(valueForItems).toPrecision(c_sig_nb);
 
 
@@ -1073,18 +1023,10 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         rowMarkup += '<td class="input-flow">';
 
         if (recipe.value_inflow && recipe.value_inflow !== NaN) {
-            // updatedInflow = new Intl.NumberFormat('en-US', {
-            //     minimumFractionDigits: 3,
-            //     maximumFractionDigits: 3
-            // }).format(recipe.value_inflow);
             updatedInflow = Number(recipe.value_inflow.toPrecision(c_sig_nb));
         }
         
         if (recipe.value_emission && recipe.value_emission !== NaN) {
-            // = new Intl.NumberFormat('en-US', {
-            //     minimumFractionDigits: 3,
-            //     maximumFractionDigits: 3
-            // }).format(recipe.value_emission);
             recipe.value_emission = Number(recipe.value_emission.toPrecision(c_sig_nb));
         }
 
@@ -1617,13 +1559,18 @@ function capitalize(str) {
 
 function setTileTitle(elementClass,dataArray){
     jQuery(elementClass).each(function () {
-        if (!dataArray.all_data) {
-            jQuery(this).text('Emission per person');
-            jQuery(this).attr('data-code', dataArray.act_code);
+        let value = "";
+        let title = "";
+        
+        if (dataArray.all_data) {
+            title = capitalize(dataArray.title);
+            value = dataArray.flow_code;
         } else {
-            jQuery(this).text(capitalize(dataArray.title));
-            jQuery(this).attr('data-code', dataArray.flow_code);
+            title = 'Emission per person';
+            value = dataArray.act_code;
         }
+        jQuery(this).text(title);
+        jQuery(this).attr('data-code',value);
     });
 }
 
@@ -1684,7 +1631,6 @@ function resizeTextToFit(classElement) {
 function setUnitOptions(element, i, dataArray, unit_ref){
     let unitList = [];
 
-    console.log("setUnit dataArray:",dataArray);
     console.log("setUnit dataArray:",dataArray);
     
     if (unit_ref === 'DKK'){
