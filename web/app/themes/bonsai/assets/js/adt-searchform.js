@@ -414,7 +414,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, userSelect
                         },
                         success: (response) => {
                             let productTitle = response.data;
-                            dataArray['title'] = Utils.capatalize(productTitle);
+                            dataArray['title'] = Utils.capitalize(productTitle);
                             adt_update_original_info(dataArray); 
                             adt_show_search_results();
                         }
@@ -548,7 +548,7 @@ async function adt_update_original_info(dataArray) {
     setTileTitle('.search-result .col:first-child p.product-title',dataArray);
     jQuery('.search-result .col:first-child p.product-title').each(function () {
         if (jQuery('#autocomplete-input').val()) {
-            jQuery(this).text(Utils.capatalize(jQuery('#autocomplete-input').val()));
+            jQuery(this).text(Utils.capitalize(jQuery('#autocomplete-input').val()));
         }
     });
     
@@ -684,7 +684,7 @@ async function adt_update_comparison_info(dataArray = null){
     setTileTitle('.search-result .col:nth-child(2) p.product-title',dataArray);
     jQuery('.search-result .col:nth-child(2) p.product-title').each(function () {
         if (jQuery('#autocomplete-input').val()) {
-            jQuery(this).text(Utils.capatalize(jQuery('#autocomplete-input').val()));
+            jQuery(this).text(Utils.capitalize(jQuery('#autocomplete-input').val()));
         }
     });
 
@@ -1015,7 +1015,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
             success: (response) => {
                 let productTitle = response.data;
 
-                jQuery('td a[data-code="'+productCode+'"]').text(Utils.capatalize(productTitle));
+                jQuery('td a[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
             }
         });
     });
@@ -1489,7 +1489,7 @@ function setTileTitle(elementClass,dataArray){
         let title = "";
         
         if (dataArray.all_data) {
-            title = Utils.capatalize(dataArray.title);
+            title = Utils.capitalize(dataArray.title);
             value = dataArray.flow_code;
         } else {
             title = 'Emission per person';
