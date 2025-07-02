@@ -370,7 +370,7 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
 }
 
 function adt_get_product_info(productTitle, productCode, productUuid, chosenValues, init=false) {
-    productInfo = [];
+    let productInfo = [];
 
     console.log("-- adt_get_product_info --");
     console.log("productTitle, productCode, productUuid=",productTitle, productCode, productUuid);
