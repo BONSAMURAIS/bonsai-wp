@@ -1103,18 +1103,16 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     });
 
     $input.on('keydown', function (e) {
+        e.preventDefault();
         const $items = $suggestions.find('.suggestion-item');
         if ($items.length > 0) {
             if (e.key === 'ArrowDown') {
-                e.preventDefault();
                 currentIndex = (currentIndex + 1) % $items.length;
                 markCurrentItem($items);
             } else if (e.key === 'ArrowUp') {
-                e.preventDefault();
                 currentIndex = (currentIndex - 1 + $items.length) % $items.length;
                 markCurrentItem($items);
             } else if (e.key === 'Enter') {
-                e.preventDefault();
                 if (currentIndex >= 0) {
                     const selectedItem = $items.eq(currentIndex);
                     selectSuggestion(selectedItem.text(), selectedItem.data('code'), selectedItem.data('uuid'));
