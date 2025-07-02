@@ -1560,7 +1560,7 @@ function setMaxValueMessage(element, defaultValue , classElement){
         }
 
         let calculatedValue = defaultValue * numberInput;
-        let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
+        let formattedCalculatedValue = new Intl.NumberFormat(c_Config.NUMBERFORMAT, {
             minimumFractionDigits: c_Config.SIGNIFICANT_NB,
             maximumFractionDigits: c_Config.SIGNIFICANT_NB
         }).format(calculatedValue);
