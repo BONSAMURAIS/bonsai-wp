@@ -34,7 +34,6 @@ jQuery(document).ready(function($){
             $('.person-choices').toggle();
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change');
-                console.log("dfsdfdsf");
                 let userSelection = new UserSelection();
                 adt_get_person_footprint(userSelection);
             } else {
