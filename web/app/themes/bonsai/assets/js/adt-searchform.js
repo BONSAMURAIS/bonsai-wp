@@ -156,13 +156,8 @@ jQuery(document).ready(function($){
         let selectedValue = $('input[name="switch-one"]:checked').val();
         
         if (selectedValue === 'person') {
-            let countryCode = $('#location').val();
-            let version = $('#database-version').val();
-            let income_gpe = $('#income-group').val();
-            let household_compo = $('#household-composition').val();
-            let climate_metric = $('#climate-metric').val();
-            climate_metric = "GWP100";
-            adt_get_person_footprint(countryCode, income_gpe, household_compo, version,climate_metric);
+            let userSelection = new UserSelection();
+            adt_get_person_footprint(userSelection.countryCode, userSelection.income_gpe, userSelection.household_compo, userSelection.version, userSelection.climate_metric);
         } else {
 
             // Get last searched data instead, this does not always contain all data
@@ -170,7 +165,7 @@ jQuery(document).ready(function($){
             if (searchHistory) {
                 searchHistory = JSON.parse(searchHistory);
                 if (searchHistory.length > 0) {
-                    let chosenValues = adt_get_chosen_values();
+                    let chosenValues = new UserSelection();
                     let firstItem = searchHistory[0];
                     console.log("firstItem.productTitle, firstItem.productCode = ", firstItem.productTitle, firstItem.productCode)
                     adt_get_product_info(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, chosenValues);
@@ -186,7 +181,8 @@ jQuery(document).ready(function($){
         let productTitle = $(this).text();
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
-        let chosenValues = adt_get_chosen_values();
+        let chosenValues = new UserSelection();
+
         $('#autocomplete-input').val(productTitle);
 
         adt_push_parameter_to_url(productTitle, productCode, productUuid, chosenValues);
@@ -354,7 +350,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
 
     console.log("-- adt_get_product_info --");
     console.log("productTitle, productCode, productUuid=",productTitle, productCode, productUuid);
-    console.log("footprint_location, footprint_type, footprint_year,database_version,metric=",chosenValues['footprint_location'], chosenValues['footprint_type'], chosenValues['footprint_year'],chosenValues['database_version'],chosenValues['metric']);
+    console.log("footprint_location, footprint_type, footprint_year,database_version,metric=",chosenValues.countryCode, chosenValues.footprint_type, chosenValues.year,chosenValues.version,chosenValues.climate_metric);
 
 
     jQuery.ajax({
@@ -366,11 +362,11 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             title: productTitle,
             code: productCode,
             uuid: productUuid,
-            metric: chosenValues['metric'],
-            footprint_location: chosenValues['footprint_location'],
-            footprint_type: chosenValues['footprint_type'],
-            footprint_year: chosenValues['footprint_year'],
-            database_version: chosenValues['database_version'],
+            metric: chosenValues.climate_metric,
+            footprint_location: chosenValues.countryCode,
+            footprint_type: chosenValues.footprint_type,
+            footprint_year: chosenValues.year,
+            database_version: chosenValues.version,
         },
         beforeSend: function() {
             jQuery('#autocomplete-input').after('<div class="loading"></div>');
@@ -462,11 +458,11 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             search_phrase: productTitle,
             product_code: productCode,
             product_uuid: productUuid,
-            metric: chosenValues['metric'],
-            footprint_location: chosenValues['footprint_location'],
-            footprint_type: chosenValues['footprint_type'],
-            footprint_year: chosenValues['footprint_year'],
-            database_version: chosenValues['database_version'],
+            metric: chosenValues.climate_metric,
+            footprint_location: chosenValues.countryCode,
+            footprint_type: chosenValues.footprint_type,
+            footprint_year: chosenValues.year,
+            database_version: chosenValues.version,
         },
         beforeSend: function() {
             
@@ -476,19 +472,6 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
     });
 
     adt_save_local_search_history(productTitle, productCode, productUuid, chosenValues);
-}
-
-function adt_get_chosen_values(){
-    let chosenArray = [];
-
-    chosenArray['footprint_type'] = jQuery('#footprint-type input[name="footprint_type"]').val(); 
-    chosenArray['footprint_location'] = jQuery('#location').val();
-    chosenArray['footprint_year'] = jQuery('#year').val();
-    chosenArray['database_version'] = jQuery('#database-version').val();
-    chosenArray['metric'] = jQuery('#climate-metric').val();
-    chosenArray['metric'] = "GWP100";//jQuery('#climate-metric').val();
-
-    return chosenArray;
 }
 
 function adt_update_tags(boxToUpdate){
@@ -1145,8 +1128,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     const $submitBtn = jQuery('.search-input-wrapper button'); // Ensure this ID matches your button's ID
     let currentIndex = -1;
     let suggestionSelected = false;
-    let chosenValuesArray = adt_get_chosen_values();
-    chosenValuesArray = new UserSelection();
+
 
     $input.on('input', function () {
         const query = $input.val().toLowerCase();
@@ -1226,13 +1208,14 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         }
     }
 
+    
     function selectSuggestion(text, code, uuid) {
         $input.val(text).attr('data-code', code).attr('data-uuid', uuid);
         $suggestionsWrapper.hide();
         jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
         suggestionSelected = true;
-        chosenValuesArray = adt_get_chosen_values();
-
+        chosenValuesArray = new UserSelection();
+        
         adt_push_parameter_to_url(text, code, uuid, chosenValuesArray);
         adt_get_product_info(text, code, uuid, chosenValuesArray);
     }
@@ -1246,8 +1229,8 @@ function adt_switch_between_recipe_items()
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
-        let chosenValues = adt_get_chosen_values();
-        chosenValues['footprint_location'] = jQuery(this).data('country');
+        chosenValues = new UserSelection();
+        // chosenValues['footprint_location'] = jQuery(this).data('country');
 
         console.log('Make sure this only run once!');
         adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
@@ -1350,7 +1333,7 @@ function adt_save_local_search_history(productTitle, productCode, productUuid, c
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
-        let chosenValues = adt_get_chosen_values();
+        let chosenValues = new UserSelection();
 
         jQuery('#autocomplete-input').val(productTitle);
 
@@ -1389,7 +1372,7 @@ function adt_initialize_local_search_history()
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
-        let chosenValues = adt_get_chosen_values();
+        let chosenValues = new UserSelection();
 
         adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
     });
