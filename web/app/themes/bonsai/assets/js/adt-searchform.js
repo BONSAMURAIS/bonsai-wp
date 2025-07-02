@@ -2,6 +2,7 @@ import UserSelection from '../../model/user_selection.js';
 import * as c_Animation from '../../constants/animation.js'; 
 import * as c_Unit from '../../constants/unit.js'; 
 import * as c_Config from '../../constants/config.js'; 
+import * as Utils from '../../utils/tools.utils.js'; 
 
 
 jQuery(document).ready(function($){
@@ -413,7 +414,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, userSelect
                         },
                         success: (response) => {
                             let productTitle = response.data;
-                            dataArray['title'] = capitalize(productTitle);
+                            dataArray['title'] = Utils.capatalize(productTitle);
                             adt_update_original_info(dataArray); 
                             adt_show_search_results();
                         }
@@ -547,7 +548,7 @@ async function adt_update_original_info(dataArray) {
     setTileTitle('.search-result .col:first-child p.product-title',dataArray);
     jQuery('.search-result .col:first-child p.product-title').each(function () {
         if (jQuery('#autocomplete-input').val()) {
-            jQuery(this).text(capitalize(jQuery('#autocomplete-input').val()));
+            jQuery(this).text(Utils.capatalize(jQuery('#autocomplete-input').val()));
         }
     });
     
@@ -683,7 +684,7 @@ async function adt_update_comparison_info(dataArray = null){
     setTileTitle('.search-result .col:nth-child(2) p.product-title',dataArray);
     jQuery('.search-result .col:nth-child(2) p.product-title').each(function () {
         if (jQuery('#autocomplete-input').val()) {
-            jQuery(this).text(capitalize(jQuery('#autocomplete-input').val()));
+            jQuery(this).text(Utils.capatalize(jQuery('#autocomplete-input').val()));
         }
     });
 
@@ -1014,7 +1015,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
             success: (response) => {
                 let productTitle = response.data;
 
-                jQuery('td a[data-code="'+productCode+'"]').text(capitalize(productTitle));
+                jQuery('td a[data-code="'+productCode+'"]').text(Utils.capatalize(productTitle));
             }
         });
     });
@@ -1482,18 +1483,13 @@ function adt_push_parameter_to_url(text, code, uuid, chosenValuesArray)
     history.pushState(null, '', getParameter);
 }
 
-function capitalize(str) {
-    if (!str) return '';
-    return str[0].toUpperCase() + str.slice(1).toLowerCase();
-}
-
 function setTileTitle(elementClass,dataArray){
     jQuery(elementClass).each(function () {
         let value = "";
         let title = "";
         
         if (dataArray.all_data) {
-            title = capitalize(dataArray.title);
+            title = Utils.capatalize(dataArray.title);
             value = dataArray.flow_code;
         } else {
             title = 'Emission per person';
