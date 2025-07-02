@@ -1,4 +1,5 @@
 import UserSelection from '../../model/user_selection.js'; 
+c_animationDuration = 500;
 
 jQuery(document).ready(function($){
     c_animationDuration = 500;
