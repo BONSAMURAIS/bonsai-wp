@@ -1,11 +1,11 @@
 import UserSelection from '../../model/user_selection.js'; 
 import * as c_Animation from '../../constants/animation.js'; 
+import * as c_Unit from '../../constants/unit.js'; 
 import * as c_Config from '../../constants/config.js'; 
 
 
 jQuery(document).ready(function($){
-    c_unit_kgco2 = 'kg CO2eq';
-    c_sig_nb = 3;
+
 
     $('label.select').each(function() {
         let listOptions = $(this).find('option');
@@ -611,10 +611,10 @@ async function adt_update_original_info(dataArray) {
         let defaultValue = 0;
         
         if (dataArray.all_data) {
-            $element.find('.product-result-unit').text(c_unit_kgco2);
+            $element.find('.product-result-unit').text(c_Unit.KGCO2);
             console.log("dataArray.all_data:",dataArray.all_data);
             jQuery('.emission-message').text('Where do emissions for 1kg of CO2eq come from?');
-            jQuery('.emission-header-unit').text('['+c_unit_kgco2+']');
+            jQuery('.emission-header-unit').text('['+c_Unit.KGCO2+']');
             
             let unit_ref = dataArray.all_data[0].unit_reference;
             console.log("unit_ref =",unit_ref);
@@ -632,7 +632,7 @@ async function adt_update_original_info(dataArray) {
             
             console.log("test")
             console.log(valueForItems)
-            let formatted = Number(valueForItems).toPrecision(c_sig_nb);
+            let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
             
             $element.find('.product-result').text(formatted);
             defaultValue = parseFloat($element.find('.product-result').text());
@@ -668,7 +668,7 @@ async function adt_update_original_info(dataArray) {
                         valueForItems = item.value*unitRatio*currentAmount;
                     }
 
-                  let formatted = Number(valueForItems).toPrecision(c_sig_nb);
+                  let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
                     
                     jQuery(newElement).find('.product-result').text(formatted);
                     defaultValue = parseFloat(jQuery('.product-result', newElement).text());
@@ -682,7 +682,7 @@ async function adt_update_original_info(dataArray) {
             
             // Just let the first item be default instead of null
             let valueForItems = dataArray.value;
-            let formatted = Number(valueForItems).toPrecision(c_sig_nb);
+            let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
             
             $element.find('.product-result').text(formatted);
             defaultValue = valueForItems;
@@ -795,7 +795,7 @@ async function adt_update_comparison_info(dataArray = null){
             if (convertedValueForItems) {
                 valueForItems = convertedValueForItems;
             }
-            let formatted = Number(valueForItems).toPrecision(c_sig_nb);
+            let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
 
             $element.find('.product-result').text(formatted);
             let defaultValue = parseFloat($element.find('.product-result').text());
@@ -820,7 +820,7 @@ async function adt_update_comparison_info(dataArray = null){
                         valueForItems = item.value*unitRatio*currentAmount;
                     }
   
-                let formatted = Number(valueForItems).toPrecision(c_sig_nb);
+                let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
                     
                     jQuery(newElement).find('.product-result').text(formatted);
                     defaultValue = parseFloat(jQuery('.product-result', newElement).text());
@@ -848,7 +848,7 @@ async function adt_update_comparison_info(dataArray = null){
 
                 // Just let the first item be default instead of null
                 let valueForItems = dataArray.value;
-                let formatted = Number(valueForItems).toPrecision(c_sig_nb);
+                let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
                 
                 $element.find('.product-result').text(formatted);
                 defaultValue = valueForItems;
@@ -857,9 +857,9 @@ async function adt_update_comparison_info(dataArray = null){
             console.log(dataArray.all_data);
             if (dataArray.all_data) {
                 let unit_ref = dataArray.all_data[0].unit_reference;
-                $element.find('.product-result-unit').text(c_unit_kgco2);
+                $element.find('.product-result-unit').text(c_Unit.KGCO2);
                 jQuery('.emission-message').text('Where do emissions for 1 assad come from?'); //what s its use?
-                jQuery('.emission-header-unit').text('['+c_unit_kgco2+']');
+                jQuery('.emission-header-unit').text('['+c_Unit.KGCO2+']');
 
                 jQuery(dataArray.all_data).each(function (i) {
                     console.log(dataArray.all_data);
@@ -878,7 +878,7 @@ async function adt_update_comparison_info(dataArray = null){
                     valueForItems = convertedValueForItems;
                 }
 
-                let formatted = Number(valueForItems).toPrecision(c_sig_nb);
+                let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
 
                 $element.find('.product-result').text(formatted);
                 defaultValue = parseFloat($element.find('.product-result').text());
@@ -906,7 +906,7 @@ async function adt_update_comparison_info(dataArray = null){
                             }
                         }
 
-                        let formatted = Number(valueForItems).toPrecision(c_sig_nb);
+                        let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
 
 
                         jQuery(newElement).find('.product-result').text(formatted);
@@ -1025,11 +1025,11 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         rowMarkup += '<td class="input-flow">';
 
         if (recipe.value_inflow && recipe.value_inflow !== NaN) {
-            updatedInflow = Number(recipe.value_inflow.toPrecision(c_sig_nb));
+            updatedInflow = Number(recipe.value_inflow.toPrecision(c_Config.SIGNIFICANT_NB));
         }
         
         if (recipe.value_emission && recipe.value_emission !== NaN) {
-            recipe.value_emission = Number(recipe.value_emission.toPrecision(c_sig_nb));
+            recipe.value_emission = Number(recipe.value_emission.toPrecision(c_Config.SIGNIFICANT_NB));
         }
 
         rowMarkup += '<span class="inflow-value">' + (updatedInflow ? updatedInflow : '') + '</span>';
@@ -1601,8 +1601,8 @@ function setMaxValueMessage(element, defaultValue , classElement){
 
         let calculatedValue = defaultValue * numberInput;
         let formattedCalculatedValue = new Intl.NumberFormat('en-US', {
-            minimumFractionDigits: c_sig_nb,
-            maximumFractionDigits: c_sig_nb
+            minimumFractionDigits: c_Config.SIGNIFICANT_NB,
+            maximumFractionDigits: c_Config.SIGNIFICANT_NB
         }).format(calculatedValue);
 
         jQuery('.search-result '+classElement+' .amount').val(numberInput);
