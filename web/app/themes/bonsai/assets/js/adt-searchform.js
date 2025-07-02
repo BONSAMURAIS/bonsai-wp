@@ -6,7 +6,6 @@ import * as c_Config from '../../constants/config.js';
 
 jQuery(document).ready(function($){
 
-
     $('label.select').each(function() {
         let listOptions = $(this).find('option');
         if (listOptions.length <= 1){
@@ -44,26 +43,15 @@ jQuery(document).ready(function($){
     });
     
     $('#household-composition').on('change',function(){
-        console.log("change household");
-        let countryCode = $('#location').val();
-        let version = $('#database-version').val();
-        let income_gpe = $('#income-group').val();
-        let household_compo = $('#household-composition').val();
-        let climate_metric = $('#climate-metric').val();
-        climate_metric = "GWP100";
-        console.log("countryCode, income_gpe, household_compo, version ,climate_metric= ", countryCode, income_gpe, household_compo, version,climate_metric);
-        adt_get_person_footprint(countryCode, income_gpe, household_compo, version,climate_metric);
+        let userSelection = new UserSelection();
+        adt_get_person_footprint(userSelection.countryCode, userSelection.income_gpe, userSelection.household_compo, userSelection.version, userSelection.climate_metric);
     });
+    
     $('#income-group').on('change',function(){
         console.log("change income");
-        let countryCode = $('#location').val();
-        let version = $('#database-version').val();
-        let income_gpe = $('#income-group').val();
-        let household_compo = $('#household-composition').val();
-        let climate_metric = $('#climate-metric').val();
-        climate_metric = "GWP100";
+        let userSelection = new UserSelection();
+        adt_get_person_footprint(userSelection.countryCode, userSelection.income_gpe, userSelection.household_compo, userSelection.version, userSelection.climate_metric);
         console.log("countryCode, income_gpe, household_compo, version = ", countryCode, income_gpe, household_compo, version);
-        adt_get_person_footprint(countryCode, income_gpe, household_compo, version,climate_metric);
     });
 
 
