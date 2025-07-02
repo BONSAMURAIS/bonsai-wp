@@ -804,7 +804,6 @@ async function adt_update_comparison_info(dataArray = null){
 
             console.log(dataArray.all_data);
             if (dataArray.all_data) {
-                let unit_ref = dataArray.all_data[0].unit_reference;
                 $element.find('.product-result-unit').text(c_Unit.KGCO2);
                 jQuery('.emission-message').text('Where do emissions for 1 assad come from?'); //what s its use?
                 jQuery('.emission-header-unit').text('['+c_Unit.KGCO2+']');
@@ -817,7 +816,6 @@ async function adt_update_comparison_info(dataArray = null){
                     $element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
                 });
 
-                let defaultUnit = $element.find('select.unit').val();
                 // Just let the first item be default instead of null
                 let valueForItems = dataArray.all_data[0].value;
                 let convertedValueForItems = null;
