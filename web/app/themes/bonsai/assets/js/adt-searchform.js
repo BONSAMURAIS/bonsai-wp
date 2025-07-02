@@ -343,8 +343,6 @@ function adt_get_person_footprint(userSelection){
 }
 
 function adt_get_product_info(productTitle, productCode, productUuid, userSelection, init=false) {
-    let productInfo = [];
-
     console.log("-- adt_get_product_info --");
     console.log("productTitle, productCode, productUuid=",productTitle, productCode, productUuid);
     console.log("footprint_location, footprint_type, footprint_year,database_version,metric=",userSelection.countryCode, userSelection.footprint_type, userSelection.year,userSelection.version,userSelection.climate_metric);
