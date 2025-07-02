@@ -155,8 +155,8 @@ jQuery(document).ready(function($){
     $('.co2-form-result #co2-form-result-header .select-wrapper select').on('change', function() {
         let selectedValue = $('input[name="switch-one"]:checked').val();
         
+        let userSelection = new UserSelection();
         if (selectedValue === 'person') {
-            let userSelection = new UserSelection();
             adt_get_person_footprint(userSelection.countryCode, userSelection.income_gpe, userSelection.household_compo, userSelection.version, userSelection.climate_metric);
         } else {
 
@@ -165,28 +165,25 @@ jQuery(document).ready(function($){
             if (searchHistory) {
                 searchHistory = JSON.parse(searchHistory);
                 if (searchHistory.length > 0) {
-                    let chosenValues = new UserSelection();
                     let firstItem = searchHistory[0];
                     console.log("firstItem.productTitle, firstItem.productCode = ", firstItem.productTitle, firstItem.productCode)
-                    adt_get_product_info(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, chosenValues);
-                    adt_push_parameter_to_url(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, chosenValues);
+                    adt_get_product_info(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, userSelection);
+                    adt_push_parameter_to_url(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, userSelection);
                 }
             }
-            
         }
-        
     })
 
     $('.most-popular-container ul li button').on('click', function() {
         let productTitle = $(this).text();
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
-        let chosenValues = new UserSelection();
+        let userSelection = new UserSelection();
 
         $('#autocomplete-input').val(productTitle);
 
-        adt_push_parameter_to_url(productTitle, productCode, productUuid, chosenValues);
-        adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
+        adt_push_parameter_to_url(productTitle, productCode, productUuid, userSelection);
+        adt_get_product_info(productTitle, productCode, productUuid, userSelection);
     });
 
     adt_download_recipe_csv();
@@ -345,12 +342,12 @@ function adt_get_person_footprint(countryCode, income_gpe, household_compo, vers
     });
 }
 
-function adt_get_product_info(productTitle, productCode, productUuid, chosenValues, init=false) {
+function adt_get_product_info(productTitle, productCode, productUuid, userSelection, init=false) {
     let productInfo = [];
 
     console.log("-- adt_get_product_info --");
     console.log("productTitle, productCode, productUuid=",productTitle, productCode, productUuid);
-    console.log("footprint_location, footprint_type, footprint_year,database_version,metric=",chosenValues.countryCode, chosenValues.footprint_type, chosenValues.year,chosenValues.version,chosenValues.climate_metric);
+    console.log("footprint_location, footprint_type, footprint_year,database_version,metric=",userSelection.countryCode, userSelection.footprint_type, userSelection.year,userSelection.version,userSelection.climate_metric);
 
 
     jQuery.ajax({
@@ -362,11 +359,11 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             title: productTitle,
             code: productCode,
             uuid: productUuid,
-            metric: chosenValues.climate_metric,
-            footprint_location: chosenValues.countryCode,
-            footprint_type: chosenValues.footprint_type,
-            footprint_year: chosenValues.year,
-            database_version: chosenValues.version,
+            metric: userSelection.climate_metric,
+            footprint_location: userSelection.countryCode,
+            footprint_type: userSelection.footprint_type,
+            footprint_year: userSelection.year,
+            database_version: userSelection.version,
         },
         beforeSend: function() {
             jQuery('#autocomplete-input').after('<div class="loading"></div>');
@@ -458,11 +455,11 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
             search_phrase: productTitle,
             product_code: productCode,
             product_uuid: productUuid,
-            metric: chosenValues.climate_metric,
-            footprint_location: chosenValues.countryCode,
-            footprint_type: chosenValues.footprint_type,
-            footprint_year: chosenValues.year,
-            database_version: chosenValues.version,
+            metric: userSelection.climate_metric,
+            footprint_location: userSelection.countryCode,
+            footprint_type: userSelection.footprint_type,
+            footprint_year: userSelection.year,
+            database_version: userSelection.version,
         },
         beforeSend: function() {
             
@@ -471,7 +468,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, chosenValu
         }
     });
 
-    adt_save_local_search_history(productTitle, productCode, productUuid, chosenValues);
+    adt_save_local_search_history(productTitle, productCode, productUuid, userSelection);
 }
 
 function adt_update_tags(boxToUpdate){
@@ -1214,10 +1211,10 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         $suggestionsWrapper.hide();
         jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
         suggestionSelected = true;
-        let chosenValuesArray = new UserSelection();
+        let userSelection = new UserSelection();
         
-        adt_push_parameter_to_url(text, code, uuid, chosenValuesArray);
-        adt_get_product_info(text, code, uuid, chosenValuesArray);
+        adt_push_parameter_to_url(text, code, uuid, userSelection);
+        adt_get_product_info(text, code, uuid, userSelection);
     }
 }
 
@@ -1229,11 +1226,10 @@ function adt_switch_between_recipe_items()
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
-        chosenValues = new UserSelection();
-        // chosenValues['footprint_location'] = jQuery(this).data('country');
+        let userSelection = new UserSelection();
 
         console.log('Make sure this only run once!');
-        adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
+        adt_get_product_info(productTitle, productCode, productUuid, userSelection);
         
         // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
         const href = jQuery(this).attr('href');
@@ -1333,12 +1329,12 @@ function adt_save_local_search_history(productTitle, productCode, productUuid, c
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
-        let chosenValues = new UserSelection();
+        let userSelection = new UserSelection();
 
         jQuery('#autocomplete-input').val(productTitle);
 
-        adt_push_parameter_to_url(productTitle, productCode, productUuid, chosenValues);
-        adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
+        adt_push_parameter_to_url(productTitle, productCode, productUuid, userSelection);
+        adt_get_product_info(productTitle, productCode, productUuid, userSelection);
     });
 }
 
@@ -1372,9 +1368,9 @@ function adt_initialize_local_search_history()
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
-        let chosenValues = new UserSelection();
+        let userSelection = new UserSelection();
 
-        adt_get_product_info(productTitle, productCode, productUuid, chosenValues);
+        adt_get_product_info(productTitle, productCode, productUuid, userSelection);
     });
 }
 
