@@ -7,7 +7,7 @@
         );
         $a = shortcode_atts($default, $attr);
 
-        $json_content = file_get_contents(__DIR__ . $attr['filepath']);
+        $json_content = file_get_contents($attr['filepath']);
         $list_options = json_decode($json_content, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
