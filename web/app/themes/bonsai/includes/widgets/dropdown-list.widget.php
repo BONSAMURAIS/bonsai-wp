@@ -1,7 +1,7 @@
 <?php
-    function generate_dropdown_list($atts){
+    function generate_dropdown_list($attr){
 
-        $a = shortcode_atts($default, $atts);
+        $a = shortcode_atts($default, $attr);
 
         
         return '<div class="tooltip">

@@ -6,7 +6,7 @@
             'label' => 'label_tooltip', 
             'block_id' => 'info-popup', 
         );
-        $a = shortcode_atts($default, $atts);
+        $a = shortcode_atts($default, $attr);
         $tooltip = do_shortcode('[lightbox id="'.$a['href'].'" width="600px" padding="20px"][block id="'.$a['block_id'].'"][/lightbox]');
 
         return '
