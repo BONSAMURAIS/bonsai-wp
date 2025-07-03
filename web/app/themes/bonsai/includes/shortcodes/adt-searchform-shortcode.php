@@ -70,7 +70,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         
                         <?= do_shortcode('[tooltip id="info-household-composition" href="#info-household-composition" label="Household composition" block_id="household-composition-info-popup"]')?>
 
-                        <?= do_shortcode('[dropdown_list id="household-composition" list_options="'.$household_compo_options.'"]')?>
+                        <?= do_shortcode('[dropdown_list id="household-composition" list_options="'.$household_compo_raw.'"]')?>
                         
                         <label class="select" for="household-composition">
                             <select id="household-composition">

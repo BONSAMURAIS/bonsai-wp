@@ -9,7 +9,7 @@
         $a = shortcode_atts($default, $attr);
 
         $options = '';
-        foreach ($a['list_options'] as $option) {
+        foreach (json_decode($a['list_options']) as $option) {
             $options .= '<option value="' . esc_attr($option['id']) . '">' . esc_html(ucfirst($option['label'])) . '</option>';
         }
         $arrow_icon = do_shortcode('[arrow_icon]');
