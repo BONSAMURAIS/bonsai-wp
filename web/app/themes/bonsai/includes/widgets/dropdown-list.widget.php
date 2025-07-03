@@ -7,13 +7,7 @@
         );
         $a = shortcode_attr($default, $attr);
 
-        $json_file = __DIR__ . $attr['filepath'];
-
-        if (!file_exists($json_file)) {
-            return '<p>JSON file not found.</p>';
-        }
-
-        $json_content = file_get_contents($json_file);
+        $json_content = file_get_contents(__DIR__ . $attr['filepath']);
         $list_options = json_decode($json_content, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
