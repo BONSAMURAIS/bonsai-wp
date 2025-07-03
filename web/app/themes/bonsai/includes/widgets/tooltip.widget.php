@@ -11,7 +11,7 @@
 
         return '
             <div class="tooltip">
-                <a href="'.$a['href'].'">
+                <a href="#'.$a['href'].'">
                     '. $a['label'] .'
                 </a>'
                 . $tooltip .
