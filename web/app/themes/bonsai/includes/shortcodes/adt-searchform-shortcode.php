@@ -67,38 +67,12 @@ add_shortcode( 'adt_searchform', function($atts) {
             <div class="row person-choices" style="display: none;">
                 <div class="select-wrapper col medium-12 small-12 large-12">
                     <div class="medium-6 small-12 large-6">
-                        
                         <?= do_shortcode('[tooltip id="info-household-composition" href="#info-household-composition" label="Household composition" block_id="household-composition-info-popup"]')?>
-
                         <?= do_shortcode('[dropdown_list id="household-composition" filepath="'.__DIR__.'/../../dropdown_options/household_compo.json"]')?>
-                        
-                        <label class="select" for="household-composition">
-                            <select id="household-composition">
-                                <?php 
-                                    foreach($household_compo_options as $option) {
-                                        echo '<option value="'. $option['id'].  '">'. ucfirst($option['label']).'</option>';      
-                                    }
-                                ?>
-                            </select>
-                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                            </svg>
-                        </label>
                     </div>
                     <div class="medium-6 small-12 large-6">
                         <?= do_shortcode('[tooltip id="info-income-group" href="#info-income-group" label="Income group" block_id="income-group-info-popup"]')?>
-                        <label class="select" for="income-group">
-                            <select id="income-group">
-                                <?php 
-                                    foreach($income_gpe_options as $option) {
-                                        echo '<option value="'. $option['id'].  '">'. ucfirst($option['label']).'</option>';      
-                                    }
-                                ?>
-                            </select>
-                            <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                            </svg>
-                        </label>
+                        <?= do_shortcode('[dropdown_list id="income-group" filepath="'.__DIR__.'/../../dropdown_options/income_gpe.json"]')?>
                     </div>
                 </div>
             </div>
@@ -170,6 +144,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div class="select-wrapper col medium-12 small-12 large-12">
                         <div class="medium-6 small-12 large-3">
                             <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
+                            
                             <label class="select" for="location">
                                 <select id="location">
                                     <?php foreach($locationsArray as $location): ?>
@@ -182,30 +157,12 @@ add_shortcode( 'adt_searchform', function($atts) {
                         
                         <div class="medium-6 small-12 large-3">
                             <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
-                            <label class="select" for="year">
-                                <select id="year">
-                                    <?php 
-                                        foreach($year_options as $option) {
-                                            echo '<option value="'. $option['id'].  '">'. ucfirst($option['label']).'</option>';      
-                                        }
-                                    ?>
-                                </select>
-                                <?php do_shortcode('[arrow_icon]')?>
-                            </label>    
+                            <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
                         </div>
 
                         <div class="medium-6 small-12 large-3">
                             <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
-                            <label class="select" for="climate-metric">
-                                <select id="climate-metric">
-                                    <?php 
-                                        foreach($climate_metric_options as $option) {
-                                            echo '<option value="'. $option['id'].  '">'. ucfirst($option['label']).'</option>';      
-                                        }
-                                    ?>
-                                </select>
-                                <?= do_shortcode('[arrow_icon]')?>
-                            </label>    
+                            <?= do_shortcode('[dropdown_list id="climate-metric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
                         </div>
                         <div class="medium-6 small-12 large-3">
                             <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
