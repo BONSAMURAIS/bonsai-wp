@@ -1491,7 +1491,7 @@ function setUnitOptions(element, i, dataArray, unit_ref){
                 {ratio:1,label:"MJ"},
             ];
         }
-    } else if (unit_ref === c_Unit.ITEM){
+    } else if (unit_ref === c_Unit.ITEMS){
             unitList = [
                 {ratio:1,label:"item(s)"},
             ]
