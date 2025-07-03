@@ -5,9 +5,9 @@
             'id' => 'id',
             'filepath' => '',
         );
-        $a = shortcode_atts($default, $attr);
+        $a = shortcode_attr($default, $attr);
 
-        $json_file = $atts['filepath'];
+        $json_file = $attr['filepath'];
 
         if (!file_exists($json_file)) {
             return '<p>JSON file not found.</p>';
