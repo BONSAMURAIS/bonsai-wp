@@ -22,8 +22,12 @@ require_once "includes/shortcodes/adt-searchform-shortcode.php";
 require_once "includes/shortcodes/adt-issues-shortcode.php";
 
 // icons
-require_once "includes/icons/arrow-icon.php";
-require_once "includes/icons/search-icon.php";
+require_once "includes/icons/arrow.icon.php";
+require_once "includes/icons/search.icon.php";
+
+//widget
+require_once "includes/widgets/dropdown-list.widget.php";
+require_once "includes/widgets/tile.widget.php";
 
 
 add_action('wp_head', function(){
