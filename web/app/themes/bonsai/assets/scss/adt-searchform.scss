@@ -607,9 +607,10 @@ div#initial-error-message {
             width: 85%;
 
             > * {
-                border-radius: 5px;
                 border-style: solid;
-
+                border-radius: 20px;
+                border-width:thin;
+                padding: 3px;
             }
         }
     }
