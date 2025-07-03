@@ -21,6 +21,10 @@ require_once "includes/shortcodes/adt-navigation-shortcode.php";
 require_once "includes/shortcodes/adt-searchform-shortcode.php";
 require_once "includes/shortcodes/adt-issues-shortcode.php";
 
+// icons
+require_once "includes/icons/arrow-icon.php";
+
+
 add_action('wp_head', function(){
     ?>
     <script>
