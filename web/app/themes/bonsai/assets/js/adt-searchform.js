@@ -1210,16 +1210,16 @@ function adt_save_local_search_history(productTitle, productCode, productUuid, c
         searchHistoryHtml += '</li>';
     });
 
-    jQuery('.search-history ul').html(searchHistoryHtml);
+    jQuery('#search-history-list').html(searchHistoryHtml);
 
-    jQuery('.search-history ul .remove').on('click', function() {
+    jQuery('#search-history-list .remove').on('click', function() {
         const index = jQuery(this).data('index');
         searchHistory.splice(index, 1);
         localStorage.setItem("adt_search_history", JSON.stringify(searchHistory));
         jQuery(this).parent().remove();
     });
 
-    jQuery('.search-history ul li').on('click', function() {
+    jQuery('#search-history-list li').on('click', function() {
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
@@ -1249,16 +1249,16 @@ function adt_initialize_local_search_history()
         searchHistoryHtml += '</li>';
     });
 
-    jQuery('.search-history ul').html(searchHistoryHtml);
+    jQuery('#search-history-list').html(searchHistoryHtml);
 
-    jQuery('.search-history ul .remove').on('click', function() {
+    jQuery('#search-history-list .remove').on('click', function() {
         const index = jQuery(this).data('index');
         searchHistory.splice(index, 1);
         localStorage.setItem("adt_search_history", JSON.stringify(searchHistory));
         jQuery(this).parent().remove();
     });
 
-    jQuery('.search-history ul li').on('click', function() {
+    jQuery('#search-history-list li').on('click', function() {
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
