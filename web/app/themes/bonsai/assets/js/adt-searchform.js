@@ -552,7 +552,7 @@ async function adt_update_original_info(dataArray) {
             $element.find('.product-result').text(formatted);
             defaultValue = parseFloat($element.find('.product-result').text());
             
-            on_change_unit($element,".col:first-child",dataArray,valueForItems);
+            on_change_unit($element,".col:first-child",dataArray,defaultValue,valueForItems);
         } else {
             console.log("!dataArray.all_data");
             $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
@@ -803,7 +803,7 @@ async function adt_update_comparison_info(dataArray = null){
     await adt_update_recipe(dataArray, 'comparison');
 }
 
-function on_change_unit(element, childClass, dataArray, valueForItems){
+function on_change_unit(element, childClass, dataArray,defaultValue, valueForItems){
     element.find('select.unit').on('change', function () {
         let unitRatio = jQuery(this).val();
         let unitRatio_name = jQuery(this).find('option:selected').text();
