@@ -7,5 +7,5 @@
         </button>';
     }
 
-    add_shortcode('search_icon', 'generate_arrow_icon');
+    add_shortcode('search_icon', 'generate_search_icon');
 ?>
