@@ -19,10 +19,14 @@ add_shortcode( 'adt_searchform', function($atts) {
     ]);
 
     ob_start();
-    $household_compo_raw = file_get_contents (__DIR__ . "/../../mappings/household_compo.json");
-    $household_compo = json_decode($household_compo_raw,true);
-    $income_gpe_raw = file_get_contents (__DIR__ . "/../../mappings/income_gpe.json");
-    $income_gpe = json_decode($income_gpe_raw,true);
+    $household_compo_raw = file_get_contents (__DIR__ . "/../../dropdown_options/household_compo.json");
+    $household_compo_options = json_decode($household_compo_raw,true);
+    $income_gpe_raw = file_get_contents (__DIR__ . "/../../dropdown_options/income_gpe.json");
+    $income_gpe_options = json_decode($income_gpe_raw,true);
+    $year_raw = file_get_contents (__DIR__ . "/../../dropdown_options/year.json");
+    $year_options = json_decode($year_raw,true);
+    $climate_metric_raw = file_get_contents (__DIR__ . "/../../dropdown_options/climate_metric.json");
+    $climate_metric_options = json_decode($climate_metric_raw,true);
 
     ?>
 
@@ -82,8 +86,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <label class="select" for="household-composition">
                             <select id="household-composition">
                                 <?php 
-                                    foreach($household_compo as $elem) {
-                                        echo '<option value="'. $elem['id'].  '">'. ucfirst($elem['label']).'</option>';      
+                                    foreach($household_compo_options as $option) {
+                                        echo '<option value="'. $option['id'].  '">'. ucfirst($option['label']).'</option>';      
                                     }
                                 ?>
                             </select>
@@ -102,8 +106,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <label class="select" for="income-group">
                             <select id="income-group">
                                 <?php 
-                                    foreach($income_gpe as $elem) {
-                                        echo '<option value="'. $elem['id'].  '">'. ucfirst($elem['label']).'</option>';      
+                                    foreach($income_gpe_options as $option) {
+                                        echo '<option value="'. $option['id'].  '">'. ucfirst($option['label']).'</option>';      
                                     }
                                 ?>
                             </select>
@@ -211,7 +215,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </div>
                             <label class="select" for="year">
                                 <select id="year">
-                                    <option value="2016">2016</option>
+                                    <?php 
+                                        foreach($year_options as $option) {
+                                            echo '<option value="'. $option['id'].  '">'. ucfirst($option['label']).'</option>';      
+                                        }
+                                    ?>
                                 </select>
                                 <svg class="select-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
@@ -228,8 +236,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </div>
                             <label class="select" for="climate-metric">
                                 <select id="climate-metric">
-                                    <option value="GWP100">GWP100</option>
-                                    <!-- <option value="GTP20">GTP20</option> -->
+                                    <?php 
+                                        foreach($climate_metric_options as $option) {
+                                            echo '<option value="'. $option['id'].  '">'. ucfirst($option['label']).'</option>';      
+                                        }
+                                    ?>
                                 </select>
                                 <svg class="select-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
@@ -246,8 +257,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <label class="select" for="database-version">
                                 <select id="database-version">
                                     <option value="v1.0.0" selected="selected">v1.0.0</option>
-                                    <!-- <option value="v1.1.0">v1.1.0</option>
-                                    <option value="v1.0.0">v1.0.0</option> -->
                                 </select>
                                 <svg class="select-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
