@@ -1,5 +1,5 @@
 <?php
-    function generate_dropdown_list_with_tooltip($atts){
+    function generate_dropdown_list($atts){
 
         $a = shortcode_atts($default, $atts);
 
@@ -19,5 +19,5 @@
                     </svg>
                 </label>';
     }
-    add_shortcode('tooltiped_dropdownlist', 'generate_dropdown_list_with_tooltip');
+    add_shortcode('tooltiped_dropdownlist', 'generate_dropdown_list');
 ?>
