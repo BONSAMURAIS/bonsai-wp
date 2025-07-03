@@ -34,12 +34,7 @@ add_shortcode( 'adt_searchform', function($atts) {
         <form class="co2-form">
             <div class="row align-bottom">
                 <div class="col medium-6 small-12 large-6 pb-0 text-left">
-                    <div class="tooltip">
-                        <a href="#info-footprint">
-                            Footprint
-                        </a>
-                        <?= do_shortcode('[lightbox id="info-footprint" width="600px" padding="20px"][block id="footprint-regular-info-popup"][/lightbox]') ?>
-                    </div>
+                    <?= do_shortcode('[tooltip id="info-footprint" href="#info-footprint" label="Footprint" block_id="footprint-regular-info-popup"]')?>
                     <div class="switch-field-wrapper">
                         <div class="switch-field-container">
                             <input type="radio" id="radio-one" name="switch-one" value="product" checked/>
@@ -50,12 +45,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </div>
                 </div>
                 <div class="col medium-6 small-12 large-6 pb-0 text-right">
-                    <div class="tooltip">
-                        <a href="#info-footprint-type">
-                            Footprint extent
-                        </a>
-                        <?= do_shortcode('[lightbox id="info-footprint-type" width="600px" padding="20px"][block id="footprint-info-popup"][/lightbox]') ?>
-                    </div>
+                    <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
                     <div id="footprint-type" class="select">
                         <div class="radio-choice">
                             <input type="radio" id="production" name="footprint_type" value="product" checked/>
@@ -77,7 +67,7 @@ add_shortcode( 'adt_searchform', function($atts) {
             <div class="row person-choices" style="display: none;">
                 <div class="select-wrapper col medium-12 small-12 large-12">
                     <div class="medium-6 small-12 large-6">
-                        <?= do_shortcode('[tooltip href="info-household-composition" label="Household composition" block_id="household-composition-info-popup"]')?>
+                        <?= do_shortcode('[tooltip id="info-household-composition" href="#info-household-composition" label="Household composition" block_id="household-composition-info-popup"]')?>
                         <label class="select" for="household-composition">
                             <select id="household-composition">
                                 <?php 
@@ -92,7 +82,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </label>
                     </div>
                     <div class="medium-6 small-12 large-6">
-                        <?= do_shortcode('[tooltip href="info-income-group" label="Income group" block_id="income-group-info-popup"]')?>
+                        <?= do_shortcode('[tooltip id="info-income-group" href="#info-income-group" label="Income group" block_id="income-group-info-popup"]')?>
                         <label class="select" for="income-group">
                             <select id="income-group">
                                 <?php 
@@ -175,7 +165,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <div class="row">
                     <div class="select-wrapper col medium-12 small-12 large-12">
                         <div class="medium-6 small-12 large-3">
-                            <?= do_shortcode('[tooltip href="info-location" label="Location" block_id="location-info-popup"]')?>
+                            <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
                             <label class="select" for="location">
                                 <select id="location">
                                     <?php foreach($locationsArray as $location): ?>
@@ -187,7 +177,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                         
                         <div class="medium-6 small-12 large-3">
-                            <?= do_shortcode('[tooltip href="info-year" label="Year" block_id="year-info-popup"]')?>
+                            <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
                             <label class="select" for="year">
                                 <select id="year">
                                     <?php 
@@ -201,7 +191,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
 
                         <div class="medium-6 small-12 large-3">
-                            <?= do_shortcode('[tooltip href="info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
+                            <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
                             <label class="select" for="climate-metric">
                                 <select id="climate-metric">
                                     <?php 
@@ -214,7 +204,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </label>    
                         </div>
                         <div class="medium-6 small-12 large-3">
-                            <?= do_shortcode('[tooltip href="info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
+                            <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
                             <label class="select" for="database-version">
                                 <select id="database-version">
                                     <option value="v1.0.0" selected="selected">v1.0.0</option>
@@ -259,7 +249,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </div>
                 </div>
                 <div class="tooltip-wrapper">
-                    <?= do_shortcode('[tooltip href="info-uncertainty" label="read more about the uncertainty in the data" block_id="uncertainty-info-popup"]')?>
+                    <?= do_shortcode('[tooltip id="info-uncertainty" href="#info-uncertainty" label="read more about the uncertainty in the data" block_id="uncertainty-info-popup"]')?>
                 </div>
             </div>
             <div id="summary-analysis" class="row align-equal search-result basic" style="display: flex;">
@@ -289,7 +279,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <p class="product-result"></p>
                         <p class="product-result-unit"></p>
                         <div class="tooltip-wrapper">
-                            <?= do_shortcode('[tooltip href="info-product" label="Read more about the result" block_id="product-result-info-popup"]')?>
+                            <?= do_shortcode('[tooltip id="info-product" href="#info-product" label="Read more about the result" block_id="product-result-info-popup"]')?>
                         </div>
                     </div>
                 </div>
@@ -364,7 +354,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
 
                         <div class="tooltip-wrapper">
-                            <?= do_shortcode('[tooltip href="info-product" label="Read more about the result" block_id="product-result-info-popup"]')?>
+                            <?= do_shortcode('[tooltip id="info-product" href="#info-product" label="Read more about the result" block_id="product-result-info-popup"]')?>
                         </div>
                     </div>
                 </div>
