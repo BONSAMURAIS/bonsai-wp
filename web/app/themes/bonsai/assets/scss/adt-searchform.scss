@@ -313,7 +313,7 @@ div#initial-error-message {
         border-radius: 0 0 22.5px 22.5px;
     }
     
-    .search-history {
+    #search-history {
         padding: 10px 0;
         margin: 0 30px;
         border-top: 1px solid $dark-grey;
@@ -337,50 +337,7 @@ div#initial-error-message {
 
         }
 
-        ul {
-            display: flex;
-            gap: 10px;
 
-            @media screen and (max-width: 468px) {
-                overflow-x: scroll;
-                margin: 0;
-            }
-
-            .button {
-                // margin: 0 15px 0 0;
-                display: flex;
-                display: inline-block; /* Ensure it behaves properly */
-                align-items: center;
-                margin: 0;
-                white-space: nowrap;
-                overflow: hidden;
-                min-width: 20%;
-                max-width: 25%;
-                text-align: left;
-                text-overflow: ellipsis;
-
-                .remove {
-                    position: absolute;
-                    right: 5px;
-                    top: 8px;
-                }
-
-                @media only screen and (max-width: 468px) {
-                    margin: 0 5px 0 0;
-                    font-size: 10px;
-                }
-
-                &.is-outline {
-                    border: 1px solid $secondary;
-                }
-
-                &:hover {
-                    background-color: inherit;
-                    color: inherit;
-                    border-color: inherit;
-                }
-            }
-        }
 
 
         .remove {
@@ -395,6 +352,51 @@ div#initial-error-message {
             }
         }
 
+    }
+}
+
+#search-history-list {
+    display: flex;
+    gap: 10px;
+
+    @media screen and (max-width: 468px) {
+        overflow-x: scroll;
+        margin: 0;
+    }
+
+    .button {
+        // margin: 0 15px 0 0;
+        display: flex;
+        display: inline-block; /* Ensure it behaves properly */
+        align-items: center;
+        margin: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        min-width: 20%;
+        max-width: 25%;
+        text-align: left;
+        text-overflow: ellipsis;
+
+        .remove {
+            position: absolute;
+            right: 5px;
+            top: 8px;
+        }
+
+        @media only screen and (max-width: 468px) {
+            margin: 0 5px 0 0;
+            font-size: 10px;
+        }
+
+        &.is-outline {
+            border: 1px solid $secondary;
+        }
+
+        &:hover {
+            background-color: inherit;
+            color: inherit;
+            border-color: inherit;
+        }
     }
 }
 
