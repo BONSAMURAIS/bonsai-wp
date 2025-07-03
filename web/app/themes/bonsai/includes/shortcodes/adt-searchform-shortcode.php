@@ -200,7 +200,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                         <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
                                     <?php endforeach; ?>
                                 </select>
-                                [arrow_icon]
+                                <?= do_shortcode('[arrow_icon]')?>
                             </label>
                         </div>
                         
@@ -219,7 +219,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                         }
                                     ?>
                                 </select>
-                                [arrow_icon]
+                                <?= do_shortcode('[arrow_icon]')?>
                             </label>    
                         </div>
 
@@ -238,7 +238,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                         }
                                     ?>
                                 </select>
-                                [arrow_icon]
+                                <?= do_shortcode('[arrow_icon]')?>
                             </label>    
                         </div>
                         <div class="medium-6 small-12 large-3">
@@ -252,7 +252,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <select id="database-version">
                                     <option value="v1.0.0" selected="selected">v1.0.0</option>
                                 </select>
-                                [arrow_icon]
+                                <?= do_shortcode('[arrow_icon]')?>
                             </label>    
                         </div>
                     </div>
