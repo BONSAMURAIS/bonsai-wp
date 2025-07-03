@@ -19,14 +19,6 @@ add_shortcode( 'adt_searchform', function($atts) {
     ]);
 
     ob_start();
-    $household_compo_raw = file_get_contents (__DIR__ . "/../../dropdown_options/household_compo.json");
-    $household_compo_options = json_decode($household_compo_raw,true);
-    $income_gpe_raw = file_get_contents (__DIR__ . "/../../dropdown_options/income_gpe.json");
-    $income_gpe_options = json_decode($income_gpe_raw,true);
-    $year_raw = file_get_contents (__DIR__ . "/../../dropdown_options/year.json");
-    $year_options = json_decode($year_raw,true);
-    $climate_metric_raw = file_get_contents (__DIR__ . "/../../dropdown_options/climate_metric.json");
-    $climate_metric_options = json_decode($climate_metric_raw,true);
 
     ?>
 
