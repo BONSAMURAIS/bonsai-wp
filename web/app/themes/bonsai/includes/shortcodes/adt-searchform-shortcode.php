@@ -136,7 +136,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div class="select-wrapper col medium-12 small-12 large-12">
                         <div class="medium-6 small-12 large-3">
                             <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
-                            
                             <label class="select" for="location">
                                 <select id="location">
                                     <?php foreach($locationsArray as $location): ?>
@@ -151,7 +150,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
                             <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
                         </div>
-
                         <div class="medium-6 small-12 large-3">
                             <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
                             <?= do_shortcode('[dropdown_list id="climate-metric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
@@ -200,6 +198,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <?= do_shortcode('[tooltip id="info-uncertainty" href="#info-uncertainty" label="read more about the uncertainty in the data" block_id="uncertainty-info-popup"]')?>
                 </div>
             </div>
+            
             <div id="summary-analysis" class="row align-equal search-result basic" style="display: flex;">
                 <div class="col medium-6 small-12 large-6">
                     <div class="col-inner">
