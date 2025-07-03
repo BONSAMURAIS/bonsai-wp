@@ -147,7 +147,7 @@ add_shortcode( 'adt_searchform', function($atts) {
             </div>
         </form>
         <div class="most-popular-wrapper">
-            <div class="most-popular-container">
+            <div id="most-popular-container">
                 <!-- By other searches -->
                 <p>Most popular:</p>
                 <ul>

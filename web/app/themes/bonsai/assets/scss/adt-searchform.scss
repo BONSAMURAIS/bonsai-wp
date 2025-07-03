@@ -950,17 +950,11 @@ span.adt-close {
     }
 }
 
-.col-inner {
-    .most-popular-container {
-        ul {
-            li {
-                margin-left: 0;
+#most-popular-container > ul > li {
+    margin-left: 0;
 
-                &:first-of-type {
-                    margin-left: 10px;
-                }
-            }
-        }
+    &:first-of-type {
+        margin-left: 10px;
     }
 }
 

@@ -173,7 +173,7 @@ jQuery(document).ready(function($){
         }
     })
 
-    $('.most-popular-container ul li button').on('click', function() {
+    $('#most-popular-container ul li button').on('click', function() {
         let productTitle = $(this).text();
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
