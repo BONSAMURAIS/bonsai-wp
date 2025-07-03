@@ -757,7 +757,7 @@ function on_change_unit(element, childClass, dataArray,defaultValue, valueForIte
         console.log("jQuery(this) =",jQuery(this))
         console.log("unitRatio_name =",unitRatio_name)
         console.log("unitRatio =",unitRatio)
-        console.log("amount=",)
+        console.log("amount=",currentAmount)
         
         jQuery('.search-result '+childClass+' select.unit').each(async function () {
             jQuery(this).val(unitRatio);
