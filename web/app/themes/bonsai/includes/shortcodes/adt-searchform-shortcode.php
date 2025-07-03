@@ -77,7 +77,7 @@ add_shortcode( 'adt_searchform', function($atts) {
             <div class="row person-choices" style="display: none;">
                 <div class="select-wrapper col medium-12 small-12 large-12">
                     <div class="medium-6 small-12 large-6">
-                        <?= do_shortcode('[tooltip label="testtest"]')?>
+                        <?= do_shortcode('[tooltip href="info-household-composition" label="Household composition" block_id="household-composition-info-popup"]')?>
                         <div class="tooltip">
                             <a href="#info-household-composition">
                                 Household composition
