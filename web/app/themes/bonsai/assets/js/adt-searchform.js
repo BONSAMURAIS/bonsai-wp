@@ -552,6 +552,7 @@ async function adt_update_original_info(dataArray) {
             $element.find('.product-result').text(formatted);
             defaultValue = parseFloat($element.find('.product-result').text());
             
+            
             on_change_unit($element,".col:first-child",dataArray,defaultValue,valueForItems);
         } else {
             console.log("!dataArray.all_data");
@@ -765,6 +766,7 @@ function on_change_unit(element, childClass, dataArray,defaultValue, valueForIte
 
             console.log("newElement=",newElement)
             for (const item of dataArray.all_data) {
+                //issue on code region selected. it is currently random
                 console.log("item=",item)
                 console.log("item.value=",item.value)
                 console.log("item.value*ratio=",item.value*unitRatio)
