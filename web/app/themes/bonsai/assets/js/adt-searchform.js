@@ -48,7 +48,6 @@ jQuery(document).ready(function($){
     });
 
     $('#income-group').on('change',function(){
-        console.log("change income");
         let userSelection = new UserSelection();
         adt_get_person_footprint(userSelection);
     });
@@ -61,11 +60,11 @@ jQuery(document).ready(function($){
             let value = $(this).val();
             
             if (value == 'advanced') {
-                $('.search-result.advanced').css('display', 'flex');
-                $('.search-result.basic').hide();
+                $('#contribution-analysis').css('display', 'flex');
+                $('#summary-analysis').hide();
             } else {
-                $('.search-result.basic').css('display', 'flex');
-                $('.search-result.advanced').hide();
+                $('summary-analysis').css('display', 'flex');
+                $('#contribution-analysis').hide();
             }
         }
     });

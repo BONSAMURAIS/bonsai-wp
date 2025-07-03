@@ -295,7 +295,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
                 <?= do_shortcode('[lightbox id="info-uncertainty" width="600px" padding="20px"][block id="uncertainty-info-popup"][/lightbox]') ?>
             </div>
-            <div class="row align-equal search-result basic" style="display: flex;">
+            <div id="summary-analysis" class="row align-equal search-result basic" style="display: flex;">
                 <div class="col medium-6 small-12 large-6">
                     <div class="col-inner">
                         <p id="main-tile-prod-title" class="product-title"></p>
@@ -337,7 +337,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </a>
                 </div>
             </div>
-            <div class="row align-equal search-result advanced" style="display: none;">
+            <div id="contribution-analysis" class="row align-equal search-result advanced" style="display: none;">
                 <div class="col medium-12 small-12 large-12">
                     <div class="col-inner">
                         <div class="calculation-wrapper">
