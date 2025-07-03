@@ -128,7 +128,7 @@ jQuery(document).ready(function($){
             }
             
             productTitleArray.push(this.title);
-            productContentArray.push(this.content); //ici
+            productContentArray.push(this.content);
             productCodeArray.push(this.code);
             productUuidArray.push(this.uuid);    
         });
@@ -654,14 +654,14 @@ async function adt_update_comparison_info(dataArray = null){
                     // Because comparison is active also get the uncertainty of the comparison
                     adt_uncertainty_calculation(originalSample, comparisonSample);
 
-                    if (item.unit_reference === 'TJ'){
+                    if (item.unit_reference === c_Unit.TJ){
                         if(item.description.includes('electricity')){
                             console.log('ELECTRICITY is found');
-                            convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'kWh', valueForItems);
+                            convertedValueForItems = await adt_get_converted_number_by_units(c_Unit.TJ, c_Unit.KWH, valueForItems);
                             item.value = convertedValueForItems;
                         }else{
                             console.log('does not contain electricity');
-                            convertedValueForItems = await adt_get_converted_number_by_units('TJ', 'MJ', valueForItems);
+                            convertedValueForItems = await adt_get_converted_number_by_units(c_Unit.TJ, c_Unit.MJ, valueForItems);
                             // multiply by 1000 to convert from MJ per tonnes to MJ per kg
                             convertedValueForItems = convertedValueForItems * 1000;
                             item.value = convertedValueForItems;
@@ -830,15 +830,15 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         let updatedInflow = '';
 
         // If unit_inflow "Meuro" per tonnes convert to Euro per kg
-        if (recipe.unit_inflow === 'Meuro') {
+        if (recipe.unit_inflow === c_Unit.MEURO) {
             updatedInflow = recipe.value_inflow * 1000;
             recipe.value_emission = recipe.value_emission * 1000;
-            recipe.unit_inflow = 'EUR';
+            recipe.unit_inflow = c_Unit.EUR;
         }
 
         // If unit_inflow "tonnes" per tonnes convert to kg per kg (same number)
-        if (recipe.unit_inflow === 'tonnes') {
-            recipe.unit_inflow = 'kg';
+        if (recipe.unit_inflow === c_Unit.TONNES) {
+            recipe.unit_inflow = c_Unit.KG;
         }
         
         // If unit_inflow "TJ" per tonnes with electricity convert to kWh per kg
@@ -869,8 +869,8 @@ async function adt_update_recipe(dataArray, boxToUpdate)
 
         // If unit_inflow "ha*year" per tonnes convert tonnes to kg
         // And convert "ha*year" to "m²*year"
-        if (recipe.unit_inflow === 'ha*year') {
-            recipe.unit_inflow = 'm²*year';
+        if (recipe.unit_inflow === c_Unit.HA_PER_YEAR) {
+            recipe.unit_inflow = c_Unit.M2_PER_YEAR;
             updatedInflow = recipe.value_inflow * 10;
             recipe.value_emission = recipe.value_emission;
         }
@@ -1466,7 +1466,7 @@ function setUnitOptions(element, i, dataArray, unit_ref){
 
     console.log("setUnit dataArray:",dataArray);
     
-    if (unit_ref === 'DKK'){
+    if (unit_ref === c_Unit.DKK){
         unitList = [
             {ratio:1e-6,label:"EUR"},
             {ratio:1e-3,label:"kEUR"},
@@ -1475,13 +1475,13 @@ function setUnitOptions(element, i, dataArray, unit_ref){
             {ratio:1e3,label:"kDKK"},
             {ratio:1e6,label:"mDKK"}
         ];
-    } else if (unit_ref === 'tonnes') {
+    } else if (unit_ref === c_Unit.TONNES) {
         unitList = [
             {ratio:1,label:"kg"},
             {ratio:1e-3,label:"g"},
             {ratio:1e3,label:"tonne(s)"},
         ];
-    } else if (unit_ref === 'MJ'){
+    } else if (unit_ref === c_Unit.MJ){
         if (dataArray.all_data[i].flow_code.includes('_elec') || dataArray.all_data[i].flow_code.includes('_POW')){
             unitList = [
                 {ratio:1,label:"kWh"},
@@ -1491,7 +1491,7 @@ function setUnitOptions(element, i, dataArray, unit_ref){
                 {ratio:1,label:"MJ"},
             ];
         }
-    } else if (unit_ref === 'items'){
+    } else if (unit_ref === c_Unit.ITEM){
             unitList = [
                 {ratio:1,label:"item(s)"},
             ]
