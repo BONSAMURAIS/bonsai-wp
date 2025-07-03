@@ -15,7 +15,7 @@
 
         $options = '';
         foreach (json_decode($a['list_options']) as $option) {
-            $options .= '<option value="' . $option['id'] . '">' . ucfirst($option['label']) . '</option>';
+            $options .= '<option value="' . esc_attr($option['id']) . '">' . esc_html(ucfirst($option['label'])) . '</option>';
         }
         $arrow_icon = do_shortcode('[arrow_icon]');
         return '<label class="select" for="'.$a['id'].'">
