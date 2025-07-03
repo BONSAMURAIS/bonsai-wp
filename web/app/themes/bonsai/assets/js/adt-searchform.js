@@ -769,11 +769,11 @@ function on_change_unit(element, childClass, dataArray,defaultValue, valueForIte
                 console.log("item=",item)
                 console.log("item.value=",item.value)
                 console.log("item.value*ratio=",item.value*unitRatio)
-                if (item.unit_reference == "DKK"){
-                    if (unitRatio_name.includes("DKK")){ //TODO to rafactor
+                if (item.unit_reference == c_Unit.DKK){
+                    if (unitRatio_name.includes(c_Unit.DKK)){ //TODO to rafactor
                         valueForItems = item.value*unitRatio*currentAmount;
                         break;
-                    } else if (unitRatio_name.includes("EUR")){
+                    } else if (unitRatio_name.includes(c_Unit.EUR)){
                         valueForItems = item.value*unitRatio*currentAmount;
                         break;
                     }
