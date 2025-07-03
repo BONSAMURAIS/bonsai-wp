@@ -191,12 +191,12 @@ jQuery(document).ready(function($){
         let productTitle = $('.search-result.basic .col:first-child p.product-title').text();
         let productFootprint = $('input[name="switch-one"]').val();
         let FootprintView = $('input[name="switch-two"]').val();
-        let productFootprintType = $('.search-result > .col:first-child .product-tag.footprint-type').attr('data-type');
+        let productFootprintType = $('.search-result > .col:first-child .footprint-type').attr('data-type');
         let productCode = $('.search-result .col:first-child p.product-title').data('code');
-        let country = $('.search-result > .col:first-child .product-tag.country').attr('data-country');
-        let year = $('.search-result > .col:first-child .product-tag.year').attr('data-year');
-        let climateMetrics = $('.search-result > .col:first-child .product-tag.climate-metrics').attr('data-climate-metrics');
-        let databaseVersion = $('.search-result > .col:first-child .product-tag.version').attr('data-database-version');
+        let country = $('.search-result > .col:first-child .country').attr('data-country');
+        let year = $('.search-result > .col:first-child .year').attr('data-year');
+        let climateMetrics = $('.search-result > .col:first-child .climate-metrics').attr('data-climate-metrics');
+        let databaseVersion = $('.search-result > .col:first-child .version').attr('data-database-version');
         let chosenAmount = $('.search-result > .col:first-child #amount').val();
         let chosenUnit = $('.search-result > .col:first-child #unit').val();
 
@@ -220,10 +220,10 @@ jQuery(document).ready(function($){
         if (doesItCompare) {
             productTitleCompare = $('.search-result.basic .col:nth-child(2) p.product-title').text();
             productCodeCompare = $('.search-result .col:nth-child(2) p.product-title').data('code');
-            countryCompare = $('.search-result > .col:nth-child(2) .product-tag.country').attr('data-country');
-            yearCompare = $('.search-result > .col:nth-child(2) .product-tag.year').attr('data-year');
-            climateMetricsCompare = $('.search-result > .col:nth-child(2) .product-tag.climate-metrics').attr('data-climate-metrics');
-            databaseVersionCompare = $('.search-result > .col:nth-child(2) .product-tag.version').attr('data-database-version');
+            countryCompare = $('.search-result > .col:nth-child(2) .country').attr('data-country');
+            yearCompare = $('.search-result > .col:nth-child(2) .year').attr('data-year');
+            climateMetricsCompare = $('.search-result > .col:nth-child(2) .climate-metrics').attr('data-climate-metrics');
+            databaseVersionCompare = $('.search-result > .col:nth-child(2) .version').attr('data-database-version');
             chosenAmountCompare = $('.search-result > .col:nth-child(2) #amount').val();
             chosenUnitCompare = $('.search-result > .col:nth-child(2) #unit').val();
         }
@@ -482,27 +482,27 @@ function adt_update_tags(boxToUpdate){
     console.log("type=",type)
     console.log("jQuery(this)=",jQuery(this))
 
-    jQuery('.search-result > .col'+whichChild+' .product-tag.footprint-type').each(function() {
+    jQuery('.search-result > .col'+whichChild+' .footprint-type').each(function() {
         jQuery(this).text(type);
         jQuery(this).attr('data-type', typeValue);
     });
 
-    jQuery('.search-result > .col'+whichChild+' .product-tag.country').each(function() {
+    jQuery('.search-result > .col'+whichChild+' .country').each(function() {
         jQuery(this).text(country);
         jQuery(this).attr('data-country', countryVal);
     });
 
-    jQuery('.search-result > .col'+whichChild+' .product-tag.year').each(function() {
+    jQuery('.search-result > .col'+whichChild+' .year').each(function() {
         jQuery(this).text(year);
         jQuery(this).attr('data-year', year);
     });
 
-    jQuery('.search-result > .col'+whichChild+' .product-tag.climate-metrics').each(function() {
+    jQuery('.search-result > .col'+whichChild+' .climate-metrics').each(function() {
         jQuery(this).text(climateMetrics);
         jQuery(this).attr('data-climate-metrics', climateMetricsVal);
     });
 
-    jQuery('.search-result > .col'+whichChild+' .product-tag.version').each(function() {
+    jQuery('.search-result > .col'+whichChild+' .version').each(function() {
         jQuery(this).text(databaseVersion);
         jQuery(this).attr('data-database-version', databaseVersion);
     });
@@ -975,8 +975,8 @@ function adt_download_recipe_csv()
             e.preventDefault();
 
             let productTitle = jQuery(this).closest('.col-inner').find('.product-title').text();
-            let country = jQuery(this).closest('.col-inner').find('.product-tag.country').text();
-            let version = jQuery(this).closest('.col-inner').find('.product-tag.version').text();
+            let country = jQuery(this).closest('.col-inner').find('.country').text();
+            let version = jQuery(this).closest('.col-inner').find('.version').text();
             
             let csvContent = "";
 
