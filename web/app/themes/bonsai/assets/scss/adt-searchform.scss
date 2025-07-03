@@ -605,6 +605,12 @@ div#initial-error-message {
             gap: 5px;
             flex-wrap: wrap;
             width: 85%;
+
+            > * {
+                border-radius: 5px;
+                border-style: solid;
+
+            }
         }
     }
 
