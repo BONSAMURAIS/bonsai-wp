@@ -5,7 +5,7 @@
             'id' => 'id',
             'filepath' => '',
         );
-        $a = shortcode_attr($default, $attr);
+        $a = shortcode_atts($default, $attr);
 
         $json_content = file_get_contents(__DIR__ . $attr['filepath']);
         $list_options = json_decode($json_content, true);
