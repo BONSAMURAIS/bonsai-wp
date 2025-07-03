@@ -3,7 +3,7 @@
 
         $default = array(
             'id' => 'id',
-            'list_options' => ['id' => 'id', 'label' => 'label'],
+            'list_options' => '[]',
         );
 
         $a = shortcode_atts($default, $attr);
