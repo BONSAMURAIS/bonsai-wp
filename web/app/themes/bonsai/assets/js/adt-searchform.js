@@ -552,43 +552,7 @@ async function adt_update_original_info(dataArray) {
             $element.find('.product-result').text(formatted);
             defaultValue = parseFloat($element.find('.product-result').text());
             
-            $element.find('select.unit').on('change', function () {
-                //TODO add more unit selection
-                let unitRatio = jQuery(this).val();
-                let unitRatio_name = jQuery(this).find('option:selected').text();
-                let currentAmount = jQuery('.search-result .col:first-child .amount').val();
-                console.log("jQuery(this) =",jQuery(this))
-                console.log("unitRatio_name =",unitRatio_name)
-                console.log("unitRatio =",unitRatio)
-                console.log("amount=",)
-                
-                jQuery('.search-result .col:first-child select.unit').each(async function () {
-                    jQuery(this).val(unitRatio);
-                    let newElement = jQuery(this).closest('.col-inner');
-
-                    console.log("newElement=",newElement)
-                    for (const item of dataArray.all_data) {
-                        console.log("item=",item)
-                        console.log("item.value=",item.value)
-                        console.log("item.value*ratio=",item.value*unitRatio)
-                        if (item.unit_reference == "DKK"){
-                            if (unitRatio_name.includes("DKK")){ //TODO to rafactor
-                                valueForItems = item.value*unitRatio*currentAmount;
-                                break;
-                            } else if (unitRatio_name.includes("EUR")){
-                                valueForItems = item.value*unitRatio*currentAmount;
-                                break;
-                            }
-                        }
-                        valueForItems = item.value*unitRatio*currentAmount;
-                    }
-
-                  let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
-                    
-                    jQuery(newElement).find('.product-result').text(formatted);
-                    defaultValue = parseFloat(jQuery('.product-result', newElement).text());
-                });
-            });
+            on_change_unit($element,".col:first-child",dataArray,valueForItems);
         } else {
             console.log("!dataArray.all_data");
             $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
@@ -837,6 +801,46 @@ async function adt_update_comparison_info(dataArray = null){
     adt_update_tags('comparison');
 
     await adt_update_recipe(dataArray, 'comparison');
+}
+
+function on_change_unit(element, childClass, dataArray, valueForItems){
+    element.find('select.unit').on('change', function () {
+        let unitRatio = jQuery(this).val();
+        let unitRatio_name = jQuery(this).find('option:selected').text();
+        let currentAmount = jQuery('.search-result '+childClass+' .amount').val();
+        console.log("jQuery(this) =",jQuery(this))
+        console.log("unitRatio_name =",unitRatio_name)
+        console.log("unitRatio =",unitRatio)
+        console.log("amount=",)
+        
+        jQuery('.search-result '+childClass+' select.unit').each(async function () {
+            jQuery(this).val(unitRatio);
+            let newElement = jQuery(this).closest('.col-inner');
+
+            console.log("newElement=",newElement)
+            for (const item of dataArray.all_data) {
+                console.log("item=",item)
+                console.log("item.value=",item.value)
+                console.log("item.value*ratio=",item.value*unitRatio)
+                if (item.unit_reference == "DKK"){
+                    if (unitRatio_name.includes("DKK")){ //TODO to rafactor
+                        valueForItems = item.value*unitRatio*currentAmount;
+                        break;
+                    } else if (unitRatio_name.includes("EUR")){
+                        valueForItems = item.value*unitRatio*currentAmount;
+                        break;
+                    }
+                }
+                valueForItems = item.value*unitRatio*currentAmount;
+            }
+
+            let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
+            
+            jQuery(newElement).find('.product-result').text(formatted);
+            defaultValue = parseFloat(jQuery('.product-result', newElement).text());
+        });
+    });
+
 }
 
 async function adt_update_recipe(dataArray, boxToUpdate)
