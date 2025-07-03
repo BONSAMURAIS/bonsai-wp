@@ -63,7 +63,7 @@ jQuery(document).ready(function($){
                 $('#contribution-analysis').css('display', 'flex');
                 $('#summary-analysis').hide();
             } else {
-                $('summary-analysis').css('display', 'flex');
+                $('#summary-analysis').css('display', 'flex');
                 $('#contribution-analysis').hide();
             }
         }
