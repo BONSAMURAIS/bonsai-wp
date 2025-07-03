@@ -23,6 +23,7 @@ require_once "includes/shortcodes/adt-issues-shortcode.php";
 
 // icons
 require_once "includes/icons/arrow-icon.php";
+require_once "includes/icons/search-icon.php";
 
 
 add_action('wp_head', function(){
