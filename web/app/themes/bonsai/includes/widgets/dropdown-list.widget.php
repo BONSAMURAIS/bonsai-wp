@@ -1,23 +1,24 @@
 <?php
     function generate_dropdown_list($attr){
 
+        $default = array(
+            'id' => 'id',
+            'list_options' => ['id' => 'id', 'label' => 'label'],
+        );
+
         $a = shortcode_atts($default, $attr);
 
-        
-        return '<div class="tooltip">
-                    <a href="#info-household-composition">
-                        Household composition
-                    </a>
-
-                </div>
-                <label class="select" for="household-composition">
-                    <select id="household-composition">
-
+        $options = '';
+        foreach ($a['list_options'] as $option) {
+            $options .= '<option value="' . esc_attr($option['id']) . '">' . esc_html(ucfirst($option['label'])) . '</option>';
+        }
+        $arrow_icon = do_shortcode('[arrow_icon]');
+        return '<label class="select" for="'.$a['id'].'">
+                    <select id="'.$a['id'].'">
+                    '.$options.'
                     </select>
-                    <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                    </svg>
+                    '.$arrow_icon.'
                 </label>';
     }
-    add_shortcode('tooltiped_dropdownlist', 'generate_dropdown_list');
+    add_shortcode('dropdown_list', 'generate_dropdown_list');
 ?>
