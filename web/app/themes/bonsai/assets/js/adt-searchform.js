@@ -881,11 +881,11 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         rowMarkup += '<td class="input-flow">';
 
         if (recipe.value_inflow && recipe.value_inflow !== NaN) {
-            updatedInflow = Number(recipe.value_inflow.toPrecision(c_Config.SIGNIFICANT_NB));
+            updatedInflow = Number(recipe.value_inflow).toPrecision(c_Config.SIGNIFICANT_NB);
         }
         
         if (recipe.value_emission && recipe.value_emission !== NaN) {
-            recipe.value_emission = Number(recipe.value_emission.toPrecision(c_Config.SIGNIFICANT_NB));
+            recipe.value_emission = Number(recipe.value_emission).toPrecision(c_Config.SIGNIFICANT_NB);
         }
 
         rowMarkup += '<span class="inflow-value">' + (updatedInflow ? updatedInflow : '') + '</span>';
