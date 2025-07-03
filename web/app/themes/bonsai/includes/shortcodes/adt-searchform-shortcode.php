@@ -166,12 +166,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                         <div class="medium-6 small-12 large-3">
                             <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
-                            <label class="select" for="database-version">
-                                <select id="database-version">
-                                    <option value="v1.0.0" selected="selected">v1.0.0</option>
-                                </select>
-                                <?= do_shortcode('[arrow_icon]')?>
-                            </label>    
+                            <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
                         </div>
                     </div>
                     <!-- Not ready yet -->
