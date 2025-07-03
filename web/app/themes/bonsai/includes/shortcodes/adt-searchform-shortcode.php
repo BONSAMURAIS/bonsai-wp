@@ -219,7 +219,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                         }
                                     ?>
                                 </select>
-                                <?php echo do_shortcode('[arrow_icon]')?>
+                                [arrow_icon]'
                             </label>    
                         </div>
 
