@@ -13,7 +13,7 @@
         return '
             <div class="tooltip">
                 <a href="'.$a['href'].'">
-                    '. $a['label'] .'
+                    '. ucfirst($a['label']) .'
                 </a>'
                 . $tooltip .
             '</div>';
