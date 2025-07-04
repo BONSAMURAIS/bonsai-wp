@@ -1,4 +1,4 @@
-import * as c_Config from '../../constants/config.js'; 
+import * as c_Config from '../constants/config.js'; 
 
 export function capitalize(str) {
     if (!str) return '';
