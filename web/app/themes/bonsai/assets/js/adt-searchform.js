@@ -688,6 +688,7 @@ async function adt_update_comparison_info(dataArray = null){
 
     // Comparison begins
     if (!dataArray.all_data) {
+        console.log("start impossible loop to come")
         setTileTitle('.search-result .col:nth-child(2) p.product-title',dataArray);
         
         for (const element of jQuery('.search-result .col:nth-child(2)')) {
@@ -696,6 +697,7 @@ async function adt_update_comparison_info(dataArray = null){
             let defaultValue = 0;
             
             if (!dataArray.all_data) {
+                console.log("IMPOSSIBLE LOOP to come")
                 $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
 
                 $element.find('.product-result-unit').text(dataArray.unit_emission);
