@@ -561,7 +561,7 @@ async function adt_update_original_info(dataArray) {
             
             // Just let the first item be default instead of null
             let valueForItems = dataArray.value;
-            let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
+            let formatted = Utils.reformatValue(valueForItems);
             
             $element.find('.product-result').text(formatted);
             defaultValue = valueForItems;
@@ -674,7 +674,7 @@ async function adt_update_comparison_info(dataArray = null){
             if (convertedValueForItems) {
                 valueForItems = convertedValueForItems;
             }
-            let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
+            let formatted = Utils.reformatValue(valueForItems);
 
             $element.find('.product-result').text(formatted);
             let defaultValue = parseFloat($element.find('.product-result').text());
@@ -702,7 +702,7 @@ async function adt_update_comparison_info(dataArray = null){
                 
                 // Just let the first item be default instead of null
                 let valueForItems = dataArray.value;
-                let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
+                let formatted = Utils.reformatValue(valueForItems);
                 
                 $element.find('.product-result').text(formatted);
                 defaultValue = valueForItems;
@@ -751,7 +751,7 @@ function on_change_unit(element, childClass, dataArray, valueForItems){
                 valueForItems = item.value*unitRatio*currentAmount;
             }
 
-            let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
+            let formatted = Utils.reformatValue(valueForItems);
             
             jQuery(newElement).find('.product-result').text(formatted);
             defaultValue = parseFloat(jQuery('.product-result', newElement).text());
@@ -849,11 +849,11 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         rowMarkup += '<td class="input-flow">';
 
         if (recipe.value_inflow && recipe.value_inflow !== NaN) {
-            updatedInflow = Number(recipe.value_inflow).toPrecision(c_Config.SIGNIFICANT_NB);
+            updatedInflow = Utils.reformatValue(recipe.value_inflow);
         }
         
         if (recipe.value_emission && recipe.value_emission !== NaN) {
-            recipe.value_emission = Number(recipe.value_emission).toPrecision(c_Config.SIGNIFICANT_NB);
+            recipe.value_emission = Utils.reformatValue(recipe.value_emission);
         }
 
         rowMarkup += '<span class="inflow-value">' + (updatedInflow ? updatedInflow : '') + '</span>';
