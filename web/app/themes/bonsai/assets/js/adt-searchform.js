@@ -1174,7 +1174,7 @@ function adt_save_local_search_history(productTitle, productCode, productUuid, c
 
     let searchHistoryHtml = '';
     searchHistory.forEach((search, index) => {
-        searchHistoryHtml += '<li class="button primary is-outline lowercase" style="border-radius:99px;" data-code="' + search.productCode + '" data-uuid="' + search.productUuid + '">';
+        searchHistoryHtml += '<li class="button primary is-outline" style="border-radius:99px;" data-code="' + search.productCode + '" data-uuid="' + search.productUuid + '">';
         searchHistoryHtml += search.productTitle + ' ';
         searchHistoryHtml += '<span class="remove" data-index="' + index + '"></span>';
         searchHistoryHtml += '</li>';
@@ -1213,7 +1213,7 @@ function adt_initialize_local_search_history()
 
     let searchHistoryHtml = '';
     searchHistory.forEach((search, index) => {
-        searchHistoryHtml += '<li class="button primary is-outline lowercase" style="border-radius:99px;" data-code="' + search.productCode + '" data-uuid="' + search.productUuid + '">';
+        searchHistoryHtml += '<li class="button primary is-outline" style="border-radius:99px;" data-code="' + search.productCode + '" data-uuid="' + search.productUuid + '">';
         searchHistoryHtml += search.productTitle + ' ';
         searchHistoryHtml += '<span class="remove" data-index="' + index + '"></span>';
         searchHistoryHtml += '</li>';
