@@ -1,7 +1,6 @@
 import UserSelection from '../../model/user_selection.js'; 
 import * as c_Animation from '../../constants/animation.js'; 
 import * as c_Unit from '../../constants/unit.js'; 
-import * as c_Config from '../../constants/config.js'; 
 import * as Utils from '../../utils/tools.utils.js'; 
 
 
