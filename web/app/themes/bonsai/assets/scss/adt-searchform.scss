@@ -231,11 +231,8 @@ div#initial-error-message {
     content: url("data:image/svg+xml,%3Csvg width='9' height='10' viewBox='0 0 9 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.32578 5.29163L4.94594 8.67044L4.5 9.08329L0.125 4.99996L4.5 0.916626L4.94594 1.32948L1.32578 4.70829H8.875V5.29163H1.32578Z' fill='%23031819'/%3E%3C/svg%3E%0A");
 }
 
-.most-popular-wrapper {
-    margin-left: 20px;
-}
-
 #most-popular-container {
+    margin-left: 20px;
     display: flex;
     align-items: center;
 

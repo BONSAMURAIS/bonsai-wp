@@ -28,7 +28,7 @@ jQuery(document).ready(function($){
             $('#footprint-type .radio-choice').each(function(){
                 $(this).toggle();
             });
-            $('.most-popular-wrapper').toggle();
+            $('#most-popular-wrapper').toggle();
             $('.search-input-wrapper').toggle();
             $('.person-choices').toggle();
             if (value === 'person') {

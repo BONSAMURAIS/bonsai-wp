@@ -96,16 +96,14 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </datalist>
             </div>
         </form>
-        <div class="most-popular-wrapper">
-            <div id="most-popular-container">
-                <!-- By other searches -->
-                <p>Most popular:</p>
-                <ul>
-                    <?php foreach ($popularSearches as $popularSearch): ?>
-                        <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-choices="<?= $popularSearch->chosen_values ?>"><?= $popularSearch->search_phrase ?></button></li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
+        <div id="most-popular-container">
+            <!-- By other searches -->
+            <p>Most popular:</p>
+            <ul>
+                <?php foreach ($popularSearches as $popularSearch): ?>
+                    <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-choices="<?= $popularSearch->chosen_values ?>"><?= $popularSearch->search_phrase ?></button></li>
+                <?php endforeach; ?>
+            </ul>
         </div>
         <div class="text-center">
             <div class="is-divider divider clearfix" style="
