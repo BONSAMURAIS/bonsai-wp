@@ -851,7 +851,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
                 recipe.value_emission = recipe.value_emission * 1000;
             }
             recipe.unit_inflow = final_unit;
-            updatedInflow = await adt_get_converted_number_by_units(c_Unit.TJ, MJ, recipe.value_inflow);
+            updatedInflow = await adt_get_converted_number_by_units(c_Unit.TJ, c_Unit.MJ, recipe.value_inflow);
             // Wait for the conversion to complete before continuing
             if (!updatedInflow) {
                 console.error('Conversion failed for '+c_Unit.TJ+'to'+ final_unit);
