@@ -25,7 +25,7 @@ add_shortcode( 'adt_searchform', function($atts) {
     <div class="co2-form-wrapper">
         <form class="co2-form">
             <div class="row align-bottom">
-                <div class="col medium-6 small-12 large-6 pb-0 text-left">
+                <div class="col medium-6 small-12 large-6 pb-0 ">
                     <?= do_shortcode('[tooltip id="info-footprint" href="#info-footprint" label="Footprint" block_id="footprint-regular-info-popup"]')?>
                     <div class="switch-field-wrapper">
                         <div class="switch-field-container">
@@ -183,7 +183,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                     </div> -->
                 </div>
-                <div class="error-message text-left" style="display: none;">
+                <div id="error-message " style="display: none;">
                     <!-- <?= do_shortcode('[block id="nothing-found-error-message"]') ?> -->
                 </div>
             </div>
@@ -286,7 +286,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </table>
 
                         <div class="result-buttons">
-                            <div class="go-back text-left show-for-small">
+                            <div class="go-back  show-for-small">
                                 <a href="#" class="button primary lowercase" style="border-radius:99px; font-size:10px;">
                                     <i class="icon-angle-left" aria-hidden="true"></i>
                                     <span>Go back</span>
