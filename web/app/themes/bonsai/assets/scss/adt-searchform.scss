@@ -616,74 +616,6 @@ div#initial-error-message {
             }
         }
     }
-
-    &.advanced { 
-        .calculation-wrapper {
-            display: flex;
-            margin-bottom: 55px;
-
-            @media only screen and (max-width: 468px) {
-                flex-direction: column;
-            }
-        
-            > * {
-                flex: 1 1 50%;
-
-                &:nth-child(2) {
-                    justify-items: flex-end;
-
-                    @media only screen and (max-width: 468px) {
-                        display: flex;
-                        flex-direction: row;
-                        justify-items: flex-start;
-                        align-items: flex-end;
-                    }
-                }
-            }
-        }
-
-        .emissions-table {
-            font-size: 12px;
-
-            @media only screen and (min-width: 468px) {
-                font-size: 15px;
-            }
-
-            tr {
-                border-bottom: 1px solid #ececec;
-            }
-
-            th, td {
-                text-transform: inherit;
-                text-align: center;
-
-                &:first-child {
-                    text-align: left;
-                    max-width: 300px;
-
-                    @media only screen and (max-width: 468px) {
-                        width: 35%;
-                    }
-                }
-
-                a {
-                    text-decoration: underline;
-                }
-
-                span {
-                    display: block;
-                    font-weight: 400;
-                }
-            }
-
-            td.input-flow {
-                span {
-                    display: inline-block;
-                    margin-left: 5px;
-                }
-            }
-        }
-    }
 }
 
 .unit-select-wrapper {
@@ -717,6 +649,74 @@ div#initial-error-message {
 select.unit {
     width: 145px;
 
+}
+
+#contribution-analysis { 
+    .calculation-wrapper {
+        display: flex;
+        margin-bottom: 55px;
+
+        @media only screen and (max-width: 468px) {
+            flex-direction: column;
+        }
+    
+        > * {
+            flex: 1 1 50%;
+
+            &:nth-child(2) {
+                justify-items: flex-end;
+
+                @media only screen and (max-width: 468px) {
+                    display: flex;
+                    flex-direction: row;
+                    justify-items: flex-start;
+                    align-items: flex-end;
+                }
+            }
+        }
+    }
+
+    .emissions-table {
+        font-size: 12px;
+
+        @media only screen and (min-width: 468px) {
+            font-size: 15px;
+        }
+
+        tr {
+            border-bottom: 1px solid #ececec;
+        }
+
+        th, td {
+            text-transform: inherit;
+            text-align: center;
+
+            &:first-child {
+                text-align: left;
+                max-width: 300px;
+
+                @media only screen and (max-width: 468px) {
+                    width: 35%;
+                }
+            }
+
+            a {
+                text-decoration: underline;
+            }
+
+            span {
+                display: block;
+                font-weight: 400;
+            }
+        }
+
+        td.input-flow {
+            span {
+                display: inline-block;
+                margin-left: 5px;
+            }
+        }
+    }
 }
 
 .tooltip-wrapper {

@@ -238,7 +238,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </a>
                 </div>
             </div>
-            <div id="contribution-analysis" class="row align-equal search-result advanced" style="display: none;">
+            <div id="contribution-analysis" class="row align-equal search-result" style="display: none;">
                 <div class="col medium-12 small-12 large-12">
                     <div class="col-inner">
                         <div class="calculation-wrapper">
