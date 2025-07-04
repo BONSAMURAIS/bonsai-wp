@@ -906,10 +906,10 @@ async function adt_update_recipe(dataArray, boxToUpdate)
     tableMarkup += otherRowMarkup;
 
     // Display the table
-    jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
+    jQuery('#emissions-table tbody').html(tableMarkup);
 
     // Convert the product code to product name
-    jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody tr').each(function(){
+    jQuery('#emissions-table tbody tr').each(function(){
         let productCode = jQuery(this).find('a').data('code');
 
         jQuery.ajax({
@@ -929,10 +929,10 @@ async function adt_update_recipe(dataArray, boxToUpdate)
     });
 
     // Remove previous click handlers to avoid stacking events
-    jQuery('.search-result > .col:' + whichChild + ' .emissions-table thead th').off('click');
+    jQuery('#emissions-table thead th').off('click');
 
     // Add sorting functionality to table headers
-    jQuery('.search-result > .col:' + whichChild + ' .emissions-table thead th').on('click', function () {
+    jQuery('#emissions-table thead th').on('click', function () {
         const $header = jQuery(this);
         const columnIndex = $header.index();
         const $table = $header.closest('table');
@@ -980,7 +980,7 @@ function adt_download_recipe_csv()
             
             let csvContent = "";
 
-            jQuery(this).closest('.col-inner').find('.emissions-table tr').each(function () {
+            jQuery(this).closest('.col-inner').find('#emissions-table tr').each(function () {
                 let rowData = [];
                 jQuery(this).find("th, td").each(function () {
                     let cellText = jQuery(this).text();
@@ -1116,7 +1116,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
 
 function adt_switch_between_recipe_items()
 {
-    jQuery('.emissions-table a').on('click', function(e) {
+    jQuery('#emissions-table a').on('click', function(e) {
         e.preventDefault();
 
         let productTitle = jQuery(this).text();

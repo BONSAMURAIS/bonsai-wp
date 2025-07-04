@@ -272,7 +272,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                         <p class="big-font emission-message"></p>
 
-                        <table class="emissions-table">
+                        <table id="emissions-table">
                             <thead>
                                 <tr>
                                     <th>Inputs</th> <!-- flow_input -->
