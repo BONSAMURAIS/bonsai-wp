@@ -697,11 +697,10 @@ async function adt_update_comparison_info(dataArray = null){
             let defaultValue = 0;
             
             if (!dataArray.all_data) {
-                console.log("IMPOSSIBLE LOOP to come")
                 $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
-
+                
                 $element.find('.product-result-unit').text(dataArray.unit_emission);
-
+                
                 // Just let the first item be default instead of null
                 let valueForItems = dataArray.value;
                 let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
@@ -709,37 +708,7 @@ async function adt_update_comparison_info(dataArray = null){
                 $element.find('.product-result').text(formatted);
                 defaultValue = valueForItems;
             }
-
-            console.log(dataArray.all_data);
-            if (dataArray.all_data) {
-                $element.find('.product-result-unit').text(c_Unit.KGCO2);
-                jQuery('.emission-message').text('Where do emissions for 1 assad come from?'); //what s its use?
-                jQuery('.emission-header-unit').text('['+c_Unit.KGCO2+']');
-
-                jQuery(dataArray.all_data).each(function (i) {
-                    console.log(dataArray.all_data);
-                    let unit = convert_unit(dataArray.all_data[i].unit_reference,dataArray.all_data[i].description);
-
-                    $element.attr('data-set-' + i, dataArray.all_data[i].id);
-                    $element.find('select.unit').append(`<option value="${dataArray.all_data[i].unit_reference}">${unit}</option>`);
-                });
-
-                // Just let the first item be default instead of null
-                let valueForItems = dataArray.all_data[0].value;
-                let convertedValueForItems = null;
-
-                if (convertedValueForItems) {
-                    valueForItems = convertedValueForItems;
-                }
-
-                let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
-
-                $element.find('.product-result').text(formatted);
-                defaultValue = parseFloat($element.find('.product-result').text());
-                on_change_unit($element, ".col:nth-child(2)", dataArray,defaultValue, valueForItems);
-
-            }
-
+            
             setMaxValueMessage($element, defaultValue, '.col:nth-child(2)');
 
         }
