@@ -829,8 +829,6 @@ async function adt_update_recipe(dataArray, boxToUpdate)
             }
         }
 
-
-
         // If unit_inflow "item" per tonnes just convert tonnes to kg
         if (recipe.unit_inflow === 'item') {
             recipe.unit_inflow = 'item';
