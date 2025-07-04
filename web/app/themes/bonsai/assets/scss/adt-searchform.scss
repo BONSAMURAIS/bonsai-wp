@@ -1,9 +1,7 @@
 @import 'variables';
 
-form {
-    &.co2-form {
-        margin: 0;
-    }
+form.co2-form {
+    margin: 0;
 }
 
 div#initial-error-message {
@@ -112,6 +110,12 @@ div#initial-error-message {
         overflow: hidden;
     }
 
+    input:checked + label {
+        background-color: $primary;
+        box-shadow: none;
+        border-radius: 50px;
+    }
+
     label {
         background-color: $grey;
         color: rgba(0, 0, 0, 0.6);
@@ -127,27 +131,17 @@ div#initial-error-message {
             padding: 5px 10px;
             min-width: 70px;
         }
-
-        &:hover {
-            cursor: pointer;
-        }
     }
-
-    input:checked + label {
-        background-color: $primary;
-        box-shadow: none;
-        border-radius: 50px;
+    label:first-of-type {
+        border-radius: 50px 0 0 50px;
     }
-
-    label {
-        &:first-of-type {
-            border-radius: 50px 0 0 50px;
-        }
-
-        &:last-of-type {
-            border-radius: 0 50px 50px 0;
-        }
+    label:last-of-type {
+        border-radius: 0 50px 50px 0;
     }
+    label:hover {
+        cursor: pointer;
+    }
+    
 }
 
 .search-input-wrapper {
@@ -203,18 +197,14 @@ div#initial-error-message {
     align-items: center;
 }
 
-.button {
-    &.grey {
-        background-color: $dark-grey;
-        color: $text-color;
-        border: none;
-    }
+.button.grey {
+    background-color: $dark-grey;
+    color: $text-color;
+    border: none;
 }
 
-.download {
-    &.text-right {
-        margin: 0 0 0 auto;
-    }
+.download.text-right {
+    margin: 0 0 0 auto;
 }
 
 .icon-dribbble:before {
@@ -405,7 +395,6 @@ div#initial-error-message {
     }
 }
 
-
 .highlight {
     background-color: #f0f0f0;
     color: #333;
@@ -545,15 +534,13 @@ div#initial-error-message {
             }
         }
 
-        a {
-            &:has(.add) {
-                text-align: center;
+        a:has(.add) {
+            text-align: center;
 
-                p {
-                    font-size: 15px;
-                    color: $secondary;
-                    opacity: .4;
-                }
+            p {
+                font-size: 15px;
+                color: $secondary;
+                opacity: .4;
             }
         }
 
@@ -868,12 +855,8 @@ label.select {
 }
 
 .single-shared_searches {
-    .co2-form-wrapper {
-        .text-center {
-            &:has(.divider) {
-                display: block;
-            }
-        }
+    .co2-form-wrapper .text-center:has(.divider) {
+        display: block;
     }
 
     .co2-form-result {
