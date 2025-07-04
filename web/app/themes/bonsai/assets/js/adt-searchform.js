@@ -546,13 +546,13 @@ async function adt_update_original_info(dataArray) {
             
             console.log("test")
             console.log(valueForItems)
-            let formatted = Number(valueForItems).toPrecision(c_Config.SIGNIFICANT_NB);
+            let formatted = Utils.reformatValue(valueForItems);
             
             $element.find('.product-result').text(formatted);
             defaultValue = parseFloat($element.find('.product-result').text());
             
             
-            on_change_unit($element,".col:first-child",dataArray,defaultValue,valueForItems);
+            on_change_unit($element,".col:first-child",dataArray,valueForItems);
         } else {
             console.log("!dataArray.all_data");
             $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
@@ -679,7 +679,7 @@ async function adt_update_comparison_info(dataArray = null){
             $element.find('.product-result').text(formatted);
             let defaultValue = parseFloat($element.find('.product-result').text());
 
-            on_change_unit($element, ".col:nth-child(2)", dataArray,defaultValue, valueForItems);
+            on_change_unit($element, ".col:nth-child(2)", dataArray, valueForItems);
 
             setMaxValueMessage($element, defaultValue, '.col:nth-child(2)');
 
@@ -719,7 +719,7 @@ async function adt_update_comparison_info(dataArray = null){
     await adt_update_recipe(dataArray, 'comparison');
 }
 
-function on_change_unit(element, childClass, dataArray,defaultValue, valueForItems){
+function on_change_unit(element, childClass, dataArray, valueForItems){
     element.find('select.unit').on('change', function () {
         let unitRatio = jQuery(this).val();
         let unitRatio_name = jQuery(this).find('option:selected').text();
