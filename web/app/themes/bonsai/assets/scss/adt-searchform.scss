@@ -175,26 +175,24 @@ div#initial-error-message {
         }
     }
 
-    input {
-        &.search {
-            border-radius: 50px;
-            font-size: 30px;
-            background-color: $dark-grey;
-            margin-bottom: 0;
-            height: 100px;
-            padding: 0 30px;
-            position: relative;
+    input.search {
+        border-radius: 50px;
+        font-size: 30px;
+        background-color: $dark-grey;
+        margin-bottom: 0;
+        height: 100px;
+        padding: 0 30px;
+        position: relative;
 
-            &:focus {
-                background-color: white;
-                box-shadow: none;
-            }
+        &:focus {
+            background-color: white;
+            box-shadow: none;
+        }
 
-            @media only screen and (max-width: 468px) {
-                font-size: 15px;
-                height: 45px;
-                padding: 0 15px;
-            }
+        @media only screen and (max-width: 468px) {
+            font-size: 15px;
+            height: 45px;
+            padding: 0 15px;
         }
     }
 }
@@ -354,7 +352,6 @@ div#initial-error-message {
     }
 
     .button {
-        // margin: 0 15px 0 0;
         display: flex;
         display: inline-block; /* Ensure it behaves properly */
         align-items: center;
@@ -834,10 +831,8 @@ label.select {
     left: 0px;
 }
 
-.has-hover {
-    &:hover {
-        cursor: pointer;
-    }
+.has-hover:hover {
+    cursor: pointer;
 }
 
 // Animations
