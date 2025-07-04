@@ -1400,10 +1400,7 @@ function setMaxValueMessage(element, defaultValue , classElement){
         }
 
         let calculatedValue = defaultValue * numberInput;
-        let formattedCalculatedValue = new Intl.NumberFormat(c_Config.NUMBERFORMAT, {
-            minimumFractionDigits: c_Config.SIGNIFICANT_NB,
-            maximumFractionDigits: c_Config.SIGNIFICANT_NB
-        }).format(calculatedValue);
+        let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
 
         jQuery('.search-result '+classElement+' .amount').val(numberInput);
         jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
