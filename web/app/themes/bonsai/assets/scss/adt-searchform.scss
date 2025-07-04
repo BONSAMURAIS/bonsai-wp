@@ -1,9 +1,5 @@
 @import 'variables';
 
-.co2-form-wrapper {
-    max-width: 710px;
-}
-
 form {
     &.co2-form {
         margin: 0;
@@ -870,6 +866,7 @@ label.select {
 }
 
 .co2-form-wrapper {
+    max-width: 710px;
     .text-center {
         &:has(.divider) {
             display: none;
