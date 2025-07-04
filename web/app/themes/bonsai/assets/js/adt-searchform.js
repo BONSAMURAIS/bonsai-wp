@@ -688,7 +688,6 @@ async function adt_update_comparison_info(dataArray = null){
 
     // Comparison begins
     if (!dataArray.all_data) {
-        console.log("start impossible loop to come")
         setTileTitle('.search-result .col:nth-child(2) p.product-title',dataArray);
         
         for (const element of jQuery('.search-result .col:nth-child(2)')) {
