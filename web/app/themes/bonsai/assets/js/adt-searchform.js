@@ -263,6 +263,40 @@ jQuery(document).ready(function($){
     if (base64String) {
         adt_get_product_by_encoded_string();
     }
+
+
+    // Comparison code
+    $('a:has(.add)').click(function(e){
+        e.preventDefault();
+        console.log('comparison added');
+
+        $('.search-result').each(function() {
+            console.log("this=",$(this))
+            let original = $(this).find('.col:first-child');
+            let clone = original.clone();
+            
+            original.after(clone);
+            clone.append('<span class="adt-close"></span>');
+            $('a:has(.add)').closest('.col').css('display', 'none');
+
+            $('.adt-close').click(function(){
+                $('.uncertainty-wrapper').slideUp();
+                $('.adt-close').each(function(){
+                    $(this).closest('.col').remove();
+                });
+
+                $('a:has(.add)').closest('.col').css('display', 'flex');
+            });
+        });
+
+        const footprintData = JSON.parse(localStorage.getItem("footprint_data"));
+        
+        adt_download_recipe_csv();
+        adt_update_comparison_info(footprintData);
+
+        // Also set a new local storage item, to save the data of the original footprint chosen
+        localStorage.setItem("footprint_original_state_data", localStorage.getItem("footprint_data"));
+    });
 });
 
 function adt_get_person_footprint(userSelection){
@@ -575,40 +609,6 @@ async function adt_update_original_info(dataArray) {
     await adt_update_recipe(dataArray, 'original');
 }
 
-// Comparison code
-jQuery(document).ready(function($){
-    $('a:has(.add)').click(function(e){
-        e.preventDefault();
-        console.log('comparison added');
-
-        $('.search-result').each(function() {
-            console.log("this=",$(this))
-            let original = $(this).find('.col:first-child');
-            let clone = original.clone();
-            
-            original.after(clone);
-            clone.append('<span class="adt-close"></span>');
-            $('a:has(.add)').closest('.col').css('display', 'none');
-
-            $('.adt-close').click(function(){
-                $('.uncertainty-wrapper').slideUp();
-                $('.adt-close').each(function(){
-                    $(this).closest('.col').remove();
-                });
-
-                $('a:has(.add)').closest('.col').css('display', 'flex');
-            });
-        });
-
-        const footprintData = JSON.parse(localStorage.getItem("footprint_data"));
-        
-        adt_download_recipe_csv();
-        adt_update_comparison_info(footprintData);
-
-        // Also set a new local storage item, to save the data of the original footprint chosen
-        localStorage.setItem("footprint_original_state_data", localStorage.getItem("footprint_data"));
-    });
-});
 
 async function adt_update_comparison_info(dataArray = null){
     setTileTitle('.search-result .col:nth-child(2) p.product-title',dataArray);
