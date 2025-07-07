@@ -855,13 +855,9 @@ label.select {
 }
 
 .single-shared_searches {
-    .co2-form-wrapper .text-center:has(.divider) {
+    .co2-form-wrapper .text-center:has(.divider), .co2-form-result{
         display: block;
     }
-
-    .co2-form-result {
-        display: block;
-    }   
 }
 
 span.adt-close {
