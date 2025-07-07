@@ -222,7 +222,6 @@ div#initial-error-message {
 
     @media only screen and (max-width: 468px) {
         flex-direction: column;
-
         ul {
             margin-top: 15px;
         }
@@ -240,38 +239,35 @@ div#initial-error-message {
         }
     }
 
-    ul {
+    ul li {
         display: flex;
         gap: 10px;
+        list-style: none;
+        margin: 0;
 
-        li {
-            list-style: none;
+        button {
+            padding: 0px 20px;
+            border-radius: 50px;
+            border: 1px solid black;
+            color: black;
             margin: 0;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 1; /* number of lines to show */
+            line-clamp: 1; 
+            -webkit-box-orient: vertical;
 
-            button {
-                padding: 0px 20px;
-                border-radius: 50px;
-                border: 1px solid black;
-                color: black;
-                margin: 0;
-                overflow: hidden;
-                display: -webkit-box;
-                -webkit-line-clamp: 1; /* number of lines to show */
-                line-clamp: 1; 
-                -webkit-box-orient: vertical;
-
-                @media only screen and (max-width: 468px) {
-                    font-size: 10px;
-                    padding: 0px 10px;
-                }
+            @media only screen and (max-width: 468px) {
+                font-size: 10px;
+                padding: 0px 10px;
             }
+        }
 
-            &:first-of-type {
-                margin-left: 10px;
+        &:first-of-type {
+            margin-left: 10px;
 
-                @media only screen and (max-width: 468px) {
-                    margin-left: 0;
-                }
+            @media only screen and (max-width: 468px) {
+                margin-left: 0;
             }
         }
     }
@@ -450,22 +446,7 @@ div#initial-error-message {
             flex-basis: 100%;
             max-width: 100%;
 
-            &:nth-child(1) {
-                flex-basis: 100%;
-                max-width: 100%;
-            }
-    
-            &:nth-child(2) {
-                flex-basis: 100%;
-                max-width: 100%;
-            }
-    
-            &:nth-child(3) {
-                flex-basis: 100%;
-                max-width: 100%;
-            }
-    
-            &:nth-child(4) {
+            &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4) {
                 flex-basis: 100%;
                 max-width: 100%;
             }
@@ -822,11 +803,6 @@ label.select {
     cursor: pointer;
 }
 
-// Animations
-.co2-form-result {
-    display: none;
-}
-
 #co2-form-result-header {
     background-color: $grey;
     padding: 30px 20px;
@@ -847,10 +823,8 @@ label.select {
 
 .co2-form-wrapper {
     max-width: 710px;
-    .text-center {
-        &:has(.divider) {
-            display: none;
-        }
+    .text-center:has(.divider) {
+        display: none;
     }
 }
 
@@ -858,6 +832,11 @@ label.select {
     .co2-form-wrapper .text-center:has(.divider), .co2-form-result{
         display: block;
     }
+}
+
+// Animations
+.co2-form-result {
+    display: none;
 }
 
 span.adt-close {
