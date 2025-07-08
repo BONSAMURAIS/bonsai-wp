@@ -596,6 +596,8 @@ async function adt_update_original_info(dataArray) {
             let valueForItems = dataArray.value;
             let formatted = Utils.reformatValue(valueForItems);
             
+            console.log("test defaultValue")
+            console.log(valueForItems)
             $element.find('.product-result').text(formatted);
             defaultValue = valueForItems;
         }
