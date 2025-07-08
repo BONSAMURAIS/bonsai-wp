@@ -4,7 +4,7 @@ form#co2-form {
     margin: 0;
 }
 
-#main {
+#main-content {
     max-width: 710px;
 }
 
@@ -838,7 +838,7 @@ label.select {
 }
 
 .single-shared_searches {
-    #main .text-center:has(.divider), .co2-form-result{
+    #divider, .co2-form-result{
         display: block;
     }
 }

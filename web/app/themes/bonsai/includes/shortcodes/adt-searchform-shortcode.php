@@ -22,7 +22,7 @@ add_shortcode( 'adt_searchform', function($atts) {
     
     ?>
 
-    <div id="main">
+    <div id="main-content">
         <section id="form">
             <form id="co2-form">
                 <div>
