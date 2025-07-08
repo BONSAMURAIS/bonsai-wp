@@ -184,7 +184,7 @@ jQuery(document).ready(function($){
         
         adt_push_parameter_to_url(productTitle, productCode, productUuid, userSelection);
         adt_get_product_info(productTitle, productCode, productUuid, userSelection);
-        adt_update_tags('basic')
+        adt_update_tags('original')
         console.log("END popular click")
     });
 
