@@ -12,12 +12,7 @@ form#form {
     max-width: 710px;
 }
 
-#divider {
-    margin:50px auto;
-    width:75%;
-    height:1px;
-    background-color: #E8EDED;
-}
+
 
 div#initial-error-message {
     color: $error;
@@ -36,10 +31,15 @@ div#initial-error-message {
 /**
 * Section co2-form-result
 **/
-
-// Animations
 #co2-form-result {
-    display: none;
+    display: none; // unfold section animation
+}
+
+#divider {
+    margin:50px auto;
+    width:75%;
+    height:1px;
+    background-color: #E8EDED;
 }
 
 #co2-form-result-header {
