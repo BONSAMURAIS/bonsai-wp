@@ -473,6 +473,8 @@ function adt_get_product_info(productTitle, productCode, productUuid, userSelect
 
 function adt_update_tags(boxToUpdate){
     let typeValue = jQuery('#footprint-type input[name="footprint_type_extend"]:checked').val();
+    console.log("jQuery('#footprint-type input[name=footprint_type_extend]:checked')=",jQuery('#footprint-type input[name="footprint_type_extend"]:checked'))
+    console.log("typeValue=",typeValue)
     let type = 'Cradle to gate';
     
     if (typeValue === 'market') {
