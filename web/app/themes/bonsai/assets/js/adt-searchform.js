@@ -15,7 +15,7 @@ jQuery(document).ready(function($){
         }
     });
 
-    $('#co2-form input[name="switch-one"]').on('change', function(){
+    $('#form input[name="switch-one"]').on('change', function(){
         let isChecked = $(this).is(':checked');
         
         if (isChecked) {
