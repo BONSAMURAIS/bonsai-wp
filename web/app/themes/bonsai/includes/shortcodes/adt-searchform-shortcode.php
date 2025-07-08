@@ -106,13 +106,7 @@ add_shortcode( 'adt_searchform', function($atts) {
             </ul>
         </div>
         <div class="text-center">
-            <div class="is-divider divider clearfix" style="
-                margin-top:50px;
-                margin-bottom:50px;
-                max-width:75%;
-                height:1px;
-                background-color: #E8EDED;
-            ">
+            <div class="divider clearfix">
             </div>
         </div>
         <div class="co2-form-result">
