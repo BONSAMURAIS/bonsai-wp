@@ -77,47 +77,48 @@ div#initial-error-message {
         flex-direction: column;
     }
 
-    .radio-choice {
-        background-color: $grey;
-        padding: 5px 10px;
+}
+
+.radio-choice {
+    background-color: $grey;
+    padding: 5px 10px;
+    margin: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-radius: 20px;
+
+    label {
+        font-weight: 400;
         margin: 0;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        border-radius: 20px;
 
-        label {
-            font-weight: 400;
-            margin: 0;
+        &:hover {
+            cursor: pointer;
+        }
+    }
 
-            &:hover {
-                cursor: pointer;
-            }
+    input[type=radio] {
+        margin: 0;
+        appearance: none;
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        border: 1px solid #E8EDED;
+        border-radius: 50%;
+        background-color: white;
+        margin-right: 12px;
+
+        &:hover {
+            cursor: pointer;
         }
 
-        input[type=radio] {
-            margin: 0;
-            appearance: none;
-            -webkit-appearance: none;
-            width: 16px;
+        &:before {
             height: 16px;
-            border: 1px solid #E8EDED;
-            border-radius: 50%;
-            background-color: white;
-            margin-right: 12px;
-
-            &:hover {
-                cursor: pointer;
-            }
-
-            &:before {
-                height: 16px;
-            }
-            &:checked {
-                content: url("data:image/svg+xml,%3Csvg width='11' height='11' viewBox='0 0 11 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.3793 8.33771L1.67883 5.63756L2.42245 4.89403L4.3793 6.85065L8.58224 2.64819L9.32586 3.39172L4.3793 8.33771Z' fill='%23004238'/%3E%3C/svg%3E%0A");
-                background-color: $primary;
-                padding: 2px;
-            }
+        }
+        &:checked {
+            content: url("data:image/svg+xml,%3Csvg width='11' height='11' viewBox='0 0 11 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.3793 8.33771L1.67883 5.63756L2.42245 4.89403L4.3793 6.85065L8.58224 2.64819L9.32586 3.39172L4.3793 8.33771Z' fill='%23004238'/%3E%3C/svg%3E%0A");
+            background-color: $primary;
+            padding: 2px;
         }
     }
 }
