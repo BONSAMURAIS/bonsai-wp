@@ -14,12 +14,30 @@ form#form {
 
 #divider {
     display: none;
+    margin-top:50px;
+    margin-bottom:50px;
+    max-width:75%;
+    height:1px;
+    background-color: #E8EDED;
 }
 
 div#initial-error-message {
     color: $error;
     font-size: 5e; /*test*/
 }
+
+
+/**
+* Section co2-form 
+**/
+
+/**
+* Section most-popular
+**/
+
+/**
+* Section co2-form-result
+**/
 
 #footprint-type {
     display: flex;
@@ -225,14 +243,6 @@ div#initial-error-message {
 
 .icon-angle-left:before {
     content: url("data:image/svg+xml,%3Csvg width='9' height='10' viewBox='0 0 9 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.32578 5.29163L4.94594 8.67044L4.5 9.08329L0.125 4.99996L4.5 0.916626L4.94594 1.32948L1.32578 4.70829H8.875V5.29163H1.32578Z' fill='%23031819'/%3E%3C/svg%3E%0A");
-}
-
-.divider {
-    margin-top:50px;
-    margin-bottom:50px;
-    max-width:75%;
-    height:1px;
-    background-color: #E8EDED;
 }
 
 #most-popular {
