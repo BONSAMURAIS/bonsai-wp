@@ -180,8 +180,12 @@ jQuery(document).ready(function($){
 
         $('#autocomplete-input').val(productTitle);
 
+        console.log("START popular click")
+        
         adt_push_parameter_to_url(productTitle, productCode, productUuid, userSelection);
         adt_get_product_info(productTitle, productCode, productUuid, userSelection);
+        adt_update_tags('basic')
+        console.log("END popular click")
     });
 
     adt_download_recipe_csv();
