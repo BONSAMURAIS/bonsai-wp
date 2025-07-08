@@ -930,7 +930,6 @@ async function adt_update_recipe(dataArray, boxToUpdate)
 // Animations
 function adt_show_search_results()
 {
-    jQuery('#divider').show();
     jQuery('#co2-form-result').slideDown('slow', function(){
         // Might need something happening here
     });

@@ -107,9 +107,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <?php endforeach; ?>
             </ul>
         </section>
-        <section id="divider">
-        </section>
         <section id="co2-form-result">
+            <div id="divider">
+            </div>
             <div id="co2-form-result-header" class="col medium-12 small-12 large-12">
                 <div class="row">
                     <div class="col medium-6 small-12 large-6">
