@@ -214,8 +214,10 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                         <br/>
                         <p>produces</p>
-                        <p class="product-result"></p>
-                        <p class="product-result-unit"></p>
+                            <div id="main-product-result">
+                                <p class="product-result"></p>
+                                <p class="product-result-unit"></p>
+                            </div>
                         <div class="tooltip-wrapper">
                             <?= do_shortcode('[tooltip id="info-product" href="#info-product" label="Read more about the result" block_id="product-result-info-popup"]')?>
                         </div>
@@ -256,7 +258,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <br/>
                                 <p>produces</p>
                             </div>
-                            <div class="calculation-result">
+                            <div id="comparison-product-result">
                                 <p class="product-result"></p>
                                 <p class="product-result-unit"></p>
                             </div>
