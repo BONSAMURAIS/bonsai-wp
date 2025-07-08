@@ -24,7 +24,7 @@ add_shortcode( 'adt_searchform', function($atts) {
 
     <div class="co2-form-wrapper">
         <form class="co2-form">
-            <div class="row align-bottom">
+            <div class="align-bottom">
                 <div class="col medium-6 small-12 large-6 pb-0 ">
                     <?= do_shortcode('[tooltip id="info-footprint" href="#info-footprint" label="Footprint" block_id="footprint-regular-info-popup"]')?>
                     <div class="switch-field-wrapper">
@@ -190,7 +190,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
             </div>
             
-            <div id="summary-analysis" class="row align-equal search-result basic" style="display: flex;">
+            <div id="summary-analysis" class="align-equal search-result basic" style="display: flex;">
                 <div class="col medium-6 small-12 large-6">
                     <div class="col-inner">
                         <p id="main-tile-prod-title" class="product-title"></p>
@@ -229,7 +229,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </a>
                 </div>
             </div>
-            <div id="contribution-analysis" class="row align-equal search-result" style="display: none;">
+            <div id="contribution-analysis" class="align-equal search-result" style="display: none;">
                 <div class="col medium-12 small-12 large-12">
                     <div class="col-inner">
                         <div class="calculation-wrapper">
