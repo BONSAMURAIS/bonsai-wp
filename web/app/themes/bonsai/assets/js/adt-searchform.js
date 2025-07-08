@@ -477,9 +477,9 @@ function adt_update_tags(boxToUpdate){
     console.log("typeValue=",typeValue)
     let type = 'Cradle to gate';
     
-    if (typeValue === 'market') {
+    if (typeValue == 'market') {
         type = 'Cradle to consumer';
-    } else if (typeValue === 'grave') {
+    } else if (typeValue == 'grave') {
         type = 'Cradle to grave';
     }
 
