@@ -172,7 +172,7 @@ jQuery(document).ready(function($){
         }
     })
 
-    $('#most-popular-container ul li button').on('click', function() {
+    $('#most-popular ul li button').on('click', function() {
         let productTitle = $(this).text();
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
@@ -930,7 +930,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
 // Animations
 function adt_show_search_results()
 {
-    jQuery('.co2-form-wrapper .text-center:has(.divider)').show();
+    jQuery('#divider').show();
     jQuery('.co2-form-result').slideDown('slow', function(){
         // Might need something happening here
     });

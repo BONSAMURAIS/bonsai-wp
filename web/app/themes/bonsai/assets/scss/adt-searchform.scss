@@ -223,7 +223,7 @@ div#initial-error-message {
     background-color: #E8EDED;
 }
 
-#most-popular-container {
+#most-popular {
     margin-left: 20px;
     display: flex;
     align-items: center;
@@ -831,7 +831,7 @@ label.select {
 
 .co2-form-wrapper {
     max-width: 710px;
-    .text-center:has(.divider) {
+    #divider {
         display: none;
     }
 }

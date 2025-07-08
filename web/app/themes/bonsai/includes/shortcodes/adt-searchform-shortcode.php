@@ -19,84 +19,86 @@ add_shortcode( 'adt_searchform', function($atts) {
     ]);
 
     ob_start();
-
+    
     ?>
 
     <div class="co2-form-wrapper">
-        <form class="co2-form">
-            <div class="align-bottom">
-                <div class="col medium-6 small-12 large-6 pb-0 ">
-                    <?= do_shortcode('[tooltip id="info-footprint" href="#info-footprint" label="Footprint" block_id="footprint-regular-info-popup"]')?>
-                    <div class="switch-field-wrapper">
-                        <div class="switch-field-container">
-                            <input type="radio" id="radio-one" name="switch-one" value="product" checked/>
-                            <label for="radio-one">Product</label>
-                            <input type="radio" id="radio-two" name="switch-one" value="person"/>
-                            <label for="radio-two">Person</label>
+        <section id="form">
+            <form class="co2-form">
+                <div class="align-bottom">
+                    <div class="col medium-6 small-12 large-6 pb-0 ">
+                        <?= do_shortcode('[tooltip id="info-footprint" href="#info-footprint" label="Footprint" block_id="footprint-regular-info-popup"]')?>
+                        <div class="switch-field-wrapper">
+                            <div class="switch-field-container">
+                                <input type="radio" id="radio-one" name="switch-one" value="product" checked/>
+                                <label for="radio-one">Product</label>
+                                <input type="radio" id="radio-two" name="switch-one" value="person"/>
+                                <label for="radio-two">Person</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col medium-6 small-12 large-6 pb-0 text-right">
+                        <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
+                        <div id="footprint-type" class="select">
+                            <div class="radio-choice">
+                                <input type="radio" id="production" name="footprint_type" value="product" checked/>
+                                <label for="production">Cradle to gate</label>
+                            </div>
+                            <div class="radio-choice">
+                                <input type="radio" id="market" name="footprint_type" value="market" />
+                                <label for="market">Cradle to consumer</label>
+                            </div>
+                            <div class="radio-choice" style="display: none;">
+                                <input type="radio" id="grave" name="footprint_type" value="grave" />
+                                <label for="grave">Cradle to grave</label>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col medium-6 small-12 large-6 pb-0 text-right">
-                    <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
-                    <div id="footprint-type" class="select">
-                        <div class="radio-choice">
-                            <input type="radio" id="production" name="footprint_type" value="product" checked/>
-                            <label for="production">Cradle to gate</label>
+
+                <!-- Per person -->
+                <div id="person-choices" style="display: none;">
+                    <div class="select-wrapper col medium-12 small-12 large-12">
+                        <div class="medium-6 small-12 large-6">
+                            <?= do_shortcode('[tooltip id="info-household-composition" href="#info-household-composition" label="Household composition" block_id="household-composition-info-popup"]')?>
+                            <?= do_shortcode('[dropdown_list id="household-composition" filepath="'.__DIR__.'/../../dropdown_options/household_compo.json"]')?>
                         </div>
-                        <div class="radio-choice">
-                            <input type="radio" id="market" name="footprint_type" value="market" />
-                            <label for="market">Cradle to consumer</label>
-                        </div>
-                        <div class="radio-choice" style="display: none;">
-                            <input type="radio" id="grave" name="footprint_type" value="grave" />
-                            <label for="grave">Cradle to grave</label>
+                        <div class="medium-6 small-12 large-6">
+                            <?= do_shortcode('[tooltip id="info-income-group" href="#info-income-group" label="Income group" block_id="income-group-info-popup"]')?>
+                            <?= do_shortcode('[dropdown_list id="income-group" filepath="'.__DIR__.'/../../dropdown_options/income_gpe.json"]')?>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Per person -->
-            <div id="person-choices" class="row" style="display: none;">
-                <div class="select-wrapper col medium-12 small-12 large-12">
-                    <div class="medium-6 small-12 large-6">
-                        <?= do_shortcode('[tooltip id="info-household-composition" href="#info-household-composition" label="Household composition" block_id="household-composition-info-popup"]')?>
-                        <?= do_shortcode('[dropdown_list id="household-composition" filepath="'.__DIR__.'/../../dropdown_options/household_compo.json"]')?>
+                <!-- Per product -->
+                <div class="search-input-wrapper">
+                    <input class="search" type="text" id="autocomplete-input" placeholder="Find climate footprint by product">
+                    <?= do_shortcode('[search_icon]')?>
+
+                    <div id="initial-error-message" style="display: none;">
+                        <?= do_shortcode('[block id="nothing-found-error-message"  style="color: blue;"]') ?> 
                     </div>
-                    <div class="medium-6 small-12 large-6">
-                        <?= do_shortcode('[tooltip id="info-income-group" href="#info-income-group" label="Income group" block_id="income-group-info-popup"]')?>
-                        <?= do_shortcode('[dropdown_list id="income-group" filepath="'.__DIR__.'/../../dropdown_options/income_gpe.json"]')?>
+                    <div id="suggestions-wrapper" style="display: none;">
+                        <div id="search-history">
+                            <!-- Users current search history -->
+                            <p><strong>Search history</strong></p>
+                            <ul id="search-history-list">
+                                <!-- Empty before searches have been made -->
+                            </ul>
+                        </div>
+                        <div id="suggestions">
+                        </div>
                     </div>
+
+                    <datalist id="words">
+                        <?php foreach($productsArray as $product): ?>
+                            <option value="<?php echo $product['title']; ?>">
+                        <?php endforeach; ?>
+                    </datalist>
                 </div>
-            </div>
-
-            <!-- Per product -->
-            <div class="search-input-wrapper">
-                <input class="search" type="text" id="autocomplete-input" placeholder="Find climate footprint by product">
-                <?= do_shortcode('[search_icon]')?>
-
-                <div id="initial-error-message" style="display: none;">
-                    <?= do_shortcode('[block id="nothing-found-error-message"  style="color: blue;"]') ?> 
-                </div>
-                <div id="suggestions-wrapper" style="display: none;">
-                    <div id="search-history">
-                        <!-- Users current search history -->
-                        <p><strong>Search history</strong></p>
-                        <ul id="search-history-list">
-                            <!-- Empty before searches have been made -->
-                        </ul>
-                    </div>
-                    <div id="suggestions">
-                    </div>
-                </div>
-
-                <datalist id="words">
-                    <?php foreach($productsArray as $product): ?>
-                        <option value="<?php echo $product['title']; ?>">
-                    <?php endforeach; ?>
-                </datalist>
-            </div>
-        </form>
-        <div id="most-popular-container">
+            </form>
+        </section>
+        <section id="most-popular">
             <!-- By other searches -->
             <p>Most popular:</p>
             <ul>
@@ -104,12 +106,12 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-choices="<?= $popularSearch->chosen_values ?>"><?= $popularSearch->search_phrase ?></button></li>
                 <?php endforeach; ?>
             </ul>
-        </div>
-        <div class="text-center">
+        </section>
+        <section id="divider" class="text-center">
             <div class="divider">
             </div>
-        </div>
-        <div class="co2-form-result">
+        </section>
+        <section id="co2-form-result" class="co2-form-result">
             <div id="co2-form-result-header" class="col medium-12 small-12 large-12">
                 <div class="row">
                     <div class="col medium-6 small-12 large-6">
@@ -306,7 +308,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </a>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
     <?php
     return ob_get_clean();
