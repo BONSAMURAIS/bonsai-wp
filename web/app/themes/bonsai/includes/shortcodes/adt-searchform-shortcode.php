@@ -41,7 +41,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
                         <div id="footprint-type" class="select">
                             <div class="radio-choice">
-                                <input type="radio" id="production" name="footprint_type_extend" value="product" checked/>
+                                <input type="radio" id="production" name="footprint_type_extend" value="product"/>
                                 <label for="production">Cradle to gate</label>
                             </div>
                             <div class="radio-choice">
