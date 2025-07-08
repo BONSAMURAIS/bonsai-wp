@@ -4,6 +4,14 @@ form#co2-form {
     margin: 0;
 }
 
+#main {
+    max-width: 710px;
+}
+
+#divider {
+    display: none;
+}
+
 div#initial-error-message {
     color: $error;
     font-size: 5e; /*test*/
@@ -829,15 +837,8 @@ label.select {
     }
 }
 
-.co2-form-wrapper {
-    max-width: 710px;
-    #divider {
-        display: none;
-    }
-}
-
 .single-shared_searches {
-    .co2-form-wrapper .text-center:has(.divider), .co2-form-result{
+    #main .text-center:has(.divider), .co2-form-result{
         display: block;
     }
 }
