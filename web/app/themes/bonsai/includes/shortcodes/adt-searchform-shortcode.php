@@ -30,10 +30,10 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <?= do_shortcode('[tooltip id="info-footprint" href="#info-footprint" label="Footprint" block_id="footprint-regular-info-popup"]')?>
                         <div class="switch-field-wrapper">
                             <div class="switch-field-container">
-                                <input type="radio" id="radio-one" name="switch-one" value="product" checked/>
-                                <label for="radio-one">Product</label>
-                                <input type="radio" id="radio-two" name="switch-one" value="person"/>
-                                <label for="radio-two">Person</label>
+                                <input type="radio" id="radio-product" name="footprint_type" value="product" checked/>
+                                <label for="radio-product">Product</label>
+                                <input type="radio" id="radio-person" name="footprint_type" value="person"/>
+                                <label for="radio-person">Person</label>
                             </div>
                         </div>
                     </div>
@@ -41,15 +41,15 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
                         <div id="footprint-type" class="select">
                             <div class="radio-choice">
-                                <input type="radio" id="production" name="footprint_type" value="product" checked/>
+                                <input type="radio" id="production" name="footprint_type_extend" value="product" checked/>
                                 <label for="production">Cradle to gate</label>
                             </div>
                             <div class="radio-choice">
-                                <input type="radio" id="market" name="footprint_type" value="market" />
+                                <input type="radio" id="market" name="footprint_type_extend" value="market" />
                                 <label for="market">Cradle to consumer</label>
                             </div>
                             <div class="radio-choice" style="display: none;">
-                                <input type="radio" id="grave" name="footprint_type" value="grave" />
+                                <input type="radio" id="grave" name="footprint_type_extend" value="grave" />
                                 <label for="grave">Cradle to grave</label>
                             </div>
                         </div>

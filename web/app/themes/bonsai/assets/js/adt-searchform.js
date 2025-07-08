@@ -15,7 +15,7 @@ jQuery(document).ready(function($){
         }
     });
 
-    $('#form input[name="switch-one"]').on('change', function(){
+    $('#form input[name="footprint_type"]').on('change', function(){
         let isChecked = $(this).is(':checked');
         
         if (isChecked) {
@@ -72,7 +72,7 @@ jQuery(document).ready(function($){
     let productContentArray = [];
     let productCodeArray = [];
     let productUuidArray = [];
-    let chosenFootprintType = $('#footprint-type input[name="footprint_type"]:checked').val();
+    let chosenFootprintType = $('#footprint-type input[name="footprint_type_extend"]:checked').val();
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
     $(searchform.products).each(function() {
@@ -101,7 +101,7 @@ jQuery(document).ready(function($){
     
     // when radio button 'Cradle to consumer' is selected 
     // If user chooses to change footprint type then get new data
-    $('#footprint-type input[name="footprint_type"]').on('change', function() {
+    $('#footprint-type input[name="footprint_type_extend"]').on('change', function() {
         chosenFootprintType = $(this).val();
         
         productTitleArray = [];
@@ -151,7 +151,7 @@ jQuery(document).ready(function($){
     adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
     $('#co2-form-result-header .select-wrapper select').on('change', function() {
-        let selectedValue = $('input[name="switch-one"]:checked').val();
+        let selectedValue = $('input[name="footprint_type"]:checked').val();
         
         let userSelection = new UserSelection();
         if (selectedValue === 'person') {
@@ -188,7 +188,7 @@ jQuery(document).ready(function($){
 
     $('.share-icon').on('click', function() {
         let productTitle = $('.search-result.basic .col:first-child p.product-title').text();
-        let productFootprint = $('input[name="switch-one"]').val();
+        let productFootprint = $('input[name="footprint_type"]').val();
         let FootprintView = $('input[name="switch-two"]').val();
         let productFootprintType = $('.search-result > .col:first-child .footprint-type').attr('data-type');
         let productCode = $('.search-result .col:first-child p.product-title').data('code');
@@ -472,7 +472,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, userSelect
 }
 
 function adt_update_tags(boxToUpdate){
-    let typeValue = jQuery('#footprint-type input[name="footprint_type"]:checked').val();
+    let typeValue = jQuery('#footprint-type input[name="footprint_type_extend"]:checked').val();
     let type = 'Cradle to gate';
     
     if (typeValue === 'market') {
