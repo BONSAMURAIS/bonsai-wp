@@ -476,6 +476,8 @@ function adt_update_tags(boxToUpdate){
     console.log("jQuery('#footprint-type input[name=footprint_type_extend]:checked')=",jQuery('#footprint-type input[name="footprint_type_extend"]:checked'))
     console.log("typeValue=",typeValue)
     let type = 'Cradle to gate';
+    console.log("typeValue== 'market' =",typeValue == 'market')
+    console.log("typeValue== 'grave' =",typeValue == 'grave')
     
     if (typeValue == 'market') {
         type = 'Cradle to consumer';
