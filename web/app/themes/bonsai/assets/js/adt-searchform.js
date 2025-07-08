@@ -30,7 +30,7 @@ jQuery(document).ready(function($){
             });
             $('#most-popular-wrapper').toggle();
             $('.search-input-wrapper').toggle();
-            $('.person-choices').toggle();
+            $('#person-choices').toggle();
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change');
                 let userSelection = new UserSelection();

@@ -56,7 +56,7 @@ add_shortcode( 'adt_searchform', function($atts) {
             </div>
 
             <!-- Per person -->
-            <div class="row person-choices" style="display: none;">
+            <div id="person-choices" class="row" style="display: none;">
                 <div class="select-wrapper col medium-12 small-12 large-12">
                     <div class="medium-6 small-12 large-6">
                         <?= do_shortcode('[tooltip id="info-household-composition" href="#info-household-composition" label="Household composition" block_id="household-composition-info-popup"]')?>
@@ -137,7 +137,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <?= do_shortcode('[arrow_icon]')?>
                             </label>
                         </div>
-                        
                         <div class="medium-6 small-12 large-3">
                             <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
                             <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
