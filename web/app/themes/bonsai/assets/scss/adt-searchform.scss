@@ -12,17 +12,19 @@ form#form {
     max-width: 710px;
 }
 
-
-
 div#initial-error-message {
     color: $error;
-    font-size: 5e; /*test*/
+    font-size: 5em; /*test*/
 }
 
 
 /**
 * Section co2-form 
 **/
+
+#form-container{
+    display: flex;
+}
 
 /**
 * Section most-popular

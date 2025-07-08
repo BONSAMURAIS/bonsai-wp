@@ -25,7 +25,7 @@ add_shortcode( 'adt_searchform', function($atts) {
     <div id="main-content">
         <section id="co2-form">
             <form id="form">
-                <div>
+                <div id="form-container">
                     <div class="col medium-6 small-12 large-6 pb-0">
                         <?= do_shortcode('[tooltip id="info-footprint" href="#info-footprint" label="Footprint" block_id="footprint-regular-info-popup"]')?>
                         <div class="switch-field-wrapper">
