@@ -52,7 +52,7 @@ jQuery(document).ready(function($){
     });
 
 
-    $('input[name="switch-two"]').on('change', function(){
+    $('input[name="contri-analysis"]').on('change', function(){
         let isChecked = $(this).is(':checked');
 
         if (isChecked) {
@@ -193,7 +193,7 @@ jQuery(document).ready(function($){
     $('.share-icon').on('click', function() {
         let productTitle = $('.search-result.basic .col:first-child p.product-title').text();
         let productFootprint = $('input[name="footprint_type"]').val();
-        let FootprintView = $('input[name="switch-two"]').val();
+        let FootprintView = $('input[name="contri-analysis"]').val();
         let productFootprintType = $('.search-result > .col:first-child .footprint-type').attr('data-type');
         let productCode = $('.search-result .col:first-child p.product-title').data('code');
         let country = $('.search-result > .col:first-child .country').attr('data-country');

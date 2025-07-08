@@ -98,6 +98,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
             </form>
         </section>
+
         <section id="most-popular">
             <!-- By other searches -->
             <p>Most popular:</p>
@@ -107,6 +108,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <?php endforeach; ?>
             </ul>
         </section>
+
         <section id="co2-form-result">
             <div id="divider">
             </div>
@@ -117,9 +119,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </div>
                     <div class="switch-field-wrapper-basic col medium-6 small-12 large-6">
                         <div class="switch-field-container">
-                            <input type="radio" id="basic-choice" name="switch-two" value="basic" checked/>
+                            <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
                             <label for="basic-choice">Basic</label>
-                            <input type="radio" id="advanced-choice" name="switch-two" value="advanced" />
+                            <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
                             <label for="advanced-choice">Advanced</label>
                         </div>
                     </div>
