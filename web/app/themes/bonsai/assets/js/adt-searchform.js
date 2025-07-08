@@ -150,7 +150,7 @@ jQuery(document).ready(function($){
 
     adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
-    $('.co2-form-result #co2-form-result-header .select-wrapper select').on('change', function() {
+    $('#co2-form-result-header .select-wrapper select').on('change', function() {
         let selectedValue = $('input[name="switch-one"]:checked').val();
         
         let userSelection = new UserSelection();
@@ -353,7 +353,7 @@ function adt_get_person_footprint(userSelection){
             adt_show_search_results();
 
             jQuery('html, body').animate({
-                scrollTop: jQuery(".co2-form-result").offset().top - 90
+                scrollTop: jQuery("#co2-form-result").offset().top - 90
             }, c_Animation.DURATION);
             
             // Try this
@@ -456,7 +456,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, userSelect
             adt_show_search_results();
 
             jQuery('html, body').animate({
-                scrollTop: jQuery(".co2-form-result").offset().top - 90
+                scrollTop: jQuery("#co2-form-result").offset().top - 90
             }, c_Animation.DURATION);
         },
         error: (response) => {
@@ -931,7 +931,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
 function adt_show_search_results()
 {
     jQuery('#divider').show();
-    jQuery('.co2-form-result').slideDown('slow', function(){
+    jQuery('#co2-form-result').slideDown('slow', function(){
         // Might need something happening here
     });
 }

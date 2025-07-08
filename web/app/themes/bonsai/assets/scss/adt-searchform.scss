@@ -38,6 +38,37 @@ div#initial-error-message {
 * Section co2-form-result
 **/
 
+// Animations
+#co2-form-result {
+    display: none;
+}
+
+#co2-form-result-header {
+    background-color: $grey;
+    padding: 30px 20px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+
+    .col {
+        padding-bottom: 0;
+    }
+
+    h3 {
+        font-size: 30px;
+        color: $secondary;
+        text-align: left;
+        font-weight: 400;
+    }
+}
+
+.single-shared_searches {
+    #divider, #co2-form-result{
+        display: block;
+    }
+}
+
+
+
 #footprint-type {
     display: flex;
     justify-content: flex-end;
@@ -830,35 +861,6 @@ label.select {
 
 .has-hover:hover {
     cursor: pointer;
-}
-
-#co2-form-result-header {
-    background-color: $grey;
-    padding: 30px 20px;
-    border-radius: 50px;
-    margin-bottom: 20px;
-
-    .col {
-        padding-bottom: 0;
-    }
-
-    h3 {
-        font-size: 30px;
-        color: $secondary;
-        text-align: left;
-        font-weight: 400;
-    }
-}
-
-.single-shared_searches {
-    #divider, .co2-form-result{
-        display: block;
-    }
-}
-
-// Animations
-.co2-form-result {
-    display: none;
 }
 
 span.adt-close {
