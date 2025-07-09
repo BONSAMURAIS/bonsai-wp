@@ -231,26 +231,26 @@ div#initial-error-message {
             right: 0;
         }
     }
+}
 
-    input.search {
-        border-radius: 50px;
-        font-size: 30px;
-        background-color: $dark-grey;
-        margin-bottom: 0;
-        height: 100px;
-        padding: 0 30px;
-        position: relative;
+input[name="search"] {
+    border-radius: 50px;
+    font-size: 30px;
+    background-color: $dark-grey;
+    margin-bottom: 0;
+    height: 100px;
+    padding: 0 30px;
+    position: relative;
 
-        &:focus {
-            background-color: white;
-            box-shadow: none;
-        }
+    &:focus {
+        background-color: white;
+        box-shadow: none;
+    }
 
-        @media only screen and (max-width: 468px) {
-            font-size: 15px;
-            height: 45px;
-            padding: 0 15px;
-        }
+    @media only screen and (max-width: 468px) {
+        font-size: 15px;
+        height: 45px;
+        padding: 0 15px;
     }
 }
 

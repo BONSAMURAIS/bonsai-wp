@@ -23,7 +23,7 @@ jQuery(document).ready(function($){
 
             console.log($('#footprint-type .radio-choice'));
 
-            $('input.search').attr('placeholder', 'Find footprint by '+value);
+            $('input[name="search"]').attr('placeholder', 'Find footprint by '+value);
 
             $('#footprint-type .radio-choice').each(function(){
                 $(this).toggle();
