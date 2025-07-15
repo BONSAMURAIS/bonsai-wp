@@ -382,7 +382,7 @@ function adt_get_person_footprint(userSelection){
 function adt_get_product_info(productTitle, productCode, productUuid, userSelection, init=false) {
     console.log("-- adt_get_product_info --");
     console.log("productTitle, productCode, productUuid=",productTitle, productCode, productUuid);
-    console.log("footprint_location, footprint_type, footprint_year,database_version,metric=",userSelection.countryCode, userSelection.footprint_type, userSelection.year,userSelection.db_version,userSelection.climate_metric);
+    console.log("userSelect =",userSelection.to_string());
 
 
     jQuery.ajax({
@@ -1371,9 +1371,9 @@ function adt_push_parameter_to_url(text, code, uuid, userSelection)
         metric: userSelection.climate_metric,
         household_compo: userSelection.household_compo,
         income_gpe: userSelection.income_gpe,
-        footprint_location: userSelection.countryCode,
+        location: userSelection.countryCode,
         footprint_type: userSelection.footprint_type,
-        footprint_year: userSelection.year,
+        year: userSelection.year,
         db_version: userSelection.db_version,
     };
 
