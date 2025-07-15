@@ -168,7 +168,7 @@ jQuery(document).ready(function($){
                     userSelection.set_product(firstItem.productTitle, firstItem.productCode, firstItem.productUuid);
                     userSelection.get_from_form();
                     console.log("firstItem.productTitle, firstItem.productCode = ", firstItem.productTitle, firstItem.productCode)
-                    adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
+                    adt_get_product_info(userSelection);
                     adt_push_parameter_to_url(userSelection);
                 }
             }
@@ -187,7 +187,7 @@ jQuery(document).ready(function($){
         console.log("START popular click")
         
         adt_push_parameter_to_url(userSelection);
-        adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
+        adt_get_product_info(userSelection);
         adt_update_tags('original')
         console.log("END popular click")
     });
@@ -379,9 +379,8 @@ function adt_get_person_footprint(userSelection){
     });
 }
 
-function adt_get_product_info(productTitle, productCode, productUuid, userSelection, init=false) {
+function adt_get_product_info(userSelection, init=false) {
     console.log("-- adt_get_product_info --");
-    console.log("productTitle, productCode, productUuid=",productTitle, productCode, productUuid);
     console.log("userSelect =",userSelection.to_string());
 
 
@@ -391,9 +390,9 @@ function adt_get_product_info(productTitle, productCode, productUuid, userSelect
         data: {
             _ajax_nonce: localize._ajax_nonce,
             action: 'adt_get_product_footprint',
-            title: productTitle,
-            code: productCode,
-            uuid: productUuid,
+            title: userSelection.title,
+            code: userSelection.code,
+            uuid: userSelection.uuid,
             metric: userSelection.climate_metric,
             footprint_location: userSelection.countryCode,
             footprint_type: userSelection.footprint_type,
@@ -440,7 +439,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, userSelect
                         data: {
                             _ajax_nonce: localize._ajax_nonce,
                             action: 'adt_get_product_name_by_code',
-                            code: productCode,
+                            code: userSelection.code,
                         },
                         success: (response) => {
                             let productTitle = response.data;
@@ -1094,7 +1093,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         userSelection.get_from_form();
         
         adt_push_parameter_to_url(userSelection);
-        adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
+        adt_get_product_info(userSelection);
     }
 }
 
@@ -1111,7 +1110,7 @@ function adt_switch_between_recipe_items()
         userSelection.get_from_form();
 
         console.log('Make sure this only run once!');
-        adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
+        adt_get_product_info(userSelection);
         
         // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
         const href = jQuery(this).attr('href');
@@ -1218,7 +1217,7 @@ function adt_save_local_search_history(productTitle, productCode, productUuid, c
         jQuery('#autocomplete-input').val(productTitle);
 
         adt_push_parameter_to_url(userSelection);
-        adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
+        adt_get_product_info(userSelection);
     });
 }
 
@@ -1255,7 +1254,7 @@ function adt_initialize_local_search_history()
         userSelection.set_product(productTitle,productCode,productUuid);
         userSelection.get_from_form();
 
-        adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
+        adt_get_product_info(userSelection);
     });
 }
 
@@ -1269,7 +1268,7 @@ function init(){
     // jQuery('#climate-metric').val( obj.metric);
     jQuery('#database-version').val(userSelection.db_version);
 
-    adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection, true);
+    adt_get_product_info(userSelection, true);
 }
 
 function adt_get_product_by_encoded_string()
@@ -1282,7 +1281,7 @@ function adt_get_product_by_encoded_string()
     // jQuery('#climate-metric').val( obj.metric);
     jQuery('#database-version').val(userSelection.db_version);
 
-    adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection, true);
+    adt_get_product_info(userSelection, true);
 }
 
 // Makes sure to run the function when users go back and forth in browser
