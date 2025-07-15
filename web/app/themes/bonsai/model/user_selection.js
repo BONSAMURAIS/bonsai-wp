@@ -39,7 +39,10 @@ class UserSelection{
         this.household_compo = jQuery('#household-composition').val();
         this.climate_metric = jQuery('#climate-metric').val();
         this.footprint_type = jQuery('#footprint-type input[name="footprint_type_extend').val();
+    }
 
+    to_string() {
+        return `[title:${this.title}, code:${this.code}, uuid:${this.uuid}, countryCode:${this.countryCode}, db_version:${this.db_version}, year:${this.year}, income_gpe:${this.income_gpe}, household_compo:${this.household_compo}, climate_metric:${this.climate_metric}, footprint_type:${this.footprint_type}]`;
     }
 }
 
