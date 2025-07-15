@@ -433,26 +433,26 @@ function adt_get_product_info(userSelection, init=false) {
                 jQuery('.error-message').slideUp('fast');
             }
 
-            // //todo - refactor
-            // if(init){
-            //     if(dataArray['flow_code']  !== null & dataArray['title'] == null){
-            //         jQuery.ajax({
-            //             type: 'POST',
-            //             url: localize._ajax_url,
-            //             data: {
-            //                 _ajax_nonce: localize._ajax_nonce,
-            //                 action: 'adt_get_product_name_by_code',
-            //                 code: userSelection.code,
-            //             },
-            //             success: (response) => {
-            //                 let productTitle = response.data;
-            //                 dataArray['title'] = Utils.capitalize(productTitle);
-            //                 adt_update_original_info(dataArray); 
-            //                 adt_show_search_results();
-            //             }
-            //         });
-            //     }
-            // }
+            //todo - refactor
+            if(init){
+                if(dataArray['flow_code']  !== null & dataArray['title'] == null){
+                    jQuery.ajax({
+                        type: 'POST',
+                        url: localize._ajax_url,
+                        data: {
+                            _ajax_nonce: localize._ajax_nonce,
+                            action: 'adt_get_product_name_by_code',
+                            code: userSelection.code,
+                        },
+                        success: (response) => {
+                            let productTitle = response.data;
+                            dataArray['title'] = Utils.capitalize(productTitle);
+                            adt_update_original_info(dataArray); 
+                            adt_show_search_results();
+                        }
+                    });
+                }
+            }
             
             localStorage.setItem("footprint_data", JSON.stringify(response.data));
             let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
