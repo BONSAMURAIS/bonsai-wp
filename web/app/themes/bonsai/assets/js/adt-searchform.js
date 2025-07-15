@@ -5,11 +5,18 @@ import * as Utils from '../../utils/tools.utils.js';
 
 // Makes sure to run the function when users go back and forth in browser
 window.addEventListener('popstate', function(event) {
-    adt_get_product_by_encoded_string();
+    init_form();
 });
 
 jQuery(document).ready(function($){
     let userSelection = new UserSelection();
+
+    const params = new URLSearchParams(window.location.search);
+    const base64String = params.get('data');
+
+    if (base64String) {
+        init_form();
+    }
 
     $('label.select').each(function() {
         let listOptions = $(this).find('option');
@@ -268,14 +275,6 @@ jQuery(document).ready(function($){
     });
 
     adt_initialize_local_search_history();
-
-    const params = new URLSearchParams(window.location.search);
-    const base64String = params.get('data');
-
-    if (base64String) {
-        adt_get_product_by_encoded_string();
-    }
-
 
     // Comparison code
     $('a:has(.add)').click(function(e){
@@ -1263,7 +1262,7 @@ function adt_initialize_local_search_history()
 }
 
 //init get the first time the product 
-function init(){
+function init_form(){
     let userSelection = new UserSelection;
     userSelection.get_from_url();
 
@@ -1272,19 +1271,6 @@ function init(){
     jQuery('#climate-metric').val(userSelection.climate_metric);
     jQuery('#database-version').val(userSelection.db_version);
     
-    adt_get_product_info(userSelection, true);
-}
-
-function adt_get_product_by_encoded_string()
-{
-    let userSelection = new UserSelection;
-    userSelection.get_from_url();
-    
-    jQuery('#location').val(userSelection.countryCode);
-    jQuery('#year').val(userSelection.year);
-    jQuery('#climate-metric').val(userSelection.climate_metric);
-    jQuery('#database-version').val(userSelection.db_version);
-
     adt_get_product_info(userSelection, true);
 }
 
