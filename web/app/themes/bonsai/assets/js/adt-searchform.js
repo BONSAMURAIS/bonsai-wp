@@ -169,7 +169,7 @@ jQuery(document).ready(function($){
                     userSelection.get_from_form();
                     console.log("firstItem.productTitle, firstItem.productCode = ", firstItem.productTitle, firstItem.productCode)
                     adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
-                    adt_push_parameter_to_url(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
+                    adt_push_parameter_to_url(userSelection);
                 }
             }
         }
@@ -186,7 +186,7 @@ jQuery(document).ready(function($){
 
         console.log("START popular click")
         
-        adt_push_parameter_to_url(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
+        adt_push_parameter_to_url(userSelection);
         adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
         adt_update_tags('original')
         console.log("END popular click")
@@ -1093,7 +1093,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         userSelection.set_product(text,code,uuid);
         userSelection.get_from_form();
         
-        adt_push_parameter_to_url(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
+        adt_push_parameter_to_url(userSelection);
         adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
     }
 }
@@ -1217,7 +1217,7 @@ function adt_save_local_search_history(productTitle, productCode, productUuid, c
 
         jQuery('#autocomplete-input').val(productTitle);
 
-        adt_push_parameter_to_url(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
+        adt_push_parameter_to_url(userSelection);
         adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection);
     });
 }
@@ -1360,14 +1360,14 @@ function adt_uncertainty_calculation(original, comparison)
     });
 }
 
-function adt_push_parameter_to_url(text, code, uuid, userSelection)
+function adt_push_parameter_to_url(userSelection)
 {
     // Do this to make sure you can go back in browser
     // Convert to base64
     let allData = {
-        title: text,
-        code: code,
-        uuid: uuid,
+        title: userSelection.title,
+        code: userSelection.code,
+        uuid: userSelection.uuid,
         metric: userSelection.climate_metric,
         household_compo: userSelection.household_compo,
         income_gpe: userSelection.income_gpe,
