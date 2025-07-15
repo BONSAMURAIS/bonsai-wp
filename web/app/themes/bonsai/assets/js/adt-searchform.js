@@ -1255,24 +1255,15 @@ function adt_initialize_local_search_history()
 //init get the first time the product 
 function adt_get_product_by_encoded_string()
 {
-    const params = new URLSearchParams(window.location.search);
-    const base64String = params.get('data');
 
-    const jsonString = atob(base64String);  // base64 decode
-    const obj = JSON.parse(jsonString);
-    const chosenValues = [];
-    chosenValues['footprint_location'] = obj.footprint_location;
-    chosenValues['footprint_type'] = obj.footprint_type;
-    chosenValues['footprint_year'] = obj.footprint_year;
-    // chosenValues['metric'] = obj.metric;
-    chosenValues['database_version'] = obj.database_version;
+    userSelection.get_from_url();
 
-    jQuery('#location').val(obj.footprint_location);
-    jQuery('#year').val(obj.footprint_year);
+    jQuery('#location').val(userSelection.countryCode);
+    jQuery('#year').val(userSelection.year);
     // jQuery('#climate-metric').val( obj.metric);
-    jQuery('#database-version').val(obj.database_version);
+    jQuery('#database-version').val(userSelection.version);
 
-    adt_get_product_info(obj.title, obj.code, obj.uuid, chosenValues, true);
+    adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection, true);
 }
 
 // Makes sure to run the function when users go back and forth in browser
