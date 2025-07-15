@@ -304,6 +304,7 @@ jQuery(document).ready(function($){
 });
 
 function adt_get_person_footprint(userSelection){
+    console.log("userSelection=",userSelection)
     let act_code = userSelection.income_gpe+"_"+userSelection.household_compo; //fdemandCat will be prefixed in adt-person-functions.php
     console.log("act_code=",act_code);
     console.log("metric=",userSelection.climate_metric);
