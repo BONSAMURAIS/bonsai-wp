@@ -1265,7 +1265,7 @@ function init(){
 
     jQuery('#location').val(userSelection.countryCode);
     jQuery('#year').val(userSelection.year);
-    // jQuery('#climate-metric').val( obj.metric);
+    jQuery('#climate-metric').val(userSelection.climate_metric);
     jQuery('#database-version').val(userSelection.db_version);
 
     adt_get_product_info(userSelection, true);
