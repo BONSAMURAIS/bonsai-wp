@@ -5,6 +5,7 @@ import * as Utils from '../../utils/tools.utils.js';
 
 
 jQuery(document).ready(function($){
+    let userSelection = new UserSelection();
 
     $('label.select').each(function() {
         let listOptions = $(this).find('option');
@@ -33,8 +34,8 @@ jQuery(document).ready(function($){
             $('#person-choices').toggle();
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change');
-                let userSelection = new UserSelection();
-                adt_get_person_footprint(userSelection.get_from_form());
+                userSelection.get_from_form();
+                adt_get_person_footprint(userSelection);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
             }
@@ -42,13 +43,13 @@ jQuery(document).ready(function($){
     });
     
     $('#household-composition').on('change',function(){
-        let userSelection = new UserSelection();
-        adt_get_person_footprint(userSelection.get_from_form());
+        userSelection.get_from_form();
+        adt_get_person_footprint(userSelection);
     });
-
+    
     $('#income-group').on('change',function(){
-        let userSelection = new UserSelection();
-        adt_get_person_footprint(userSelection.get_from_form());
+        userSelection.get_from_form();
+        adt_get_person_footprint(userSelection);
     });
 
 
@@ -153,20 +154,21 @@ jQuery(document).ready(function($){
     $('#co2-form-result-header .select-wrapper select').on('change', function() {
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         
-        let userSelection = new UserSelection();
         if (selectedValue === 'person') {
-            adt_get_person_footprint(userSelection.get_from_form());
+            userSelection.get_from_form();
+            adt_get_person_footprint(userSelection);
         } else {
-
+            
             // Get last searched data instead, this does not always contain all data
             let searchHistory = localStorage.getItem("adt_search_history");
             if (searchHistory) {
                 searchHistory = JSON.parse(searchHistory);
                 if (searchHistory.length > 0) {
+                    userSelection.get_from_form();
                     let firstItem = searchHistory[0];
                     console.log("firstItem.productTitle, firstItem.productCode = ", firstItem.productTitle, firstItem.productCode)
-                    adt_get_product_info(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, userSelection.get_from_form());
-                    adt_push_parameter_to_url(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, userSelection.get_from_form());
+                    adt_get_product_info(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, userSelection);
+                    adt_push_parameter_to_url(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, userSelection);
                 }
             }
         }
@@ -176,14 +178,14 @@ jQuery(document).ready(function($){
         let productTitle = $(this).text();
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
-        let userSelection = new UserSelection();
+        userSelection.get_from_form();
 
         $('#autocomplete-input').val(productTitle);
 
         console.log("START popular click")
         
-        adt_push_parameter_to_url(productTitle, productCode, productUuid, userSelection.get_from_form());
-        adt_get_product_info(productTitle, productCode, productUuid, userSelection.get_from_form());
+        adt_push_parameter_to_url(productTitle, productCode, productUuid, userSelection);
+        adt_get_product_info(productTitle, productCode, productUuid, userSelection);
         adt_update_tags('original')
         console.log("END popular click")
     });
@@ -473,7 +475,9 @@ function adt_get_product_info(productTitle, productCode, productUuid, userSelect
         }
     });
 
-    adt_save_local_search_history(productTitle, productCode, productUuid, userSelection.get_from_form());
+    userSelection.get_from_form();
+
+    adt_save_local_search_history(productTitle, productCode, productUuid, userSelection);
 }
 
 function adt_update_tags(boxToUpdate){
@@ -1084,10 +1088,10 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         $suggestionsWrapper.hide();
         jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
         suggestionSelected = true;
-        let userSelection = new UserSelection();
+        userSelection.get_from_form();
         
-        adt_push_parameter_to_url(text, code, uuid, userSelection.get_from_form());
-        adt_get_product_info(text, code, uuid, userSelection.get_from_form());
+        adt_push_parameter_to_url(text, code, uuid, userSelection);
+        adt_get_product_info(text, code, uuid, userSelection);
     }
 }
 
@@ -1099,10 +1103,11 @@ function adt_switch_between_recipe_items()
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
-        let userSelection = new UserSelection();
+
+        userSelection.get_from_form();
 
         console.log('Make sure this only run once!');
-        adt_get_product_info(productTitle, productCode, productUuid, userSelection.get_from_form());
+        adt_get_product_info(productTitle, productCode, productUuid, userSelection);
         
         // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
         const href = jQuery(this).attr('href');
@@ -1202,12 +1207,12 @@ function adt_save_local_search_history(productTitle, productCode, productUuid, c
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
-        let userSelection = new UserSelection();
+        userSelection.get_from_form()
 
         jQuery('#autocomplete-input').val(productTitle);
 
-        adt_push_parameter_to_url(productTitle, productCode, productUuid, userSelection.get_from_form());
-        adt_get_product_info(productTitle, productCode, productUuid, userSelection.get_from_form());
+        adt_push_parameter_to_url(productTitle, productCode, productUuid, userSelection);
+        adt_get_product_info(productTitle, productCode, productUuid, userSelection);
     });
 }
 
@@ -1241,9 +1246,9 @@ function adt_initialize_local_search_history()
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
-        let userSelection = new UserSelection();
+        userSelection.get_from_form();
 
-        adt_get_product_info(productTitle, productCode, productUuid, userSelection.get_from_form());
+        adt_get_product_info(productTitle, productCode, productUuid, userSelection);
     });
 }
 
