@@ -1354,7 +1354,7 @@ function adt_push_parameter_to_url(text, code, uuid, userSelection)
         footprint_location: userSelection.countryCode,
         footprint_type: userSelection.footprint_type,
         footprint_year: userSelection.year,
-        database_version: userSelection.db_version,
+        db_version: userSelection.db_version,
     };
 
     const jsonString = JSON.stringify(allData);
