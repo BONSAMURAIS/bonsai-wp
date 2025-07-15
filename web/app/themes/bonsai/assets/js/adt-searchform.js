@@ -1255,7 +1255,7 @@ function adt_initialize_local_search_history()
 //init get the first time the product 
 function adt_get_product_by_encoded_string()
 {
-
+    let userSelection = new UserSelection;
     userSelection.get_from_url();
 
     jQuery('#location').val(userSelection.countryCode);
