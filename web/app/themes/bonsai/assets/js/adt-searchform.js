@@ -3,6 +3,10 @@ import * as c_Animation from '../../constants/animation.js';
 import * as c_Unit from '../../constants/unit.js'; 
 import * as Utils from '../../utils/tools.utils.js'; 
 
+// Makes sure to run the function when users go back and forth in browser
+window.addEventListener('popstate', function(event) {
+    adt_get_product_by_encoded_string();
+});
 
 jQuery(document).ready(function($){
     let userSelection = new UserSelection();
@@ -1283,11 +1287,6 @@ function adt_get_product_by_encoded_string()
 
     adt_get_product_info(userSelection, true);
 }
-
-// Makes sure to run the function when users go back and forth in browser
-window.addEventListener('popstate', function(event) {
-    adt_get_product_by_encoded_string();
-});
 
 function adt_get_converted_number_by_units(fromUnit, toUnit, number) 
 {
