@@ -34,7 +34,7 @@ jQuery(document).ready(function($){
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change');
                 let userSelection = new UserSelection();
-                adt_get_person_footprint(userSelection);
+                adt_get_person_footprint(userSelection.get_from_form());
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
             }
@@ -43,12 +43,12 @@ jQuery(document).ready(function($){
     
     $('#household-composition').on('change',function(){
         let userSelection = new UserSelection();
-        adt_get_person_footprint(userSelection);
+        adt_get_person_footprint(userSelection.get_from_form());
     });
 
     $('#income-group').on('change',function(){
         let userSelection = new UserSelection();
-        adt_get_person_footprint(userSelection);
+        adt_get_person_footprint(userSelection.get_from_form());
     });
 
 
@@ -155,7 +155,7 @@ jQuery(document).ready(function($){
         
         let userSelection = new UserSelection();
         if (selectedValue === 'person') {
-            adt_get_person_footprint(userSelection);
+            adt_get_person_footprint(userSelection.get_from_form());
         } else {
 
             // Get last searched data instead, this does not always contain all data
@@ -165,8 +165,8 @@ jQuery(document).ready(function($){
                 if (searchHistory.length > 0) {
                     let firstItem = searchHistory[0];
                     console.log("firstItem.productTitle, firstItem.productCode = ", firstItem.productTitle, firstItem.productCode)
-                    adt_get_product_info(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, userSelection);
-                    adt_push_parameter_to_url(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, userSelection);
+                    adt_get_product_info(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, userSelection.get_from_form());
+                    adt_push_parameter_to_url(firstItem.productTitle, firstItem.productCode, firstItem.productUuid, userSelection.get_from_form());
                 }
             }
         }
@@ -182,8 +182,8 @@ jQuery(document).ready(function($){
 
         console.log("START popular click")
         
-        adt_push_parameter_to_url(productTitle, productCode, productUuid, userSelection);
-        adt_get_product_info(productTitle, productCode, productUuid, userSelection);
+        adt_push_parameter_to_url(productTitle, productCode, productUuid, userSelection.get_from_form());
+        adt_get_product_info(productTitle, productCode, productUuid, userSelection.get_from_form());
         adt_update_tags('original')
         console.log("END popular click")
     });
@@ -472,7 +472,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, userSelect
         }
     });
 
-    adt_save_local_search_history(productTitle, productCode, productUuid, userSelection);
+    adt_save_local_search_history(productTitle, productCode, productUuid, userSelection.get_from_form());
 }
 
 function adt_update_tags(boxToUpdate){
@@ -1085,8 +1085,8 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         suggestionSelected = true;
         let userSelection = new UserSelection();
         
-        adt_push_parameter_to_url(text, code, uuid, userSelection);
-        adt_get_product_info(text, code, uuid, userSelection);
+        adt_push_parameter_to_url(text, code, uuid, userSelection.get_from_form());
+        adt_get_product_info(text, code, uuid, userSelection.get_from_form());
     }
 }
 
@@ -1101,7 +1101,7 @@ function adt_switch_between_recipe_items()
         let userSelection = new UserSelection();
 
         console.log('Make sure this only run once!');
-        adt_get_product_info(productTitle, productCode, productUuid, userSelection);
+        adt_get_product_info(productTitle, productCode, productUuid, userSelection.get_from_form());
         
         // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
         const href = jQuery(this).attr('href');
@@ -1205,8 +1205,8 @@ function adt_save_local_search_history(productTitle, productCode, productUuid, c
 
         jQuery('#autocomplete-input').val(productTitle);
 
-        adt_push_parameter_to_url(productTitle, productCode, productUuid, userSelection);
-        adt_get_product_info(productTitle, productCode, productUuid, userSelection);
+        adt_push_parameter_to_url(productTitle, productCode, productUuid, userSelection.get_from_form());
+        adt_get_product_info(productTitle, productCode, productUuid, userSelection.get_from_form());
     });
 }
 
@@ -1242,7 +1242,7 @@ function adt_initialize_local_search_history()
         let productUuid = jQuery(this).data('uuid');
         let userSelection = new UserSelection();
 
-        adt_get_product_info(productTitle, productCode, productUuid, userSelection);
+        adt_get_product_info(productTitle, productCode, productUuid, userSelection.get_from_form());
     });
 }
 
@@ -1353,6 +1353,8 @@ function adt_push_parameter_to_url(text, code, uuid, userSelection)
         code: code,
         uuid: uuid,
         metric: userSelection.climate_metric,
+        household_compo: userSelection.household_compo,
+        income_gpe: userSelection.income_gpe,
         footprint_location: userSelection.countryCode,
         footprint_type: userSelection.footprint_type,
         footprint_year: userSelection.year,
