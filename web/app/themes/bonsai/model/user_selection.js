@@ -22,9 +22,9 @@ class UserSelection{
         this.code = json.code;
         this.uuid = json.uuid;
 
-        this.countryCode =  json.footprint_location;;
+        this.countryCode =  json.location;;
         this.db_version = json.db_version;
-        this.year = json.footprint_year;
+        this.year = json.year;
         this.income_gpe = json.income_gpe;
         this.household_compo = json.household_compo;
         this.climate_metric = json.climate_metric;

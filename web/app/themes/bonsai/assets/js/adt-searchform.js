@@ -1354,9 +1354,9 @@ function adt_push_parameter_to_url(text, code, uuid, userSelection)
         metric: userSelection.climate_metric,
         household_compo: userSelection.household_compo,
         income_gpe: userSelection.income_gpe,
-        footprint_location: userSelection.countryCode,
+        location: userSelection.countryCode,
         footprint_type: userSelection.footprint_type,
-        footprint_year: userSelection.year,
+        year: userSelection.year,
         db_version: userSelection.db_version,
     };
 
