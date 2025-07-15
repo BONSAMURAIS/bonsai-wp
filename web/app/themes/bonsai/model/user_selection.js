@@ -41,6 +41,12 @@ class UserSelection{
         this.footprint_type = jQuery('#footprint-type input[name="footprint_type_extend').val();
     }
 
+    set_product(title,code,uuid){
+        this.title = title;
+        this.code = code;
+        this.uuid = uuid;
+    }
+
     to_string() {
         return `[title:${this.title}, code:${this.code}, uuid:${this.uuid}, countryCode:${this.countryCode}, db_version:${this.db_version}, year:${this.year}, income_gpe:${this.income_gpe}, household_compo:${this.household_compo}, climate_metric:${this.climate_metric}, footprint_type:${this.footprint_type}]`;
     }
