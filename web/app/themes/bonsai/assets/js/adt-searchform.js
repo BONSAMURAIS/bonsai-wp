@@ -1352,7 +1352,7 @@ function adt_push_parameter_to_url(userSelection)
         title: userSelection.title,
         code: userSelection.code,
         uuid: userSelection.uuid,
-        metric: userSelection.climate_metric,
+        climate_metric: userSelection.climate_metric,
         household_compo: userSelection.household_compo,
         income_gpe: userSelection.income_gpe,
         location: userSelection.countryCode,
