@@ -1166,7 +1166,7 @@ function adt_save_local_search_history(userSelection)
 
     // converting the chosenValues from jQuery array to JSON object.
     // This is needed to save the data in local storage.
-    chosenValues = {
+    let chosenValues = {
         database_version: userSelection.db_version,
         footprint_location: userSelection.countryCode,
         footprint_type: userSelection.footprint_type,
@@ -1178,7 +1178,7 @@ function adt_save_local_search_history(userSelection)
         productTitle: userSelection.title,
         productCode: userSelection.code,
         productUuid: userSelection.uuid,
-        chosenValues: userSelection
+        chosenValues: chosenValues
     }
 
     searchHistory.unshift(newSearch);
