@@ -1257,6 +1257,9 @@ function adt_get_product_by_encoded_string()
     let userSelection = new UserSelection;
     userSelection.get_from_url();
 
+    console.log(userSelection.to_string());
+
+
     jQuery('#location').val(userSelection.countryCode);
     jQuery('#year').val(userSelection.year);
     // jQuery('#climate-metric').val( obj.metric);
