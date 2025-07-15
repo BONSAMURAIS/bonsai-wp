@@ -4,7 +4,7 @@ class UserSelection{
         this.code = "code";
         this.uuid = "uuid";
         this.countryCode = "";
-        this.version = 'v1.0.0';
+        this.db_version = 'v1.0.0';
         this.year = '1999';
         this.income_gpe = "";
         this.household_compo = "";
@@ -23,7 +23,7 @@ class UserSelection{
         this.uuid = json.uuid;
 
         this.countryCode =  json.footprint_location;;
-        this.version = json.database_version;
+        this.db_version = json.db_version;
         this.year = json.footprint_year;
         this.income_gpe = json.income_gpe;
         this.household_compo = json.household_compo;
@@ -33,7 +33,7 @@ class UserSelection{
     
     get_from_form(){
         this.countryCode = jQuery('#location').val();
-        this.version = jQuery('#database-version').val();
+        this.db_version = jQuery('#database-version').val();
         this.year = jQuery('#year').val();
         this.income_gpe = jQuery('#income-group').val();
         this.household_compo = jQuery('#household-composition').val();

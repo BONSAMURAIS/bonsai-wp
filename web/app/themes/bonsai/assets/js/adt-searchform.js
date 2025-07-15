@@ -309,7 +309,6 @@ function adt_get_person_footprint(userSelection){
     console.log("userSelection=",userSelection)
     let act_code = userSelection.income_gpe+"_"+userSelection.household_compo; //fdemandCat will be prefixed in adt-person-functions.php
     console.log("act_code=",act_code);
-    console.log("metric=",userSelection.climate_metric);
     let autocomplete_input = jQuery('#autocomplete-input'); 
     jQuery.ajax({
         type: 'POST',
@@ -317,7 +316,7 @@ function adt_get_person_footprint(userSelection){
         data: {
             _ajax_nonce: localize._ajax_nonce,
             action: 'adt_get_person_footprint', //reference in adt-person-functions.php
-            version: userSelection.version,
+            version: userSelection.db_version,
             act_code: act_code,
             metric: userSelection.climate_metric,
             region_code: userSelection.countryCode,
@@ -381,7 +380,7 @@ function adt_get_person_footprint(userSelection){
 function adt_get_product_info(productTitle, productCode, productUuid, userSelection, init=false) {
     console.log("-- adt_get_product_info --");
     console.log("productTitle, productCode, productUuid=",productTitle, productCode, productUuid);
-    console.log("footprint_location, footprint_type, footprint_year,database_version,metric=",userSelection.countryCode, userSelection.footprint_type, userSelection.year,userSelection.version,userSelection.climate_metric);
+    console.log("footprint_location, footprint_type, footprint_year,database_version,metric=",userSelection.countryCode, userSelection.footprint_type, userSelection.year,userSelection.db_version,userSelection.climate_metric);
 
 
     jQuery.ajax({
@@ -397,7 +396,7 @@ function adt_get_product_info(productTitle, productCode, productUuid, userSelect
             footprint_location: userSelection.countryCode,
             footprint_type: userSelection.footprint_type,
             footprint_year: userSelection.year,
-            database_version: userSelection.version,
+            database_version: userSelection.db_version,
         },
         beforeSend: Utils.displayLoading(),
         success: (response) => {
@@ -1261,7 +1260,7 @@ function adt_get_product_by_encoded_string()
     jQuery('#location').val(userSelection.countryCode);
     jQuery('#year').val(userSelection.year);
     // jQuery('#climate-metric').val( obj.metric);
-    jQuery('#database-version').val(userSelection.version);
+    jQuery('#database-version').val(userSelection.db_version);
 
     adt_get_product_info(userSelection.title, userSelection.code, userSelection.uuid, userSelection, true);
 }
@@ -1355,7 +1354,7 @@ function adt_push_parameter_to_url(text, code, uuid, userSelection)
         footprint_location: userSelection.countryCode,
         footprint_type: userSelection.footprint_type,
         footprint_year: userSelection.year,
-        database_version: userSelection.version,
+        database_version: userSelection.db_version,
     };
 
     const jsonString = JSON.stringify(allData);
