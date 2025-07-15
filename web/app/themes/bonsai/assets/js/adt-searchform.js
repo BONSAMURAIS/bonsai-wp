@@ -477,7 +477,7 @@ function adt_get_product_info(userSelection, init=false) {
 
     userSelection.get_from_form();
 
-    adt_save_local_search_history(productTitle, productCode, productUuid, userSelection);
+    adt_save_local_search_history(userSelection);
 }
 
 function adt_update_tags(boxToUpdate){
@@ -1153,7 +1153,7 @@ function adt_save_search_history_on_click(data)
     });
 }
 
-function adt_save_local_search_history(productTitle, productCode, productUuid, chosenValues)
+function adt_save_local_search_history(userSelection)
 {
     // Save the data for individual user search history.
     // Save the four lastest searches to adt_search_history in local storage
@@ -1167,18 +1167,18 @@ function adt_save_local_search_history(productTitle, productCode, productUuid, c
     // converting the chosenValues from jQuery array to JSON object.
     // This is needed to save the data in local storage.
     chosenValues = {
-        database_version: chosenValues['database_version'],
-        footprint_location: chosenValues['footprint_location'],
-        footprint_type: chosenValues['footprint_type'],
-        metric: chosenValues['metric'],
-        footprint_year: chosenValues['footprint_year']
+        database_version: userSelection.db_version,
+        footprint_location: userSelection.countryCode,
+        footprint_type: userSelection.footprint_type,
+        metric: userSelection.climate_metric,
+        footprint_year: userSelection.year
     }
 
     const newSearch = {
-        productTitle: productTitle,
-        productCode: productCode,
-        productUuid: productUuid,
-        chosenValues: chosenValues
+        productTitle: userSelection.title,
+        productCode: userSelection.code,
+        productUuid: userSelection.uuid,
+        chosenValues: userSelection
     }
 
     searchHistory.unshift(newSearch);
