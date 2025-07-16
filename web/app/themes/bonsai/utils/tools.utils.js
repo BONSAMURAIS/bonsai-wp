@@ -1,5 +1,5 @@
-import * as c_Config from '../constants/config.js'; 
-import * as c_Unit from '../constants/unit.js'; 
+import * as CONFIG from '../constants/config.js'; 
+import * as CONST from '../constants/constants.js'; 
 
 
 export function capitalize(str) {
@@ -8,9 +8,9 @@ export function capitalize(str) {
 }
 
 export function reformatValue(value){
-    return new Intl.NumberFormat(c_Config.NUMBERFORMAT, {
-        minimumFractionDigits: c_Config.SIGNIFICANT_NB,
-        maximumFractionDigits: c_Config.SIGNIFICANT_NB
+    return new Intl.NumberFormat(CONFIG.NUMBERFORMAT, {
+        minimumFractionDigits: CONFIG.SIGNIFICANT_NB,
+        maximumFractionDigits: CONFIG.SIGNIFICANT_NB
     }).format(value);
 }
 
@@ -36,7 +36,7 @@ export function getUnitOptions(i, dataArray, unit_ref){
     //TODO rename hard coded unit with electricity
     let unitList = [];
 
-    if (unit_ref === c_Unit.DKK){
+    if (unit_ref === CONST.UNIT.DKK){
         unitList = [
             {ratio:1e-6,label:"EUR"},
             {ratio:1e-3,label:"kEUR"},
@@ -45,13 +45,13 @@ export function getUnitOptions(i, dataArray, unit_ref){
             {ratio:1e3,label:"kDKK"},
             {ratio:1e6,label:"mDKK"}
         ];
-    } else if (unit_ref === c_Unit.TONNES) {
+    } else if (unit_ref === CONST.UNIT.TONNES) {
         unitList = [
             {ratio:1,label:"kg"},
             {ratio:1e-3,label:"g"},
             {ratio:1e3,label:"tonne(s)"},
         ];
-    } else if (unit_ref === c_Unit.MJ){
+    } else if (unit_ref === CONST.UNIT.MJ){
         if (dataArray.all_data[i].flow_code.includes('_elec') || dataArray.all_data[i].flow_code.includes('_POW')){
             unitList = [
                 {ratio:1,label:"kWh"},
@@ -61,7 +61,7 @@ export function getUnitOptions(i, dataArray, unit_ref){
                 {ratio:1,label:"MJ"},
             ];
         }
-    } else if (unit_ref === c_Unit.ITEMS){
+    } else if (unit_ref === CONST.UNIT.ITEMS){
             unitList = [
                 {ratio:1,label:"item(s)"},
             ]
