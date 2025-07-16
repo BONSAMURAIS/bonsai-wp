@@ -116,3 +116,28 @@ export async function get_product_name_by_code(productCode) {
         });
     })
 }
+
+export async function uncertainty_calculation(original, comparison){
+    return new Promise((resolve, reject)=>{
+        jQuery.ajax({
+            type: 'POST',
+            url: localize._ajax_url,
+            data: {
+            _ajax_nonce: localize._ajax_nonce,
+            action: 'adt_probability_a_greater_b',
+            original: original,
+            comparison: comparison,
+            },
+            beforeSend: function() {
+            },
+            success: (response) => {
+                // Handle creation of HTML element here
+                if (!response.data) {
+                    console.log('now uncertainty data');
+                    return;
+                }
+                resolve(response.data)
+            }
+        });
+    });
+}

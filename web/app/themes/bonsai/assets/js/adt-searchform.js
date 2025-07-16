@@ -614,7 +614,26 @@ async function adt_update_comparison_info(dataArray = null){
                     let comparisonSample = item.samples;
 
                     // Because comparison is active also get the uncertainty of the comparison
-                    adt_uncertainty_calculation(originalSample, comparisonSample);
+                    let numberUncertainty = await API.uncertainty_calculation(originalSample, comparisonSample);
+                    // convert number to percentage
+                    numberUncertainty = parseFloat(numberUncertainty) * 100;
+                    numberUncertainty = Math.round(numberUncertainty * 100) / 100; // Round to two decimal places
+
+                    let uncertaintyBar = jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background');
+                    uncertaintyBar.css('width', numberUncertainty+'%');
+                    uncertaintyBar.attr('data-uncertainty', numberUncertainty+'%');
+
+                    jQuery('.uncertainty-wrapper').slideDown();
+
+                    let colorBar = "";
+                    if (numberUncertainty < 80) {
+                        colorBar = '#EB594E';
+                    } else if (numberUncertainty >= 80 && numberUncertainty < 90) {
+                        colorBar = '#F5DA5A';
+                    } else {
+                        colorBar = '#C3F138';
+                    }
+                    uncertaintyBar.css('background-color', colorBar);
 
                     if (item.unit_reference === c_Unit.TJ){
                         if(item.description.includes('electricity')){
@@ -1206,53 +1225,6 @@ async function init_form(){
     updateTileProduct(data_product, true);
     adt_save_local_search_history(userSelection);
 
-}
-
-function adt_uncertainty_calculation(original, comparison)
-{
-    jQuery.ajax({
-        type: 'POST',
-        url: localize._ajax_url,
-        data: {
-            _ajax_nonce: localize._ajax_nonce,
-            action: 'adt_probability_a_greater_b',
-            original: original,
-            comparison: comparison,
-        },
-        beforeSend: function() {
-            
-        },
-        success: (response) => {
-            // Handle creation of HTML element here
-            if (!response.data) {
-                console.log('now uncertainty data');
-                return;
-            }
-            
-            // Because comparison is active also get the uncertainty of the comparison
-            let numberUncertainty = response.data;
-            // convert number to percentage
-            numberUncertainty = parseFloat(numberUncertainty) * 100;
-            numberUncertainty = Math.round(numberUncertainty * 100) / 100; // Round to two decimal places
-
-            let uncertaintyBar = jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background');
-            uncertaintyBar.css('width', numberUncertainty+'%');
-            uncertaintyBar.attr('data-uncertainty', numberUncertainty+'%');
-
-            jQuery('.uncertainty-wrapper').slideDown();
-
-            let colorBar = "";
-            if (numberUncertainty < 80) {
-                colorBar = '#EB594E';
-            } else if (numberUncertainty >= 80 && numberUncertainty < 90) {
-                colorBar = '#F5DA5A';
-            } else {
-                colorBar = '#C3F138';
-            }
-            uncertaintyBar.css('background-color', colorBar);
-
-        }
-    });
 }
 
 function adt_push_parameter_to_url(userSelection)
