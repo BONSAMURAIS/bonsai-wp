@@ -387,7 +387,7 @@ async function updateTileProduct(data, init=false){
                 data: {
                     _ajax_nonce: localize._ajax_nonce,
                     action: 'adt_get_product_name_by_code',
-                    code: userSelection.code,
+                    code: data['flow_code'],
                 },
                 success: (response) => {
                     let productTitle = response.data;
