@@ -357,6 +357,7 @@ function updateTilePerson(data){
 }
 
 async function updateTileProduct(data, init=false){
+    console.log("test data=",data)
     if (data && data.error && data.error.includes("Product not found")) {
         jQuery('.error-message').first().append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
         jQuery('.error-message').slideDown('fast');
@@ -380,7 +381,7 @@ async function updateTileProduct(data, init=false){
 
     //todo - refactor
     if(init & data['flow_code']  !== null & data['title'] == null){
-        let productTitle = await API.get_product_name_by_code(productCode)
+        let productTitle = await API.get_product_name_by_code(data['productCode'])
         data['title'] = Utils.capitalize(productTitle);
         adt_update_original_info(data); 
         Utils.show_search_results('#co2-form-result');
