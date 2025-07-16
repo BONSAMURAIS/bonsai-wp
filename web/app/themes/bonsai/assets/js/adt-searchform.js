@@ -2,6 +2,7 @@ import UserSelection from '../../model/user_selection.js';
 import * as c_Animation from '../../constants/animation.js'; 
 import * as c_Unit from '../../constants/unit.js'; 
 import * as Utils from '../../utils/tools.utils.js'; 
+import * as API from '../../utils/api-call.js'; 
 
 // Makes sure to run the function when users go back and forth in browser
 window.addEventListener('popstate', function(event) {
@@ -53,7 +54,12 @@ jQuery(document).ready(function($){
         }
     });
     
-    $('#household-composition').on('change',function(){
+    $('#household-composition').on('change',async function(){
+
+        console.log("test");
+        let test = API.get_person_footprint(userSelection);
+        console.log(test);
+        console.log("end test");
         userSelection.get_from_form();
         adt_get_person_footprint(userSelection);
     });
