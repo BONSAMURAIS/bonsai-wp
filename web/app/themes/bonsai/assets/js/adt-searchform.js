@@ -57,11 +57,13 @@ jQuery(document).ready(function($){
     $('#household-composition').on('change',async function(){
 
         console.log("test");
-        let test = await API.get_person_footprint(userSelection);
         console.log(test);
         console.log("end test");
         userSelection.get_from_form();
-        adt_get_person_footprint(userSelection);
+        
+        let data_footprint = await API.get_person_footprint(userSelection);
+        updateTile(data_footprint);
+        // adt_get_person_footprint(userSelection);
     });
     
     $('#income-group').on('change',function(){
@@ -315,6 +317,44 @@ jQuery(document).ready(function($){
         localStorage.setItem("footprint_original_state_data", localStorage.getItem("footprint_data"));
     });
 });
+
+function updateTile(data){
+    if (data && data.error && data.error.includes("Product not found")) {
+        Utils.show_search_results('#co2-form-result');
+        console.log('Combination not found in adt_get_person_footprint()');
+        
+        // Save product data even though an error occurred
+        // This is so the user can go try to search again with other countries
+        // localStorage.setItem("footprint_data", JSON.stringify(response.data));
+        return;
+    } else {
+        error_msg.slideUp('fast');
+    }
+    
+    // Error message
+    if (data && !data.title && !data.act_code) {
+        error_msg.slideDown('fast');
+    } else {
+        error_msg.slideUp('fast');
+    }
+
+    let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
+    if (compareButtons.length > 0) {
+        adt_update_original_info(data);
+    } else {
+        adt_update_comparison_info(data);
+    }
+
+    Utils.show_search_results('#co2-form-result');
+
+    jQuery('html, body').animate({
+        scrollTop: jQuery("#co2-form-result").offset().top - 90
+    }, c_Animation.DURATION);
+    
+    // Try this
+    localStorage.setItem("footprint_data", JSON.stringify(data));
+    console.log('successfull run of adt_get_person_footprint()');
+}
 
 function adt_get_person_footprint(userSelection){
     console.log("userSelection=",userSelection)
