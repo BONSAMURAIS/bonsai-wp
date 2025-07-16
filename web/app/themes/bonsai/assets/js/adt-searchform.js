@@ -55,11 +55,6 @@ jQuery(document).ready(function($){
         }
     });
 
-    async function getPersonFootprint(){
-        userSelection.get_from_form();
-        let data_footprint = await API.get_person_footprint(userSelection);
-        updateTilePerson(data_footprint);
-    }
     
     $('#household-composition').on('change',getPersonFootprint());
     
@@ -314,6 +309,13 @@ jQuery(document).ready(function($){
         localStorage.setItem("footprint_original_state_data", localStorage.getItem("footprint_data"));
     });
 });
+
+async function getPersonFootprint(){
+    let userSelection = new UserSelection;
+    userSelection.get_from_form();
+    let data_footprint = await API.get_person_footprint(userSelection);
+    updateTilePerson(data_footprint);
+}
 
 function updateTilePerson(data){
     let error_msg = jQuery('.error-message');
