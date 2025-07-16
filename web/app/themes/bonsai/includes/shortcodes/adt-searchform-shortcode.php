@@ -234,7 +234,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
             </div> -->
 
-            <div id="summary-analysis" class="align-equal search-result" style="display: flex;">
+            <div id="summary-analysis" class="align-equal search-result">
                 <div class="col medium-12 small-12 large-12">
                     <div class="col-inner">
                         <div class="calculation-wrapper">
@@ -267,7 +267,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </div>
                         </div>
 
-                        <div id="contribution-analysis">
+                        <div id="contribution-analysis" style="display: none;">
                             <p class="big-font emission-message"></p>
     
                             <table class="emissions-table">
