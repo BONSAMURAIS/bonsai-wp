@@ -5,8 +5,8 @@ import * as Utils from '../../utils/tools.utils.js';
 import * as API from '../../utils/api-call.js'; 
 
 // Makes sure to run the function when users go back and forth in browser
-window.addEventListener('popstate', function(event) {
-    init_form();
+window.addEventListener('popstate', async function(event) {
+    await init_form();
 });
 
 jQuery(document).ready(function($){
@@ -179,7 +179,7 @@ jQuery(document).ready(function($){
                     let firstItem = searchHistory[0];
                     userSelection.set_product(firstItem.productTitle, firstItem.productCode, firstItem.productUuid);
                     userSelection.get_from_form();
-                    let data_product = API.get_product_footprint(userSelection);
+                    let data_product = await API.get_product_footprint(userSelection);
                     updateTileProduct(data_product);
                     // adt_get_product_info(userSelection);
                     adt_push_parameter_to_url(userSelection);
@@ -188,7 +188,7 @@ jQuery(document).ready(function($){
         }
     })
 
-    $('#most-popular ul li button').on('click', function() {
+    $('#most-popular ul li button').on('click', async function() {
         let productTitle = $(this).text();
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
@@ -200,7 +200,7 @@ jQuery(document).ready(function($){
         console.log("START popular click")
         
         adt_push_parameter_to_url(userSelection);
-        let data_product = API.get_product_footprint(userSelection);
+        let data_product = await API.get_product_footprint(userSelection);
         updateTileProduct(data_product);
         adt_update_tags('original')
         console.log("END popular click")
@@ -1136,7 +1136,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     }
 
     
-    function selectSuggestion(text, code, uuid) {
+    async function selectSuggestion(text, code, uuid) {
         $input.val(text).attr('data-code', code).attr('data-uuid', uuid);
         $suggestionsWrapper.hide();
         jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
@@ -1146,14 +1146,14 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         userSelection.get_from_form();
         
         adt_push_parameter_to_url(userSelection);
-        let data_product = API.get_product_footprint(userSelection);
+        let data_product = await API.get_product_footprint(userSelection);
         updateTileProduct(data_product);
     }
 }
 
 function adt_switch_between_recipe_items()
 {
-    jQuery('.emissions-table a').on('click', function(e) {
+    jQuery('.emissions-table a').on('click', async function(e) {
         e.preventDefault();
         
         let productTitle = jQuery(this).text();
@@ -1164,7 +1164,7 @@ function adt_switch_between_recipe_items()
         userSelection.get_from_form();
 
         console.log('Make sure this only run once!');
-        let data_product = API.get_product_footprint(userSelection);
+        let data_product = await API.get_product_footprint(userSelection);
         updateTileProduct(data_product);
         
         // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
@@ -1261,7 +1261,7 @@ function adt_save_local_search_history(userSelection)
         jQuery(this).parent().remove();
     });
 
-    jQuery('#search-history-list li').on('click', function() {
+    jQuery('#search-history-list li').on('click', async function() {
         let userSelection = new UserSelection;
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
@@ -1272,7 +1272,7 @@ function adt_save_local_search_history(userSelection)
         jQuery('#autocomplete-input').val(productTitle);
 
         adt_push_parameter_to_url(userSelection);
-        let data_product = API.get_product_footprint(userSelection);
+        let data_product = await API.get_product_footprint(userSelection);
         updateTileProduct(data_product);
     });
 }
@@ -1303,20 +1303,20 @@ function adt_initialize_local_search_history()
         jQuery(this).parent().remove();
     });
 
-    jQuery('#search-history-list li').on('click', function() {
+    jQuery('#search-history-list li').on('click', async function() {
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
         userSelection.set_product(productTitle,productCode,productUuid);
         userSelection.get_from_form();
 
-        let data_product = API.get_product_footprint(userSelection);
+        let data_product = await API.get_product_footprint(userSelection);
         updateTileProduct(data_product);
     });
 }
 
 //init get the first time the product 
-function init_form(){
+async function init_form(){
     let userSelection = new UserSelection;
     userSelection.get_from_url();
 
@@ -1324,7 +1324,7 @@ function init_form(){
     jQuery('#year').val(userSelection.year);
     jQuery('#climate-metric').val(userSelection.climate_metric);
     jQuery('#database-version').val(userSelection.db_version);
-    let data_product = API.get_product_footprint(userSelection);
+    let data_product = await API.get_product_footprint(userSelection);
     updateTileProduct(data_product, true);
 }
 
