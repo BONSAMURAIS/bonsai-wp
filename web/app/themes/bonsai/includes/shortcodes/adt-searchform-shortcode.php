@@ -191,7 +191,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <?= do_shortcode('[tooltip id="info-uncertainty" href="#info-uncertainty" label="read more about the uncertainty in the data" block_id="uncertainty-info-popup"]')?>
                 </div>
             </div>
-            
+<!--             
             <div id="summary-analysis" class="align-equal search-result basic" style="display: flex;">
                 <div class="col medium-6 small-12 large-6">
                     <div class="col-inner">
@@ -232,8 +232,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <p>Add to comparison</p>
                     </a>
                 </div>
-            </div>
-            <div id="contribution-analysis" class="align-equal search-result" style="display: none;">
+            </div> -->
+
+            <div id="summary-analysis" class="align-equal search-result" style="display: flex;">
                 <div class="col medium-12 small-12 large-12">
                     <div class="col-inner">
                         <div class="calculation-wrapper">
@@ -265,38 +266,41 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <p class="product-result-unit"></p>
                             </div>
                         </div>
-                        <p class="big-font emission-message"></p>
 
-                        <table class="emissions-table">
-                            <thead>
-                                <tr>
-                                    <th>Inputs</th> <!-- flow_input -->
-                                    <th>Country</th> <!-- region_inflow -->
-                                    <th class="has-hover">Input</th> <!-- value_inflow + unit_inflow -->
-                                    <th class="has-hover">Emissions<span class="emission-header-unit">[kg CO2eq]</span></th> <!-- value_emission + unit_emission -->
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-
-                        <div class="result-buttons">
-                            <div class="go-back  show-for-small">
-                                <a href="#" class="button primary lowercase" style="border-radius:99px; font-size:10px;">
-                                    <i class="icon-angle-left" aria-hidden="true"></i>
-                                    <span>Go back</span>
-                                </a>
+                        <div id="contribution-analysis">
+                            <p class="big-font emission-message"></p>
+    
+                            <table class="emissions-table">
+                                <thead>
+                                    <tr>
+                                        <th>Inputs</th> <!-- flow_input -->
+                                        <th>Country</th> <!-- region_inflow -->
+                                        <th class="has-hover">Input</th> <!-- value_inflow + unit_inflow -->
+                                        <th class="has-hover">Emissions<span class="emission-header-unit">[kg CO2eq]</span></th> <!-- value_emission + unit_emission -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+    
+                            <div class="result-buttons">
+                                <div class="go-back  show-for-small">
+                                    <a href="#" class="button primary lowercase" style="border-radius:99px; font-size:10px;">
+                                        <i class="icon-angle-left" aria-hidden="true"></i>
+                                        <span>Go back</span>
+                                    </a>
+                                </div>
+                                <div class="download text-right hide-for-small">
+                                    <a href="#" class="button grey lowercase" style="border-radius:99px;">
+                                        <span>Download</span>
+                                        <i class="icon-dribbble" aria-hidden="true"></i>
+                                    </a>
+                                </div>
                             </div>
-                            <div class="download text-right hide-for-small">
-                                <a href="#" class="button grey lowercase" style="border-radius:99px;">
-                                    <span>Download</span>
-                                    <i class="icon-dribbble" aria-hidden="true"></i>
-                                </a>
+    
+                            <div class="tooltip-wrapper">
+                                <?= do_shortcode('[tooltip id="info-product" href="#info-product" label="Read more about the result" block_id="product-result-info-popup"]')?>
                             </div>
-                        </div>
-
-                        <div class="tooltip-wrapper">
-                            <?= do_shortcode('[tooltip id="info-product" href="#info-product" label="Read more about the result" block_id="product-result-info-popup"]')?>
                         </div>
                     </div>
                 </div>

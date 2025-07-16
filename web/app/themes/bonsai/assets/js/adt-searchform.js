@@ -67,9 +67,9 @@ jQuery(document).ready(function($){
             
             if (value == 'advanced') {
                 $('#contribution-analysis').css('display', 'flex');
-                $('#summary-analysis').hide();
+                // $('#summary-analysis').hide();
             } else {
-                $('#summary-analysis').css('display', 'flex');
+                // $('#summary-analysis').css('display', 'flex');
                 $('#contribution-analysis').hide();
             }
         }
