@@ -585,7 +585,7 @@ async function adt_update_original_info(dataArray) {
             const unitList = setUnitOptions($element, 0, dataArray, unit_ref);
             
             for (const unit of unitList){
-                $element.attr('data-set-' + i, dataArray.all_data[i].id);
+                $element.attr('data-set-' + 0, dataArray.all_data[0].id);
                 $element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
             }
 
@@ -659,7 +659,7 @@ async function adt_update_comparison_info(dataArray = null){
             const unitList = setUnitOptions($element, 0, dataArray, unit_ref);
                         
             for (const unit of unitList){
-                $element.attr('data-set-' + i, dataArray.all_data[i].id);
+                $element.attr('data-set-' + 0, dataArray.all_data[0].id);
                 $element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
             }
 
