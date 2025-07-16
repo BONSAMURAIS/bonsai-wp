@@ -379,24 +379,11 @@ async function updateTileProduct(data, init=false){
     }
 
     //todo - refactor
-    if(init){
-        if(data['flow_code']  !== null & data['title'] == null){
-            jQuery.ajax({
-                type: 'POST',
-                url: localize._ajax_url,
-                data: {
-                    _ajax_nonce: localize._ajax_nonce,
-                    action: 'adt_get_product_name_by_code',
-                    code: data['flow_code'],
-                },
-                success: (response) => {
-                    let productTitle = response.data;
-                    data['title'] = Utils.capitalize(productTitle);
-                    adt_update_original_info(data); 
-                    Utils.show_search_results('#co2-form-result');
-                }
-            });
-        }
+    if(init & data['flow_code']  !== null & data['title'] == null){
+        let productTitle = await API.get_product_name_by_code(productCode)
+        data['title'] = Utils.capitalize(productTitle);
+        adt_update_original_info(data); 
+        Utils.show_search_results('#co2-form-result');
     }
     
     localStorage.setItem("footprint_data", JSON.stringify(data));
