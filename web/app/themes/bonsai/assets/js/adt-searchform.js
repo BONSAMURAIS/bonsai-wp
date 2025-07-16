@@ -851,23 +851,10 @@ async function adt_update_recipe(dataArray, boxToUpdate)
     jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
 
     // Convert the product code to product name
-    jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody tr').each(function(){
+    jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody tr').each(async function(){
         let productCode = jQuery(this).find('a').data('code');
-
-        jQuery.ajax({
-            type: 'POST',
-            url: localize._ajax_url,
-            data: {
-                _ajax_nonce: localize._ajax_nonce,
-                action: 'adt_get_product_name_by_code',
-                code: productCode,
-            },
-            success: (response) => {
-                let productTitle = response.data;
-
-                jQuery('td a[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
-            }
-        });
+        let productTitle = await API.get_product_name_by_code(productCode);
+        jQuery('td a[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
     });
 
     // Remove previous click handlers to avoid stacking events
