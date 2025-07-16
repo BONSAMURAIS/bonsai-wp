@@ -2,7 +2,7 @@ import UserSelection from '../../model/user_selection.js';
 import * as CONFIG from '../../constants/config.js'; 
 import * as CONST from '../../constants/constants.js'; 
 import * as Utils from '../../utils/tools.utils.js'; 
-import * as API from '../../utils/api-call.js'; 
+import * as API from '../../utils/api-call.utils.js'; 
 
 // Makes sure to run the function when users go back and forth in browser
 window.addEventListener('popstate', async function(event) {
