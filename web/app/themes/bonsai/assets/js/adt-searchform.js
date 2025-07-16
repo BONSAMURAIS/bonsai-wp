@@ -1,6 +1,6 @@
 import UserSelection from '../../model/user_selection.js'; 
-import * as c_Animation from '../../constants/animation.js'; 
-import * as c_Unit from '../../constants/unit.js'; 
+import * as CONFIG from '../../constants/config.js'; 
+import * as CONST from '../../constants/constants.js'; 
 import * as Utils from '../../utils/tools.utils.js'; 
 import * as API from '../../utils/api-call.js'; 
 
@@ -361,7 +361,7 @@ function updateTilePerson(data){
 
     jQuery('html, body').animate({
         scrollTop: jQuery("#co2-form-result").offset().top - 90
-    }, c_Animation.DURATION);
+    }, CONST.ANIM.DURATION);
     
     // Try this
     localStorage.setItem("footprint_data", JSON.stringify(data));
@@ -497,10 +497,10 @@ async function adt_update_original_info(dataArray) {
         let defaultValue = 0;
         
         if (dataArray.all_data) {
-            $element.find('.product-result-unit').text(c_Unit.KGCO2);
+            $element.find('.product-result-unit').text(CONST.UNIT.KGCO2);
             console.log("dataArray.all_data:",dataArray.all_data);
             jQuery('.emission-message').text('Where do emissions for 1kg of CO2eq come from?');
-            jQuery('.emission-header-unit').text('['+c_Unit.KGCO2+']');
+            jQuery('.emission-header-unit').text('['+CONST.UNIT.KGCO2+']');
             
             let unit_ref = dataArray.all_data[0].unit_reference;
             console.log("unit_ref =",unit_ref);
@@ -627,21 +627,21 @@ async function adt_update_comparison_info(dataArray = null){
 
                     let colorBar = "";
                     if (numberUncertainty < 80) {
-                        colorBar = '#EB594E';
+                        colorBar = CONST.COLOR.GREEN;
                     } else if (numberUncertainty >= 80 && numberUncertainty < 90) {
-                        colorBar = '#F5DA5A';
+                        colorBar = CONST.COLOR.YELLOW;
                     } else {
-                        colorBar = '#C3F138';
+                        colorBar = CONST.COLOR.RED;
                     }
                     uncertaintyBar.css('background-color', colorBar);
 
-                    if (item.unit_reference === c_Unit.TJ){
+                    if (item.unit_reference === CONST.UNIT.TJ){
                         if(item.description.includes('electricity')){
                             console.log('ELECTRICITY is found');
-                            convertedValueForItems = await API.get_converted_number_by_units(c_Unit.TJ, c_Unit.KWH, valueForItems);
+                            convertedValueForItems = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.KWH, valueForItems);
                         }else{
                             console.log('does not contain electricity');
-                            convertedValueForItems = await API.get_converted_number_by_units(c_Unit.TJ, c_Unit.MJ, valueForItems);
+                            convertedValueForItems = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, valueForItems);
                             convertedValueForItems = convertedValueForItems * 1000; // multiply by 1000 to convert from MJ per tonnes to MJ per kg
                         }
                         item.value = convertedValueForItems;
@@ -718,11 +718,11 @@ function on_change_unit(element, childClass, dataArray, valueForItems){
                 console.log("item=",item)
                 console.log("item.value=",item.value)
                 console.log("item.value*ratio=",item.value*unitRatio)
-                if (item.unit_reference == c_Unit.DKK){
-                    if (unitRatio_name.includes(c_Unit.DKK)){ //TODO to rafactor
+                if (item.unit_reference == CONST.UNIT.DKK){
+                    if (unitRatio_name.includes(CONST.UNIT.DKK)){ //TODO to rafactor
                         valueForItems = item.value*unitRatio*currentAmount;
                         break;
-                    } else if (unitRatio_name.includes(c_Unit.EUR)){
+                    } else if (unitRatio_name.includes(CONST.UNIT.EUR)){
                         valueForItems = item.value*unitRatio*currentAmount;
                         break;
                     }
@@ -779,31 +779,31 @@ async function adt_update_recipe(dataArray, boxToUpdate)
         let updatedInflow = '';
 
         // If unit_inflow "Meuro" per tonnes convert to Euro per kg
-        if (recipe.unit_inflow === c_Unit.MEURO) {
+        if (recipe.unit_inflow === CONST.UNIT.MEURO) {
             updatedInflow = recipe.value_inflow * 1000;
             recipe.value_emission = recipe.value_emission * 1000;
-            recipe.unit_inflow = c_Unit.EUR;
+            recipe.unit_inflow = CONST.UNIT.EUR;
         }
 
         // If unit_inflow "tonnes" per tonnes convert to kg per kg (same number)
-        if (recipe.unit_inflow === c_Unit.TONNES) {
-            recipe.unit_inflow = c_Unit.KG;
+        if (recipe.unit_inflow === CONST.UNIT.TONNES) {
+            recipe.unit_inflow = CONST.UNIT.KG;
         }
         
         // If unit_inflow "TJ" per tonnes with electricity convert to kWh per kg
-        if (recipe.unit_inflow === c_Unit.TJ){
+        if (recipe.unit_inflow === CONST.UNIT.TJ){
             let final_unit = ""; 
             if(recipe.flow_reference.includes('electricity')) {
-                final_unit = c_Unit.KWH;
+                final_unit = CONST.UNIT.KWH;
             }else{
-                final_unit = c_Unit.MJ;
+                final_unit = CONST.UNIT.MJ;
                 recipe.value_emission = recipe.value_emission * 1000;
             }
             recipe.unit_inflow = final_unit;
-            updatedInflow = await API.get_converted_number_by_units(c_Unit.TJ, c_Unit.MJ, recipe.value_inflow);
+            updatedInflow = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, recipe.value_inflow);
             // Wait for the conversion to complete before continuing
             if (!updatedInflow) {
-                console.error('Conversion failed for '+c_Unit.TJ+'to'+ final_unit);
+                console.error('Conversion failed for '+CONST.UNIT.TJ+'to'+ final_unit);
                 return;
             }
         }
@@ -816,8 +816,8 @@ async function adt_update_recipe(dataArray, boxToUpdate)
 
         // If unit_inflow "ha*year" per tonnes convert tonnes to kg
         // And convert "ha*year" to "m²*year"
-        if (recipe.unit_inflow === c_Unit.HA_PER_YEAR) {
-            recipe.unit_inflow = c_Unit.M2_PER_YEAR;
+        if (recipe.unit_inflow === CONST.UNIT.HA_PER_YEAR) {
+            recipe.unit_inflow = CONST.UNIT.M2_PER_YEAR;
             updatedInflow = recipe.value_inflow * 10;
             recipe.value_emission = recipe.value_emission;
         }
@@ -1271,13 +1271,13 @@ function setMaxValueMessage(element, defaultValue , classElement){
 
 function resizeTextToFit(classElement) {
     const textList = jQuery('.search-result '+classElement+' .product-result');
-    let fontSize = 60;
+    let fontSize = CONFIG.FONTSIZE;
 
     textList.each(function(index, text) { 
 
         text.style.fontSize = fontSize + "px";
         
-        while (text.offsetWidth > 300 && fontSize > 1) {
+        while (text.offsetWidth > CONFIG.MAX_FONTSIZE && fontSize > 1) {
             fontSize -= 1;
             text.style.fontSize = fontSize + "px";
         }
