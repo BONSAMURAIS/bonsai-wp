@@ -203,7 +203,7 @@ jQuery(document).ready(function($){
 
     adt_download_recipe_csv();
 
-    $('.share-icon').on('click', function() {
+    $('.share-icon').on('click', async function() {
         let productTitle = $('.search-result.basic .col:first-child p.product-title').text();
         let productFootprint = $('input[name="footprint_type"]').val();
         let FootprintView = $('input[name="contri-analysis"]').val();
@@ -269,7 +269,19 @@ jQuery(document).ready(function($){
             footprint_view: FootprintView,
         };
 
-        adt_save_search_history_on_click(data);
+        let search_hist = await API.save_search_history_on_click(data);
+
+        jQuery('#shared-search-box').fadeIn();
+        jQuery('#shared-search').val(search_hist);
+
+        jQuery('#copy-search').on('click', function() {
+            var $copyText = jQuery('#shared-search');
+            $copyText.select();
+            $copyText[0].setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand('copy');
+
+            jQuery('#shared-search-box').fadeOut();
+        });
     });
 
     adt_initialize_local_search_history();
@@ -1052,40 +1064,6 @@ function adt_switch_between_recipe_items()
         const href = jQuery(this).attr('href');
         history.pushState(null, '', href);
         
-    });
-}
-
-function adt_save_search_history_on_click(data)
-{
-    jQuery.ajax({
-        type: 'POST',
-        url: localize._ajax_url,
-        data: {
-            _ajax_nonce: localize._ajax_nonce,
-            action: 'adt_save_shared_search',
-            data: data,
-        },
-        beforeSend: function() {
-            
-        },
-        success: (response) => {
-            if (!response.success) {
-                return;
-            }
-
-            jQuery('#shared-search-box').fadeIn();
-            jQuery('#shared-search').val(response.data);
-
-            jQuery('#copy-search').on('click', function() {
-                var $copyText = jQuery('#shared-search');
-                $copyText.select();
-                $copyText[0].setSelectionRange(0, 99999); // For mobile devices
-                document.execCommand('copy');
-
-
-                jQuery('#shared-search-box').fadeOut();
-            });
-        }
     });
 }
 

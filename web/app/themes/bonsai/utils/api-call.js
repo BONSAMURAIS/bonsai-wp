@@ -141,3 +141,26 @@ export async function uncertainty_calculation(original, comparison){
         });
     });
 }
+
+export async function save_search_history_on_click(data){
+    return new Promise((resolve, reject)=>{
+        jQuery.ajax({
+            type: 'POST',
+            url: localize._ajax_url,
+            data: {
+                _ajax_nonce: localize._ajax_nonce,
+                action: 'adt_save_shared_search',
+                data: data,
+            },
+            beforeSend: function() {
+                
+            },
+            success: (response) => {
+                if (!response.success) {
+                    return;
+                }
+                resolve(response.data);
+            }
+        });
+    });
+}
