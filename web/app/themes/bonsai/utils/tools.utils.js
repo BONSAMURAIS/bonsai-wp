@@ -20,6 +20,11 @@ export function displayLoading() {
     jQuery( "#error-message-content" ).remove(); //at the init
 }
 
+export function removeLoading() {
+    jQuery('.loading').remove();
+    jQuery('#autocomplete-input').prop('disabled', false);
+}
+
 // Animations
 export function show_search_results(id){
     jQuery(id).slideDown('slow', function(){

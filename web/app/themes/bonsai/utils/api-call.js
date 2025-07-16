@@ -22,6 +22,7 @@ export async function get_product_footprint(userSelection){
             },
             beforeSend: Utils.displayLoading(),
             success: (response) => {
+                Utils.removeLoading();
                 resolve(response.data);
             },
             error: (error) => {
@@ -54,6 +55,7 @@ export async function get_person_footprint(userSelection){
             },
             beforeSend: Utils.displayLoading(),
             success: function(response) {
+                Utils.removeLoading();
                 jQuery('.loading').remove();
                 autocomplete_input.prop('disabled', false);
                 resolve(response.data);
