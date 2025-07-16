@@ -179,8 +179,9 @@ jQuery(document).ready(function($){
                     let firstItem = searchHistory[0];
                     userSelection.set_product(firstItem.productTitle, firstItem.productCode, firstItem.productUuid);
                     userSelection.get_from_form();
-                    console.log("firstItem.productTitle, firstItem.productCode = ", firstItem.productTitle, firstItem.productCode)
-                    adt_get_product_info(userSelection);
+                    let data_product = API.get_product_footprint(userSelection);
+                    updateTileProduct(data_product);
+                    // adt_get_product_info(userSelection);
                     adt_push_parameter_to_url(userSelection);
                 }
             }
@@ -199,7 +200,8 @@ jQuery(document).ready(function($){
         console.log("START popular click")
         
         adt_push_parameter_to_url(userSelection);
-        adt_get_product_info(userSelection);
+        let data_product = API.get_product_footprint(userSelection);
+        updateTileProduct(data_product);
         adt_update_tags('original')
         console.log("END popular click")
     });
@@ -349,6 +351,65 @@ function updateTilePerson(data){
     // Try this
     localStorage.setItem("footprint_data", JSON.stringify(data));
     console.log('successfull run of adt_get_person_footprint()');
+}
+
+async function updateTileProduct(data, init=false){
+    if (data && data.error && data.error.includes("Product not found")) {
+        jQuery('.error-message').first().append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
+        jQuery('.error-message').slideDown('fast');
+        Utils.show_search_results('#co2-form-result');
+        console.log('Combination not found in adt_get_product_info()');
+        // Save product data even though an error occurred
+        // This is so the user can go try to search again with other countries
+        // localStorage.setItem("footprint_data", JSON.stringify(response.data));
+        return;
+    } else {
+        jQuery( "#error-message-content" ).remove();
+        jQuery('.error-message').slideUp('fast');
+    }
+    
+    // Error message
+    if (data && !data.title) {
+        jQuery('.error-message').slideDown('fast');
+    } else {
+        jQuery('.error-message').slideUp('fast');
+    }
+
+    //todo - refactor
+    if(init){
+        if(data['flow_code']  !== null & data['title'] == null){
+            jQuery.ajax({
+                type: 'POST',
+                url: localize._ajax_url,
+                data: {
+                    _ajax_nonce: localize._ajax_nonce,
+                    action: 'adt_get_product_name_by_code',
+                    code: userSelection.code,
+                },
+                success: (response) => {
+                    let productTitle = response.data;
+                    data['title'] = Utils.capitalize(productTitle);
+                    adt_update_original_info(data); 
+                    Utils.show_search_results('#co2-form-result');
+                }
+            });
+        }
+    }
+    
+    localStorage.setItem("footprint_data", JSON.stringify(data));
+    let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
+    if (compareButtons.length > 0) {
+        adt_update_original_info(data); 
+    } else {
+        adt_update_comparison_info(data);
+        console.log("adt_update_comparison_info compareButtons.length < 0");
+    }
+
+    Utils.show_search_results('#co2-form-result');
+
+    jQuery('html, body').animate({
+        scrollTop: jQuery("#co2-form-result").offset().top - 90
+    }, c_Animation.DURATION);
 }
 
 function adt_get_product_info(userSelection, init=false) {
@@ -1082,7 +1143,8 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         userSelection.get_from_form();
         
         adt_push_parameter_to_url(userSelection);
-        adt_get_product_info(userSelection);
+        let data_product = API.get_product_footprint(userSelection);
+        updateTileProduct(data_product);
     }
 }
 
@@ -1099,7 +1161,8 @@ function adt_switch_between_recipe_items()
         userSelection.get_from_form();
 
         console.log('Make sure this only run once!');
-        adt_get_product_info(userSelection);
+        let data_product = API.get_product_footprint(userSelection);
+        updateTileProduct(data_product);
         
         // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
         const href = jQuery(this).attr('href');
@@ -1206,7 +1269,8 @@ function adt_save_local_search_history(userSelection)
         jQuery('#autocomplete-input').val(productTitle);
 
         adt_push_parameter_to_url(userSelection);
-        adt_get_product_info(userSelection);
+        let data_product = API.get_product_footprint(userSelection);
+        updateTileProduct(data_product);
     });
 }
 
@@ -1243,7 +1307,8 @@ function adt_initialize_local_search_history()
         userSelection.set_product(productTitle,productCode,productUuid);
         userSelection.get_from_form();
 
-        adt_get_product_info(userSelection);
+        let data_product = API.get_product_footprint(userSelection);
+        updateTileProduct(data_product);
     });
 }
 
@@ -1256,8 +1321,8 @@ function init_form(){
     jQuery('#year').val(userSelection.year);
     jQuery('#climate-metric').val(userSelection.climate_metric);
     jQuery('#database-version').val(userSelection.db_version);
-    
-    adt_get_product_info(userSelection, true);
+    let data_product = API.get_product_footprint(userSelection);
+    updateTileProduct(data_product, true);
 }
 
 function adt_get_converted_number_by_units(fromUnit, toUnit, number) 
