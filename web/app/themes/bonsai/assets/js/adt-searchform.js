@@ -57,7 +57,7 @@ jQuery(document).ready(function($){
     $('#household-composition').on('change',async function(){
 
         console.log("test");
-        let test = API.get_person_footprint(userSelection);
+        let test = await API.get_person_footprint(userSelection);
         console.log(test);
         console.log("end test");
         userSelection.get_from_form();
