@@ -1,6 +1,6 @@
 import * as Utils from './tools.utils.js'; 
 
-export async function get_product(userSelection){
+export async function get_product_footprint(userSelection){
     console.log("START get_product_info");
     console.log("userSelect =",userSelection.to_string());
 
