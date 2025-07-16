@@ -286,6 +286,7 @@ jQuery(document).ready(function($){
         console.log('comparison added');
 
         $('.search-result').each(function() {
+            //TODO here to display in new tile
             console.log("this=",$(this))
             let original = $(this).find('.col:first-child');
             let clone = original.clone();
