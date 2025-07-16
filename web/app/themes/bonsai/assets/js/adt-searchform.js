@@ -47,7 +47,7 @@ jQuery(document).ready(function($){
                 $('#grave').prop('checked', true).trigger('change');
                 userSelection.get_from_form();
                 let data_footprint = await API.get_person_footprint(userSelection);
-                updateTilePerson(data_footprint);
+                updateTile(data_footprint);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
             }
@@ -173,7 +173,7 @@ jQuery(document).ready(function($){
                     userSelection.set_product(firstItem.productTitle, firstItem.productCode, firstItem.productUuid);
                     userSelection.get_from_form();
                     let data_product = await API.get_product_footprint(userSelection);
-                    updateTileProduct(data_product);
+                    updateTile(data_product);
                     adt_save_local_search_history(userSelection);
 
                     adt_push_parameter_to_url(userSelection);
@@ -195,7 +195,7 @@ jQuery(document).ready(function($){
         
         adt_push_parameter_to_url(userSelection);
         let data_product = await API.get_product_footprint(userSelection);
-        updateTileProduct(data_product);
+        updateTile(data_product);
         adt_save_local_search_history(userSelection);
         adt_update_tags('original')
         console.log("END popular click")
@@ -324,7 +324,57 @@ async function getPersonFootprint(){
     let userSelection = new UserSelection;
     userSelection.get_from_form();
     let data_footprint = await API.get_person_footprint(userSelection);
-    updateTilePerson(data_footprint);
+    updateTile(data_footprint);
+}
+
+
+async function updateTile(data){
+    let error_msg = jQuery('.error-message');
+    
+    if (data && data.error && data.error.includes("Product not found")) {
+        error_msg.first().append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
+        error_msg.slideDown('fast');
+        Utils.show_search_results('#co2-form-result');
+        console.log('Combination not found in adt_get_product_info()');
+        // Save product data even though an error occurred
+        // This is so the user can go try to search again with other countries
+        // localStorage.setItem("footprint_data", JSON.stringify(response.data));
+        return;
+    } else {
+        jQuery( "#error-message-content" ).remove();
+        error_msg.slideUp('fast');
+    }
+    
+    // Error message
+    if (data && !data.title) {
+        error_msg.slideDown('fast');
+    } else {
+        error_msg.slideUp('fast');
+    }
+
+    if(data['flow_code']  !== null & data['title'] == null){
+        let productTitle = await API.get_product_name_by_code(data['flow_code'])
+        data['title'] = Utils.capitalize(productTitle);
+        adt_update_original_info(data); 
+        Utils.show_search_results('#co2-form-result');
+    }
+    
+    let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
+    if (compareButtons.length > 0) {
+        adt_update_original_info(data); 
+    } else {
+        adt_update_comparison_info(data);
+    }
+
+    Utils.show_search_results('#co2-form-result');
+
+    jQuery('html, body').animate({
+        scrollTop: jQuery("#co2-form-result").offset().top - 90
+    }, CONST.ANIM.DURATION);
+	
+	// Try this
+    localStorage.setItem("footprint_data", JSON.stringify(data));
+    console.log('successfull run of adt_get_person_footprint()');
 }
 
 function updateTilePerson(data){
@@ -1038,7 +1088,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         
         adt_push_parameter_to_url(userSelection);
         let data_product = await API.get_product_footprint(userSelection);
-        updateTileProduct(data_product);
+        updateTile(data_product);
         adt_save_local_search_history(userSelection);
     }
 }
@@ -1057,7 +1107,7 @@ function adt_switch_between_recipe_items()
 
         console.log('Make sure this only run once!');
         let data_product = await API.get_product_footprint(userSelection);
-        updateTileProduct(data_product);
+        updateTile(data_product);
         adt_save_local_search_history(userSelection);
         
         // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
@@ -1132,7 +1182,7 @@ function adt_save_local_search_history(userSelection)
 
         adt_push_parameter_to_url(userSelection);
         let data_product = await API.get_product_footprint(userSelection);
-        updateTileProduct(data_product);
+        updateTile(data_product);
         adt_save_local_search_history(userSelection);
 
     });
@@ -1172,7 +1222,7 @@ function adt_initialize_local_search_history()
         userSelection.get_from_form();
 
         let data_product = await API.get_product_footprint(userSelection);
-        updateTileProduct(data_product);
+        updateTile(data_product);
         adt_save_local_search_history(userSelection);
 
     });
@@ -1188,7 +1238,7 @@ async function init_form(){
     jQuery('#climate-metric').val(userSelection.climate_metric);
     jQuery('#database-version').val(userSelection.db_version);
     let data_product = await API.get_product_footprint(userSelection);
-    updateTileProduct(data_product);
+    updateTile(data_product);
     adt_save_local_search_history(userSelection);
 
 }
