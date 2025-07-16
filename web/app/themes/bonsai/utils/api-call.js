@@ -1,7 +1,7 @@
 import * as Utils from './tools.utils.js'; 
 
 export async function get_product_footprint(userSelection){
-    console.log("START get_product_info");
+    console.log("START get_product_footprint");
     console.log("userSelect =",userSelection.to_string());
 
     return new Promise((resolve, reject) => { 
