@@ -26,6 +26,7 @@ export function show_search_results(id){
 }
 
 export function getUnitOptions(i, dataArray, unit_ref){
+    //TODO rename hard coded unit with electricity
     let unitList = [];
 
     if (unit_ref === c_Unit.DKK){
