@@ -1,5 +1,4 @@
 import UserSelection from '../../model/user_selection.js'; 
-import * as CONFIG from '../../constants/config.js'; 
 import * as CONST from '../../constants/constants.js'; 
 import * as Utils from '../../utils/tools.utils.js'; 
 import * as API from '../../utils/api-call.utils.js'; 
