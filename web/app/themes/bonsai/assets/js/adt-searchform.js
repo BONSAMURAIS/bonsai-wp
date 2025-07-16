@@ -329,7 +329,7 @@ async function getPersonFootprint(){
 
 
 async function updateTile(data){
-    let error_msg = jQuery('.error-message');
+    let error_msg = jQuery('#error-message');
     
     if (data && data.error && data.error.includes("Product not found")) {
         error_msg.first().append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
