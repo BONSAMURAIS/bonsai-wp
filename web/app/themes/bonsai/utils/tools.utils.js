@@ -24,3 +24,44 @@ export function show_search_results(id){
         // Might need something happening here
     });
 }
+
+export function getUnitOptions(i, dataArray, unit_ref){
+    let unitList = [];
+
+    if (unit_ref === c_Unit.DKK){
+        unitList = [
+            {ratio:1e-6,label:"EUR"},
+            {ratio:1e-3,label:"kEUR"},
+            {ratio:1,label:"mEUR"},
+            {ratio:1,label:"DKK"},
+            {ratio:1e3,label:"kDKK"},
+            {ratio:1e6,label:"mDKK"}
+        ];
+    } else if (unit_ref === c_Unit.TONNES) {
+        unitList = [
+            {ratio:1,label:"kg"},
+            {ratio:1e-3,label:"g"},
+            {ratio:1e3,label:"tonne(s)"},
+        ];
+    } else if (unit_ref === c_Unit.MJ){
+        if (dataArray.all_data[i].flow_code.includes('_elec') || dataArray.all_data[i].flow_code.includes('_POW')){
+            unitList = [
+                {ratio:1,label:"kWh"},
+            ];
+        } else {
+            unitList = [
+                {ratio:1,label:"MJ"},
+            ];
+        }
+    } else if (unit_ref === c_Unit.ITEMS){
+            unitList = [
+                {ratio:1,label:"item(s)"},
+            ]
+    } else if (unit_ref === 'tonnes (service)'){
+            unitList = [
+                {ratio:1,label:"tonne(s) (service)"},
+            ]
+    }
+
+    return unitList;
+}
