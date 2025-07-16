@@ -32,6 +32,17 @@ export function show_search_results(id){
     });
 }
 
+export function resizeTextToFit(text){
+    // text needs to be a jquery obj
+    let fontSize = CONFIG.FONTSIZE;
+    text.style.fontSize = fontSize + "px";
+    
+    while (text.offsetWidth > CONFIG.MAX_FONTSIZE && fontSize > 1) {
+        fontSize -= 1;
+        text.style.fontSize = fontSize + "px";
+    }
+}
+
 export function getUnitOptions(i, dataArray, unit_ref){
     //TODO rename hard coded unit with electricity
     let unitList = [];

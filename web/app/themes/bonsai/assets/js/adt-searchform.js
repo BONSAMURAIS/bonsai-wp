@@ -1264,22 +1264,10 @@ function setMaxValueMessage(element, defaultValue , classElement){
         jQuery('.search-result '+classElement+' .amount').val(numberInput);
         jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
         jQuery('.search-result '+classElement+' .product-result').css("width","fit-content");
-        resizeTextToFit(classElement);
+        const textList = jQuery('.search-result '+classElement+' .product-result');
+        textList.each(function(index, text) { 
+            Utils.resizeTextToFit(text);
+        });
     });
 });
-}
-
-function resizeTextToFit(classElement) {
-    const textList = jQuery('.search-result '+classElement+' .product-result');
-    
-    textList.each(function(index, text) { 
-        
-        let fontSize = CONFIG.FONTSIZE;
-        text.style.fontSize = fontSize + "px";
-        
-        while (text.offsetWidth > CONFIG.MAX_FONTSIZE && fontSize > 1) {
-            fontSize -= 1;
-            text.style.fontSize = fontSize + "px";
-        }
-    });
 }
