@@ -163,6 +163,7 @@ jQuery(document).ready(function($){
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         
         if (selectedValue === 'person') {
+            console.log("selectedValue=",selectedValue);
             getPersonFootprint();
         } else {
             
