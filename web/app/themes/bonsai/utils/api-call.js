@@ -74,7 +74,7 @@ export async function get_person_footprint(userSelection){
 
 export function get_recipes(){}
 
-export function get_converted_number_by_units(fromUnit, toUnit, number) {
+export async function get_converted_number_by_units(fromUnit, toUnit, number) {
     return new Promise((resolve, reject) => {
         jQuery.ajax({
             type: 'POST',
