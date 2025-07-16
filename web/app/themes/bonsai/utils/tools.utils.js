@@ -17,3 +17,10 @@ export function displayLoading() {
     jQuery('#autocomplete-input').prop('disabled', true);
     jQuery( "#error-message-content" ).remove(); //at the init
 }
+
+// Animations
+export function show_search_results(id){
+    jQuery(id).slideDown('slow', function(){
+        // Might need something happening here
+    });
+}

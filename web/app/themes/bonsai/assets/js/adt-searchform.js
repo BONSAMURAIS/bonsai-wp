@@ -336,7 +336,7 @@ function adt_get_person_footprint(userSelection){
             autocomplete_input.prop('disabled', false);
             
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
-                adt_show_search_results();
+                Utils.show_search_results('#co2-form-result');
                 console.log('Combination not found in adt_get_person_footprint()');
                 
                 // Save product data even though an error occurred
@@ -361,7 +361,7 @@ function adt_get_person_footprint(userSelection){
                 adt_update_comparison_info(dataArray);
             }
 
-            adt_show_search_results();
+            Utils.show_search_results('#co2-form-result');
 
             jQuery('html, body').animate({
                 scrollTop: jQuery("#co2-form-result").offset().top - 90
@@ -415,7 +415,7 @@ function adt_get_product_info(userSelection, init=false) {
             if (response.data && response.data.error && response.data.error.includes("Product not found")) {
                 jQuery('.error-message').first().append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
                 jQuery('.error-message').slideDown('fast');
-                adt_show_search_results();
+                Utils.show_search_results('#co2-form-result');
                 console.log('Combination not found in adt_get_product_info()');
                 // Save product data even though an error occurred
                 // This is so the user can go try to search again with other countries
@@ -448,7 +448,7 @@ function adt_get_product_info(userSelection, init=false) {
                             let productTitle = response.data;
                             dataArray['title'] = Utils.capitalize(productTitle);
                             adt_update_original_info(dataArray); 
-                            adt_show_search_results();
+                            Utils.show_search_results('#co2-form-result');
                         }
                     });
                 }
@@ -463,7 +463,7 @@ function adt_get_product_info(userSelection, init=false) {
                 console.log("adt_update_comparison_info compareButtons.length < 0");
             }
 
-            adt_show_search_results();
+            Utils.show_search_results('#co2-form-result');
 
             jQuery('html, body').animate({
                 scrollTop: jQuery("#co2-form-result").offset().top - 90
@@ -941,14 +941,6 @@ async function adt_update_recipe(dataArray, boxToUpdate)
     });
 
     adt_switch_between_recipe_items();
-}
-
-// Animations
-function adt_show_search_results()
-{
-    jQuery('#co2-form-result').slideDown('slow', function(){
-        // Might need something happening here
-    });
 }
 
 // Download CSV
