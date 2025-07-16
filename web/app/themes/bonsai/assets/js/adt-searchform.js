@@ -368,7 +368,7 @@ function updateTilePerson(data){
     console.log('successfull run of adt_get_person_footprint()');
 }
 
-async function updateTileProduct(data, init=false){
+async function updateTileProduct(data){
     console.log("test data=",data)
     if (data && data.error && data.error.includes("Product not found")) {
         jQuery('.error-message').first().append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
@@ -1188,7 +1188,7 @@ async function init_form(){
     jQuery('#climate-metric').val(userSelection.climate_metric);
     jQuery('#database-version').val(userSelection.db_version);
     let data_product = await API.get_product_footprint(userSelection);
-    updateTileProduct(data_product, true);
+    updateTileProduct(data_product);
     adt_save_local_search_history(userSelection);
 
 }
