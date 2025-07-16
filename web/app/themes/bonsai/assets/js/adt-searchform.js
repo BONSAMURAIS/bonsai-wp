@@ -1271,10 +1271,10 @@ function setMaxValueMessage(element, defaultValue , classElement){
 
 function resizeTextToFit(classElement) {
     const textList = jQuery('.search-result '+classElement+' .product-result');
-    let fontSize = CONFIG.FONTSIZE;
-
+    
     textList.each(function(index, text) { 
-
+        
+        let fontSize = CONFIG.FONTSIZE;
         text.style.fontSize = fontSize + "px";
         
         while (text.offsetWidth > CONFIG.MAX_FONTSIZE && fontSize > 1) {
