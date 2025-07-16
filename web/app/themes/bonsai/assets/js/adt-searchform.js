@@ -315,6 +315,8 @@ jQuery(document).ready(function($){
 });
 
 function updateTile(data){
+    let error_msg = jQuery('.error-message');
+
     if (data && data.error && data.error.includes("Product not found")) {
         Utils.show_search_results('#co2-form-result');
         console.log('Combination not found in adt_get_person_footprint()');
