@@ -339,6 +339,8 @@ function updateTilePerson(data){
 
     let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
     if (compareButtons.length > 0) {
+        console.log("Person compareButtons.length > 0")
+
         adt_update_original_info(data);
     } else {
         adt_update_comparison_info(data);
@@ -401,6 +403,7 @@ async function updateTileProduct(data, init=false){
     localStorage.setItem("footprint_data", JSON.stringify(data));
     let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
     if (compareButtons.length > 0) {
+        console.log("Product compareButtons.length > 0")
         adt_update_original_info(data); 
     } else {
         adt_update_comparison_info(data);
@@ -489,8 +492,6 @@ function adt_update_tags(boxToUpdate){
 }
 
 async function adt_update_original_info(dataArray) {
-    console.log("adt_update_original_info");
-    console.log("dataArray.title=",dataArray.title);
     setTileTitle('.search-result .col:first-child p.product-title',dataArray);
     jQuery('.search-result .col:first-child p.product-title').each(function () {
         if (jQuery('#autocomplete-input').val()) {
