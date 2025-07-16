@@ -73,3 +73,25 @@ export async function get_person_footprint(userSelection){
 }
 
 export function get_recipes(){}
+
+export function get_converted_number_by_units(fromUnit, toUnit, number) {
+    return new Promise((resolve, reject) => {
+        jQuery.ajax({
+            type: 'POST',
+            url: localize._ajax_url,
+            data: {
+                _ajax_nonce: localize._ajax_nonce,
+                action: 'adt_get_converted_number_ajax',
+                fromUnit: fromUnit,
+                toUnit: toUnit,
+                number: number,
+            },
+            success: (response) => {
+                resolve(response.data);  // Resolve with the converted data
+            },
+            error: (error) => {
+                reject(error);  // Reject if there is an error
+            }
+        });
+    });
+}

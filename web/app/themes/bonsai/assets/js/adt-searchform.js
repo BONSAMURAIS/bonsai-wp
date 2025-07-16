@@ -163,7 +163,6 @@ jQuery(document).ready(function($){
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         
         if (selectedValue === 'person') {
-            console.log("selectedValue=",selectedValue);
             getPersonFootprint();
         } else {
             
@@ -634,15 +633,13 @@ async function adt_update_comparison_info(dataArray = null){
                     if (item.unit_reference === c_Unit.TJ){
                         if(item.description.includes('electricity')){
                             console.log('ELECTRICITY is found');
-                            convertedValueForItems = await adt_get_converted_number_by_units(c_Unit.TJ, c_Unit.KWH, valueForItems);
-                            item.value = convertedValueForItems;
+                            convertedValueForItems = await API.get_converted_number_by_units(c_Unit.TJ, c_Unit.KWH, valueForItems);
                         }else{
                             console.log('does not contain electricity');
-                            convertedValueForItems = await adt_get_converted_number_by_units(c_Unit.TJ, c_Unit.MJ, valueForItems);
-                            // multiply by 1000 to convert from MJ per tonnes to MJ per kg
-                            convertedValueForItems = convertedValueForItems * 1000;
-                            item.value = convertedValueForItems;
+                            convertedValueForItems = await API.get_converted_number_by_units(c_Unit.TJ, c_Unit.MJ, valueForItems);
+                            convertedValueForItems = convertedValueForItems * 1000; // multiply by 1000 to convert from MJ per tonnes to MJ per kg
                         }
+                        item.value = convertedValueForItems;
                     }
                     break;
                 }
@@ -798,7 +795,7 @@ async function adt_update_recipe(dataArray, boxToUpdate)
                 recipe.value_emission = recipe.value_emission * 1000;
             }
             recipe.unit_inflow = final_unit;
-            updatedInflow = await adt_get_converted_number_by_units(c_Unit.TJ, c_Unit.MJ, recipe.value_inflow);
+            updatedInflow = await API.get_converted_number_by_units(c_Unit.TJ, c_Unit.MJ, recipe.value_inflow);
             // Wait for the conversion to complete before continuing
             if (!updatedInflow) {
                 console.error('Conversion failed for '+c_Unit.TJ+'to'+ final_unit);
@@ -1236,29 +1233,6 @@ async function init_form(){
     updateTileProduct(data_product, true);
     adt_save_local_search_history(userSelection);
 
-}
-
-function adt_get_converted_number_by_units(fromUnit, toUnit, number) 
-{
-    return new Promise((resolve, reject) => {
-        jQuery.ajax({
-            type: 'POST',
-            url: localize._ajax_url,
-            data: {
-                _ajax_nonce: localize._ajax_nonce,
-                action: 'adt_get_converted_number_ajax',
-                fromUnit: fromUnit,
-                toUnit: toUnit,
-                number: number,
-            },
-            success: (response) => {
-                resolve(response.data);  // Resolve with the converted data
-            },
-            error: (error) => {
-                reject(error);  // Reject if there is an error
-            }
-        });
-    });
 }
 
 function adt_uncertainty_calculation(original, comparison)
