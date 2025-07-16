@@ -27,7 +27,7 @@ jQuery(document).ready(function($){
         }
     });
 
-    $('#form input[name="footprint_type"]').on('change',async function(){
+    $('input[name="footprint_type"]').on('change',async function(){
         let isChecked = $(this).is(':checked');
         
         if (isChecked) {
@@ -42,7 +42,6 @@ jQuery(document).ready(function($){
             $('.search-input-wrapper').toggle();
             $('#person-choices').toggle();
             if (value === 'person') {
-                console.log("value === 'person'")
                 $('#grave').prop('checked', true).trigger('change');
                 userSelection.get_from_form();
                 let data_footprint = await API.get_person_footprint(userSelection);
@@ -52,7 +51,6 @@ jQuery(document).ready(function($){
             }
         }
     });
-
     
     $('#household-composition').on('change',function(){getPersonFootprint()});
     
@@ -516,7 +514,7 @@ async function adt_update_original_info(dataArray) {
     await adt_update_recipe(dataArray, 'original');
 }
 
-
+//TODO to remove
 async function adt_update_comparison_info(dataArray = null){
     setTileTitle('.search-result .col:nth-child(2) p.product-title',dataArray);
     jQuery('.search-result .col:nth-child(2) p.product-title').each(function () {
@@ -690,7 +688,6 @@ function on_change_unit(element, childClass, dataArray, valueForItems){
             defaultValue = parseFloat(jQuery('.product-result', newElement).text());
         });
     });
-
 }
 
 async function adt_update_recipe(dataArray, boxToUpdate)
@@ -901,7 +898,6 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     let currentIndex = -1;
     let suggestionSelected = false;
 
-
     $input.on('input', function () {
         const query = $input.val().toLowerCase();
         const matches = words
@@ -979,7 +975,6 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
             $items.eq(currentIndex).addClass('highlight');
         }
     }
-
     
     async function selectSuggestion(text, code, uuid) {
         $input.val(text).attr('data-code', code).attr('data-uuid', uuid);
