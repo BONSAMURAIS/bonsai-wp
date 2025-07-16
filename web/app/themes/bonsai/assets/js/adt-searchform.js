@@ -27,6 +27,10 @@ jQuery(document).ready(function($){
         }
     });
 
+    $('#household-composition').on('change',function(){getPersonFootprint()});
+    
+    $('#income-group').on('change',function(){getPersonFootprint()});    
+
     $('input[name="footprint_type"]').on('change',async function(){
         let isChecked = $(this).is(':checked');
         
@@ -51,10 +55,6 @@ jQuery(document).ready(function($){
             }
         }
     });
-    
-    $('#household-composition').on('change',function(){getPersonFootprint()});
-    
-    $('#income-group').on('change',function(){getPersonFootprint()});    
 
     $('input[name="contri-analysis"]').on('change', function(){
         let isChecked = $(this).is(':checked');
