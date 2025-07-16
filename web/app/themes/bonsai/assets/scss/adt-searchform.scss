@@ -664,6 +664,7 @@ select.unit {
 }
 
 #contribution-analysis { 
+    flex-direction: column;
     .calculation-wrapper {
         display: flex;
         margin-bottom: 55px;
