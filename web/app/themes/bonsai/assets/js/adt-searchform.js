@@ -48,7 +48,7 @@ jQuery(document).ready(function($){
                 $('#grave').prop('checked', true).trigger('change');
                 userSelection.get_from_form();
                 let data_footprint = await API.get_person_footprint(userSelection);
-                updateTile(data_footprint);
+                updateTilePerson(data_footprint);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
             }
@@ -58,7 +58,7 @@ jQuery(document).ready(function($){
     async function getPersonFootprint(){
         userSelection.get_from_form();
         let data_footprint = await API.get_person_footprint(userSelection);
-        updateTile(data_footprint);
+        updateTilePerson(data_footprint);
     }
     
     $('#household-composition').on('change',getPersonFootprint());
@@ -311,7 +311,7 @@ jQuery(document).ready(function($){
     });
 });
 
-function updateTile(data){
+function updateTilePerson(data){
     let error_msg = jQuery('.error-message');
 
     if (data && data.error && data.error.includes("Product not found")) {
@@ -349,78 +349,6 @@ function updateTile(data){
     // Try this
     localStorage.setItem("footprint_data", JSON.stringify(data));
     console.log('successfull run of adt_get_person_footprint()');
-}
-
-function adt_get_person_footprint(userSelection){
-    console.log("userSelection=",userSelection)
-    let act_code = userSelection.income_gpe+"_"+userSelection.household_compo; //fdemandCat will be prefixed in adt-person-functions.php
-    console.log("act_code=",act_code);
-    let autocomplete_input = jQuery('#autocomplete-input'); 
-    jQuery.ajax({
-        type: 'POST',
-        url: localize._ajax_url,
-        data: {
-            _ajax_nonce: localize._ajax_nonce,
-            action: 'adt_get_person_footprint', //reference in adt-person-functions.php
-            version: userSelection.db_version,
-            act_code: act_code,
-            metric: userSelection.climate_metric,
-            region_code: userSelection.countryCode,
-        },
-        beforeSend: Utils.displayLoading(),
-        success: function(response) {
-            let dataArray = response.data;
-            console.log("dataArray=",dataArray)
-            let error_msg = jQuery('.error-message');
-
-            jQuery('.loading').remove();
-            autocomplete_input.prop('disabled', false);
-            
-            if (response.data && response.data.error && response.data.error.includes("Product not found")) {
-                Utils.show_search_results('#co2-form-result');
-                console.log('Combination not found in adt_get_person_footprint()');
-                
-                // Save product data even though an error occurred
-                // This is so the user can go try to search again with other countries
-                // localStorage.setItem("footprint_data", JSON.stringify(response.data));
-                return;
-            } else {
-                error_msg.slideUp('fast');
-            }
-            
-            // Error message
-            if (response.data && !response.data.title && !response.data.act_code) {
-                error_msg.slideDown('fast');
-            } else {
-                error_msg.slideUp('fast');
-            }
-
-            let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
-            if (compareButtons.length > 0) {
-                adt_update_original_info(dataArray);
-            } else {
-                adt_update_comparison_info(dataArray);
-            }
-
-            Utils.show_search_results('#co2-form-result');
-
-            jQuery('html, body').animate({
-                scrollTop: jQuery("#co2-form-result").offset().top - 90
-            }, c_Animation.DURATION);
-            
-            // Try this
-            localStorage.setItem("footprint_data", JSON.stringify(response.data));
-            console.log('successfull run of adt_get_person_footprint()');
-        },
-        error: (response) => {
-            console.log("error: ",response);
-            let error_initMsg = jQuery('#initial-error-message');
-
-            // Request was throttled
-            error_initMsg.html('<p>'+response.responseJSON?.data.error+'</p>');
-            error_initMsg.slideDown('fast');
-        }
-    });
 }
 
 function adt_get_product_info(userSelection, init=false) {
