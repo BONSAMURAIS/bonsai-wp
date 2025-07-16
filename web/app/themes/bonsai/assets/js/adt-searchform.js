@@ -582,7 +582,20 @@ async function adt_update_original_info(dataArray) {
             let unit_ref = dataArray.all_data[0].unit_reference;
             console.log("unit_ref =",unit_ref);
             
-            setUnitOptions($element, 0, dataArray, unit_ref);
+            const unitList = setUnitOptions($element, 0, dataArray, unit_ref);
+            
+            for (const unit of unitList){
+                $element.attr('data-set-' + i, dataArray.all_data[i].id);
+                $element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
+            }
+
+            //todo hide for person
+            if (unitList.length>1 & $element.find('.unit-arrow').length >0){
+                jQuery('.unit-arrow').each(function(index, arrow) {
+                    arrow.style.display = 'block';
+                })
+            }
+
             let defaultUnit = $element.find('select.unit').val();
             console.log("defaultUnit=",defaultUnit)
             // Just let the first item be default instead of null
@@ -643,7 +656,19 @@ async function adt_update_comparison_info(dataArray = null){
             $element.find('select.unit').empty();
 
             const unit_ref = dataArray.all_data[0].unit_reference;
-            setUnitOptions($element, 0, dataArray, unit_ref);
+            const unitList = setUnitOptions($element, 0, dataArray, unit_ref);
+                        
+            for (const unit of unitList){
+                $element.attr('data-set-' + i, dataArray.all_data[i].id);
+                $element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
+            }
+
+            //todo hide for person
+            if (unitList.length>1 & $element.find('.unit-arrow').length >0){
+                jQuery('.unit-arrow').each(function(index, arrow) {
+                    arrow.style.display = 'block';
+                })
+            }
                     
             let defaultUnit = $element.find('select.unit').val();
             console.log("comparison : defaultUnit=",defaultUnit);
@@ -1468,16 +1493,5 @@ function setUnitOptions(element, i, dataArray, unit_ref){
             ]
     }
 
-    for (const unit of unitList){
-        element.attr('data-set-' + i, dataArray.all_data[i].id);
-        element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
-    }
-
-    //todo hide for person
-    if (unitList.length>1 & element.find('.unit-arrow').length >0){
-        jQuery('.unit-arrow').each(function(index, arrow) {
-            arrow.style.display = 'block';
-        })
-    }
-
+    return unitList;
 }
