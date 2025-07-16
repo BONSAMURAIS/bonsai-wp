@@ -50,7 +50,6 @@ export async function get_person_footprint(userSelection){
             },
             beforeSend: Utils.displayLoading(),
             success: function(response) {
-                console.log("response.data=",response.data)
                 jQuery('.loading').remove();
                 autocomplete_input.prop('disabled', false);
                 resolve(response.data);
