@@ -45,6 +45,7 @@ jQuery(document).ready(function($){
             $('.search-input-wrapper').toggle();
             $('#person-choices').toggle();
             if (value === 'person') {
+                console.log("value === 'person'")
                 $('#grave').prop('checked', true).trigger('change');
                 userSelection.get_from_form();
                 let data_footprint = await API.get_person_footprint(userSelection);
