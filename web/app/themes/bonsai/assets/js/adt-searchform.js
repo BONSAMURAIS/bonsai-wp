@@ -63,15 +63,9 @@ jQuery(document).ready(function($){
         let isChecked = $(this).is(':checked');
 
         if (isChecked) {
-            let value = $(this).val();
-            
-            if (value == 'advanced') {
-                $('#contribution-analysis').css('display', 'flex');
-                // $('#summary-analysis').hide();
-            } else {
-                // $('#summary-analysis').css('display', 'flex');
-                $('#contribution-analysis').hide();
-            }
+            const value = $(this).val();
+            const displayValue = value == 'advanced' ? 'flex' : 'none';
+            $('#contribution-analysis').css('display', displayValue);
         }
     });
 
