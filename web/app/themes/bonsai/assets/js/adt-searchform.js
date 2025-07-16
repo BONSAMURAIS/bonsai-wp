@@ -28,7 +28,7 @@ jQuery(document).ready(function($){
         }
     });
 
-    $('#form input[name="footprint_type"]').on('change', function(){
+    $('#form input[name="footprint_type"]').on('change',async function(){
         let isChecked = $(this).is(':checked');
         
         if (isChecked) {
@@ -47,25 +47,23 @@ jQuery(document).ready(function($){
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change');
                 userSelection.get_from_form();
-                adt_get_person_footprint(userSelection);
+                let data_footprint = await API.get_person_footprint(userSelection);
+                updateTile(data_footprint);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
             }
         }
     });
-    
-    $('#household-composition').on('change',async function(){
+
+    async function getPersonFootprint(){
         userSelection.get_from_form();
-        
         let data_footprint = await API.get_person_footprint(userSelection);
         updateTile(data_footprint);
-        // adt_get_person_footprint(userSelection);
-    });
+    }
     
-    $('#income-group').on('change',function(){
-        userSelection.get_from_form();
-        adt_get_person_footprint(userSelection);
-    });
+    $('#household-composition').on('change',getPersonFootprint());
+    
+    $('#income-group').on('change',getPersonFootprint());
 
 
     $('input[name="contri-analysis"]').on('change', function(){
@@ -166,12 +164,11 @@ jQuery(document).ready(function($){
 
     adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
-    $('#co2-form-result-header .select-wrapper select').on('change', function() {
+    $('#co2-form-result-header .select-wrapper select').on('change', async function() {
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         
         if (selectedValue === 'person') {
-            userSelection.get_from_form();
-            adt_get_person_footprint(userSelection);
+            getPersonFootprint();
         } else {
             
             // Get last searched data instead, this does not always contain all data
