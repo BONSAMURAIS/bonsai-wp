@@ -517,7 +517,6 @@ async function adt_update_original_info(dataArray) {
         setMaxValueMessage($element, defaultValue, '.col:first-child');
     }
 
-
     adt_update_tags('original');
 
     await adt_update_recipe(dataArray, 'original');
@@ -531,7 +530,6 @@ async function adt_update_comparison_info(dataArray = null){
             jQuery(this).text(Utils.capitalize(jQuery('#autocomplete-input').val()));
         }
     });
-
 
     if (dataArray.all_data) {
         for (const element of jQuery('.search-result .col:nth-child(2)')) {
@@ -655,7 +653,6 @@ async function adt_update_comparison_info(dataArray = null){
         }
     }
 
-    // test end
     adt_update_tags('comparison');
 
     await adt_update_recipe(dataArray, 'comparison');
