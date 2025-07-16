@@ -411,7 +411,7 @@ async function updateTileProduct(data, init=false){
 
     jQuery('html, body').animate({
         scrollTop: jQuery("#co2-form-result").offset().top - 90
-    }, c_Animation.DURATION);
+    }, CONST.ANIM.DURATION);
 }
 
 function adt_update_tags(boxToUpdate){
@@ -1252,7 +1252,7 @@ function setMaxValueMessage(element, defaultValue , classElement){
             jQuery(this).val(numberInput);
             jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
             setTimeout(() => {
-                jQuery('.error-message').fadeOut(c_Animation.DURATION, function() {
+                jQuery('.error-message').fadeOut(CONST.ANIM.DURATION, function() {
                     jQuery(this).remove();
                 });
             }, 1000);
