@@ -34,8 +34,6 @@ jQuery(document).ready(function($){
         if (isChecked) {
             let value = $(this).val();
 
-            console.log($('#footprint-type .radio-choice'));
-
             $('input[name="search"]').attr('placeholder', 'Find footprint by '+value);
 
             $('#footprint-type .radio-choice').each(function(){
@@ -342,7 +340,6 @@ function updateTilePerson(data){
     let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
     if (compareButtons.length > 0) {
         console.log("Person compareButtons.length > 0")
-
         adt_update_original_info(data);
     } else {
         adt_update_comparison_info(data);
@@ -405,11 +402,9 @@ async function updateTileProduct(data, init=false){
     localStorage.setItem("footprint_data", JSON.stringify(data));
     let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
     if (compareButtons.length > 0) {
-        console.log("Product compareButtons.length > 0")
         adt_update_original_info(data); 
     } else {
         adt_update_comparison_info(data);
-        console.log("adt_update_comparison_info compareButtons.length < 0");
     }
 
     Utils.show_search_results('#co2-form-result');
@@ -421,11 +416,8 @@ async function updateTileProduct(data, init=false){
 
 function adt_update_tags(boxToUpdate){
     let typeValue = jQuery('input[name="footprint_type_extend"]:checked').val();
-    console.log("jQuery('input[name=footprint_type_extend]:checked')=",jQuery('input[name="footprint_type_extend"]:checked'))
     console.log("typeValue=",typeValue)
     let type = 'Cradle to gate';
-    console.log("typeValue== 'market' =",typeValue == 'market')
-    console.log("typeValue== 'grave' =",typeValue == 'grave')
     
     if (typeValue == 'market') {
         type = 'Cradle to consumer';
@@ -463,9 +455,6 @@ function adt_update_tags(boxToUpdate){
 
         });
     }
-    console.log("updating tags")
-    console.log("type=",type)
-    console.log("jQuery(this)=",jQuery(this))
 
     jQuery('.search-result > .col'+whichChild+' .footprint-type').each(function() {
         jQuery(this).text(type);
@@ -540,13 +529,10 @@ async function adt_update_original_info(dataArray) {
                 valueForItems = convertedValueForItems;
             }
             
-            console.log("test")
-            console.log(valueForItems)
             let formatted = Utils.reformatValue(valueForItems);
             
             $element.find('.product-result').text(formatted);
             defaultValue = parseFloat($element.find('.product-result').text());
-            
             
             on_change_unit($element,".col:first-child",dataArray,valueForItems);
         } else {

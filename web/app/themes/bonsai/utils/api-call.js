@@ -99,9 +99,7 @@ export async function get_converted_number_by_units(fromUnit, toUnit, number) {
 }
 
 export async function get_product_name_by_code(productCode) {
-
     return new Promise((resolve, reject)=>{
-
         jQuery.ajax({
             type: 'POST',
             url: localize._ajax_url,
