@@ -190,7 +190,7 @@ add_shortcode( 'adt_searchform', function($atts) {
         </section>
 
         <section id="co2-form-result">
-            <div id="summary-analysis" class="align-equal search-result">
+            <div id="summary-analysis" class="search-result">
                 <div class="col medium-12 small-12 large-12">
                     <div class="col-inner">
                         <div class="switch-field-wrapper-basic col medium-6 small-12 large-6">
@@ -268,13 +268,12 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                     </div>
                 </div>
-
-                <div class="col medium-12 small-12 large-12">
-                    <a href="#" class="col-inner">
-                        <p class="primary-text add">+</p>
-                        <p>Add to comparison</p>
-                    </a>
-                </div>
+            </div>
+            <div id="compared-product-analysis" class="col medium-12 small-12 large-12">
+                <a href="#" class="col-inner">
+                    <p class="primary-text add">+</p>
+                    <p>Add to comparison</p>
+                </a>
             </div>
         </section>
     </div>
