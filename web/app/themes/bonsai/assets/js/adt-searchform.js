@@ -14,7 +14,6 @@ function copyTile(){
     
     clone
         .append('<span class="adt-close"></span>') //add close button
-        .css('background-color', 'blue') //test
         .hide() //init hide behind add-btn
         .removeAttr("id")
         .attr("id","#compared-product-analysis-content")
@@ -297,6 +296,7 @@ jQuery(document).ready(function($){
         e.preventDefault();
         console.log('comparison added');
         $("#add-btn").hide();
+        $("#compared-product-analysis-content").show();
         $('#uncertainty-wrapper').slideUp();
 
         const footprintData = JSON.parse(localStorage.getItem("footprint_data"));
