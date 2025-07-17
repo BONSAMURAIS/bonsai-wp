@@ -9,14 +9,16 @@ window.addEventListener('popstate', async function(event) {
 });
 
 function copyTile(){
+    console.log("copytile")
     let original = jQuery('#summary-analysis');
     let clone = original.children().first().clone();
-
+    
     clone.append('<span class="adt-close"></span>');
     clone.css('position', 'absolute')
     clone.css('background-color', 'blue')
     clone.hide()
     .appendTo("#compared-product-analysis");
+    console.log("done copytile")
 }
 
 jQuery(document).ready(function($){
