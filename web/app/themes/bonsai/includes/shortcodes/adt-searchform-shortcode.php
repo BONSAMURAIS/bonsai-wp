@@ -99,19 +99,7 @@ add_shortcode( 'adt_searchform', function($atts) {
             </form>
         </section>
 
-        <section id="most-popular">
-            <!-- By other searches -->
-            <p>Most popular:</p>
-            <ul>
-                <?php foreach ($popularSearches as $popularSearch): ?>
-                    <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-choices="<?= $popularSearch->chosen_values ?>"><?= $popularSearch->search_phrase ?></button></li>
-                <?php endforeach; ?>
-            </ul>
-        </section>
-
-        <section id="co2-form-result">
-            <div id="divider">
-            </div>
+        <section>
             <div id="co2-form-result-header" class="col medium-12 small-12 large-12">
                 <div class="row">
                     <div class="col medium-6 small-12 large-6">
@@ -179,6 +167,21 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <div id="error-message" style="display: none;">
                     <!-- <?= do_shortcode('[block id="nothing-found-error-message"]') ?> -->
                 </div>
+            </div>
+        </section>
+
+        <section id="most-popular">
+            <!-- By other searches -->
+            <p>Most popular:</p>
+            <ul>
+                <?php foreach ($popularSearches as $popularSearch): ?>
+                    <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-choices="<?= $popularSearch->chosen_values ?>"><?= $popularSearch->search_phrase ?></button></li>
+                <?php endforeach; ?>
+            </ul>
+        </section>
+
+        <section id="co2-form-result">
+            <div id="divider">
             </div>
             <div class="uncertainty-wrapper" style="display: none;">
                 <p>How sure are we on the ranking of the two compared products on a scale from 0-100%?</p>
