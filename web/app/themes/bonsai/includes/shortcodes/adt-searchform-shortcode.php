@@ -81,9 +81,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </div>
                         </div> -->
                     </div>
-                    <div id="error-message" style="display: none;">
-                        <!-- <?= do_shortcode('[block id="nothing-found-error-message"]') ?> -->
-                    </div>
             <div id="divider">
             </div>
             <form id="form">
@@ -159,6 +156,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </datalist>
                 </div>
                 <div>
+                    <div id="error-message" style="display: none;">
+                        <!-- <?= do_shortcode('[block id="nothing-found-error-message"]') ?> -->
+                    </div>
                     <button>
                         Search
                     </button>
