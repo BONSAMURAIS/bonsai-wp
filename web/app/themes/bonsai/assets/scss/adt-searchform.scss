@@ -130,8 +130,8 @@ div#initial-error-message {
     display: flex;
 
     &-basic {
-        display: flex;
-        justify-content: flex-end;
+        position:absolute;
+        right:0;
         margin-bottom: 20px;
         align-items: center;
 
@@ -140,6 +140,7 @@ div#initial-error-message {
         }
 
         .switch-field-container {
+            width: fit-content;
             label {
                 font-size: 12px;
 
@@ -208,7 +209,7 @@ div#initial-error-message {
 }
 
 .search-input-wrapper {
-    margin: 18px 0 45px 0;
+    margin: 20px 0;
     position: relative;
 
     button {
