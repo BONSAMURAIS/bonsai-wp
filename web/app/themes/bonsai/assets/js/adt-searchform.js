@@ -307,6 +307,14 @@ jQuery(document).ready(function($){
         // Also set a new local storage item, to save the data of the original footprint chosen
         localStorage.setItem("footprint_original_state_data", localStorage.getItem("footprint_data"));
     });
+
+    $("#adt-close").click(function(e){
+        e.preventDefault();
+        $("#add-btn").show();
+        $("#compared-product-analysis-content").hide();
+        $('#uncertainty-wrapper').slideDown();
+    });
+    
 });
 
 async function getPersonFootprint(){
