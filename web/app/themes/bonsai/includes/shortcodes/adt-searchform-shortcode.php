@@ -269,12 +269,12 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </div>
                 </div>
             </div>
-            <div class="col medium-12 small-12 large-12">
-                <a href="#" class="col-inner">
-                    <p class="primary-text add">+</p>
-                    <p>Add to comparison</p>
-                </a>
-                <div id="compared-product-analysis" style="display:none;">
+            <div id="compared-product-analysis" style="display:none;">
+                <div class="col medium-12 small-12 large-12">
+                    <a href="#" class="col-inner">
+                        <p class="primary-text add">+</p>
+                        <p>Add to comparison</p>
+                    </a>
                 </div>
             </div>
         </section>

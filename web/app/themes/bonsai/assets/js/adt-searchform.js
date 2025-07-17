@@ -10,20 +10,13 @@ window.addEventListener('popstate', async function(event) {
 
 function copyTile(){
     let original = jQuery('#summary-analysis');
-    let original_child = original.children().first();
+    let clone = original.children().first().clone();
 
-    let clone = original_child.clone();
-    console.log("original");
-    console.log(original);
-    console.log("original_child");
-    console.log(original_child);
-    console.log("clone");
-    console.log(clone);
-
-    console.log("after");
-    console.log(clone);
-    original.after(clone);
     clone.append('<span class="adt-close"></span>');
+    clone.css('position', 'absolute')
+    clone.css('background-color', 'blue')
+    clone.hide()
+    .appendTo("#compared-product-analysis");
 }
 
 jQuery(document).ready(function($){
