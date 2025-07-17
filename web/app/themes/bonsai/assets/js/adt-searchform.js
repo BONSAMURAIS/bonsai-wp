@@ -297,7 +297,7 @@ jQuery(document).ready(function($){
         console.log('comparison added');
         $("#add-btn").hide();
         $("#compared-product-analysis-content").show();
-        $('#uncertainty-wrapper').slideUp();
+        $('#uncertainty-wrapper').slideDown();
 
         const footprintData = JSON.parse(localStorage.getItem("footprint_data"));
         
@@ -312,7 +312,7 @@ jQuery(document).ready(function($){
         e.preventDefault();
         $("#add-btn").show();
         $("#compared-product-analysis-content").hide();
-        $('#uncertainty-wrapper').slideDown();
+        $('#uncertainty-wrapper').slideUp();
     });
 
 });
