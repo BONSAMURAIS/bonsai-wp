@@ -16,7 +16,7 @@ function copyTile(){
         .append('<span class="adt-close"></span>') //add close button
         .hide() //init hide behind add-btn
         .removeAttr("id")
-        .attr("id","#compared-product-analysis-content")
+        .attr("id","compared-product-analysis-content")
         .appendTo("#compared-product-analysis");
 }
 
