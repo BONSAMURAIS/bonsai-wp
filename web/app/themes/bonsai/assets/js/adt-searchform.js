@@ -9,8 +9,7 @@ window.addEventListener('popstate', async function(event) {
 });
 
 function copyTile(){
-    console.log("this=",$(this))
-    let original = $('#summary-analysis');
+    let original = jQuery('#summary-analysis');
     let original_child = original.children().first();
 
     let clone = original_child.clone();
