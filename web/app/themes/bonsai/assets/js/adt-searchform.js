@@ -347,8 +347,6 @@ async function updateTile(data){
     if(data['flow_code']  !== null & data['title'] == null){
         let productTitle = await API.get_product_name_by_code(data['flow_code'])
         data['title'] = Utils.capitalize(productTitle);
-        adt_update_original_info(data); 
-        Utils.show_search_results('#co2-form-result');
     }
     
     let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
