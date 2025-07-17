@@ -570,11 +570,11 @@ async function adt_update_comparison_info(dataArray = null){
                     numberUncertainty = parseFloat(numberUncertainty) * 100;
                     numberUncertainty = Math.round(numberUncertainty * 100) / 100; // Round to two decimal places
 
-                    let uncertaintyBar = jQuery('.uncertainty-wrapper .uncertainty-bar .uncertainty-bar-background');
+                    let uncertaintyBar = jQuery('#uncertainty-bar-background');
                     uncertaintyBar.css('width', numberUncertainty+'%');
                     uncertaintyBar.attr('data-uncertainty', numberUncertainty+'%');
 
-                    jQuery('.uncertainty-wrapper').slideDown();
+                    jQuery('#uncertainty-wrapper').slideDown();
 
                     let colorBar = "";
                     if (numberUncertainty < 80) {
