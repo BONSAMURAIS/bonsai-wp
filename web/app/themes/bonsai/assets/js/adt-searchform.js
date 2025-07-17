@@ -16,6 +16,8 @@ function copyTile(){
         .append('<span class="adt-close"></span>') //add close button
         .css('background-color', 'blue') //test
         .hide() //init hide behind add-btn
+        .removeAttr("id")
+        .attr("id","#compared-product-analysis-content")
         .appendTo("#compared-product-analysis");
 }
 
@@ -291,32 +293,11 @@ jQuery(document).ready(function($){
     adt_initialize_local_search_history();
 
     // Comparison code
-    $('a:has(.add)').click(function(e){
+    $('#add-btn').click(function(e){
         e.preventDefault();
         console.log('comparison added');
-
-        $('.search-result').each(function() {
-            //TODO here to display in new tile
-            console.log("this=",$(this))
-            let original = $(this).find('.col:first-child');
-
-            let test = $('#summary-analysis');
-            console.log(test);
-            let clone = original.clone();
-            
-            original.after(clone);
-            clone.append('<span class="adt-close"></span>');
-            $('a:has(.add)').closest('.col').css('display', 'none');
-
-            $('.adt-close').click(function(){
-                $('.uncertainty-wrapper').slideUp();
-                $('.adt-close').each(function(){
-                    $(this).closest('.col').remove();
-                });
-
-                $('a:has(.add)').closest('.col').css('display', 'flex');
-            });
-        });
+        $("#add-btn").hide();
+        $('#uncertainty-wrapper').slideUp();
 
         const footprintData = JSON.parse(localStorage.getItem("footprint_data"));
         
@@ -530,15 +511,15 @@ async function adt_update_original_info(dataArray) {
 
 //TODO to remove
 async function adt_update_comparison_info(dataArray = null){
-    setTileTitle('.search-result .col:nth-child(2) p.product-title',dataArray);
-    jQuery('.search-result .col:nth-child(2) p.product-title').each(function () {
+    setTileTitle('#compared-product-analysis-content .col:first-child p.product-title',dataArray);
+    jQuery('.search-result .col:first-child p.product-title').each(function () {
         if (jQuery('#autocomplete-input').val()) {
             jQuery(this).text(Utils.capitalize(jQuery('#autocomplete-input').val()));
         }
     });
 
     if (dataArray.all_data) {
-        for (const element of jQuery('.search-result .col:nth-child(2)')) {
+        for (const element of jQuery('.search-result .col:first-child')) {
             let $element = jQuery(element);
             $element.find('select.unit').empty();
 
@@ -625,18 +606,15 @@ async function adt_update_comparison_info(dataArray = null){
             $element.find('.product-result').text(formatted);
             let defaultValue = parseFloat($element.find('.product-result').text());
 
-            on_change_unit($element, ".col:nth-child(2)", dataArray, valueForItems);
+            on_change_unit($element, ".col:first-child", dataArray, valueForItems);
 
-            setMaxValueMessage($element, defaultValue, '.col:nth-child(2)');
+            setMaxValueMessage($element, defaultValue, '.col:first-child');
 
         }
-    }
-
-    // Comparison begins
-    if (!dataArray.all_data) {
-        setTileTitle('.search-result .col:nth-child(2) p.product-title',dataArray);
+    }else{
+        setTileTitle('.search-result .col:first-child p.product-title',dataArray);
         
-        for (const element of jQuery('.search-result .col:nth-child(2)')) {
+        for (const element of jQuery('.search-result .col:first-child')) {
             let $element = jQuery(element);
             $element.find('select.unit').empty();
             let defaultValue = 0;
@@ -654,7 +632,7 @@ async function adt_update_comparison_info(dataArray = null){
                 defaultValue = valueForItems;
             }
             
-            setMaxValueMessage($element, defaultValue, '.col:nth-child(2)');
+            setMaxValueMessage($element, defaultValue, '.col:first-child');
 
         }
     }

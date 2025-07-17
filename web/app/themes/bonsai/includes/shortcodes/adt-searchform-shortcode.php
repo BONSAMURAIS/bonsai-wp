@@ -191,7 +191,7 @@ add_shortcode( 'adt_searchform', function($atts) {
 
         <section id="co2-form-result">
             <div id="summary-analysis" class="search-result">
-                <div class="col medium-12 small-12 large-12">
+                <div id="summary-analysis-content" class="col medium-12 small-12 large-12">
                     <div class="col-inner">
                         <div class="switch-field-wrapper-basic col medium-6 small-12 large-6">
                             <div class="switch-field-container">
