@@ -85,7 +85,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <!-- <?= do_shortcode('[block id="nothing-found-error-message"]') ?> -->
                     </div>
                 </div>
-            </section>
 
             <form id="form">
                 <div id="form-container">
@@ -165,6 +164,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </button>
                 </div>
             </form>
+            </section>
+
         </section>
 
         <section id="most-popular">
