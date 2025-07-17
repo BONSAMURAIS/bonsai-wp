@@ -13,7 +13,7 @@ function copyTile(){
     let clone = original.children().first().clone();
     
     clone
-        .append('<span class="adt-close"></span>') //add close button
+        .append('<span id="adt-close"></span>') //add close button
         .hide() //init hide behind add-btn
         .removeAttr("id")
         .attr("id","compared-product-analysis-content")
@@ -314,7 +314,7 @@ jQuery(document).ready(function($){
         $("#compared-product-analysis-content").hide();
         $('#uncertainty-wrapper').slideDown();
     });
-    
+
 });
 
 async function getPersonFootprint(){
