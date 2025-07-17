@@ -970,17 +970,17 @@ span.adt-close {
     margin-top: 15px;
 }
 
-.uncertainty-wrapper {
+#uncertainty-wrapper {
     margin-bottom: 30px;
 
-    .uncertainty-bar {
+    #uncertainty-bar {
         height: 30px;
         width: 100%;
         background-color: #ffffff;
         border: 1px solid $dark-grey;
         border-radius: 99px;
 
-        .uncertainty-bar-background {
+        #uncertainty-bar-background {
             background-color: $primary;
             width: 0%;
             height: 100%;
