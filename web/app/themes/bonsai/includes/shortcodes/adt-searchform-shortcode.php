@@ -84,7 +84,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div id="error-message" style="display: none;">
                         <!-- <?= do_shortcode('[block id="nothing-found-error-message"]') ?> -->
                     </div>
-
+            <div id="divider">
+            </div>
             <form id="form">
                 <div id="form-container">
                     <div>
