@@ -9,16 +9,14 @@ window.addEventListener('popstate', async function(event) {
 });
 
 function copyTile(){
-    console.log("copytile")
     let original = jQuery('#summary-analysis');
     let clone = original.children().first().clone();
     
-    clone.append('<span class="adt-close"></span>');
-    clone.css('position', 'absolute')
-    clone.css('background-color', 'blue')
-    clone.hide()
-    .appendTo("#compared-product-analysis");
-    console.log("done copytile")
+    clone
+        .append('<span class="adt-close"></span>') //add close button
+        .css('background-color', 'blue') //test
+        .hide() //init hide behind add-btn
+        .appendTo("#compared-product-analysis");
 }
 
 jQuery(document).ready(function($){
