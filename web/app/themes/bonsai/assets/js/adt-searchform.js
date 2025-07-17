@@ -8,6 +8,25 @@ window.addEventListener('popstate', async function(event) {
     await init_form();
 });
 
+function copyTile(){
+    console.log("this=",$(this))
+    let original = $('#summary-analysis');
+    let original_child = original.children().first();
+
+    let clone = original_child.clone();
+    console.log("original");
+    console.log(original);
+    console.log("original_child");
+    console.log(original_child);
+    console.log("clone");
+    console.log(clone);
+
+    console.log("after");
+    console.log(clone);
+    original.after(clone);
+    clone.append('<span class="adt-close"></span>');
+}
+
 jQuery(document).ready(function($){
     let userSelection = new UserSelection();
 
@@ -26,6 +45,8 @@ jQuery(document).ready(function($){
             $(this).prop('disabled', true);
         }
     });
+
+    copyTile();
 
     $('#household-composition').on('change',function(){getPersonFootprint()});
     
@@ -286,6 +307,9 @@ jQuery(document).ready(function($){
             //TODO here to display in new tile
             console.log("this=",$(this))
             let original = $(this).find('.col:first-child');
+
+            let test = $('#summary-analysis');
+            console.log(test);
             let clone = original.clone();
             
             original.after(clone);
