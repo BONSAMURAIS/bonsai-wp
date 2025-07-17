@@ -24,8 +24,8 @@ add_shortcode( 'adt_searchform', function($atts) {
 
     <div id="main-content">
         <section id="co2-form">
+            <div id="co2-form-result-header" class="col medium-12 small-12 large-12">
             <section>
-                <div id="co2-form-result-header" class="col medium-12 small-12 large-12">
                     <div class="row">
                         <div class="col medium-6 small-12 large-6">
                             <h3>Climate Footprint</h3>
@@ -84,7 +84,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div id="error-message" style="display: none;">
                         <!-- <?= do_shortcode('[block id="nothing-found-error-message"]') ?> -->
                     </div>
-                </div>
 
             <form id="form">
                 <div id="form-container">
@@ -165,6 +164,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
             </form>
             </section>
+                </div>
 
         </section>
 
