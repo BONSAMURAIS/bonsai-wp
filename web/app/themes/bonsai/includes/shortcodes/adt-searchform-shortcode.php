@@ -160,6 +160,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <?php endforeach; ?>
                     </datalist>
                 </div>
+                <button>
+                    Search
+                </button>
             </form>
         </section>
 
