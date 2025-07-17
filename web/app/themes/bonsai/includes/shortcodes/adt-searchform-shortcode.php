@@ -154,7 +154,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </datalist>
                 </div>
                 <div>
-                    <button>
+                    <button id="btn-search">
                         Search
                     </button>
                     <div id="error-message" style="display: none;">
