@@ -153,14 +153,19 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <?php endforeach; ?>
                     </datalist>
                 </div>
-                <div>
-                    <button id="btn-search">
-                        Search
-                    </button>
+                <section id="search">
+                    <div id="search-btns">
+                        <button id="btn-search">
+                            Search
+                        </button>
+                        <button id="btn-add-comparison">
+                            Add to comparison
+                        </button>
+                    </div>
                     <div id="error-message" style="display: none;">
                         <!-- <?= do_shortcode('[block id="nothing-found-error-message"]') ?> -->
                     </div>
-                </div>
+                </section>
             </form>
         </section>
 
