@@ -291,6 +291,27 @@ jQuery(document).ready(function($){
 
     adt_initialize_local_search_history();
 
+    // Search 
+    $('#btn-search').click(async function(e){
+        e.preventDefault();
+        console.log('Start searching');
+        let userSelection = new UserSelection;
+        let selectedValue = $('input[name="footprint_type"]:checked').val();
+        
+        let data;
+        
+        if (selectedValue === 'person') {
+            
+            data = await API.get_person_footprint(userSelection)
+        } else{
+            data = await API.get_product_footprint(userSelection)
+        }
+        console.log(data)
+        console.log('END searching');
+        // adt_update_comparison_info(footprintData);
+
+    });
+
     // Comparison code
     $('#add-btn').click(function(e){
         e.preventDefault();
@@ -322,6 +343,10 @@ async function getPersonFootprint(){
     userSelection.get_from_form();
     let data_footprint = await API.get_person_footprint(userSelection);
     updateTile(data_footprint);
+}
+
+async function display_result(htmlclass, data){
+
 }
 
 
