@@ -179,10 +179,9 @@ add_shortcode( 'adt_searchform', function($atts) {
             </ul>
         </section>
         
-        <div id="divider">
-        </div>
-
         <section id="uncertainty-wrapper" style="display: none;">
+            <div id="divider">
+            </div>
             <p>How sure are we on the ranking of the two compared products on a scale from 0-100%?</p>
             <div id="uncertainty-bar">
                 <div id="uncertainty-bar-background">
@@ -193,8 +192,10 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <?= do_shortcode('[tooltip id="info-uncertainty" href="#info-uncertainty" label="read more about the uncertainty in the data" block_id="uncertainty-info-popup"]')?>
             </div>
         </section>
-
-        <section id="co2-form-result">
+        
+        <section id="co2-form-result">            
+            <div id="divider">
+            </div>
             <div id="summary-analysis" class="search-result">
                 <div id="summary-analysis-content" class="col medium-12 small-12 large-12">
                     <div class="col-inner">
