@@ -296,6 +296,7 @@ jQuery(document).ready(function($){
         e.preventDefault();
         console.log('Start searching');
         let userSelection = new UserSelection;
+        userSelection.get_from_form();
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         
         let data;
