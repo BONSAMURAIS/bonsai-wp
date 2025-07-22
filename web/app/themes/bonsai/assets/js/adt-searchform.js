@@ -302,13 +302,33 @@ jQuery(document).ready(function($){
         let data;
         
         if (selectedValue === 'person') {
-            
             data = await API.get_person_footprint(userSelection)
         } else{
             data = await API.get_product_footprint(userSelection)
         }
         console.log(data)
         console.log('END searching');
+        // adt_update_comparison_info(footprintData);
+
+    });
+
+    // Search 
+    $('#btn-add-comparison').click(async function(e){
+        e.preventDefault();
+        console.log('Start searching for comparison');
+        let userSelection = new UserSelection;
+        userSelection.get_from_form();
+        let selectedValue = $('input[name="footprint_type"]:checked').val();
+        console.log("userSelection=", userSelection.to_string())
+        let data;
+        
+        if (selectedValue === 'person') {
+            data = await API.get_person_footprint(userSelection)
+        } else{
+            data = await API.get_product_footprint(userSelection)
+        }
+        console.log(data)
+        console.log('END searching for comparison');
         // adt_update_comparison_info(footprintData);
 
     });
