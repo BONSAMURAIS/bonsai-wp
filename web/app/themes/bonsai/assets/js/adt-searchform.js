@@ -298,7 +298,7 @@ jQuery(document).ready(function($){
         let userSelection = new UserSelection;
         userSelection.get_from_form();
         let selectedValue = $('input[name="footprint_type"]:checked').val();
-        
+        console.log("userSelection=", userSelection.to_string())
         let data;
         
         if (selectedValue === 'person') {
