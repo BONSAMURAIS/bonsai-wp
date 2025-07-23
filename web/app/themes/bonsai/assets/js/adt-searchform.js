@@ -973,7 +973,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
                     .attr('data-code', match.code)
                     .attr('data-uuid', match.uuid)
                     .on('click', function () {
-                        selectSuggestion(match.word, match.code, match.uuid);
+                        //selectSuggestion(match.word, match.code, match.uuid);
                     });
                 $suggestions.append($div);
             });
