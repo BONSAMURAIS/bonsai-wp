@@ -293,12 +293,12 @@ jQuery(document).ready(function($){
 
     // Search 
     $('#btn-search').click(async function(e){
+        e.preventDefault();
         if (jQuery('#autocomplete-input').val() ==""){
             console.log("pls prevent from click on any search btn");
             return
         }
         
-        e.preventDefault();
         console.log('Start searching');
         let userSelection = new UserSelection;
         userSelection.get_from_form();
@@ -313,12 +313,17 @@ jQuery(document).ready(function($){
         console.log(data)
         console.log('END searching');
         // adt_update_comparison_info(footprintData);
-
+        
     });
-
+    
     // Search 
     $('#btn-add-comparison').click(async function(e){
         e.preventDefault();
+        if (jQuery('#autocomplete-input').val() ==""){
+            console.log("pls prevent from click on any search btn");
+            return
+        }
+        
         console.log('Start searching for comparison');
         let userSelection = new UserSelection;
         userSelection.get_from_form();
