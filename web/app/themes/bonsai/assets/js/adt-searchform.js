@@ -310,6 +310,7 @@ jQuery(document).ready(function($){
         } else{
             data = await API.get_product_footprint(userSelection)
         }
+        Utils.show_search_results('#co2-form-result');
         console.log(data)
         console.log('END searching');
         // adt_update_comparison_info(footprintData);
