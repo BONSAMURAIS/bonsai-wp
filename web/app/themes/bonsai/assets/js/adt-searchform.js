@@ -949,7 +949,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
     const $suggestions = jQuery('#suggestions');
-    const $submitBtn = jQuery('.search-input-wrapper button'); // Ensure this ID matches your button's ID
+    const $submitBtn = jQuery('#search-icon');
     let currentIndex = -1;
     let suggestionSelected = false;
 
