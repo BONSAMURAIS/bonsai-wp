@@ -41,34 +41,34 @@ jQuery(document).ready(function($){
 
     copyTile();
 
-    $('#household-composition').on('change',function(){getPersonFootprint()});
+    // $('#household-composition').on('change',function(){getPersonFootprint()});
     
-    $('#income-group').on('change',function(){getPersonFootprint()});    
+    // $('#income-group').on('change',function(){getPersonFootprint()});    
 
-    $('input[name="footprint_type"]').on('change',async function(){
-        let isChecked = $(this).is(':checked');
+    // $('input[name="footprint_type"]').on('change',async function(){
+    //     let isChecked = $(this).is(':checked');
         
-        if (isChecked) {
-            let value = $(this).val();
+    //     if (isChecked) {
+    //         let value = $(this).val();
 
-            $('input[name="search"]').attr('placeholder', 'Find footprint by '+value);
+    //         $('input[name="search"]').attr('placeholder', 'Find footprint by '+value);
 
-            $('#footprint-type .radio-choice').each(function(){
-                $(this).toggle();
-            });
-            $('#most-popular-wrapper').toggle();
-            $('.search-input-wrapper').toggle();
-            $('#person-choices').toggle();
-            if (value === 'person') {
-                $('#grave').prop('checked', true).trigger('change');
-                userSelection.get_from_form();
-                let data_footprint = await API.get_person_footprint(userSelection);
-                updateTile(data_footprint);
-            } else {
-                $('#market').prop('checked', true).trigger('change'); // Fix applied here
-            }
-        }
-    });
+    //         $('#footprint-type .radio-choice').each(function(){
+    //             $(this).toggle();
+    //         });
+    //         $('#most-popular-wrapper').toggle();
+    //         $('.search-input-wrapper').toggle();
+    //         $('#person-choices').toggle();
+    //         if (value === 'person') {
+    //             $('#grave').prop('checked', true).trigger('change');
+    //             userSelection.get_from_form();
+    //             let data_footprint = await API.get_person_footprint(userSelection);
+    //             updateTile(data_footprint);
+    //         } else {
+    //             $('#market').prop('checked', true).trigger('change'); // Fix applied here
+    //         }
+    //     }
+    // });
 
     $('input[name="contri-analysis"]').on('change', function(){
         let isChecked = $(this).is(':checked');
@@ -162,30 +162,30 @@ jQuery(document).ready(function($){
 
     adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
-    $('#co2-form-result-header .select-wrapper select').on('change', async function() {
-        let selectedValue = $('input[name="footprint_type"]:checked').val();
+    // $('#co2-form-result-header .select-wrapper select').on('change', async function() {
+    //     let selectedValue = $('input[name="footprint_type"]:checked').val();
         
-        if (selectedValue === 'person') {
-            getPersonFootprint();
-        } else {
+    //     if (selectedValue === 'person') {
+    //         getPersonFootprint();
+    //     } else {
             
-            // Get last searched data instead, this does not always contain all data
-            let searchHistory = localStorage.getItem("adt_search_history");
-            if (searchHistory) {
-                searchHistory = JSON.parse(searchHistory);
-                if (searchHistory.length > 0) {
-                    let firstItem = searchHistory[0];
-                    userSelection.set_product(firstItem.productTitle, firstItem.productCode, firstItem.productUuid);
-                    userSelection.get_from_form();
-                    let data_product = await API.get_product_footprint(userSelection);
-                    updateTile(data_product);
-                    adt_save_local_search_history(userSelection);
+    //         // Get last searched data instead, this does not always contain all data
+    //         let searchHistory = localStorage.getItem("adt_search_history");
+    //         if (searchHistory) {
+    //             searchHistory = JSON.parse(searchHistory);
+    //             if (searchHistory.length > 0) {
+    //                 let firstItem = searchHistory[0];
+    //                 userSelection.set_product(firstItem.productTitle, firstItem.productCode, firstItem.productUuid);
+    //                 userSelection.get_from_form();
+    //                 let data_product = await API.get_product_footprint(userSelection);
+    //                 updateTile(data_product);
+    //                 adt_save_local_search_history(userSelection);
 
-                    adt_push_parameter_to_url(userSelection);
-                }
-            }
-        }
-    })
+    //                 adt_push_parameter_to_url(userSelection);
+    //             }
+    //         }
+    //     }
+    // })
 
     $('#most-popular ul li button').on('click', async function() {
         let productTitle = $(this).text();
