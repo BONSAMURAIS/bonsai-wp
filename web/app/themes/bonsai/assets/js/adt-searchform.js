@@ -293,6 +293,11 @@ jQuery(document).ready(function($){
 
     // Search 
     $('#btn-search').click(async function(e){
+        if (jQuery('#autocomplete-input').val() ==""){
+            console.log("pls prevent from click on any search btn");
+            return
+        }
+        
         e.preventDefault();
         console.log('Start searching');
         let userSelection = new UserSelection;
@@ -300,7 +305,6 @@ jQuery(document).ready(function($){
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         console.log("userSelection=", userSelection.to_string())
         let data;
-        
         if (selectedValue === 'person') {
             data = await API.get_person_footprint(userSelection)
         } else{
