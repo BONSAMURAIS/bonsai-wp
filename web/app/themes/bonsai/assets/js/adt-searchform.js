@@ -45,30 +45,30 @@ jQuery(document).ready(function($){
     
     // $('#income-group').on('change',function(){getPersonFootprint()});    
 
-    // $('input[name="footprint_type"]').on('change',async function(){
-    //     let isChecked = $(this).is(':checked');
+    $('input[name="footprint_type"]').on('change',async function(){
+        let isChecked = $(this).is(':checked');
         
-    //     if (isChecked) {
-    //         let value = $(this).val();
+        if (isChecked) {
+            let value = $(this).val();
 
-    //         $('input[name="search"]').attr('placeholder', 'Find footprint by '+value);
+            $('input[name="search"]').attr('placeholder', 'Find footprint by '+value);
 
-    //         $('#footprint-type .radio-choice').each(function(){
-    //             $(this).toggle();
-    //         });
-    //         $('#most-popular-wrapper').toggle();
-    //         $('.search-input-wrapper').toggle();
-    //         $('#person-choices').toggle();
-    //         if (value === 'person') {
-    //             $('#grave').prop('checked', true).trigger('change');
-    //             userSelection.get_from_form();
-    //             let data_footprint = await API.get_person_footprint(userSelection);
-    //             updateTile(data_footprint);
-    //         } else {
-    //             $('#market').prop('checked', true).trigger('change'); // Fix applied here
-    //         }
-    //     }
-    // });
+            $('#footprint-type .radio-choice').each(function(){
+                $(this).toggle();
+            });
+            $('#most-popular-wrapper').toggle();
+            $('.search-input-wrapper').toggle();
+            $('#person-choices').toggle();
+            if (value === 'person') {
+                $('#grave').prop('checked', true).trigger('change');
+                // userSelection.get_from_form();
+                // let data_footprint = await API.get_person_footprint(userSelection);
+                // updateTile(data_footprint);
+            } else {
+                $('#market').prop('checked', true).trigger('change'); // Fix applied here
+            }
+        }
+    });
 
     $('input[name="contri-analysis"]').on('change', function(){
         let isChecked = $(this).is(':checked');
