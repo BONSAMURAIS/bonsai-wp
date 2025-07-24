@@ -352,6 +352,7 @@ jQuery(document).ready(function($){
         let unitRatio = jQuery(this).val();
         let unitRatio_name = jQuery(this).find('option:selected').text();
         let currentAmount = jQuery(this).closest('amount').val();
+        let finalAmount = "";
         console.log("jQuery(this) =",jQuery(this))
         console.log("unitRatio_name =",unitRatio_name)
         console.log("unitRatio =",unitRatio)
@@ -369,17 +370,17 @@ jQuery(document).ready(function($){
                 console.log("item.value*ratio=",item.value*unitRatio)
                 if (item.unit_reference == CONST.UNIT.DKK){
                     if (unitRatio_name.includes(CONST.UNIT.DKK)){ //TODO to rafactor
-                        valueForItems = item.value*unitRatio*currentAmount;
+                        finalAmount = item.value*unitRatio*currentAmount;
                         break;
                     } else if (unitRatio_name.includes(CONST.UNIT.EUR)){
-                        valueForItems = item.value*unitRatio*currentAmount;
+                        finalAmount = item.value*unitRatio*currentAmount;
                         break;
                     }
                 }
-                valueForItems = item.value*unitRatio*currentAmount;
+                finalAmount = item.value*unitRatio*currentAmount;
             }
 
-            jQuery(newElement).find('.co2-value').first().text(Utils.reformatValue(valueForItems));
+            jQuery(newElement).find('.co2-value').first().text(Utils.reformatValue(finalAmount));
         });
     });
  
