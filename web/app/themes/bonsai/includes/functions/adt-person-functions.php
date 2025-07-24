@@ -11,7 +11,6 @@ function adt_get_person_footprint(){
     $act_code = $_POST['act_code'];
     $version = $_POST['version'];
     $metric = $_POST['metric'];
-    // $metric='GWP100';
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_person_footprint_cache');
@@ -76,6 +75,7 @@ function adt_get_person_footprint(){
         'region_code' => $country,
         'value' => $value,
         'version' => $version,
+        '$metric' => $metric,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
         'recipe' => $recipes,
     ];
