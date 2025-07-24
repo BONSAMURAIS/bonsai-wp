@@ -46,12 +46,12 @@ class UserSelection{
         this.household_compo = jQuery('#household-composition').val();
         this.climate_metric = jQuery('#climate-metric').val();
         const typeValue = jQuery('input[name="footprint_type_extend"]:checked').val();
-        this.footprint_type_label = jQuery('input[name="footprint_type"]:checked').val(); //person or product
-        this.footprint_type = 'Cradle to gate'; //typeValue= product or default
+        this.footprint_type = jQuery('input[name="footprint_type"]:checked').val(); //person or product
+        this.footprint_type_label = 'Cradle to gate'; //typeValue= product or default
         if (typeValue == 'market') {
-            this.footprint_type = 'Cradle to consumer';
+            this.footprint_type_label = 'Cradle to consumer';
         } else if (typeValue == 'grave') {
-            this.footprint_type = 'Cradle to grave';
+            this.footprint_type_label = 'Cradle to grave';
         }
     }
 
