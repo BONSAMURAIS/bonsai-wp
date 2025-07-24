@@ -1054,6 +1054,7 @@ function adt_initialize_local_search_history()
 async function init_form(){
     let userSelection = new UserSelection;
     userSelection.get_from_url();
+    console.log("init to_string()=",userSelection.to_string())
 
     let data = userSelection.footprint_type ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
     if(data['flow_code']  !== null & data['title'] == null){
