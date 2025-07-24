@@ -390,7 +390,40 @@ jQuery(document).ready(function($){
             jQuery(tile).find('.co2-value').first().text(Utils.reformatValue(finalAmount));
         });
     });
- 
+
+    //input
+    jQuery('input.amount').on('input', function () {
+        let amountInput = jQuery(this);
+        let numberInput = parseInt(amountInput.val());
+        let maxNumber = parseInt(amountInput.attr('max'));
+        
+        if (isNaN(numberInput) || numberInput <= 0) {
+            numberInput = 0;
+        }
+        
+        if (numberInput > maxNumber) {
+            numberInput = maxNumber;
+            amountInput.val(numberInput);
+            amountInput.closest('.unit-select-wrapper').append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
+            setTimeout(() => {
+                jQuery('.error-message').fadeOut(CONST.ANIM.DURATION, function() {
+                    amountInput.remove();
+                });
+            }, 1000);
+        }
+        let calculatedValue = defaultValue * numberInput;
+        let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
+
+        let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
+                                    .find('p.co2-value');        // look inside for p.co2-value
+        co2_result.text(formattedCalculatedValue)
+        .css("width","fit-content");
+        co2_result.each(function(index, text) { 
+            Utils.resizeTextToFit(text);
+        });
+
+        amountInput.val(numberInput);//keep value in input
+    });
 
 });
 
