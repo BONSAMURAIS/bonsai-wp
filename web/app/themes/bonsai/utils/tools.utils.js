@@ -43,7 +43,7 @@ export function resizeTextToFit(text){
     }
 }
 
-export function getUnitOptions(i, dataArray, unit_ref){
+export function getUnitOptions(dataArray, unit_ref){
     //TODO rename hard coded unit with electricity
     let unitList = [];
 
@@ -63,7 +63,7 @@ export function getUnitOptions(i, dataArray, unit_ref){
             {ratio:1e3,label:"tonne(s)"},
         ];
     } else if (unit_ref === CONST.UNIT.MJ){
-        if (dataArray.all_data[i].flow_code.includes('_elec') || dataArray.all_data[i].flow_code.includes('_POW')){
+        if (dataArray.all_data[0].flow_code.includes('_elec') || dataArray.all_data[0].flow_code.includes('_POW')){
             unitList = [
                 {ratio:1,label:"kWh"},
             ];

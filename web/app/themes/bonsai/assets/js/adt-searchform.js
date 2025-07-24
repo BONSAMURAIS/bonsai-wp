@@ -397,7 +397,22 @@ async function display_result(htmlclass, data){
     main_component.find('.version').first().text(data.all_data[0]["version"]);
     //set value
     main_component.find('.co2-value').first().text(data.all_data[0]["value"]);
+    main_component.find('.co2-value-unit').first().text(CONST.UNIT.KGCO2); //use of dataArray.unit_emission?
+    let $element = main_component.find('select.unit'); 
+    //set unitList
+    const unitList = Utils.getUnitOptions(dataArray, unit_ref);
     
+    for (const unit of unitList){
+        $element.attr('data-set-' + 0, dataArray.all_data[0].id);
+        $element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
+    }
+
+    //todo hide for person
+    if (unitList.length>1 & $element.find('.unit-arrow').length >0){
+        jQuery('.unit-arrow').each(function(index, arrow) {
+            arrow.style.display = 'block';
+        })
+    }
 
 }
 
@@ -540,7 +555,7 @@ async function adt_update_original_info(dataArray) {
             let unit_ref = dataArray.all_data[0].unit_reference;
             console.log("unit_ref =",unit_ref);
             
-            const unitList = Utils.getUnitOptions($element, 0, dataArray, unit_ref);
+            const unitList = Utils.getUnitOptions(dataArray, unit_ref);
             
             for (const unit of unitList){
                 $element.attr('data-set-' + 0, dataArray.all_data[0].id);
@@ -609,7 +624,7 @@ async function adt_update_comparison_info(dataArray = null){
             $element.find('select.unit').empty();
 
             const unit_ref = dataArray.all_data[0].unit_reference;
-            const unitList = Utils.getUnitOptions(0, dataArray, unit_ref);
+            const unitList = Utils.getUnitOptions(dataArray, unit_ref);
                         
             for (const unit of unitList){
                 $element.attr('data-set-' + 0, dataArray.all_data[0].id);
