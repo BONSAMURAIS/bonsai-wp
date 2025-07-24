@@ -346,6 +346,43 @@ jQuery(document).ready(function($){
         $('#uncertainty-wrapper').slideUp();
     });
 
+    //observe on_change elements
+    jQuery('#co2-form-result').find('select.unit').on('change', function () {
+        let unitRatio = jQuery(this).val();
+        let unitRatio_name = jQuery(this).find('option:selected').text();
+        let currentAmount = jQuery(this).closest('amount').val();
+        console.log("jQuery(this) =",jQuery(this))
+        console.log("unitRatio_name =",unitRatio_name)
+        console.log("unitRatio =",unitRatio)
+        console.log("amount=",currentAmount)
+        
+        jQuery(this).each(async function () {
+            jQuery(this).val(unitRatio);
+            let newElement = jQuery(this).closest('.col-inner');
+
+            console.log("newElement=",newElement)
+            for (const item of dataArray.all_data) {
+                //issue on code region selected. it is currently random
+                console.log("item=",item)
+                console.log("item.value=",item.value)
+                console.log("item.value*ratio=",item.value*unitRatio)
+                if (item.unit_reference == CONST.UNIT.DKK){
+                    if (unitRatio_name.includes(CONST.UNIT.DKK)){ //TODO to rafactor
+                        valueForItems = item.value*unitRatio*currentAmount;
+                        break;
+                    } else if (unitRatio_name.includes(CONST.UNIT.EUR)){
+                        valueForItems = item.value*unitRatio*currentAmount;
+                        break;
+                    }
+                }
+                valueForItems = item.value*unitRatio*currentAmount;
+            }
+
+            jQuery(newElement).find('.co2-value').first().text(Utils.reformatValue(valueForItems));
+        });
+    });
+ 
+
 });
 
 
