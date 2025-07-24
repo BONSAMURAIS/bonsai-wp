@@ -794,14 +794,13 @@ label.select {
 
 
 p.co2-value {
-    
     width: fit-content;
     font-size: 60px;
     line-height: 70px;
     color: $secondary;
     font-weight: 600;
     margin-top: 15px;
-
+    margin-bottom:unset;
 }
 p.co2-value-unit {
     font-size: 20px;
