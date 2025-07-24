@@ -302,6 +302,8 @@ jQuery(document).ready(function($){
         if(data['flow_code']  !== null & data['title'] == null){
             let productTitle = await API.get_product_name_by_code(data['flow_code'])
             data['title'] = Utils.capitalize(productTitle);
+        }else if(selectedValue === 'person'){
+            data['title'] = "Person in " + userSelection.country + " - " + userSelection.year;
         }
         data['country'] = userSelection.country;
         data['footprint-type'] = userSelection.footprint_type;
@@ -328,6 +330,8 @@ jQuery(document).ready(function($){
         if(data['flow_code']  !== null & data['title'] == null){
             let productTitle = await API.get_product_name_by_code(data['flow_code'])
             data['title'] = Utils.capitalize(productTitle);
+        }else if(selectedValue === 'person'){
+            data['title'] = "Person in " + userSelection.country + " - " + userSelection.year;
         }
         data['country'] = userSelection.country;
         data['footprint-type'] = userSelection.footprint_type;
