@@ -329,6 +329,9 @@ jQuery(document).ready(function($){
         console.log(data)
 
         display_result("#compared-product-analysis-content",data);
+        $("#add-btn").hide();
+        $("#compared-product-analysis-content").show();
+        $('#uncertainty-wrapper').slideDown();
         console.log('END searching for comparison');
         // adt_update_comparison_info(footprintData);
 
