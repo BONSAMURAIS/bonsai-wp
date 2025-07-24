@@ -299,6 +299,11 @@ jQuery(document).ready(function($){
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         console.log("userSelection=", userSelection.to_string())
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+        //add missing title
+        if(data['flow_code']  !== null & data['title'] == null){
+            let productTitle = await API.get_product_name_by_code(data['flow_code'])
+            data['title'] = Utils.capitalize(productTitle);
+        }
 
         display_result("#summary-analysis-content",data);
         console.log('END searching');
@@ -382,7 +387,7 @@ async function display_result(htmlclass, data){
     Utils.show_search_results('#co2-form-result');
 
     let main_component = jQuery(htmlclass);
-    console.log(main_component);
+    main_component.find('.product-title').first().text(data["title"]);
 
 }
 
