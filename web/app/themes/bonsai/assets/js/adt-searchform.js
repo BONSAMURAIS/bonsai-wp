@@ -388,7 +388,7 @@ jQuery(document).ready(function($){
         });
     });
 
-    //input
+    //input TODO: keep in memory nominal value
     jQuery('input.amount').on('input', function () {
         let amountInput = jQuery(this);
         let numberInput = parseInt(amountInput.val());
