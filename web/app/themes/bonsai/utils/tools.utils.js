@@ -30,6 +30,9 @@ export function show_search_results(id){
     jQuery(id).slideDown('slow', function(){
         // Might need something happening here
     });
+    jQuery('html, body').animate({
+        scrollTop: jQuery(id).offset().top - 90
+    }, CONST.ANIM.DURATION);
 }
 
 export function resizeTextToFit(text){
