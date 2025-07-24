@@ -71,7 +71,7 @@ jQuery(document).ready(function($){
         if (isChecked) {
             const value = $(this).val();
             const displayValue = value == 'advanced' ? 'flex' : 'none';
-            $('#contribution-analysis').css('display', displayValue);
+            $(this).closest('.contribution-analysis').css('display', displayValue);
         }
     });
 
@@ -444,6 +444,7 @@ function display_result(htmlclass, data){
 
     Utils.show_search_results('#co2-form-result');
 
+    //summary information
     let main_component = jQuery(htmlclass);
     //set title
     main_component.find('.product-title').first().text(data["title"]);
@@ -480,6 +481,8 @@ function display_result(htmlclass, data){
             arrow.style.display = 'block';
         })
     }
+
+    //recipe
 
 }
 

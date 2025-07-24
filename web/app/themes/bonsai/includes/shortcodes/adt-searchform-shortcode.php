@@ -234,7 +234,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <p class="co2-value-unit"></p>
                             </div>
 
-                            <div id="contribution-analysis" style="display: none;">
+                            <div class="contribution-analysis" style="display: none;">
                                 <p class="big-font emission-message"></p>
         
                                 <table class="emissions-table">
