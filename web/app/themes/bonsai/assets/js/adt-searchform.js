@@ -304,12 +304,8 @@ jQuery(document).ready(function($){
         userSelection.get_from_form();
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         console.log("userSelection=", userSelection.to_string())
-        let data;
-        if (selectedValue === 'person') {
-            data = await API.get_person_footprint(userSelection)
-        } else{
-            data = await API.get_product_footprint(userSelection)
-        }
+        let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+
         display_result("#summary-analysis-content",data);
         console.log(data)
         console.log('END searching');
