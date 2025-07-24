@@ -330,14 +330,16 @@ jQuery(document).ready(function($){
         userSelection.get_from_form();
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         console.log("userSelection=", userSelection.to_string())
-        let data;
-        
-        if (selectedValue === 'person') {
-            data = await API.get_person_footprint(userSelection)
-        } else{
-            data = await API.get_product_footprint(userSelection)
+
+        let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+        //add missing title
+        if(data['flow_code']  !== null & data['title'] == null){
+            let productTitle = await API.get_product_name_by_code(data['flow_code'])
+            data['title'] = Utils.capitalize(productTitle);
         }
         console.log(data)
+
+        display_result("#summary-analysis",data);
         console.log('END searching for comparison');
         // adt_update_comparison_info(footprintData);
 
@@ -377,6 +379,22 @@ async function getPersonFootprint(){
 }
 
 async function display_result(htmlclass, data){
+
+    //error management
+    let error_msg = jQuery('#error-message');
+    if (data && (data.error && data.error.includes("Product not found") || !data.title)) {
+        error_msg.append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
+        error_msg.slideDown('fast');
+        console.log('Combination not found');
+        return;
+    }
+
+    //data has been found
+    jQuery("#error-message-content").remove();
+    error_msg.slideUp('fast');
+
+    let main_component = jQuery(htmlclass);
+        
 
 }
 
