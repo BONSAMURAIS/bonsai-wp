@@ -38,7 +38,7 @@ class UserSelection{
         this.code = jQuery('#autocomplete-input').attr('data-code');
         this.uuid = "uuid";
         this.countryCode = jQuery('#location').val();
-        this.country = jQuery('#location').text();
+        this.country = jQuery('#location option:selected').text();
         this.db_version = jQuery('#database-version').val();
         this.year = jQuery('#year').val();
         this.income_gpe = jQuery('#income-group').val();
