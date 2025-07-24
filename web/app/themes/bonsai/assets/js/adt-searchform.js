@@ -297,7 +297,6 @@ jQuery(document).ready(function($){
             data['title'] = Utils.capitalize(productTitle);
         }
         if(selectedValue === 'person'){
-            console.log("asd")
             data['title'] = "Person in " + userSelection.country + " - " + userSelection.year;
         }
         data['country'] = userSelection.country;
@@ -398,7 +397,7 @@ jQuery(document).ready(function($){
         let maxNumber = parseInt(amountInput.attr('max'));
         let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
                                     .find('p.co2-value');        // look inside for p.co2-value
-        let co2_result_value = parseFloat(co2_result.text());
+        const co2_result_value = parseFloat(co2_result.text()); //issue: it does not take the nominal value aka when 1kg
         
         if (isNaN(numberInput) || numberInput <= 0) {
             numberInput = 0;
@@ -489,34 +488,7 @@ async function display_result(htmlclass, data){
 
 
 async function updateTile(data){
-    let error_msg = jQuery('#error-message');
-    
-    if (data && data.error && data.error.includes("Product not found")) {
-        error_msg.first().append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
-        error_msg.slideDown('fast');
-        Utils.show_search_results('#co2-form-result');
-        console.log('Combination not found in adt_get_product_info()');
-        // Save product data even though an error occurred
-        // This is so the user can go try to search again with other countries
-        // localStorage.setItem("footprint_data", JSON.stringify(response.data));
-        return;
-    } else {
-        jQuery( "#error-message-content" ).remove();
-        error_msg.slideUp('fast');
-    }
-    
-    // Error message
-    if (data && !data.title) {
-        error_msg.slideDown('fast');
-    } else {
-        error_msg.slideUp('fast');
-    }
 
-    if(data['flow_code']  !== null & data['title'] == null){
-        let productTitle = await API.get_product_name_by_code(data['flow_code'])
-        data['title'] = Utils.capitalize(productTitle);
-    }
-    
     let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.tile');
     if (compareButtons.length > 0) {
         adt_update_original_info(data); 
@@ -587,7 +559,6 @@ async function adt_update_original_info(dataArray) {
             $element.find('.co2-value').text(formatted);
             defaultValue = parseFloat($element.find('.co2-value').text());
             
-            on_change_unit($element,".col:first-child",dataArray,valueForItems);
         } else {
             console.log("!dataArray.all_data");
             $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
@@ -603,8 +574,6 @@ async function adt_update_original_info(dataArray) {
             $element.find('.co2-value').text(formatted);
             defaultValue = valueForItems;
         }
-        
-        setMaxValueMessage($element, defaultValue, '.col:first-child');
     }
 
     await adt_update_recipe(dataArray, 'original');
@@ -705,12 +674,6 @@ async function adt_update_comparison_info(dataArray = null){
             let formatted = Utils.reformatValue(valueForItems);
 
             $element.find('.co2-value').text(formatted);
-            let defaultValue = parseFloat($element.find('.co2-value').text());
-
-            on_change_unit($element, ".col:first-child", dataArray, valueForItems);
-
-            setMaxValueMessage($element, defaultValue, '.col:first-child');
-
         }
     }else{
         setTileTitle('.search-result .col:first-child p.product-title',dataArray);
@@ -732,53 +695,10 @@ async function adt_update_comparison_info(dataArray = null){
                 $element.find('.co2-value').text(formatted);
                 defaultValue = valueForItems;
             }
-            
-            setMaxValueMessage($element, defaultValue, '.col:first-child');
-
         }
     }
 
     await adt_update_recipe(dataArray, 'comparison');
-}
-
-function on_change_unit(element, childClass, dataArray, valueForItems){
-    element.find('select.unit').on('change', function () {
-        let unitRatio = jQuery(this).val();
-        let unitRatio_name = jQuery(this).find('option:selected').text();
-        let currentAmount = jQuery('.search-result '+childClass+' .amount').val();
-        console.log("jQuery(this) =",jQuery(this))
-        console.log("unitRatio_name =",unitRatio_name)
-        console.log("unitRatio =",unitRatio)
-        console.log("amount=",currentAmount)
-        
-        jQuery('.search-result '+childClass+' select.unit').each(async function () {
-            jQuery(this).val(unitRatio);
-            let newElement = jQuery(this).closest('.tile');
-
-            console.log("newElement=",newElement)
-            for (const item of dataArray.all_data) {
-                //issue on code region selected. it is currently random
-                console.log("item=",item)
-                console.log("item.value=",item.value)
-                console.log("item.value*ratio=",item.value*unitRatio)
-                if (item.unit_reference == CONST.UNIT.DKK){
-                    if (unitRatio_name.includes(CONST.UNIT.DKK)){ //TODO to rafactor
-                        valueForItems = item.value*unitRatio*currentAmount;
-                        break;
-                    } else if (unitRatio_name.includes(CONST.UNIT.EUR)){
-                        valueForItems = item.value*unitRatio*currentAmount;
-                        break;
-                    }
-                }
-                valueForItems = item.value*unitRatio*currentAmount;
-            }
-
-            let formatted = Utils.reformatValue(valueForItems);
-            
-            jQuery(newElement).find('.co2-value').text(formatted);
-            defaultValue = parseFloat(jQuery('.co2-value', newElement).text());
-        });
-    });
 }
 
 async function adt_update_recipe(dataArray, boxToUpdate)
@@ -1275,41 +1195,4 @@ function setTileTitle(elementClass,dataArray){
         jQuery(this).text(title);
         jQuery(this).attr('data-code',value);
     });
-}
-
-function setMaxValueMessage(element, defaultValue , classElement){
-    element.find('.amount').each(function () {
-    let inputElement = jQuery(this).closest('.tile');
-
-    jQuery('.amount', inputElement).on('input', function () {
-        let numberInput = parseInt(jQuery(this).val());
-        let maxNumber = parseInt(jQuery(this).attr('max'));
-
-        if (isNaN(numberInput) || numberInput <= 0) {
-            numberInput = 0;
-        }
-
-        if (numberInput > maxNumber) {
-            numberInput = maxNumber;
-            jQuery(this).val(numberInput);
-            jQuery('.unit-select-wrapper', inputElement).append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
-            setTimeout(() => {
-                jQuery('.error-message').fadeOut(CONST.ANIM.DURATION, function() {
-                    jQuery(this).remove();
-                });
-            }, 1000);
-        }
-
-        let calculatedValue = defaultValue * numberInput;
-        let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
-
-        jQuery('.search-result '+classElement+' .amount').val(numberInput);
-        jQuery('.search-result '+classElement+' .co2-value').text(formattedCalculatedValue);
-        jQuery('.search-result '+classElement+' .co2-value').css("width","fit-content");
-        const textList = jQuery('.search-result '+classElement+' .co2-value');
-        textList.each(function(index, text) { 
-            Utils.resizeTextToFit(text);
-        });
-    });
-});
 }
