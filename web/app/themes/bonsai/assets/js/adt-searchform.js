@@ -288,7 +288,7 @@ jQuery(document).ready(function($){
     // Search 
     $('#btn-search').click(async function(e){
         e.preventDefault();
-        if (jQuery('#autocomplete-input').val() ==""){
+        if (jQuery('#autocomplete-input').val() =="" && selectedValue != 'person'){
             console.log("pls prevent from click on any search btn");
             return
         }
@@ -314,7 +314,7 @@ jQuery(document).ready(function($){
     // Search 
     $('#btn-add-comparison').click(async function(e){
         e.preventDefault();
-        if (jQuery('#autocomplete-input').val() ==""){
+        if (jQuery('#autocomplete-input').val() =="" && selectedValue != 'person'){
             console.log("pls prevent from click on any search btn");
             return
         }
@@ -387,7 +387,14 @@ async function display_result(htmlclass, data){
     Utils.show_search_results('#co2-form-result');
 
     let main_component = jQuery(htmlclass);
+    //set title
     main_component.find('.product-title').first().text(data["title"]);
+    //set tags
+    main_component.find('.footprint-type').first().text(data["title"]);
+                                        <span class="climate-metrics"></span>
+                                    <span class="year"></span>
+                                    <span class="country"></span>
+                                    <span class="version"></span>
 
 }
 
