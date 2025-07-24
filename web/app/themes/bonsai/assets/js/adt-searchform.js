@@ -288,6 +288,7 @@ jQuery(document).ready(function($){
     // Search 
     $('#btn-search').click(async function(e){
         e.preventDefault();
+        let selectedValue = $('input[name="footprint_type"]:checked').val();
         if (selectedValue != 'person' && jQuery('#autocomplete-input').val() ==""){
             console.log("pls prevent from click on any search btn");
             return
@@ -296,7 +297,6 @@ jQuery(document).ready(function($){
         console.log('Start searching');
         let userSelection = new UserSelection;
         userSelection.get_from_form();
-        let selectedValue = $('input[name="footprint_type"]:checked').val();
         console.log("userSelection=", userSelection.to_string())
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
         if(data['flow_code']  !== null & data['title'] == null){
@@ -313,6 +313,7 @@ jQuery(document).ready(function($){
     // Search 
     $('#btn-add-comparison').click(async function(e){
         e.preventDefault();
+        let selectedValue = $('input[name="footprint_type"]:checked').val();
         if (jQuery('#autocomplete-input').val() =="" && selectedValue != 'person'){
             console.log("pls prevent from click on any search btn");
             return
@@ -321,7 +322,6 @@ jQuery(document).ready(function($){
         console.log('Start searching for comparison');
         let userSelection = new UserSelection;
         userSelection.get_from_form();
-        let selectedValue = $('input[name="footprint_type"]:checked').val();
         console.log("userSelection=", userSelection.to_string())
         
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
