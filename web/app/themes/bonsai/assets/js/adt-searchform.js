@@ -1059,7 +1059,7 @@ async function init_form(){
     jQuery('#climate-metric').val(userSelection.climate_metric);
     jQuery('#database-version').val(userSelection.db_version);
     let data = userSelection.footprint_type ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection); //TODO if person or product
-    display_result(data);
+    display_result("#summary-analysis-content",data);
     adt_save_local_search_history(userSelection);
 
 }
