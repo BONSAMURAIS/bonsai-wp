@@ -498,6 +498,8 @@ function display_result(htmlclass, data){
 
     //recipe
 
+
+
 }
 
 
@@ -538,8 +540,6 @@ async function adt_update_original_info(dataArray) {
         if (dataArray.all_data) {
             $element.find('.co2-value-unit').text(CONST.UNIT.KGCO2);
             console.log("dataArray.all_data:",dataArray.all_data);
-            jQuery('.emission-message').text('Where do emissions for 1kg of CO2eq come from?');
-            jQuery('.emission-header-unit').text('['+CONST.UNIT.KGCO2+']');
             
             let unit_ref = dataArray.all_data[0].unit_reference;
             console.log("unit_ref =",unit_ref);

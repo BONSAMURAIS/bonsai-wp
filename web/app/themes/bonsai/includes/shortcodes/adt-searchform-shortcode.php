@@ -235,7 +235,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </div>
 
                             <div class="contribution-analysis" style="display: none;">
-                                <p class="big-font emission-message"></p>
+                                <p class="big-font emission-message">Where do emissions for 1 tonne of CO2eq come from?</p>
         
                                 <table class="emissions-table">
                                     <thead>
@@ -243,7 +243,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                             <th>Inputs</th> <!-- flow_input -->
                                             <th>Country</th> <!-- region_inflow -->
                                             <th class="has-hover">Input</th> <!-- value_inflow + unit_inflow -->
-                                            <th class="has-hover">Emissions<span class="emission-header-unit">[kg CO2eq]</span></th> <!-- value_emission + unit_emission -->
+                                            <th class="has-hover">Emissions<span class="emission-header-unit">[Tonnes CO2eq]</span></th> <!-- value_emission + unit_emission -->
                                         </tr>
                                     </thead>
                                     <tbody>
