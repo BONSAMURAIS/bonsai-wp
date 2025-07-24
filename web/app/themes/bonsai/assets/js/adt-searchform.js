@@ -400,10 +400,10 @@ async function display_result(htmlclass, data){
     main_component.find('.co2-value-unit').first().text(CONST.UNIT.KGCO2); //use of dataArray.unit_emission?
     let $element = main_component.find('select.unit'); 
     //set unitList
-    const unitList = Utils.getUnitOptions(dataArray, unit_ref);
+    const unitList = Utils.getUnitOptions(data, unit_ref);
     
     for (const unit of unitList){
-        $element.attr('data-set-' + 0, dataArray.all_data[0].id);
+        $element.attr('data-set-' + 0, data.all_data[0].id);
         $element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
 
