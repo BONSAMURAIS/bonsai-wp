@@ -299,10 +299,12 @@ jQuery(document).ready(function($){
         userSelection.get_from_form();
         console.log("userSelection=", userSelection.to_string())
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+        console.log("selectedValue=",selectedValue)
         if(data['flow_code']  !== null & data['title'] == null){
             let productTitle = await API.get_product_name_by_code(data['flow_code'])
             data['title'] = Utils.capitalize(productTitle);
         }else if(selectedValue === 'person'){
+            console.log("asd")
             data['title'] = "Person in " + userSelection.country + " - " + userSelection.year;
         }
         data['country'] = userSelection.country;
