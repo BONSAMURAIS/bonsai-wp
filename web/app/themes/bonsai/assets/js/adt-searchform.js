@@ -213,7 +213,7 @@ jQuery(document).ready(function($){
         let climateMetrics = $('.search-result > .col:first-child .climate-metrics').attr('data-climate-metrics');
         let databaseVersion = $('.search-result > .col:first-child .version').attr('data-database-version');
         let chosenAmount = $('.search-result > .col:first-child #amount').val();
-        let chosenUnit = $('.search-result > .col:first-child #unit').val();
+        let chosenUnit = $('.search-result > .col:first-child .unit').val();
 
         let doesItCompare = false;
 
@@ -240,7 +240,7 @@ jQuery(document).ready(function($){
             climateMetricsCompare = $('.search-result > .col:nth-child(2) .climate-metrics').attr('data-climate-metrics');
             databaseVersionCompare = $('.search-result > .col:nth-child(2) .version').attr('data-database-version');
             chosenAmountCompare = $('.search-result > .col:nth-child(2) #amount').val();
-            chosenUnitCompare = $('.search-result > .col:nth-child(2) #unit').val();
+            chosenUnitCompare = $('.search-result > .col:nth-child(2) .unit').val();
         }
 
         data = {
@@ -404,8 +404,7 @@ async function display_result(htmlclass, data){
     const unitList = Utils.getUnitOptions(data, unit_ref);
     
     for (const unit of unitList){
-        unit_options.attr('data-set-' + 0, data.all_data[0].id);
-        unit_options.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
+        unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
 
     //todo hide for person
