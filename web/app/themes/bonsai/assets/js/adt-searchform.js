@@ -288,10 +288,8 @@ jQuery(document).ready(function($){
         console.log('Start searching');
         let userSelection = new UserSelection;
         userSelection.get_from_form();
-        console.log("userSelection=", userSelection.to_string())
         data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
-        console.log("selectedValue=",selectedValue)
-        console.log("selectedValue === 'person'=",selectedValue === 'person')
+
         if(data['flow_code']  !== null & data['title'] == null){
             let productTitle = await API.get_product_name_by_code(data['flow_code'])
             data['title'] = Utils.capitalize(productTitle);
@@ -428,15 +426,15 @@ jQuery(document).ready(function($){
 });
 
 
-async function display_result(htmlclass, data){
-    console.log(data)
+function display_result(htmlclass, data){
+    console.log("Start display data")
+    console.log("data=",data)
 
     //error management
     let error_msg = jQuery('#error-message');
     if (data && (data.error && data.error.includes("Product not found") || data.title == "")) {
         error_msg.append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
         error_msg.slideDown('fast');
-        console.log('Combination not found');
         return;
     }
 
@@ -447,7 +445,6 @@ async function display_result(htmlclass, data){
     Utils.show_search_results('#co2-form-result');
 
     let main_component = jQuery(htmlclass);
-    console.log(main_component)
     //set title
     main_component.find('.product-title').first().text(data["title"]);
     //set tags

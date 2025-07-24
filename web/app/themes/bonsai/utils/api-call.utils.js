@@ -23,7 +23,6 @@ export async function get_product_footprint(userSelection){
             beforeSend: Utils.displayLoading(),
             success: (response) => {
                 Utils.removeLoading();
-                console.log("response.data=",response.data)
                 resolve(response.data);
             },
             error: (error) => {
