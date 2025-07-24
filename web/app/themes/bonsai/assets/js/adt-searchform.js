@@ -439,6 +439,28 @@ jQuery(document).ready(function($){
         amountInput.val(numberInput);//keep value in input
     });
 
+    //listener on click emissions-table items 
+    jQuery('.emissions-table a').on('click', async function(e) {
+        e.preventDefault();
+        
+        let productTitle = jQuery(this).text();
+        let productCode = jQuery(this).data('code');
+        let productUuid = jQuery(this).data('uuid');
+
+        let userSelection = new UserSelection;
+        userSelection.get_from_form();
+        userSelection.set_product(productTitle,productCode,productUuid);
+
+        let data_product = await API.get_product_footprint(userSelection);
+        const htmlclass = jQuery(this).closest("tile-wrapper").attr('id');
+        display_result(htmlclass,data_product);
+        adt_save_local_search_history(userSelection);
+        
+        // // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
+        // const href = jQuery(this).attr('href');
+        // history.pushState(null, '', href);
+    });
+
 });
 
 
@@ -914,29 +936,6 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     }
 }
 
-function adt_switch_between_recipe_items()
-{
-    jQuery('.emissions-table a').on('click', async function(e) {
-        e.preventDefault();
-        
-        let productTitle = jQuery(this).text();
-        let productCode = jQuery(this).data('code');
-        let productUuid = jQuery(this).data('uuid');
-        
-        userSelection.set_product(productTitle,productCode,productUuid);
-        userSelection.get_from_form();
-
-        console.log('Make sure this only run once!');
-        let data_product = await API.get_product_footprint(userSelection);
-        updateTile(data_product);
-        adt_save_local_search_history(userSelection);
-        
-        // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
-        const href = jQuery(this).attr('href');
-        history.pushState(null, '', href);
-        
-    });
-}
 
 function adt_save_local_search_history(userSelection)
 {

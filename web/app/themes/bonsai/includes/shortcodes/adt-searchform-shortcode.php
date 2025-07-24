@@ -197,7 +197,7 @@ add_shortcode( 'adt_searchform', function($atts) {
             <div id="divider">
             </div>
             <div id="summary-analysis" class="search-result">
-                <div id="summary-analysis-content" class="col medium-12 small-12 large-12">
+                <div id="summary-analysis-content" class="tile-wrapper col medium-12 small-12 large-12">
                     <div class="tile">
                         <div class="switch-field-wrapper-basic col medium-6 small-12 large-6">
                             <div class="switch-field-container">
