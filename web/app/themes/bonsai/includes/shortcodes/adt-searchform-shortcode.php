@@ -212,7 +212,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <p class="product-title"></p>
                                 <div class="product-tag-wrapper">
                                     <span class="footprint-type"></span>
-                                    <span class="climate-metrics"></span>
+                                    <span class="climate-metric"></span>
                                     <span class="year"></span>
                                     <span class="country"></span>
                                     <span class="version"></span>

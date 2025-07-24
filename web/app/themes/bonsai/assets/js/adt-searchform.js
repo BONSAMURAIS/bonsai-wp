@@ -304,6 +304,8 @@ jQuery(document).ready(function($){
             let productTitle = await API.get_product_name_by_code(data['flow_code'])
             data['title'] = Utils.capitalize(productTitle);
         }
+        data['country'] = userSelection.country;
+        data['footprint-type'] = userSelection.footprint_type;
 
         display_result("#summary-analysis-content",data);
         console.log('END searching');
@@ -391,10 +393,10 @@ async function display_result(htmlclass, data){
     main_component.find('.product-title').first().text(data["title"]);
     //set tags
     main_component.find('.footprint-type').first().text(data["title"]);
-                                        <span class="climate-metrics"></span>
-                                    <span class="year"></span>
-                                    <span class="country"></span>
-                                    <span class="version"></span>
+    main_component.find('.climate_metric').first().text(data.all_data[0]["metric"]);
+    main_component.find('.year').first().text(data["year"]);
+    main_component.find('.country').first().text(data["country"]);
+    main_component.find('.version').first().text(data.all_data[0]["version"]);
 
 }
 

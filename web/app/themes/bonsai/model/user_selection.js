@@ -4,6 +4,7 @@ class UserSelection{
         this.code = "code";
         this.uuid = "uuid";
         this.countryCode = "";
+        this.country = "";
         this.db_version = 'v1.0.0';
         this.year = '1999';
         this.income_gpe = "";
@@ -22,7 +23,8 @@ class UserSelection{
         this.code = json.code;
         this.uuid = json.uuid;
 
-        this.countryCode =  json.location;;
+        this.countryCode =  json.location;
+        this.country =  json.location;
         this.db_version = json.db_version;
         this.year = json.year;
         this.income_gpe = json.income_gpe;
@@ -36,6 +38,7 @@ class UserSelection{
         this.code = jQuery('#autocomplete-input').attr('data-code');
         this.uuid = "uuid";
         this.countryCode = jQuery('#location').val();
+        this.country = jQuery('#location').text();
         this.db_version = jQuery('#database-version').val();
         this.year = jQuery('#year').val();
         this.income_gpe = jQuery('#income-group').val();
