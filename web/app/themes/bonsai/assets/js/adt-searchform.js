@@ -410,7 +410,7 @@ jQuery(document).ready(function($){
             amountInput.closest('.unit-select-wrapper').append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
             setTimeout(() => {
                 jQuery('.error-message').fadeOut(CONST.ANIM.DURATION, function() {
-                    amountInput.remove();
+                    jQuery(this).remove();
                 });
             }, 1000);
         }
