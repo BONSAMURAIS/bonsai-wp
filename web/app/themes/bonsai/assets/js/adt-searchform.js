@@ -143,15 +143,6 @@ jQuery(document).ready(function($){
         adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
         // return if comparison is active
-        // Because the user would need to search for a new product
-        let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
-        if (compareButtons.length == 0) {
-            adt_update_tags('comparison');
-            return;
-        }
-
-        // also update the product chosen.
-        adt_update_tags('original');
     });
 
     adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
@@ -196,7 +187,6 @@ jQuery(document).ready(function($){
         let data_product = await API.get_product_footprint(userSelection);
         updateTile(data_product);
         adt_save_local_search_history(userSelection);
-        adt_update_tags('original')
         console.log("END popular click")
     });
 
@@ -465,74 +455,6 @@ async function updateTile(data){
     console.log('successfull run of adt_get_person_footprint()');
 }
 
-function adt_update_tags(boxToUpdate){
-    let typeValue = jQuery('input[name="footprint_type_extend"]:checked').val();
-    console.log("typeValue=",typeValue)
-    let type = 'Cradle to gate';
-    
-    if (typeValue == 'market') {
-        type = 'Cradle to consumer';
-    } else if (typeValue == 'grave') {
-        type = 'Cradle to grave';
-    }
-
-    let country = jQuery('#location option:selected').text();
-    let countryVal = jQuery('#location option:selected').val();
-    let year = jQuery('#year option:selected').text();
-    let climateMetrics = jQuery('#climate-metric option:selected').text();
-    let climateMetricsVal = jQuery('#climate-metric').val();
-    let databaseVersion = jQuery('#database-version option:selected').text();
-    
-    let whichChild = ':first-child';
-    
-    if (boxToUpdate === 'comparison') {
-        whichChild = ':nth-child(2)';
-    }
-
-    // Overwrite the Footprint type tag by data code
-    if (typeValue !== 'grave') {
-        jQuery('.search-result > .col'+whichChild+' .product-title').each(function() {
-            let dataCode = jQuery(this).attr('data-code');
-
-            if (dataCode){
-                if (dataCode.includes("M_")) {
-                    type = 'Cradle to consumer';
-                } else if (dataCode.includes('C_') || dataCode.includes('EF_') || dataCode.includes('A_')) {
-                    type = 'Cradle to gate';
-                } else if (dataCode.includes("F_")) {
-                    type = 'Cradle to grave';
-                }
-            }
-
-        });
-    }
-
-    jQuery('.search-result > .col'+whichChild+' .footprint-type').each(function() {
-        jQuery(this).text(type);
-        jQuery(this).attr('data-type', typeValue);
-    });
-
-    jQuery('.search-result > .col'+whichChild+' .country').each(function() {
-        jQuery(this).text(country);
-        jQuery(this).attr('data-country', countryVal);
-    });
-
-    jQuery('.search-result > .col'+whichChild+' .year').each(function() {
-        jQuery(this).text(year);
-        jQuery(this).attr('data-year', year);
-    });
-
-    jQuery('.search-result > .col'+whichChild+' .climate-metrics').each(function() {
-        jQuery(this).text(climateMetrics);
-        jQuery(this).attr('data-climate-metrics', climateMetricsVal);
-    });
-
-    jQuery('.search-result > .col'+whichChild+' .version').each(function() {
-        jQuery(this).text(databaseVersion);
-        jQuery(this).attr('data-database-version', databaseVersion);
-    });
-}
-
 async function adt_update_original_info(dataArray) {
     setTileTitle('.search-result .col:first-child p.product-title',dataArray);
     jQuery('.search-result .col:first-child p.product-title').each(function () {
@@ -604,8 +526,6 @@ async function adt_update_original_info(dataArray) {
         
         setMaxValueMessage($element, defaultValue, '.col:first-child');
     }
-
-    adt_update_tags('original');
 
     await adt_update_recipe(dataArray, 'original');
 }
@@ -737,8 +657,6 @@ async function adt_update_comparison_info(dataArray = null){
 
         }
     }
-
-    adt_update_tags('comparison');
 
     await adt_update_recipe(dataArray, 'comparison');
 }
