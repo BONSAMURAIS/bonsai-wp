@@ -559,24 +559,19 @@ div.search-result {
             justify-content: center;
         }
 
-        p {
-            margin: 0;
-            font-size: 15px;
-
-            &.primary-text {
-                &.add {
-                    color: $primary;
-                    line-height: 150px;
-                    font-size: 150px;
-                    opacity: 1;
-                }
+        p.primary-text {
+            &.add {
+                color: $primary;
+                line-height: 150px;
+                font-size: 150px;
+                opacity: 1;
             }
+        }
 
-            &.big-font {
-                font-size: 25px;
-                color: $secondary;
-                margin-bottom: 30px;
-            }
+        p.big-font {
+            font-size: 25px;
+            color: $secondary;
+            margin-bottom: 30px;
         }
 
         a:has(.add) {
