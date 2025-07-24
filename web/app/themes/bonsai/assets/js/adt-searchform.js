@@ -455,14 +455,17 @@ jQuery(document).ready(function($){
         let userSelection = new UserSelection;
         userSelection.get_from_form();
         userSelection.set_product(productTitle,productCode,productUuid);
+        try {
+            let data = await API.get_product_footprint(userSelection);
+            const htmlclass = jQuery(this).closest("tile-wrapper").attr('id');
+            console.log("htmlclass=",htmlclass)
+            console.log("userSelection=",userSelection.to_string())
+            display_result(htmlclass,data);
+            // adt_save_local_search_history(userSelection);
+        } catch (err) {
+            console.error('Error in async handler:', err);
+        }
 
-        let data_product = await API.get_product_footprint(userSelection);
-        const htmlclass = jQuery(this).closest("tile-wrapper").attr('id');
-        console.log("htmlclass=",htmlclass)
-        console.log("userSelection=",userSelection.to_string())
-        // display_result(htmlclass,data_product);
-        // adt_save_local_search_history(userSelection);
-        
         // // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
         // const href = jQuery(this).attr('href');
         // history.pushState(null, '', href);
