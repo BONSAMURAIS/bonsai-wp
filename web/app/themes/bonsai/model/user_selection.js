@@ -32,8 +32,9 @@ class UserSelection{
     }
     
     get_from_form(){
+        console.log("jQuery('#autocomplete-input')=",jQuery('#autocomplete-input'));
         this.title = jQuery('#autocomplete-input').val();
-        this.code = jQuery('#autocomplete-input option:selected').attr('id');;
+        this.code = jQuery('#autocomplete-input').attr('data-code');
         this.uuid = "uuid";
         this.countryCode = jQuery('#location').val();
         this.db_version = jQuery('#database-version').val();
