@@ -382,7 +382,19 @@ async function display_result(htmlclass, data){
     //set title
     main_component.find('.product-title').first().text(data["title"]);
     //set tags
+    //TODO hardcode replacement
+    let dataCode = data['flow_code'];
+    if (dataCode){
+        if (dataCode.includes("M_")) {
+            data['footprint-type'] = 'Cradle to consumer';
+        } else if (dataCode.includes('C_') || dataCode.includes('EF_') || dataCode.includes('A_')) {
+            data['footprint-type'] = 'Cradle to gate';
+        } else if (dataCode.includes("F_")) {
+            data['footprint-type'] = 'Cradle to grave';
+        }
+    }
     main_component.find('.footprint-type').first().text(data['footprint-type']);
+    //endTODO hardcode replacement
     main_component.find('.climate-metric').first().text(data.metric);
     main_component.find('.year').first().text(data["year"]);
     main_component.find('.country').first().text(data["country"]);
@@ -394,12 +406,9 @@ async function display_result(htmlclass, data){
     const unit_ref = data.unit_reference;
     //set unitList
     const unitList = Utils.getUnitOptions(data, unit_ref);
-    
     for (const unit of unitList){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
-
-    //todo hide for person
     if (unitList.length>1 & unit_options.find('.unit-arrow').length >0){
         jQuery('.unit-arrow').each(function(index, arrow) {
             arrow.style.display = 'block';
