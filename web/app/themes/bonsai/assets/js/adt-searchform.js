@@ -1055,6 +1055,16 @@ async function init_form(){
     userSelection.get_from_url();
 
     let data = userSelection.footprint_type ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+    if(data['flow_code']  !== null & data['title'] == null){
+        let productTitle = await API.get_product_name_by_code(data['flow_code'])
+        data['title'] = Utils.capitalize(productTitle);
+    }
+    if(selectedValue === 'person'){
+        data['title'] = "Emission per person in " + userSelection.country + " - " + userSelection.year;
+    }
+    data['country'] = userSelection.country;
+    data['footprint-type'] = userSelection.footprint_type;
+    data['year'] = userSelection.year;
     display_result("#summary-analysis-content",data);
     adt_save_local_search_history(userSelection);
 
