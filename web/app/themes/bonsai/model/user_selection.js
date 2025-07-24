@@ -44,7 +44,7 @@ class UserSelection{
         this.income_gpe = jQuery('#income-group').val();
         this.household_compo = jQuery('#household-composition').val();
         this.climate_metric = jQuery('#climate-metric').val();
-        this.footprint_type = jQuery('#footprint-type input[name="footprint_type_extend').val();
+        this.footprint_type = jQuery('input[name="footprint_type_extend"]:checked').val();
     }
 
     set_product(title,code,uuid){
