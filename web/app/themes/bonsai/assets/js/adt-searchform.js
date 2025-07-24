@@ -300,6 +300,7 @@ jQuery(document).ready(function($){
         console.log("userSelection=", userSelection.to_string())
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
         console.log("selectedValue=",selectedValue)
+        console.log("selectedValue === 'person'=",selectedValue === 'person')
         if(data['flow_code']  !== null & data['title'] == null){
             let productTitle = await API.get_product_name_by_code(data['flow_code'])
             data['title'] = Utils.capitalize(productTitle);
