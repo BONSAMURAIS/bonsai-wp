@@ -174,6 +174,7 @@ jQuery(document).ready(function($){
         let productUuid = $(this).data('uuid');
         userSelection.get_from_form();
         userSelection.set_product(productTitle,productCode,productUuid);
+        let selectedValue = $('input[name="footprint_type"]:checked').val();
 
         $('#autocomplete-input').val(productTitle);
 
