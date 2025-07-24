@@ -349,17 +349,23 @@ jQuery(document).ready(function($){
 
     //observe on_change elements
     jQuery('#co2-form-result').find('select.unit').on('change', function () {
-        let unitRatio = jQuery(this).val();
-        let unitRatio_name = jQuery(this).find('option:selected').text();
-        let currentAmount = jQuery(this).closest('.amount').first().val();
+
+        let unitSelect = jQuery(this);
+        let unitRatio = unitSelect.val();
+        let unitRatio_name = unitSelect.find('option:selected').text();
+        let amountInput = unitSelect.closest('label.select')      // go up to the label wrapping <select>
+                                    .prevAll('label.select')      // find previous label(s)
+                                    .find('input.amount');        // look inside for input.amount
+        let currentAmount = amountInput.val();
         let finalAmount = "";
-        console.log("jQuery(this) =",jQuery(this))
+
+        console.log("unitSelect =",unitSelect)
         console.log("unitRatio_name =",unitRatio_name)
         console.log("unitRatio =",unitRatio)
-        console.log("jQuery(this).closest('amount')=",jQuery(this).closest('.amount'))
+        console.log("unitSelect.closest('amount')=",unitSelect.closest('.amount'))
         console.log("amount=",currentAmount)
         
-        jQuery(this).each(async function () {
+        unitSelect.each(async function () {
             jQuery(this).val(unitRatio);
             let newElement = jQuery(this).closest('.col-inner');
 
