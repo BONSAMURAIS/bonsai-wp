@@ -219,7 +219,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 </div>
                                 <div class="unit-select-wrapper">
                                     <label class="select" for="amount">
-                                        <input type="number" id="amount" class="amount" value="1" max="999999" min="1" step="1"/>
+                                        <input type="number" class="amount" value="1" max="999999" min="1" step="1"/>
                                     </label>
                                     <label class="select" for="unit">
                                         <select class="unit"></select>
