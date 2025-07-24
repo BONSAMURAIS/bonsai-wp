@@ -309,7 +309,7 @@ jQuery(document).ready(function($){
             data['title'] = Utils.capitalize(productTitle);
         }
         if(selectedValue === 'person'){
-            data['title'] = "Person in " + userSelection.country + " - " + userSelection.year;
+            data['title'] = "Emission per person in " + userSelection.country + " - " + userSelection.year;
         }
         data['country'] = userSelection.country;
         data['footprint-type'] = userSelection.footprint_type;
@@ -644,7 +644,6 @@ function display_result(htmlclass, data){
 
 //TODO to remove. kept for the moment because of the uncertainty
 async function adt_update_comparison_info(dataArray = null){
-    setTileTitle('#compared-product-analysis-content .col:first-child p.product-title',dataArray);
     jQuery('.search-result .col:first-child p.product-title').each(function () {
         if (jQuery('#autocomplete-input').val()) {
             jQuery(this).text(Utils.capitalize(jQuery('#autocomplete-input').val()));
@@ -739,7 +738,6 @@ async function adt_update_comparison_info(dataArray = null){
             $element.find('.co2-value').text(formatted);
         }
     }else{
-        setTileTitle('.search-result .col:first-child p.product-title',dataArray);
         
         for (const element of jQuery('.search-result .col:first-child')) {
             let $element = jQuery(element);
@@ -761,158 +759,6 @@ async function adt_update_comparison_info(dataArray = null){
         }
     }
 
-    await adt_update_recipe(dataArray, 'comparison');
-}
-
-async function adt_update_recipe(dataArray, boxToUpdate)
-{
-    let tableMarkup = '';
-    let otherRowMarkup = '';
-    let rowMarkup = '';
-
-    let whichChild = 'first-child';
-
-    if (boxToUpdate === 'comparison') {
-        whichChild = 'nth-child(2)';
-    }
-
-    let recipeArray = dataArray.recipe;
-
-    console.log("recipeArray=",recipeArray);
-
-    for (const recipe of recipeArray) {
-        // Convert to base64
-        const jsonString = JSON.stringify(recipe);
-        const base64String = btoa(jsonString);  // base64 encode
-
-        if (recipe.flow_input === undefined) {
-            recipe.flow_input = recipe.product_code;
-        }
-
-        if (recipe.region_inflow === undefined) {
-            recipe.region_inflow = recipe.region_code;
-        }   
-
-        if (recipe.value_emission === undefined) {
-            recipe.value_emission = recipe.value;
-        }
-
-        // Add to URL
-        const getParameter = `?data=${base64String}`;
-        let updatedInflow = '';
-
-        // If unit_inflow "Meuro" per tonnes convert to Euro per kg
-        if (recipe.unit_inflow === CONST.UNIT.MEURO) {
-            updatedInflow = recipe.value_inflow * 1000;
-            recipe.value_emission = recipe.value_emission * 1000;
-            recipe.unit_inflow = CONST.UNIT.EUR;
-        }
-
-        // If unit_inflow "tonnes" per tonnes convert to kg per kg (same number)
-        if (recipe.unit_inflow === CONST.UNIT.TONNES) {
-            recipe.unit_inflow = CONST.UNIT.KG;
-        }
-        
-        // If unit_inflow "TJ" per tonnes with electricity convert to kWh per kg
-        if (recipe.unit_inflow === CONST.UNIT.TJ){
-            let final_unit = ""; 
-            if(recipe.flow_reference.includes('electricity')) {
-                final_unit = CONST.UNIT.KWH;
-            }else{
-                final_unit = CONST.UNIT.MJ;
-                recipe.value_emission = recipe.value_emission * 1000;
-            }
-            recipe.unit_inflow = final_unit;
-            updatedInflow = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, recipe.value_inflow);
-            // Wait for the conversion to complete before continuing
-            if (!updatedInflow) {
-                console.error('Conversion failed for '+CONST.UNIT.TJ+'to'+ final_unit);
-                return;
-            }
-        }
-
-        // If unit_inflow "item" per tonnes just convert tonnes to kg
-        if (recipe.unit_inflow === 'item') {
-            recipe.unit_inflow = 'item';
-            recipe.value_emission = recipe.value_emission * 1000;
-        }
-
-        // If unit_inflow "ha*year" per tonnes convert tonnes to kg
-        // And convert "ha*year" to "m²*year"
-        if (recipe.unit_inflow === CONST.UNIT.HA_PER_YEAR) {
-            recipe.unit_inflow = CONST.UNIT.M2_PER_YEAR;
-            updatedInflow = recipe.value_inflow * 10;
-            recipe.value_emission = recipe.value_emission;
-        }
-
-        rowMarkup = '<tr>';
-        rowMarkup += '<td><a href=" ' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + "recipe.flow_input" + '</a></td>';
-        rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
-        rowMarkup += '<td class="input-flow">';
-
-        if (recipe.value_inflow && recipe.value_inflow !== NaN) {
-            updatedInflow = Utils.reformatValue(recipe.value_inflow);
-        }
-        
-        if (recipe.value_emission && recipe.value_emission !== NaN) {
-            recipe.value_emission = Utils.reformatValue(recipe.value_emission);
-        }
-
-        rowMarkup += '<span class="inflow-value">' + (updatedInflow ? updatedInflow : '') + '</span>';
-        rowMarkup += '<span class="inflow-unit">' + (recipe.unit_inflow || '') + '</span>';
-
-        rowMarkup += '</td>';
-        rowMarkup += '<td>' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';
-        rowMarkup += '</tr>';
-
-        if (recipe.flow_input.toLowerCase() === "other" || recipe.flow_input.toLowerCase() === "direct") {
-            otherRowMarkup += rowMarkup; // Store "other" row separately
-        } else {
-            tableMarkup += rowMarkup; // Append all other rows normally
-        }
-    };
-
-    // Append "other" row at the end if it exists
-    tableMarkup += otherRowMarkup;
-
-    // Display the table
-    jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody').html(tableMarkup);
-
-    // Convert the product code to product name
-    jQuery('.search-result > .col:'+whichChild+' .emissions-table tbody tr').each(async function(){
-        let productCode = jQuery(this).find('a').data('code');
-        let productTitle = await API.get_product_name_by_code(productCode);
-        jQuery('td a[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
-    });
-
-    // Remove previous click handlers to avoid stacking events
-    jQuery('.search-result > .col:' + whichChild + ' .emissions-table thead th').off('click');
-
-    // Add sorting functionality to table headers
-    jQuery('.search-result > .col:' + whichChild + ' .emissions-table thead th').on('click', function () {
-        const $header = jQuery(this);
-        const columnIndex = $header.index();
-        const $table = $header.closest('table');
-        const $rows = $table.find('tbody tr').toArray();
-
-        const isAscending = $header.hasClass('ascending');
-        $header.toggleClass('ascending', !isAscending).toggleClass('descending', isAscending);
-        $header.siblings().removeClass('ascending descending');
-
-        $rows.sort((a, b) => {
-            const cellA = jQuery(a).find('td').eq(columnIndex).text().trim();
-            const cellB = jQuery(b).find('td').eq(columnIndex).text().trim();
-
-            const valueA = parseFloat(cellA.replace(/[^0-9.-]+/g, '')) || 0;
-            const valueB = parseFloat(cellB.replace(/[^0-9.-]+/g, '')) || 0;
-
-            return isAscending ? valueA - valueB : valueB - valueA;
-        });
-
-        $table.find('tbody').append($rows);
-    });
-
-    adt_switch_between_recipe_items();
 }
 
 // Download CSV
@@ -1239,21 +1085,4 @@ function adt_push_parameter_to_url(userSelection)
     // Add to URL
     const getParameter = `?data=${base64String}`;
     history.pushState(null, '', getParameter);
-}
-
-function setTileTitle(elementClass,dataArray){
-    jQuery(elementClass).each(function () {
-        let value = "";
-        let title = "";
-        
-        if (dataArray.all_data) {
-            title = Utils.capitalize(dataArray.title);
-            value = dataArray.flow_code;
-        } else {
-            title = 'Emission per person';
-            value = dataArray.act_code;
-        }
-        jQuery(this).text(title);
-        jQuery(this).attr('data-code',value);
-    });
 }
