@@ -313,7 +313,7 @@ jQuery(document).ready(function($){
     });
     
     // Search 
-    $('#btn-add-comparison').click(async function(e){
+    $('#btn-add-comparison, #add-btn').click(async function(e){
         e.preventDefault();
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         if (jQuery('#autocomplete-input').val() =="" && selectedValue != 'person'){
@@ -342,23 +342,6 @@ jQuery(document).ready(function($){
         $("#compared-product-analysis-content").show();
         $('#uncertainty-wrapper').slideDown();
         console.log('END searching for comparison');
-    });
-
-    // Comparison code
-    $('#add-btn').click(function(e){
-        e.preventDefault();
-        console.log('comparison added');
-        $("#add-btn").hide();
-        $("#compared-product-analysis-content").show();
-        $('#uncertainty-wrapper').slideDown();
-
-        const footprintData = JSON.parse(localStorage.getItem("footprint_data"));
-        
-        adt_download_recipe_csv();
-        adt_update_comparison_info(footprintData);
-
-        // Also set a new local storage item, to save the data of the original footprint chosen
-        localStorage.setItem("footprint_original_state_data", localStorage.getItem("footprint_data"));
     });
 
     $("#adt-close").click(function(e){
