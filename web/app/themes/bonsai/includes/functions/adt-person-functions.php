@@ -75,7 +75,7 @@ function adt_get_person_footprint(){
         'region_code' => $country,
         'value' => $value,
         'version' => $version,
-        '$metric' => $metric,
+        'metric' => $metric,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
         'recipe' => $recipes,
     ];
