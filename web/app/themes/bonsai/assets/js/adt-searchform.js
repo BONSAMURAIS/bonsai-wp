@@ -13,15 +13,15 @@ function copyTile(){
     let clone = original.children().first().clone();
     
     clone.find('.switch-field-container').first().children().each(function(){
-        if ($(this).is('input')) {
-            const currentId = $(this).attr('id');
+        if (jQuery(this).is('input')) {
+            const currentId = jQuery(this).attr('id');
             if (currentId) {
-                $(this).attr('id', currentId + '-compared');
+                jQuery(this).attr('id', currentId + '-compared');
             }
-        } else if ($(this).is('label')) {
-            const currentFor = $(this).attr('for');
+        } else if (jQuery(this).is('label')) {
+            const currentFor = jQuery(this).attr('for');
             if (currentFor) {
-                $(this).attr('for', currentFor + '-compared');
+                jQuery(this).attr('for', currentFor + '-compared');
             }
         }
     });
