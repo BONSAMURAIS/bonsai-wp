@@ -662,7 +662,7 @@ function display_result(htmlclass, data){
             return isAscending ? valueA - valueB : valueB - valueA;
         });
 
-        table.find('tbody').append($rows);
+        table.find('tbody').append(rows);
     });
 
 }
