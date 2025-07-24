@@ -10,7 +10,7 @@ class UserSelection{
         this.income_gpe = "";
         this.household_compo = "";
         this.climate_metric = "GWP100";
-        this.footprint_type = "";
+        this.footprint_type = "person";
     }
     
     get_from_url(){
@@ -31,6 +31,7 @@ class UserSelection{
         this.household_compo = json.household_compo;
         this.climate_metric = json.climate_metric;
         this.footprint_type = json.footprint_type;
+        this.footprint_type_label = json.footprint_type_label;
     }
     
     get_from_form(){
@@ -45,6 +46,7 @@ class UserSelection{
         this.household_compo = jQuery('#household-composition').val();
         this.climate_metric = jQuery('#climate-metric').val();
         const typeValue = jQuery('input[name="footprint_type_extend"]:checked').val();
+        this.footprint_type_label = jQuery('input[name="footprint_type"]:checked').val(); //person or product
         this.footprint_type = 'Cradle to gate'; //typeValue= product or default
         if (typeValue == 'market') {
             this.footprint_type = 'Cradle to consumer';

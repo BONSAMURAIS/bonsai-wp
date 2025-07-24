@@ -1058,8 +1058,8 @@ async function init_form(){
     jQuery('#year').val(userSelection.year);
     jQuery('#climate-metric').val(userSelection.climate_metric);
     jQuery('#database-version').val(userSelection.db_version);
-    let data_product = await API.get_product_footprint(userSelection);
-    updateTile(data_product);
+    let data = await API.get_product_footprint(userSelection); //TODO if person or product
+    display_result(data);
     adt_save_local_search_history(userSelection);
 
 }
@@ -1077,6 +1077,7 @@ function adt_push_parameter_to_url(userSelection)
         income_gpe: userSelection.income_gpe,
         location: userSelection.countryCode,
         country: userSelection.country,
+        footprint_type_label: userSelection.footprint_type_label,
         footprint_type: userSelection.footprint_type,
         year: userSelection.year,
         db_version: userSelection.db_version,
