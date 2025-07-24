@@ -73,13 +73,17 @@ export function getUnitOptions(dataArray, unit_ref){
             ];
         }
     } else if (unit_ref === CONST.UNIT.ITEMS){
-            unitList = [
-                {ratio:1,label:"item(s)"},
-            ]
+        unitList = [
+            {ratio:1,label:"item(s)"},
+        ]
     } else if (unit_ref === 'tonnes (service)'){
-            unitList = [
-                {ratio:1,label:"tonne(s) (service)"},
-            ]
+        unitList = [
+            {ratio:1,label:"tonne(s) (service)"},
+        ]
+    } else if (unit_ref == null){ //for person footprint-type
+        unitList = [
+            {ratio:1,label:"Person Year"},
+        ]
     }
 
     return unitList;

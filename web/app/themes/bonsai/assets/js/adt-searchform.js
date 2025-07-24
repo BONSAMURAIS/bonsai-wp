@@ -383,15 +383,15 @@ async function display_result(htmlclass, data){
     main_component.find('.product-title').first().text(data["title"]);
     //set tags
     main_component.find('.footprint-type').first().text(data['footprint-type']);
-    main_component.find('.climate-metric').first().text(data.all_data[0].metric);
+    main_component.find('.climate-metric').first().text(data.metric);
     main_component.find('.year').first().text(data["year"]);
     main_component.find('.country').first().text(data["country"]);
-    main_component.find('.version').first().text(data.all_data[0]["version"]);
+    main_component.find('.version').first().text(data["version"]);
     //set value
-    main_component.find('.co2-value').first().text(data.all_data[0]["value"]);
+    main_component.find('.co2-value').first().text(data["value"]);
     main_component.find('.co2-value-unit').first().text(CONST.UNIT.KGCO2); //use of dataArray.unit_emission?
     let unit_options = main_component.find('select.unit'); 
-    const unit_ref = data.all_data[0].unit_reference;
+    const unit_ref = data.unit_reference;
     //set unitList
     const unitList = Utils.getUnitOptions(data, unit_ref);
     

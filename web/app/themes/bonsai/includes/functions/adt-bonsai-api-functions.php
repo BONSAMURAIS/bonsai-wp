@@ -577,6 +577,13 @@ function adt_get_product_footprint(){
         'uuid' => $productUuid,
         'version' => $newestVersion,
         'all_data' => $chosenFootprint,
+        'description' => $chosenFootprint[0]['description'],
+        'id' => $chosenFootprint[0]['id'],
+        'metric' => $chosenFootprint[0]['metric'],
+        'nace_related_code' => $chosenFootprint[0]['nace_related_code'],
+        'region_code' => $chosenFootprint[0]['region_code'],
+        'samples' => $chosenFootprint[0]['samples'],
+        'value' => $chosenFootprint[0]['value'],
         'recipe' => $recipeData,
     ];
 
