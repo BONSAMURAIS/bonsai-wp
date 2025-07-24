@@ -288,7 +288,7 @@ jQuery(document).ready(function($){
     // Search 
     $('#btn-search').click(async function(e){
         e.preventDefault();
-        if (jQuery('#autocomplete-input').val() =="" && selectedValue != 'person'){
+        if (selectedValue != 'person' && jQuery('#autocomplete-input').val() ==""){
             console.log("pls prevent from click on any search btn");
             return
         }
