@@ -310,7 +310,7 @@ jQuery(document).ready(function($){
         } else{
             data = await API.get_product_footprint(userSelection)
         }
-        Utils.show_search_results('#co2-form-result');
+        display_result("#summary-analysis-content",data);
         console.log(data)
         console.log('END searching');
         // adt_update_comparison_info(footprintData);
@@ -339,7 +339,7 @@ jQuery(document).ready(function($){
         }
         console.log(data)
 
-        display_result("#summary-analysis",data);
+        display_result("#compared-product-analysis-content",data);
         console.log('END searching for comparison');
         // adt_update_comparison_info(footprintData);
 
@@ -392,9 +392,9 @@ async function display_result(htmlclass, data){
     //data has been found
     jQuery("#error-message-content").remove();
     error_msg.slideUp('fast');
+    Utils.show_search_results('#co2-form-result');
 
-    let main_component = jQuery(htmlclass);
-        
+    let main_component = jQuery(htmlclass);    
 
 }
 
