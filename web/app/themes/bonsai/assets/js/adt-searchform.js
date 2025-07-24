@@ -41,10 +41,6 @@ jQuery(document).ready(function($){
 
     copyTile();
 
-    // $('#household-composition').on('change',function(){getPersonFootprint()});
-    
-    // $('#income-group').on('change',function(){getPersonFootprint()});    
-
     $('input[name="footprint_type"]').on('change',async function(){
         let isChecked = $(this).is(':checked');
         
@@ -61,9 +57,6 @@ jQuery(document).ready(function($){
             $('#person-choices').toggle();
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change');
-                // userSelection.get_from_form();
-                // let data_footprint = await API.get_person_footprint(userSelection);
-                // updateTile(data_footprint);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
             }
@@ -307,7 +300,6 @@ jQuery(document).ready(function($){
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
 
         display_result("#summary-analysis-content",data);
-        console.log(data)
         console.log('END searching');
         // adt_update_comparison_info(footprintData);
         
@@ -367,14 +359,8 @@ jQuery(document).ready(function($){
 
 });
 
-async function getPersonFootprint(){
-    let userSelection = new UserSelection;
-    userSelection.get_from_form();
-    let data_footprint = await API.get_person_footprint(userSelection);
-    updateTile(data_footprint);
-}
-
 async function display_result(htmlclass, data){
+    console.log(data)
 
     //error management
     let error_msg = jQuery('#error-message');
@@ -388,9 +374,11 @@ async function display_result(htmlclass, data){
     //data has been found
     jQuery("#error-message-content").remove();
     error_msg.slideUp('fast');
+
     Utils.show_search_results('#co2-form-result');
 
-    let main_component = jQuery(htmlclass);    
+    let main_component = jQuery(htmlclass);
+    console.log(main_component);
 
 }
 
