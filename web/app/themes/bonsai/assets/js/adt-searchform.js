@@ -398,13 +398,14 @@ async function display_result(htmlclass, data){
     //set value
     main_component.find('.co2-value').first().text(data.all_data[0]["value"]);
     main_component.find('.co2-value-unit').first().text(CONST.UNIT.KGCO2); //use of dataArray.unit_emission?
-    let $element = main_component.find('select.unit'); 
+    let unit_options = main_component.find('select.unit'); 
+    const unit_ref = dataArray.all_data[0].unit_reference;
     //set unitList
     const unitList = Utils.getUnitOptions(data, unit_ref);
     
     for (const unit of unitList){
-        $element.attr('data-set-' + 0, data.all_data[0].id);
-        $element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
+        unit_options.attr('data-set-' + 0, data.all_data[0].id);
+        unit_options.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
 
     //todo hide for person
