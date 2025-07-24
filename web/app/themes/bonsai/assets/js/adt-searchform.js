@@ -369,7 +369,6 @@ jQuery(document).ready(function($){
 
 async function display_result(htmlclass, data){
     console.log(data)
-    console.log("data.all_data[0]=",data.all_data[0])
 
     //error management
     let error_msg = jQuery('#error-message');
