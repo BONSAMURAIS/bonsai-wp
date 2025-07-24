@@ -66,14 +66,12 @@ jQuery(document).ready(function($){
     });
 
     $('input[name="contri-analysis"]').on('change', function(){
-        console.log("contri-analysis click")
         let isChecked = $(this).is(':checked');
-        console.log("$(this)=",$(this))
 
         if (isChecked) {
             const value = $(this).val();
             const displayValue = value == 'advanced' ? 'flex' : 'none';
-            $(this).closest('.contribution-analysis').css('display', displayValue);
+            $(this).closest('.tile').find('.contribution-analysis').first().css('display', displayValue);
         }
     });
 
