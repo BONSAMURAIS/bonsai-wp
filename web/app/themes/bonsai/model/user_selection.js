@@ -32,7 +32,6 @@ class UserSelection{
     }
     
     get_from_form(){
-        console.log("jQuery('#autocomplete-input')=",jQuery('#autocomplete-input'));
         this.title = jQuery('#autocomplete-input').val();
         this.code = jQuery('#autocomplete-input').attr('data-code');
         this.uuid = "uuid";
