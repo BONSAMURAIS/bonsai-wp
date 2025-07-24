@@ -396,6 +396,9 @@ jQuery(document).ready(function($){
         let amountInput = jQuery(this);
         let numberInput = parseInt(amountInput.val());
         let maxNumber = parseInt(amountInput.attr('max'));
+        let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
+                                    .find('p.co2-value');        // look inside for p.co2-value
+        let co2_result_value = parseFloat(co2_result.text());
         
         if (isNaN(numberInput) || numberInput <= 0) {
             numberInput = 0;
@@ -411,13 +414,11 @@ jQuery(document).ready(function($){
                 });
             }, 1000);
         }
-        let calculatedValue = defaultValue * numberInput;
+        let calculatedValue = co2_result_value * numberInput;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
 
-        let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
-                                    .find('p.co2-value');        // look inside for p.co2-value
-        co2_result.text(formattedCalculatedValue)
-        .css("width","fit-content");
+        co2_result.text(formattedCalculatedValue);
+        co2_result.css("width","fit-content");
         co2_result.each(function(index, text) { 
             Utils.resizeTextToFit(text);
         });
