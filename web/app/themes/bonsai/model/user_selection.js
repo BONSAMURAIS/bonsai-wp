@@ -54,7 +54,7 @@ class UserSelection{
     }
 
     to_string() {
-        return `[title:${this.title}, code:${this.code}, uuid:${this.uuid}, countryCode:${this.countryCode}, db_version:${this.db_version}, year:${this.year}, income_gpe:${this.income_gpe}, household_compo:${this.household_compo}, climate_metric:${this.climate_metric}, footprint_type:${this.footprint_type}]`;
+        return `[title:${this.title}, code:${this.code}, uuid:${this.uuid}, countryCode:${this.countryCode}, country:${this.country}, db_version:${this.db_version}, year:${this.year}, income_gpe:${this.income_gpe}, household_compo:${this.household_compo}, climate_metric:${this.climate_metric}, footprint_type:${this.footprint_type}]`;
     }
 }
 
