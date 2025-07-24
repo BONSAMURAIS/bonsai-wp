@@ -352,19 +352,19 @@ jQuery(document).ready(function($){
         $('#uncertainty-wrapper').slideUp();
     });
 
+    async function data_preprocessing(data){
+        //add missing title
+        if(data['flow_code']  !== null & data['title'] == null){
+            let productTitle = await API.get_product_name_by_code(data['flow_code'])
+            data['title'] = Utils.capitalize(productTitle);
+        }
+        data['country'] = userSelection.country;
+        data['footprint-type'] = userSelection.footprint_type;
+        data['year'] = userSelection.year;
+        return;
+    }
 });
 
-async function data_preprocessing(data){
-    //add missing title
-    if(data['flow_code']  !== null & data['title'] == null){
-        let productTitle = await API.get_product_name_by_code(data['flow_code'])
-        data['title'] = Utils.capitalize(productTitle);
-    }
-    data['country'] = userSelection.country;
-    data['footprint-type'] = userSelection.footprint_type;
-    data['year'] = userSelection.year;
-    return;
-}
 
 async function display_result(htmlclass, data){
     console.log(data)
