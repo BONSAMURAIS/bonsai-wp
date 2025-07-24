@@ -453,6 +453,8 @@ jQuery(document).ready(function($){
 
         let data_product = await API.get_product_footprint(userSelection);
         const htmlclass = jQuery(this).closest("tile-wrapper").attr('id');
+        console.log("htmlclass=",htmlclass)
+        console.log("userSelection=",userSelection.to_string())
         display_result(htmlclass,data_product);
         adt_save_local_search_history(userSelection);
         
