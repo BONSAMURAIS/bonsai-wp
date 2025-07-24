@@ -314,6 +314,7 @@ jQuery(document).ready(function($){
         data['country'] = userSelection.country;
         data['footprint-type'] = userSelection.footprint_type;
         data['year'] = userSelection.year;
+        adt_push_parameter_to_url(userSelection);
         display_result("#summary-analysis-content",data);
         console.log('END searching');
     });
@@ -344,6 +345,7 @@ jQuery(document).ready(function($){
         data['footprint-type'] = userSelection.footprint_type;
         data['year'] = userSelection.year;
         display_result("#compared-product-analysis-content",data);
+        adt_push_parameter_to_url(userSelection);
 
         $("#add-btn").hide();
         $("#compared-product-analysis-content").show();
@@ -1074,6 +1076,7 @@ function adt_push_parameter_to_url(userSelection)
         household_compo: userSelection.household_compo,
         income_gpe: userSelection.income_gpe,
         location: userSelection.countryCode,
+        country: userSelection.country,
         footprint_type: userSelection.footprint_type,
         year: userSelection.year,
         db_version: userSelection.db_version,
