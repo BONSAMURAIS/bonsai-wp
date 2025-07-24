@@ -12,6 +12,20 @@ function copyTile(){
     let original = jQuery('#summary-analysis');
     let clone = original.children().first().clone();
     
+    clone.find('.switch-field-container').first().children().each(function(){
+        if ($(this).is('input')) {
+            const currentId = $(this).attr('id');
+            if (currentId) {
+                $(this).attr('id', currentId + '-compared');
+            }
+        } else if ($(this).is('label')) {
+            const currentFor = $(this).attr('for');
+            if (currentFor) {
+                $(this).attr('for', currentFor + '-compared');
+            }
+        }
+    });
+
     clone
         .append('<span id="adt-close"></span>') //add close button
         .hide() //init hide behind add-btn
