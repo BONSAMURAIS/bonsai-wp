@@ -797,8 +797,30 @@ label.select {
     }
 }
 
-.co2-value{
+
+p.co2-value {
+    
     width: fit-content;
+    font-size: 60px;
+    line-height: 70px;
+    color: $secondary;
+    font-weight: 600;
+    margin-top: 15px;
+
+}
+p.co2-value-unit {
+    font-size: 20px;
+}
+
+p.product-title {
+    font-size: 30px;
+    color: $secondary;
+}
+div.product-tag-wrapper > * {
+    font-size: 12px;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 50px;
 }
 
 .single-shared_searches {
