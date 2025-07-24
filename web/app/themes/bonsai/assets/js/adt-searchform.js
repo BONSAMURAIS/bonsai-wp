@@ -23,6 +23,7 @@ function copyTile(){
 
 jQuery(document).ready(function($){
     let userSelection = new UserSelection();
+    let data;
 
     const params = new URLSearchParams(window.location.search);
     const base64String = params.get('data');
@@ -288,7 +289,7 @@ jQuery(document).ready(function($){
         let userSelection = new UserSelection;
         userSelection.get_from_form();
         console.log("userSelection=", userSelection.to_string())
-        let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+        data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
         console.log("selectedValue=",selectedValue)
         console.log("selectedValue === 'person'=",selectedValue === 'person')
         if(data['flow_code']  !== null & data['title'] == null){
@@ -320,7 +321,7 @@ jQuery(document).ready(function($){
         userSelection.get_from_form();
         console.log("userSelection=", userSelection.to_string())
         
-        let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+        data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
         if(data['flow_code']  !== null & data['title'] == null){
             let productTitle = await API.get_product_name_by_code(data['flow_code'])
             data['title'] = Utils.capitalize(productTitle);
@@ -361,7 +362,7 @@ jQuery(document).ready(function($){
             let newElement = jQuery(this).closest('.col-inner');
 
             console.log("newElement=",newElement)
-            for (const item of dataArray.all_data) {
+            for (const item of data.all_data) {
                 //issue on code region selected. it is currently random
                 console.log("item=",item)
                 console.log("item.value=",item.value)
