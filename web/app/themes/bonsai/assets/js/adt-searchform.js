@@ -395,6 +395,9 @@ async function display_result(htmlclass, data){
     main_component.find('.year').first().text(data["year"]);
     main_component.find('.country').first().text(data["country"]);
     main_component.find('.version').first().text(data.all_data[0]["version"]);
+    //set value
+    main_component.find('.co2-value').first().text(data.all_data[0]["value"]);
+    
 
 }
 
