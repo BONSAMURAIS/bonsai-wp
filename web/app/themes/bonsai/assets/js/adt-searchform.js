@@ -399,7 +399,7 @@ async function display_result(htmlclass, data){
     main_component.find('.co2-value').first().text(data.all_data[0]["value"]);
     main_component.find('.co2-value-unit').first().text(CONST.UNIT.KGCO2); //use of dataArray.unit_emission?
     let unit_options = main_component.find('select.unit'); 
-    const unit_ref = dataArray.all_data[0].unit_reference;
+    const unit_ref = data.all_data[0].unit_reference;
     //set unitList
     const unitList = Utils.getUnitOptions(data, unit_ref);
     
@@ -409,7 +409,7 @@ async function display_result(htmlclass, data){
     }
 
     //todo hide for person
-    if (unitList.length>1 & $element.find('.unit-arrow').length >0){
+    if (unitList.length>1 & unit_options.find('.unit-arrow').length >0){
         jQuery('.unit-arrow').each(function(index, arrow) {
             arrow.style.display = 'block';
         })
