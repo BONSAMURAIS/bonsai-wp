@@ -351,12 +351,12 @@ jQuery(document).ready(function($){
     jQuery('#co2-form-result').find('select.unit').on('change', function () {
         let unitRatio = jQuery(this).val();
         let unitRatio_name = jQuery(this).find('option:selected').text();
-        let currentAmount = jQuery(this).closest('amount').first().val();
+        let currentAmount = jQuery(this).closest('.amount').first().val();
         let finalAmount = "";
         console.log("jQuery(this) =",jQuery(this))
         console.log("unitRatio_name =",unitRatio_name)
         console.log("unitRatio =",unitRatio)
-        console.log("jQuery(this).closest('amount')=",jQuery(this).closest('amount'))
+        console.log("jQuery(this).closest('amount')=",jQuery(this).closest('.amount'))
         console.log("amount=",currentAmount)
         
         jQuery(this).each(async function () {
