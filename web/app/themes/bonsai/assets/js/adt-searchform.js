@@ -497,103 +497,152 @@ function display_result(htmlclass, data){
     }
 
     //recipe
+    let tableMarkup = '';
+    let otherRowMarkup = '';
+    let rowMarkup = '';
+    let recipeArray = data.recipe;
 
+    for (const recipe of recipeArray) {
+        //preprocessing recipe data
+        // Convert to base64
+        const jsonString = JSON.stringify(recipe);
+        const base64String = btoa(jsonString);  // base64 encode
 
-
-}
-
-
-async function updateTile(data){
-
-    let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.tile');
-    if (compareButtons.length > 0) {
-        adt_update_original_info(data); 
-    } else {
-        adt_update_comparison_info(data);
-    }
-
-    Utils.show_search_results('#co2-form-result');
-
-    jQuery('html, body').animate({
-        scrollTop: jQuery("#co2-form-result").offset().top - 90
-    }, CONST.ANIM.DURATION);
-	
-	// Try this
-    localStorage.setItem("footprint_data", JSON.stringify(data));
-    console.log('successfull run of adt_get_person_footprint()');
-}
-
-async function adt_update_original_info(dataArray) {
-    setTileTitle('.search-result .col:first-child p.product-title',dataArray);
-    jQuery('.search-result .col:first-child p.product-title').each(function () {
-        if (jQuery('#autocomplete-input').val()) {
-            jQuery(this).text(Utils.capitalize(jQuery('#autocomplete-input').val()));
+        if (recipe.flow_input === undefined) {
+            recipe.flow_input = recipe.product_code;
         }
-    });
-    
-    for (const element of jQuery('.search-result .col:first-child')) {
-        console.log("element=",element);
-        let $element = jQuery(element);
-        $element.find('select.unit').empty();
-        let defaultValue = 0;
+
+        if (recipe.region_inflow === undefined) {
+            recipe.region_inflow = recipe.region_code;
+        }   
+
+        if (recipe.value_emission === undefined) {
+            recipe.value_emission = recipe.value;
+        }
+
+        // Add to URL
+        const getParameter = `?data=${base64String}`;
+        let updatedInflow = '';
+
+        // If unit_inflow "Meuro" per tonnes convert to Euro per kg
+        if (recipe.unit_inflow === CONST.UNIT.MEURO) {
+            updatedInflow = recipe.value_inflow * 1000;
+            recipe.value_emission = recipe.value_emission * 1000;
+            recipe.unit_inflow = CONST.UNIT.EUR;
+        }
+
+        // If unit_inflow "tonnes" per tonnes convert to kg per kg (same number)
+        if (recipe.unit_inflow === CONST.UNIT.TONNES) {
+            recipe.unit_inflow = CONST.UNIT.KG;
+        }
         
-        if (dataArray.all_data) {
-            $element.find('.co2-value-unit').text(CONST.UNIT.KGCO2);
-            console.log("dataArray.all_data:",dataArray.all_data);
-            
-            let unit_ref = dataArray.all_data[0].unit_reference;
-            console.log("unit_ref =",unit_ref);
-            
-            const unitList = Utils.getUnitOptions(dataArray, unit_ref);
-            
-            for (const unit of unitList){
-                $element.attr('data-set-' + 0, dataArray.all_data[0].id);
-                $element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
+        // If unit_inflow "TJ" per tonnes with electricity convert to kWh per kg
+        if (recipe.unit_inflow === CONST.UNIT.TJ){
+            let final_unit = ""; 
+            if(recipe.flow_reference.includes('electricity')) {
+                final_unit = CONST.UNIT.KWH;
+            }else{
+                final_unit = CONST.UNIT.MJ;
+                recipe.value_emission = recipe.value_emission * 1000;
             }
-
-            //todo hide for person
-            if (unitList.length>1 & $element.find('.unit-arrow').length >0){
-                jQuery('.unit-arrow').each(function(index, arrow) {
-                    arrow.style.display = 'block';
-                })
+            recipe.unit_inflow = final_unit;
+            updatedInflow = API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, recipe.value_inflow);
+            // Wait for the conversion to complete before continuing
+            if (!updatedInflow) {
+                console.error('Conversion failed for '+CONST.UNIT.TJ+'to'+ final_unit);
+                return;
             }
-
-            let defaultUnit = $element.find('select.unit').val();
-            console.log("defaultUnit=",defaultUnit)
-            // Just let the first item be default instead of null
-            let valueForItems = dataArray.all_data[0].value;
-            let convertedValueForItems = null;
-            
-            if (convertedValueForItems) {
-                valueForItems = convertedValueForItems;
-            }
-            
-            let formatted = Utils.reformatValue(valueForItems);
-            
-            $element.find('.co2-value').text(formatted);
-            defaultValue = parseFloat($element.find('.co2-value').text());
-            
-        } else {
-            console.log("!dataArray.all_data");
-            $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
-            
-            $element.find('.co2-value-unit').text(dataArray.unit_emission);
-            
-            // Just let the first item be default instead of null
-            let valueForItems = dataArray.value;
-            let formatted = Utils.reformatValue(valueForItems);
-            
-            console.log("test defaultValue")
-            console.log(valueForItems)
-            $element.find('.co2-value').text(formatted);
-            defaultValue = valueForItems;
         }
-    }
 
-    await adt_update_recipe(dataArray, 'original');
+        // If unit_inflow "item" per tonnes just convert tonnes to kg
+        if (recipe.unit_inflow === 'item') {
+            recipe.unit_inflow = 'item';
+            recipe.value_emission = recipe.value_emission * 1000;
+        }
+
+        // If unit_inflow "ha*year" per tonnes convert tonnes to kg
+        // And convert "ha*year" to "m²*year"
+        if (recipe.unit_inflow === CONST.UNIT.HA_PER_YEAR) {
+            recipe.unit_inflow = CONST.UNIT.M2_PER_YEAR;
+            updatedInflow = recipe.value_inflow * 10;
+            recipe.value_emission = recipe.value_emission;
+        }
+        //end preprocessing
+        
+        //Create rows
+        rowMarkup = '<tr>';
+        rowMarkup += '<td><a href=" ' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + "recipe.flow_input" + '</a></td>';
+        rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
+        rowMarkup += '<td class="input-flow">';
+
+        if (recipe.value_inflow && recipe.value_inflow !== NaN) {
+            updatedInflow = Utils.reformatValue(recipe.value_inflow);
+        }
+        
+        if (recipe.value_emission && recipe.value_emission !== NaN) {
+            recipe.value_emission = Utils.reformatValue(recipe.value_emission);
+        }
+
+        rowMarkup += '<span class="inflow-value">' + (updatedInflow ? updatedInflow : '') + '</span>';
+        rowMarkup += '<span class="inflow-unit">' + (recipe.unit_inflow || '') + '</span>';
+
+        rowMarkup += '</td>';
+        rowMarkup += '<td>' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';
+        rowMarkup += '</tr>';
+
+        if (recipe.flow_input.toLowerCase() === "other" || recipe.flow_input.toLowerCase() === "direct") {
+            otherRowMarkup += rowMarkup; // Store "other" row separately
+        } else {
+            tableMarkup += rowMarkup; // Append all other rows normally
+        }
+        //end Create rows
+    };//end loop on recipeArray
+
+    // Append "other" row at the end if it exists
+    tableMarkup += otherRowMarkup;
+
+    // Display the table
+    let recipeTable = main_component.find('.emissions-table').first();
+    recipeTable.find('tbody').html(tableMarkup);
+
+    // Convert the product code to product name
+    recipeTable.find('tbody tr').each(async function(){
+        let productCode = jQuery(this).find('a').data('code');
+        let productTitle = await API.get_product_name_by_code(productCode);
+        jQuery('td a[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
+    });
+
+    // Remove previous click handlers to avoid stacking events
+    recipeTable.find('thead th').off('click');
+
+    // Add sorting functionality to table headers
+    recipeTable.find('thead th').on('click', function () {
+        const header = jQuery(this);
+        const columnIndex = header.index();
+        const table = header.closest('table');
+        const rows = table.find('tbody tr').toArray();
+
+        const isAscending = header.hasClass('ascending');
+        header.toggleClass('ascending', !isAscending).toggleClass('descending', isAscending);
+        header.siblings().removeClass('ascending descending');
+
+        rows.sort((a, b) => {
+            const cellA = jQuery(a).find('td').eq(columnIndex).text().trim();
+            const cellB = jQuery(b).find('td').eq(columnIndex).text().trim();
+
+            const valueA = parseFloat(cellA.replace(/[^0-9.-]+/g, '')) || 0;
+            const valueB = parseFloat(cellB.replace(/[^0-9.-]+/g, '')) || 0;
+
+            return isAscending ? valueA - valueB : valueB - valueA;
+        });
+
+        table.find('tbody').append($rows);
+    });
+
 }
 
-//TODO to remove
+
+//TODO to remove. kept for the moment because of the uncertainty
 async function adt_update_comparison_info(dataArray = null){
     setTileTitle('#compared-product-analysis-content .col:first-child p.product-title',dataArray);
     jQuery('.search-result .col:first-child p.product-title').each(function () {
@@ -738,8 +787,6 @@ async function adt_update_recipe(dataArray, boxToUpdate)
 
         if (recipe.flow_input === undefined) {
             recipe.flow_input = recipe.product_code;
-            jQuery('.emission-message').text('Where do emissions for 1 tonne of CO2eq come from?');
-            jQuery('.emission-header-unit').text('[Tonnes CO2eq]');
         }
 
         if (recipe.region_inflow === undefined) {
