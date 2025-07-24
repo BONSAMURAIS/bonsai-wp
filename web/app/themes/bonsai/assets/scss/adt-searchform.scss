@@ -159,6 +159,13 @@ div#initial-error-message {
     }
 }
 
+#search-btns > button{
+    padding: 0px 20px;
+    border-radius: 50px;
+    border: 1px solid black;
+    color: black;
+}
+
 .switch-field-container {
     display: flex;
     background-color: $grey;
