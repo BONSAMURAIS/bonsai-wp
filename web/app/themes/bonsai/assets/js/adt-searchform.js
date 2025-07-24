@@ -532,7 +532,7 @@ async function adt_update_original_info(dataArray) {
         let defaultValue = 0;
         
         if (dataArray.all_data) {
-            $element.find('.product-result-unit').text(CONST.UNIT.KGCO2);
+            $element.find('.co2-value-unit').text(CONST.UNIT.KGCO2);
             console.log("dataArray.all_data:",dataArray.all_data);
             jQuery('.emission-message').text('Where do emissions for 1kg of CO2eq come from?');
             jQuery('.emission-header-unit').text('['+CONST.UNIT.KGCO2+']');
@@ -566,15 +566,15 @@ async function adt_update_original_info(dataArray) {
             
             let formatted = Utils.reformatValue(valueForItems);
             
-            $element.find('.product-result').text(formatted);
-            defaultValue = parseFloat($element.find('.product-result').text());
+            $element.find('.co2-value').text(formatted);
+            defaultValue = parseFloat($element.find('.co2-value').text());
             
             on_change_unit($element,".col:first-child",dataArray,valueForItems);
         } else {
             console.log("!dataArray.all_data");
             $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
             
-            $element.find('.product-result-unit').text(dataArray.unit_emission);
+            $element.find('.co2-value-unit').text(dataArray.unit_emission);
             
             // Just let the first item be default instead of null
             let valueForItems = dataArray.value;
@@ -582,7 +582,7 @@ async function adt_update_original_info(dataArray) {
             
             console.log("test defaultValue")
             console.log(valueForItems)
-            $element.find('.product-result').text(formatted);
+            $element.find('.co2-value').text(formatted);
             defaultValue = valueForItems;
         }
         
@@ -688,8 +688,8 @@ async function adt_update_comparison_info(dataArray = null){
             }
             let formatted = Utils.reformatValue(valueForItems);
 
-            $element.find('.product-result').text(formatted);
-            let defaultValue = parseFloat($element.find('.product-result').text());
+            $element.find('.co2-value').text(formatted);
+            let defaultValue = parseFloat($element.find('.co2-value').text());
 
             on_change_unit($element, ".col:first-child", dataArray, valueForItems);
 
@@ -707,13 +707,13 @@ async function adt_update_comparison_info(dataArray = null){
             if (!dataArray.all_data) {
                 $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
                 
-                $element.find('.product-result-unit').text(dataArray.unit_emission);
+                $element.find('.co2-value-unit').text(dataArray.unit_emission);
                 
                 // Just let the first item be default instead of null
                 let valueForItems = dataArray.value;
                 let formatted = Utils.reformatValue(valueForItems);
                 
-                $element.find('.product-result').text(formatted);
+                $element.find('.co2-value').text(formatted);
                 defaultValue = valueForItems;
             }
             
@@ -761,8 +761,8 @@ function on_change_unit(element, childClass, dataArray, valueForItems){
 
             let formatted = Utils.reformatValue(valueForItems);
             
-            jQuery(newElement).find('.product-result').text(formatted);
-            defaultValue = parseFloat(jQuery('.product-result', newElement).text());
+            jQuery(newElement).find('.co2-value').text(formatted);
+            defaultValue = parseFloat(jQuery('.co2-value', newElement).text());
         });
     });
 }
@@ -1290,9 +1290,9 @@ function setMaxValueMessage(element, defaultValue , classElement){
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
 
         jQuery('.search-result '+classElement+' .amount').val(numberInput);
-        jQuery('.search-result '+classElement+' .product-result').text(formattedCalculatedValue);
-        jQuery('.search-result '+classElement+' .product-result').css("width","fit-content");
-        const textList = jQuery('.search-result '+classElement+' .product-result');
+        jQuery('.search-result '+classElement+' .co2-value').text(formattedCalculatedValue);
+        jQuery('.search-result '+classElement+' .co2-value').css("width","fit-content");
+        const textList = jQuery('.search-result '+classElement+' .co2-value');
         textList.each(function(index, text) { 
             Utils.resizeTextToFit(text);
         });

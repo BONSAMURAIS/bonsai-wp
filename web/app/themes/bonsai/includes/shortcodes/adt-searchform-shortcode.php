@@ -230,11 +230,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 </div>
                                 <br/>
                                 <p>produces</p>
-                                <span class="co2-value"></span>
-                            </div>
-                            <div id="comparison-product-result">
-                                <p class="product-result"></p>
-                                <p class="product-result-unit"></p>
+                                <p class="co2-value"></p>
+                                <p class="co2-value-unit"></p>
                             </div>
 
                             <div id="contribution-analysis" style="display: none;">
