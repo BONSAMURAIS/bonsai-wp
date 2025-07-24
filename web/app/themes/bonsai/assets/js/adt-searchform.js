@@ -299,19 +299,9 @@ jQuery(document).ready(function($){
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         console.log("userSelection=", userSelection.to_string())
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
-        //add missing title
-        if(data['flow_code']  !== null & data['title'] == null){
-            let productTitle = await API.get_product_name_by_code(data['flow_code'])
-            data['title'] = Utils.capitalize(productTitle);
-        }
-        data['country'] = userSelection.country;
-        data['footprint-type'] = userSelection.footprint_type;
-        data['year'] = userSelection.year;
-
+        await data_preprocessing(data);
         display_result("#summary-analysis-content",data);
         console.log('END searching');
-        // adt_update_comparison_info(footprintData);
-        
     });
     
     // Search 
@@ -327,22 +317,15 @@ jQuery(document).ready(function($){
         userSelection.get_from_form();
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         console.log("userSelection=", userSelection.to_string())
-
+        
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
-        //add missing title
-        if(data['flow_code']  !== null & data['title'] == null){
-            let productTitle = await API.get_product_name_by_code(data['flow_code'])
-            data['title'] = Utils.capitalize(productTitle);
-        }
-        console.log(data)
-
+        await data_preprocessing(data);
         display_result("#compared-product-analysis-content",data);
+
         $("#add-btn").hide();
         $("#compared-product-analysis-content").show();
         $('#uncertainty-wrapper').slideDown();
         console.log('END searching for comparison');
-        // adt_update_comparison_info(footprintData);
-
     });
 
     // Comparison code
@@ -370,6 +353,18 @@ jQuery(document).ready(function($){
     });
 
 });
+
+async function data_preprocessing(data){
+    //add missing title
+    if(data['flow_code']  !== null & data['title'] == null){
+        let productTitle = await API.get_product_name_by_code(data['flow_code'])
+        data['title'] = Utils.capitalize(productTitle);
+    }
+    data['country'] = userSelection.country;
+    data['footprint-type'] = userSelection.footprint_type;
+    data['year'] = userSelection.year;
+    return;
+}
 
 async function display_result(htmlclass, data){
     console.log(data)
