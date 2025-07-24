@@ -1054,7 +1054,7 @@ async function init_form(){
     let userSelection = new UserSelection;
     userSelection.get_from_url();
 
-    let data = userSelection.footprint_type ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection); //TODO if person or product
+    let data = userSelection.footprint_type ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
     display_result("#summary-analysis-content",data);
     adt_save_local_search_history(userSelection);
 
