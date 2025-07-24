@@ -460,8 +460,8 @@ jQuery(document).ready(function($){
         const htmlclass = jQuery(this).closest("tile-wrapper").attr('id');
         console.log("htmlclass=",htmlclass)
         console.log("userSelection=",userSelection.to_string())
-        display_result(htmlclass,data_product);
-        adt_save_local_search_history(userSelection);
+        // display_result(htmlclass,data_product);
+        // adt_save_local_search_history(userSelection);
         
         // // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
         // const href = jQuery(this).attr('href');
