@@ -85,6 +85,8 @@ jQuery(document).ready(function($){
     });
 
     $('input[name="contri-analysis"]').on('change', function(){
+        console.log("contri-change")
+        console.log("$(this)=",$(this))
         let isChecked = $(this).is(':checked');
 
         if (isChecked) {
