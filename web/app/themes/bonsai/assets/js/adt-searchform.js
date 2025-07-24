@@ -678,11 +678,6 @@ function display_result(htmlclass, data){
 
 //TODO to remove. kept for the moment because of the uncertainty
 async function adt_update_comparison_info(dataArray = null){
-    jQuery('.search-result .col:first-child p.product-title').each(function () {
-        if (jQuery('#autocomplete-input').val()) {
-            jQuery(this).text(Utils.capitalize(jQuery('#autocomplete-input').val()));
-        }
-    });
 
     if (dataArray.all_data) {
         for (const element of jQuery('.search-result .col:first-child')) {
@@ -771,28 +766,7 @@ async function adt_update_comparison_info(dataArray = null){
 
             $element.find('.co2-value').text(formatted);
         }
-    }else{
-        
-        for (const element of jQuery('.search-result .col:first-child')) {
-            let $element = jQuery(element);
-            $element.find('select.unit').empty();
-            let defaultValue = 0;
-            
-            if (!dataArray.all_data) {
-                $element.find('select.unit').append(`<option value="person-year">Person Year</option>`);
-                
-                $element.find('.co2-value-unit').text(dataArray.unit_emission);
-                
-                // Just let the first item be default instead of null
-                let valueForItems = dataArray.value;
-                let formatted = Utils.reformatValue(valueForItems);
-                
-                $element.find('.co2-value').text(formatted);
-                defaultValue = valueForItems;
-            }
-        }
     }
-
 }
 
 // Download CSV
