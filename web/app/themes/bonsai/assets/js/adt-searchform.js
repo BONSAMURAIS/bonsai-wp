@@ -391,6 +391,7 @@ async function display_result(htmlclass, data){
     Utils.show_search_results('#co2-form-result');
 
     let main_component = jQuery(htmlclass);
+    console.log(main_component)
     //set title
     main_component.find('.product-title').first().text(data["title"]);
     //set tags
