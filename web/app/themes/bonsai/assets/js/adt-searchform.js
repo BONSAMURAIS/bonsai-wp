@@ -1059,7 +1059,7 @@ async function init_form(){
         let productTitle = await API.get_product_name_by_code(data['flow_code'])
         data['title'] = Utils.capitalize(productTitle);
     }
-    if(selectedValue === 'person'){
+    if(userSelection.footprint_type === 'person'){
         data['title'] = "Emission per person in " + userSelection.country + " - " + userSelection.year;
     }
     data['country'] = userSelection.country;
