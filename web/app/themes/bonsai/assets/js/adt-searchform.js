@@ -304,7 +304,8 @@ jQuery(document).ready(function($){
         if(data['flow_code']  !== null & data['title'] == null){
             let productTitle = await API.get_product_name_by_code(data['flow_code'])
             data['title'] = Utils.capitalize(productTitle);
-        }else if(selectedValue === 'person'){
+        }
+        if(selectedValue === 'person'){
             console.log("asd")
             data['title'] = "Person in " + userSelection.country + " - " + userSelection.year;
         }
