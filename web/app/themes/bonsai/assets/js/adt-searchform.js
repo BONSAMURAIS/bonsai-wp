@@ -164,50 +164,34 @@ jQuery(document).ready(function($){
 
         adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
-        // return if comparison is active
     });
 
     adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
-    // $('#co2-form-result-header .select-wrapper select').on('change', async function() {
-    //     let selectedValue = $('input[name="footprint_type"]:checked').val();
-        
-    //     if (selectedValue === 'person') {
-    //         getPersonFootprint();
-    //     } else {
-            
-    //         // Get last searched data instead, this does not always contain all data
-    //         let searchHistory = localStorage.getItem("adt_search_history");
-    //         if (searchHistory) {
-    //             searchHistory = JSON.parse(searchHistory);
-    //             if (searchHistory.length > 0) {
-    //                 let firstItem = searchHistory[0];
-    //                 userSelection.set_product(firstItem.productTitle, firstItem.productCode, firstItem.productUuid);
-    //                 userSelection.get_from_form();
-    //                 let data_product = await API.get_product_footprint(userSelection);
-    //                 updateTile(data_product);
-    //                 adt_save_local_search_history(userSelection);
-
-    //                 adt_push_parameter_to_url(userSelection);
-    //             }
-    //         }
-    //     }
-    // })
-
-    $('#most-popular ul li button').on('click', async function() {
+    $('#most-popular ul li button, #search-history-list li').on('click', async function() {
         let productTitle = $(this).text();
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
-        userSelection.set_product(productTitle,productCode,productUuid);
         userSelection.get_from_form();
+        userSelection.set_product(productTitle,productCode,productUuid);
 
         $('#autocomplete-input').val(productTitle);
 
-        console.log("START popular click")
+        console.log("START popular/ history click")
         
         adt_push_parameter_to_url(userSelection);
-        let data_product = await API.get_product_footprint(userSelection);
-        updateTile(data_product);
+        let data = await API.get_product_footprint(userSelection);
+        if(data['flow_code']  !== null & data['title'] == null){
+            const productTitle = await API.get_product_name_by_code(data['flow_code'])
+            data['title'] = Utils.capitalize(productTitle);
+        }
+        if(selectedValue === 'person'){
+            data['title'] = "Emission per person in " + userSelection.country + " - " + userSelection.year;
+        }
+        data['country'] = userSelection.country;
+        data['footprint-type'] = userSelection.footprint_type;
+        data['year'] = userSelection.year;
+        display_result("#summary-analysis-content",data);
         adt_save_local_search_history(userSelection);
         console.log("END popular click")
     });
@@ -976,22 +960,22 @@ function adt_save_local_search_history(userSelection)
         jQuery(this).parent().remove();
     });
 
-    jQuery('#search-history-list li').on('click', async function() {
-        let userSelection = new UserSelection;
-        let productTitle = jQuery(this).text();
-        let productCode = jQuery(this).data('code');
-        let productUuid = jQuery(this).data('uuid');
-        userSelection.set_product(productTitle,productCode,productUuid);
-        userSelection.get_from_form();
+    // jQuery('#search-history-list li').on('click', async function() {
+    //     let userSelection = new UserSelection;
+    //     let productTitle = jQuery(this).text();
+    //     let productCode = jQuery(this).data('code');
+    //     let productUuid = jQuery(this).data('uuid');
+    //     userSelection.set_product(productTitle,productCode,productUuid);
+    //     userSelection.get_from_form();
 
-        jQuery('#autocomplete-input').val(productTitle);
+    //     jQuery('#autocomplete-input').val(productTitle);
 
-        adt_push_parameter_to_url(userSelection);
-        let data_product = await API.get_product_footprint(userSelection);
-        updateTile(data_product);
-        adt_save_local_search_history(userSelection);
+    //     adt_push_parameter_to_url(userSelection);
+    //     let data_product = await API.get_product_footprint(userSelection);
+    //     updateTile(data_product);
+    //     adt_save_local_search_history(userSelection);
 
-    });
+    // });
 }
 
 function adt_initialize_local_search_history()
@@ -1020,18 +1004,18 @@ function adt_initialize_local_search_history()
         jQuery(this).parent().remove();
     });
 
-    jQuery('#search-history-list li').on('click', async function() {
-        let productTitle = jQuery(this).text();
-        let productCode = jQuery(this).data('code');
-        let productUuid = jQuery(this).data('uuid');
-        userSelection.set_product(productTitle,productCode,productUuid);
-        userSelection.get_from_form();
+    // jQuery('#search-history-list li').on('click', async function() {
+    //     let productTitle = jQuery(this).text();
+    //     let productCode = jQuery(this).data('code');
+    //     let productUuid = jQuery(this).data('uuid');
+    //     userSelection.set_product(productTitle,productCode,productUuid);
+    //     userSelection.get_from_form();
 
-        let data_product = await API.get_product_footprint(userSelection);
-        updateTile(data_product);
-        adt_save_local_search_history(userSelection);
+    //     let data_product = await API.get_product_footprint(userSelection);
+    //     updateTile(data_product);
+    //     adt_save_local_search_history(userSelection);
 
-    });
+    // });
 }
 
 //init get the first time the product 
