@@ -198,7 +198,7 @@ add_shortcode( 'adt_searchform', function($atts) {
             </div>
             <div id="summary-analysis" class="search-result">
                 <div id="summary-analysis-content" class="col medium-12 small-12 large-12">
-                    <div class="col-inner">
+                    <div class="tile">
                         <div class="switch-field-wrapper-basic col medium-6 small-12 large-6">
                             <div class="switch-field-container">
                                 <input type="radio" class="basic-choice" name="contri-analysis" value="basic" checked/>

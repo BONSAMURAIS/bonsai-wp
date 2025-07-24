@@ -367,9 +367,9 @@ jQuery(document).ready(function($){
         
         unitSelect.each(async function () {
             jQuery(this).val(unitRatio);
-            let newElement = jQuery(this).closest('.col-inner');
+            let tile = jQuery(this).closest('.tile');
 
-            console.log("newElement=",newElement)
+            console.log("newElement=",tile)
             for (const item of data.all_data) {
                 //issue on code region selected. it is currently random
                 console.log("item=",item)
@@ -387,7 +387,7 @@ jQuery(document).ready(function($){
                 finalAmount = item.value*unitRatio*currentAmount;
             }
 
-            jQuery(newElement).find('.co2-value').first().text(Utils.reformatValue(finalAmount));
+            jQuery(tile).find('.co2-value').first().text(Utils.reformatValue(finalAmount));
         });
     });
  
@@ -483,7 +483,7 @@ async function updateTile(data){
         data['title'] = Utils.capitalize(productTitle);
     }
     
-    let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.col-inner');
+    let compareButtons = jQuery('.search-result .col:nth-child(2)').find('a.tile');
     if (compareButtons.length > 0) {
         adt_update_original_info(data); 
     } else {
@@ -719,7 +719,7 @@ function on_change_unit(element, childClass, dataArray, valueForItems){
         
         jQuery('.search-result '+childClass+' select.unit').each(async function () {
             jQuery(this).val(unitRatio);
-            let newElement = jQuery(this).closest('.col-inner');
+            let newElement = jQuery(this).closest('.tile');
 
             console.log("newElement=",newElement)
             for (const item of dataArray.all_data) {
@@ -907,13 +907,13 @@ function adt_download_recipe_csv()
         jQuery(this).click(function (e) {
             e.preventDefault();
 
-            let productTitle = jQuery(this).closest('.col-inner').find('.product-title').text();
-            let country = jQuery(this).closest('.col-inner').find('.country').text();
-            let version = jQuery(this).closest('.col-inner').find('.version').text();
+            let productTitle = jQuery(this).closest('.tile').find('.product-title').text();
+            let country = jQuery(this).closest('.tile').find('.country').text();
+            let version = jQuery(this).closest('.tile').find('.version').text();
             
             let csvContent = "";
 
-            jQuery(this).closest('.col-inner').find('.emissions-table tr').each(function () {
+            jQuery(this).closest('.tile').find('.emissions-table tr').each(function () {
                 let rowData = [];
                 jQuery(this).find("th, td").each(function () {
                     let cellText = jQuery(this).text();
@@ -1245,7 +1245,7 @@ function setTileTitle(elementClass,dataArray){
 
 function setMaxValueMessage(element, defaultValue , classElement){
     element.find('.amount').each(function () {
-    let inputElement = jQuery(this).closest('.col-inner');
+    let inputElement = jQuery(this).closest('.tile');
 
     jQuery('.amount', inputElement).on('input', function () {
         let numberInput = parseInt(jQuery(this).val());
