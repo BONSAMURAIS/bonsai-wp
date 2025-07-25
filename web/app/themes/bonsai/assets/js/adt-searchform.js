@@ -434,39 +434,39 @@ jQuery(document).ready(function($){
         // });
     });
 
-    // jQuery('input.amount').on('input', function () {
-    //     let amountInput = jQuery(this);
-    //     let numberInput = parseFloat(amountInput.val());
-    //     let maxNumber = parseInt(amountInput.attr('max'));
-    //     let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
-    //                                 .find('p.co2-value');        // look inside for p.co2-value
-    //     const co2_result_value = parseFloat(co2_result.data('normal_value'));
+    jQuery('input.amount').on('input', function () {
+        let amountInput = jQuery(this);
+        let numberInput = parseFloat(amountInput.val());
+        let maxNumber = parseInt(amountInput.attr('max'));
+        let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
+                                    .find('p.co2-value');        // look inside for p.co2-value
+        const co2_result_value = parseFloat(co2_result.data('normal_value'));
         
-    //     if (isNaN(numberInput) || numberInput <= 0) {
-    //         numberInput = 0;
-    //     }
+        if (isNaN(numberInput) || numberInput <= 0) {
+            numberInput = 0;
+        }
         
-    //     if (numberInput > maxNumber) {
-    //         numberInput = maxNumber;
-    //         amountInput.val(numberInput);
-    //         amountInput.closest('.unit-select-wrapper').append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
-    //         setTimeout(() => {
-    //             jQuery('.error-message').fadeOut(CONST.ANIM.DURATION, function() {
-    //                 jQuery(this).remove();
-    //             });
-    //         }, 1000);
-    //     }
-    //     let calculatedValue = co2_result_value * numberInput;
-    //     let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
+        if (numberInput > maxNumber) {
+            numberInput = maxNumber;
+            amountInput.val(numberInput);
+            amountInput.closest('.unit-select-wrapper').append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
+            setTimeout(() => {
+                jQuery('.error-message').fadeOut(CONST.ANIM.DURATION, function() {
+                    jQuery(this).remove();
+                });
+            }, 1000);
+        }
+        let calculatedValue = co2_result_value * numberInput;
+        let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
 
-    //     co2_result.text(formattedCalculatedValue);
-    //     co2_result.css("width","fit-content");
-    //     co2_result.each(function(index, text) { 
-    //         Utils.resizeTextToFit(text);
-    //     });
+        co2_result.text(formattedCalculatedValue);
+        co2_result.css("width","fit-content");
+        co2_result.each(function(index, text) { 
+            Utils.resizeTextToFit(text);
+        });
 
-    //     amountInput.val(numberInput);//keep value in input
-    // });
+        amountInput.val(numberInput);//keep value in input
+    });
 
     //listener on click emissions-table items 
     jQuery(document).on('click','span.link', async function(e) {
