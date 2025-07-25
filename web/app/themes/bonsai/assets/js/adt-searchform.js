@@ -304,8 +304,8 @@ jQuery(document).ready(function($){
             error_msg.append("<p id='error-message-content' class='error-message-content-decorator'> Please search for a product or service </p>");
             error_msg.slideDown('fast');
             setTimeout(function () {
+                error_msg.slideUp('slow');
                 jQuery("#error-message-content").remove();
-                error_msg.slideUp('fast');
             }, CONST.ANIM.DURATION); //remove message after 0.5s
             return
         }
@@ -340,8 +340,8 @@ jQuery(document).ready(function($){
             error_msg.append("<p id='error-message-content' class='error-message-content-decorator'> Please search for a product or service </p>");
             error_msg.slideDown('fast');
             setTimeout(function () {
+                error_msg.slideUp('slow');
                 jQuery("#error-message-content").remove();
-                error_msg.slideUp('fast');
             }, CONST.ANIM.DURATION); //remove message after 0.5s
             return
         }
