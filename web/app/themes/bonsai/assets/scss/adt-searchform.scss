@@ -573,17 +573,7 @@ div.tile {
     p.big-font {
         font-size: 25px;
         color: $secondary;
-        margin-bottom: 30px;
-    }
-
-    a:has(.add) {
-        text-align: center;
-
-        p {
-            font-size: 15px;
-            color: $secondary;
-            opacity: .4;
-        }
+        margin: 30px 0;
     }
 
     .product {
