@@ -352,6 +352,11 @@ input[name="search"] {
     }
 }
 
+.link{
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 #search-history {
     padding: 10px 0;
     margin: 0 30px;
