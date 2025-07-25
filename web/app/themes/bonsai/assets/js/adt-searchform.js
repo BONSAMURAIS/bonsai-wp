@@ -361,40 +361,54 @@ jQuery(document).ready(function($){
         let amountInput = unitSelect.closest('label.select')      // go up to the label wrapping <select>
                                     .prevAll('label.select')      // find previous label(s)
                                     .find('input.amount');        // look inside for input.amount
-        let currentAmount = amountInput.val();
-        let finalAmount = "";
+        let numberInput = amountInput.val();
+        let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
+                                    .find('p.co2-value');        // look inside for p.co2-value
+        const co2_result_value = parseFloat(co2_result.data('normal_value'));
+
+        let calculatedValue = co2_result_value * numberInput * unitRatio;
+        let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
+
+        co2_result.text(formattedCalculatedValue);
+        co2_result.css("width","fit-content");
+        co2_result.each(function(index, text) { 
+            Utils.resizeTextToFit(text);
+        });
+
+        amountInput.val(numberInput);//keep value in input
 
         console.log("unitSelect =",unitSelect)
         console.log("unitRatio_name =",unitRatio_name)
         console.log("unitRatio =",unitRatio)
         console.log("unitSelect.closest('amount')=",unitSelect.closest('.amount'))
-        console.log("amount=",currentAmount)
+        console.log("numberInput=",numberInput)
         
-        unitSelect.each(async function () {
-            jQuery(this).val(unitRatio);
-            let tile = jQuery(this).closest('.tile');
+        //TODO add EUR and DKK values in data-attr
+        // unitSelect.each(async function () { 
+        //     jQuery(this).val(unitRatio);
+        //     let tile = jQuery(this).closest('.tile');
 
-            console.log("newElement=",tile)
-            console.log("unit data=",data)
-            for (const item of data.all_data) {
-                //issue on code region selected. it is currently random
-                console.log("item=",item)
-                console.log("item.value=",item.value)
-                console.log("item.value*ratio=",item.value*unitRatio)
-                if (item.unit_reference == CONST.UNIT.DKK){
-                    if (unitRatio_name.includes(CONST.UNIT.DKK)){ //TODO to rafactor
-                        finalAmount = item.value*unitRatio*currentAmount;
-                        break;
-                    } else if (unitRatio_name.includes(CONST.UNIT.EUR)){
-                        finalAmount = item.value*unitRatio*currentAmount;
-                        break;
-                    }
-                }
-                finalAmount = item.value*unitRatio*currentAmount;
-            }
+        //     console.log("newElement=",tile)
+        //     console.log("unit data=",data)
+        //     for (const item of data.all_data) {
+        //         //issue on code region selected. it is currently random
+        //         console.log("item=",item)
+        //         console.log("item.value=",item.value)
+        //         console.log("item.value*ratio=",item.value*unitRatio)
+        //         if (item.unit_reference == CONST.UNIT.DKK){
+        //             if (unitRatio_name.includes(CONST.UNIT.DKK)){ //TODO to rafactor
+        //                 finalAmount = item.value*unitRatio*currentAmount;
+        //                 break;
+        //             } else if (unitRatio_name.includes(CONST.UNIT.EUR)){
+        //                 finalAmount = item.value*unitRatio*currentAmount;
+        //                 break;
+        //             }
+        //         }
+        //         finalAmount = item.value*unitRatio*currentAmount;
+        //     }
 
-            jQuery(tile).find('.co2-value').first().text(Utils.reformatValue(finalAmount));
-        });
+        //     jQuery(tile).find('.co2-value').first().text(Utils.reformatValue(finalAmount));
+        // });
     });
 
     jQuery('input.amount').on('input', function () {
