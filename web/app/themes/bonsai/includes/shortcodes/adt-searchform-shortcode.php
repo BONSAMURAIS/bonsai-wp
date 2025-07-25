@@ -86,7 +86,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div>
                         <?= do_shortcode('[tooltip id="info-footprint" href="#info-footprint" label="Footprint" block_id="footprint-regular-info-popup"]')?>
                         <div class="switch-field-wrapper">
-                            <div class="switch-field-container">
+                            <div class="switch-field switch-field-container">
                                 <input type="radio" id="radio-product" name="footprint_type" value="product" checked/>
                                 <label for="radio-product">Product</label>
                                 <input type="radio" id="radio-person" name="footprint_type" value="person"/>
@@ -200,7 +200,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <div id="summary-analysis-content" class="tile-wrapper col medium-12 small-12 large-12">
                     <div class="tile">
                         <div class="switch-field-wrapper-basic">
-                            <div class="switch-field-container-contri-analysis">
+                            <div class="switch-field switch-field-container-contri-analysis">
                                 <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
                                 <label for="basic-choice">Basic</label>
                                 <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />

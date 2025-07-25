@@ -143,13 +143,26 @@ div#initial-error-message {
     color: black;
 }
 
+.switch-field{
+    display: flex;
+    background-color: $grey;
+    border-radius: 50px;
+    border: 1px solid $dark-grey;
+}
+
 .switch-field-container-contri-analysis {
-    
     input:checked + label {
         background-color: $secondary;
         color: white;
         box-shadow: none;
         border-radius: 50px;
+    }
+
+    label{
+        font-size: 12px;
+        @media only screen and (max-width: 468px) {
+            font-size: 10px;
+        }
     }
 }
 
@@ -158,14 +171,6 @@ div#initial-error-message {
     background-color: $grey;
     border-radius: 50px;
     border: 1px solid $dark-grey;
-
-    label {
-        font-size: 12px;
-        @media only screen and (max-width: 468px) {
-            font-size: 10px;
-        }
-    }
-
 
     input {
         position: absolute !important;
