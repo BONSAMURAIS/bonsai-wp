@@ -252,14 +252,14 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 </table>
         
                                 <div class="result-buttons">
-                                    <div class="go-back  show-for-small">
+                                    <div class="button go-back show-for-small">
                                         <a href="#" class="primary lowercase" style="border-radius:99px; font-size:10px;">
                                             <i class="icon-angle-left" aria-hidden="true"></i>
                                             <span>Go back</span>
                                         </a>
                                     </div>
                                     <div class="download hide-for-small">
-                                        <a href="#" class="lowercase" style="border-radius:99px;">
+                                        <a href="#" class="button lowercase" style="border-radius:99px;">
                                             <span>Download</span>
                                             <i class="icon-dribbble" aria-hidden="true"></i>
                                         </a>
