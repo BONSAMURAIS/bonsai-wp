@@ -116,7 +116,7 @@ jQuery(document).ready(function($){
     $('input.test').on('input', function() {
         controlInput_value($(this));
         let amountInput = $(this);
-        let co2_result = unitSelect.closest('div.choices')      // go up to the div wrapping 
+        let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
                                 .find('p.co2-value');        // look inside for p.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
         
