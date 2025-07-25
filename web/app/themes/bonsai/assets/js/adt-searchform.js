@@ -350,12 +350,15 @@ jQuery(document).ready(function($){
         data['country'] = userSelection.country;
         data['footprint-type'] = userSelection.footprint_type;
         data['year'] = userSelection.year;
-        display_result("#compared-product-analysis-content",data);
-        adt_push_parameter_to_url(userSelection);
+        let hasResult = display_result("#compared-product-analysis-content",data);
+        
+        if (hasResult){
+            adt_push_parameter_to_url(userSelection);
+            $("#add-btn").hide();
+            $("#compared-product-analysis-content").show();
+            $('#uncertainty-wrapper').slideDown();
+        }
 
-        $("#add-btn").hide();
-        $("#compared-product-analysis-content").show();
-        $('#uncertainty-wrapper').slideDown();
         console.log('END searching for comparison');
     });
 
@@ -485,7 +488,7 @@ function display_result(htmlclass, data){
     if (data && (data.error && data.error.includes("Product not found") || data.title == "")) {
         error_msg.append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
         error_msg.slideDown('fast');
-        return;
+        return false;
     }
 
     //data has been found
@@ -587,7 +590,7 @@ function display_result(htmlclass, data){
             // Wait for the conversion to complete before continuing
             if (!updatedInflow) {
                 console.error('Conversion failed for '+CONST.UNIT.TJ+'to'+ final_unit);
-                return;
+                return false;
             }
         }
 
@@ -676,6 +679,7 @@ function display_result(htmlclass, data){
         table.find('tbody').append(rows);
     });
 
+    return true;
 }
 
 
