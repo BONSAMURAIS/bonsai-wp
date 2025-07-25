@@ -375,11 +375,10 @@ jQuery(document).ready(function($){
         let unitSelect = jQuery(this);
         let unitRatio = unitSelect.val();
         let unitRatio_name = unitSelect.find('option:selected').text();
-        let amountInput = unitSelect.closest('label.select')      // go up to the label wrapping <select>
-                                    .prevAll('label.select')      // find previous label(s)
+        let amountInput = unitSelect.closest('.unit-select-wrapper')      // go up to the label wrapping <select>
                                     .find('input.amount');        // look inside for input.amount
         let numberInput = amountInput.val();
-        let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
+        let co2_result = unitSelect.closest('div.choices')      // go up to the div wrapping 
                                     .find('p.co2-value');        // look inside for p.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
 
