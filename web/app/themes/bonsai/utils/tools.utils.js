@@ -87,6 +87,10 @@ export function getUnitOptions(dataArray, unit_ref){
         unitList = [
             {ratio:1,label:"Person Year"},
         ]
+    } else if (unit_ref == CONST.UNIT.TJ){ //for person footprint-type
+        unitList = [
+            {ratio:1,label:"TJ"},
+        ]
     }
 
     return unitList;
