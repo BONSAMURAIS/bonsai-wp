@@ -17,7 +17,7 @@ function copyTile(){
     let original = jQuery('#summary-analysis');
     let clone = original.children().first().clone();
     
-    clone.find('.switch-field-container').first().children().each(function(){
+    clone.find('.switch-field-container-contri-analysis').first().children().each(function(){
         if (jQuery(this).is('input')) {
             const currentId = jQuery(this).attr('id');
             if (currentId) {

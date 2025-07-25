@@ -92,13 +92,13 @@ div#initial-error-message {
     align-items: center;
     border-radius: 20px;
 
+    &:hover {
+        cursor: pointer;
+    }
+
     label {
         font-weight: 400;
         margin: 0;
-
-        &:hover {
-            cursor: pointer;
-        }
     }
 
     input[type=radio] {
@@ -111,10 +111,6 @@ div#initial-error-message {
         border-radius: 50%;
         background-color: white;
         margin-right: 12px;
-
-        &:hover {
-            cursor: pointer;
-        }
 
         &:before {
             height: 16px;
@@ -137,22 +133,6 @@ div#initial-error-message {
         @media only screen and (max-width: 468px) {
             justify-content: flex-end;
         }
-
-        .switch-field-container {
-            label {
-                font-size: 12px;
-                @media only screen and (max-width: 468px) {
-                    font-size: 10px;
-                }
-            }
-
-            input:checked + label {
-                background-color: $secondary;
-                color: white;
-                box-shadow: none;
-                border-radius: 50px;
-            }
-        }
     }
 }
 
@@ -163,11 +143,29 @@ div#initial-error-message {
     color: black;
 }
 
+.switch-field-container-contri-analysis {
+    
+    input:checked + label {
+        background-color: $secondary;
+        color: white;
+        box-shadow: none;
+        border-radius: 50px;
+    }
+}
+
 .switch-field-container {
     display: flex;
     background-color: $grey;
     border-radius: 50px;
     border: 1px solid $dark-grey;
+
+    label {
+        font-size: 12px;
+        @media only screen and (max-width: 468px) {
+            font-size: 10px;
+        }
+    }
+
 
     input {
         position: absolute !important;
