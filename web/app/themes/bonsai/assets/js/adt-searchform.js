@@ -617,7 +617,7 @@ function display_result(htmlclass, data){
         
         //Create rows
         rowMarkup = '<tr>';
-        rowMarkup += '<td><a href=" ' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + "recipe.flow_input" + '</a></td>';
+        rowMarkup += '<td><a href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + "recipe.flow_input" + '</a></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
