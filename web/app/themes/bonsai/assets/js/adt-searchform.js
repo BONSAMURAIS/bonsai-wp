@@ -77,6 +77,10 @@ jQuery(document).ready(function($){
 
     copyTile();
 
+    $('input.test').on('input', function() {
+        $(this).val() = $(this).val().replace(/[^0-9.]/g, '');
+    });
+
     $('input[name="footprint_type"]').on('change',async function(){
         let isChecked = $(this).is(':checked');
         
