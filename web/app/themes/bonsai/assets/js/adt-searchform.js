@@ -31,6 +31,20 @@ function copyTile(){
         }
     });
 
+    clone.find('.unit-select-wrapper').first().children().each(function(){
+        if (jQuery(this).is('input') || jQuery(this).is('select')) {
+            const currentId = jQuery(this).attr('id');
+            if (currentId) {
+                jQuery(this).attr('id', currentId + '-compared');
+            }
+        } else if (jQuery(this).is('label')) {
+            const currentFor = jQuery(this).attr('for');
+            if (currentFor) {
+                jQuery(this).attr('for', currentFor + '-compared');
+            }
+        }
+    });
+
     clone
         .append('<span id="adt-close"></span>') //add close button
         .hide() //init hide behind add-btn
