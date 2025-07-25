@@ -79,31 +79,8 @@ jQuery(document).ready(function($){
 
     // on_change
     $('input.amount').each(input => {
-        input.addEventListener('input', () => {
-            let value = input.value;
-
-            // Remove all characters except digits and dot
-            value = value.replace(/[^0-9.]/g, '');
-
-            // Allow only one dot
-            const parts = value.split('.');
-            if (parts.length > 2) {
-            value = parts[0] + '.' + parts[1];
-            }
-
-            // Limit to 3 decimal places
-            if (parts.length === 2 && parts[1].length > CONFIG.SIGNIFICANT_NB) {
-            parts[1] = parts[1].slice(0, CONFIG.SIGNIFICANT_NB);
-            value = parts[0] + '.' + parts[1];
-            }
-
-            // Enforce max value
-            const num = parseFloat(value);
-            if (!isNaN(num) && num > 999999) {
-            value = '999999';
-            }
-
-            input.value = value;
+        input.addEventListener('input', (e) => {
+            console.log(e)
         });
     });
 
