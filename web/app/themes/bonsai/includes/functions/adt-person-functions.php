@@ -3,6 +3,8 @@
 defined('ABSPATH') || exit;
 
 $SEPARATOR = "|";
+$CONFIG = json_decode(file_get_contents(__DIR__.'/../../constants/config.json'), true);
+$GLOBALS['APIURL'] = $CONFIG['API_URL'];
 
 function adt_get_person_footprint(){
     // error_log("-- adt_get_person_footprint --");
@@ -24,7 +26,7 @@ function adt_get_person_footprint(){
     }
 
     $fdemand_aux = "F_HOUS";
-    $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$act_code."&metric=".$metric; //TODO change if call with F_HOUS does not exist
+    $url = $GLOBALS['APIURL']."/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$act_code."&metric=".$metric; //TODO change if call with F_HOUS does not exist
     $response = wp_remote_get($url);
 
     
@@ -94,7 +96,7 @@ function get_total_value(array $fdemand_categories, string $country, string $act
     global $SEPARATOR;
     $total = 0;
     foreach ($fdemand_categories as $cat){
-        $url = "https://lca.aau.dk/api/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$cat.$SEPARATOR.$act_code."&metric=".$metric;
+        $url = $GLOBALS['APIURL']."/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$cat.$SEPARATOR.$act_code."&metric=".$metric;
         $response = wp_remote_get($url);
        
         // Check for errors
@@ -167,7 +169,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
     $recipeResult = [];
     
     foreach ($fdemand_categories as $cat){
-        $url = 'https://lca.aau.dk/api/recipes-country/?act_code='.$cat.$SEPARATOR.$act_code.'&region_code='.$country.'&version='.$version.'&metric='.$metric;
+        $url = $GLOBALS['APIURL'].'/recipes-country/?act_code='.$cat.$SEPARATOR.$act_code.'&region_code='.$country.'&version='.$version.'&metric='.$metric;
         
         // error_log("url");
         // error_log($url);
@@ -217,7 +219,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
 
         // TODO: Throttled again for loading through the pages?
         for ($i = 1; $i <= $pages; $i++) {
-            $api_url = "https://lca.aau.dk/api/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version."&metric=".$metric;
+            $api_url = $GLOBALS['APIURL']."/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version."&metric=".$metric;
             $response = wp_remote_get($api_url);
             
             if (is_wp_error($response)) {
