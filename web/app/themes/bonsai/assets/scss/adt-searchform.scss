@@ -462,7 +462,7 @@ input[name="search"] {
     color: #333;
 }
 
-select, input.amount {
+select, input[type=number] {
     -webkit-appearance: none;
     background: white;
     box-shadow: 0 1px 3px -2px #9098A9;
@@ -502,7 +502,7 @@ select{
 select.unit {
     width: 145px;
 }
-input.amount {
+input[type=number] {
     border-color: $dark-grey;
     width:35%;
     /* Remove arrows in Chrome, Safari, Edge, and Opera */
