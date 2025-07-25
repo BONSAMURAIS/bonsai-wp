@@ -477,7 +477,7 @@ jQuery(document).ready(function($){
             data['footprint-type'] = userSelection.footprint_type;
             data['footprint-type-label'] = userSelection.footprint_type_label;
             data['year'] = userSelection.year;
-            const htmlclass = jQuery(this).closest(".tile-wrapper").attr('id');
+            const htmlclass = "#"+jQuery(this).closest(".tile-wrapper").attr('id');
             console.log("htmlclass=",htmlclass)
             console.log("userSelection=",userSelection.to_string())
             display_result(htmlclass,data);
