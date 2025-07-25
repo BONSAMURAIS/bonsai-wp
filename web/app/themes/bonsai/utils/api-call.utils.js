@@ -5,8 +5,6 @@ export async function get_product_footprint(userSelection){
     console.log("userSelect =",userSelection.to_string());
     
     return new Promise((resolve, reject) => { 
-        console.log("userSelect.climate_metric =",userSelection.climate_metric);
-
         jQuery.ajax({
             type: 'POST',
             url: localize._ajax_url,
