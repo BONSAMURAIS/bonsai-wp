@@ -132,18 +132,14 @@ div#initial-error-message {
     &-basic {
         position:absolute;
         right:0;
-        margin-bottom: 20px;
-        align-items: center;
 
         @media only screen and (max-width: 468px) {
             justify-content: flex-end;
         }
 
         .switch-field-container {
-            width: fit-content;
             label {
                 font-size: 12px;
-
                 @media only screen and (max-width: 468px) {
                     font-size: 10px;
                 }
