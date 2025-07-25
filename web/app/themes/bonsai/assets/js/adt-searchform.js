@@ -665,6 +665,7 @@ function display_result(htmlclass, data){
     recipeTable.find('tbody tr').each(async function(){
         let productCode = jQuery(this).find('span').data('code');
         let productTitle = await API.get_product_name_by_code(productCode);
+        console.log("productcode,productTitle=",productCode,productTitle)
         jQuery('td span[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
     });
 
