@@ -403,7 +403,7 @@ jQuery(document).ready(function($){
         let maxNumber = parseInt(amountInput.attr('max'));
         let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
                                     .find('p.co2-value');        // look inside for p.co2-value
-        const co2_result_value = parseFloat(co2_result.text()); //issue: it does not take the nominal value aka when 1kg
+        const co2_result_value = parseFloat(co2_result.data('normal_value')); //issue: it does not take the nominal value aka when 1kg
         
         if (isNaN(numberInput) || numberInput <= 0) {
             numberInput = 0;
@@ -503,6 +503,7 @@ function display_result(htmlclass, data){
     main_component.find('.version').first().text(data["version"]);
     //set value
     main_component.find('.co2-value').first().text(Utils.reformatValue(data["value"]));
+    main_component.find('.co2-value').first().data("normal_value",Utils.reformatValue(data["value"]));
     main_component.find('.co2-value-unit').first().text(CONST.UNIT.KGCO2); //use of dataArray.unit_emission?
     let unit_options = main_component.find('select.unit'); 
     const unit_ref = data.unit_reference;
