@@ -462,7 +462,7 @@ input[name="search"] {
     color: #333;
 }
 
-select, input[type=number] {
+select, input.amount {
     -webkit-appearance: none;
     background: white;
     box-shadow: 0 1px 3px -2px #9098A9;
@@ -502,7 +502,7 @@ select{
 select.unit {
     width: 145px;
 }
-input[type=number] {
+input.amount {
     border-color: $dark-grey;
     width:35%;
     /* Remove arrows in Chrome, Safari, Edge, and Opera */
@@ -762,54 +762,6 @@ p.co2-value-unit {
 p.product-title {
     font-size: 30px;
     color: $secondary;
-}
-
-.single-shared_searches {
-    select, input[type=number] {
-        -webkit-appearance: none;
-        width: 100%;
-        background: white;
-        box-shadow: 0 1px 3px -2px #9098A9;
-        cursor: pointer;
-        font-family: inherit;
-        font-size: 18px;
-        font-weight: 400;
-        transition: all 150ms ease;
-        padding: 0px 20px;
-        border-radius: 50px;
-        border: 1px solid black;
-        color: black;
-        margin: 0 10px 0 0;
-    
-        &:required:invalid {
-            color: #5A667F;
-        }
-        
-        option {
-            color: #223254;
-    
-            &[value=""][disabled] {
-                display: none;
-            }
-        }
-        
-        &:focus {
-            outline: none;
-            box-shadow: none;
-        }
-    }
-    
-    label.select {
-        position: relative;
-        margin-bottom: 0;
-    
-        svg {
-            position: absolute;
-            right: 10px;
-            top: calc(50% - 8px);
-            pointer-events: none;
-        }
-    }
 }
 
 .error-message, .error-message-content-decorator{
