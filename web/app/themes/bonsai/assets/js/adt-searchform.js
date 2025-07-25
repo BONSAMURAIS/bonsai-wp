@@ -452,9 +452,9 @@ jQuery(document).ready(function($){
     });
 
     //listener on click emissions-table items 
-    jQuery('.emissions-table a').on('click', async function(e) {
+    jQuery('span.link').on('click', async function(e) {
         e.preventDefault();
-        
+        console.log("link jQuery(this)=",jQuery(this))
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
@@ -617,7 +617,7 @@ function display_result(htmlclass, data){
         
         //Create rows
         rowMarkup = '<tr>';
-        rowMarkup += '<td><a href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + "recipe.flow_input" + '</a></td>';
+        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + "recipe.flow_input" + '</span></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
