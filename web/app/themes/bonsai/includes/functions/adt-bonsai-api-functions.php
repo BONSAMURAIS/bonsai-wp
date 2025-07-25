@@ -6,7 +6,7 @@ use Roots\WPConfig\Config;
 
 $jsonString = file_get_contents('config.json');
 $CONFIG = json_decode($jsonString, true);
-$APIURL = $CONFIG['API_URL'];
+$GLOBALS['APIURL'] = $CONFIG['API_URL'];
 
 /**
  * Newest API version for the Bonsai API
@@ -19,7 +19,7 @@ function adt_get_bonsai_product_list() {
     // I get 100 products per page
     // get the count of products and divide by 100
     // loop through the pages and get the products
-    $api_url = $APIURL."/products/?page=1";
+    $api_url = $GLOBALS['APIURL']."/products/?page=1";
 
     // Make the request
     $response = wp_remote_get($api_url);
@@ -47,7 +47,7 @@ function adt_get_bonsai_product_list() {
     $pages = ceil($productCount / 100);
 
     for ($i = 2; $i <= $pages; $i++) {
-        $api_url = $APIURL."/products/?page=" . $i;
+        $api_url = $GLOBALS['APIURL']."/products/?page=" . $i;
         $response = wp_remote_get($api_url);
 
         if (is_wp_error($response)) {
@@ -132,7 +132,7 @@ if (isset($_GET['get_future_bonsai_products'])) {
 function adt_get_old_bonsai_product_list() {
     global $wpdb;
 
-    $api_url = $APIURL."/activity-names/";
+    $api_url = $GLOBALS['APIURL']."/activity-names/";
 
     // Make the request
     $response = wp_remote_get($api_url);
@@ -202,7 +202,7 @@ function adt_get_bonsai_footprint_list() {
     // I get 100 footprints per page
     // get the count of footprints and divide by 100
     // loop through the pages and get the footprints
-    $api_url = $APIURL."/footprint/?flow_code=A_Pines";
+    $api_url = $GLOBALS['APIURL']."/footprint/?flow_code=A_Pines";
 
     // Make the request
     $response = wp_remote_get($api_url);
@@ -278,7 +278,7 @@ function adt_get_locations(): array{
     }
 
     // API URL
-    $url = $APIURL."/locations/";
+    $url = $GLOBALS['APIURL']."/locations/";
 
     // Make the API request
     $response = wp_remote_get($url);
@@ -317,7 +317,7 @@ Please try again later, or contact support if the issue persists.'];
 
 function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion,$metric='GWP100'): array{
     // Get the whole recipe list for the product
-    $recipeUrl = $APIURL.'/recipes/?flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion.'&metric='.$metric;
+    $recipeUrl = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion.'&metric='.$metric;
     // error_log("test recipes");
     // error_log("recipeUrl=$recipeUrl");
     
@@ -375,7 +375,7 @@ function adt_get_updated_recipe_info(){
     }
 
     // Need unitInflow
-    $url = $APIURL.'/recipes/?unit_inflow='.$unitInflow.'&flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion."&metric=".$metric;
+    $url = $GLOBALS['APIURL'].'/recipes/?unit_inflow='.$unitInflow.'&flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion."&metric=".$metric;
     // Make the API request
     $response = wp_remote_get($url);
 
@@ -433,7 +433,7 @@ function adt_get_product_footprint(){
         }
         
     // API URL
-    $url = $APIURL."/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry."&version=".$version."&metric=".$metric;
+    $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry."&version=".$version."&metric=".$metric;
     
     // Make the API request
     $response = wp_remote_get($url);
