@@ -24,7 +24,7 @@ class UserSelection{
         this.uuid = json.uuid;
 
         this.countryCode =  json.location;
-        this.country =  json.location;
+        this.country =  json.country;
         this.db_version = json.db_version;
         this.year = json.year;
         this.income_gpe = json.income_gpe;
