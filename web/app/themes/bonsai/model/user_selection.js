@@ -38,13 +38,13 @@ class UserSelection{
         this.title = jQuery('#autocomplete-input').val();
         this.code = jQuery('#autocomplete-input').attr('data-code');
         this.uuid = "uuid";
-        this.countryCode = jQuery('#location').val();
+        this.countryCode = jQuery('#location option:selected').val();
         this.country = jQuery('#location option:selected').text();
         this.db_version = jQuery('#database-version').val();
-        this.year = jQuery('#year').val();
-        this.income_gpe = jQuery('#income-group').val();
-        this.household_compo = jQuery('#household-composition').val();
-        this.climate_metric = jQuery('#climate-metric').val();
+        this.year = jQuery('#year option:selected').val();
+        this.income_gpe = jQuery('#income-group option:selected').val();
+        this.household_compo = jQuery('#household-composition option:selected').val();
+        this.climate_metric = jQuery('#climate-metric option:selected').val();
         const typeValue = jQuery('input[name="footprint_type_extend"]:checked').val();
         this.footprint_type = jQuery('input[name="footprint_type"]:checked').val(); //person or product
         this.footprint_type_label = 'Cradle to gate'; //typeValue= product or default
