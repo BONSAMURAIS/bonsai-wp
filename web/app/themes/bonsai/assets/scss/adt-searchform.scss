@@ -642,11 +642,6 @@ div.tile {
     gap: 10px;
     align-items: center;
     position: relative;
-    
-    > * {
-        flex: 1 1 33%;
-        text-align: left;
-    }
 
     select, input[type=number] {
         border-color: $dark-grey;
