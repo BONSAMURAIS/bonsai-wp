@@ -78,41 +78,20 @@ jQuery(document).ready(function($){
 
     // on_change
     $('input.amount').forEach(input => {
-        let lastValid = '';
-        // Prevent invalid key presses
-        input.addEventListener('keydown', function (e) {
-            const allowedKeys = [
-            'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Home', 'End',
-            '.', // decimal point
-            ];
+        input.addEventListener('input', () => {
+            let value = input.value;
 
-            // Allow Ctrl/Cmd + key combos (copy, paste, etc)
-            if (e.ctrlKey || e.metaKey) return;
-
-            // Allow digits, allowedKeys only
-            if (
-            !allowedKeys.includes(e.key) &&     // not in allowed special keys
-            !e.key.match(/^\d$/)                 // and not a digit 0-9
-            ) {
-            e.preventDefault();
+            // Allow only valid decimal number
+            if (!/^\d*\.?\d*$/.test(value)) {
+            input.value = value.slice(0, -1); // remove last invalid char
+            return;
             }
-        });
-        
-        input.addEventListener('input', function () {
-            const val = this.value.replace(',', '.');
 
-            // Check if valid number format and within limits
-            const isValidFormat = /^\d{0,6}(\.\d{0,3})?$/.test(val);
-            const isValidNumber = !isNaN(parseFloat(val)) && parseFloat(val) <= 999999;
-
-            if (isValidFormat && isValidNumber) {
-                lastValid = this.value;   // update last valid value
-                this.setCustomValidity('');
-            } else {
-                this.value = lastValid;   // revert to last valid value
-                this.setCustomValidity('Invalid input');
+            // Parse number and compare with max
+            const num = parseFloat(value);
+            if (!isNaN(num) && num > 999999) {
+            input.value = '999999';
             }
-            this.reportValidity();
         });
     });
 
