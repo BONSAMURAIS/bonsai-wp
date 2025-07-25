@@ -77,12 +77,6 @@ jQuery(document).ready(function($){
 
     copyTile();
 
-    // on_change
-     $('input.amount').on('input', function() {
-        console.log(`User typed in ${this.id}: ${$(this).val()}`);
-        // Add any other logic you want here
-      });
-
     $('input[name="footprint_type"]').on('change',async function(){
         let isChecked = $(this).is(':checked');
         
