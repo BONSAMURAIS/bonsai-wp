@@ -429,7 +429,7 @@ jQuery(document).ready(function($){
 
     jQuery('input.amount').on('input', function () {
         let amountInput = jQuery(this);
-        let numberInput = parseInt(amountInput.val());
+        let numberInput = parseFloat(amountInput.val());
         let maxNumber = parseInt(amountInput.attr('max'));
         let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
                                     .find('p.co2-value');        // look inside for p.co2-value
