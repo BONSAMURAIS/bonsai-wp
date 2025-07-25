@@ -146,7 +146,6 @@ div#initial-error-message {
 .switch-field{
     display: flex;
     background-color: $grey;
-    border-radius: 50px;
     border: 1px solid $dark-grey;
 
     input {
@@ -184,12 +183,17 @@ div#initial-error-message {
     }
 }
 
+.switch-field-container-contri-analysis, .switch-field-container {
+    input:checked + label {
+        background-color: $primary;
+        box-shadow: none;
+    }  
+}
+
 .switch-field-container-contri-analysis {
     input:checked + label {
         background-color: $secondary;
         color: white;
-        box-shadow: none;
-        border-radius: 50px;
     }
 
     label{
@@ -200,13 +204,6 @@ div#initial-error-message {
     }
 }
 
-.switch-field-container {
-    input:checked + label {
-        background-color: $primary;
-        box-shadow: none;
-        border-radius: 50px;
-    }    
-}
 
 .search-input-wrapper {
     margin: 20px 0;
