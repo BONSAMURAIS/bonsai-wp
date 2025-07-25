@@ -92,6 +92,12 @@ jQuery(document).ready(function($){
         // Limit digits before decimal to 6
         if (parts[0].length > 6) {
             parts[0] = parts[0].substring(0, 6);
+            OBJ.closest('.unit-select-wrapper').append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
+            setTimeout(() => {
+                jQuery('.error-message').fadeOut(CONST.ANIM.DURATION, function() {
+                    jQuery(this).remove();
+                });
+            }, 1000);
         }
 
         // Limit digits after decimal to 3
@@ -109,6 +115,21 @@ jQuery(document).ready(function($){
 
     $('input.test').on('input', function() {
         controlInput_value($(this));
+        let amountInput = $(this);
+        let co2_result = unitSelect.closest('div.choices')      // go up to the div wrapping 
+                                .find('p.co2-value');        // look inside for p.co2-value
+        const co2_result_value = parseFloat(co2_result.data('normal_value'));
+        
+        let calculatedValue = co2_result_value * amountInput.val();
+        let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
+
+        co2_result.text(formattedCalculatedValue);
+        co2_result.css("width","fit-content");
+        co2_result.each(function(index, text) { 
+            Utils.resizeTextToFit(text);
+        });
+
+        amountInput.val(amountInput.val());//keep value in input
     });
 
     $('input[name="footprint_type"]').on('change',async function(){
