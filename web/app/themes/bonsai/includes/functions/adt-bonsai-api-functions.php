@@ -4,8 +4,7 @@ defined('ABSPATH') || exit;
 
 use Roots\WPConfig\Config;
 
-$jsonString = file_get_contents('config.json');
-$CONFIG = json_decode($jsonString, true);
+$CONFIG = json_decode(file_get_contents(get_template_directory().'/config.json'), true);
 $GLOBALS['APIURL'] = $CONFIG['API_URL'];
 
 /**
