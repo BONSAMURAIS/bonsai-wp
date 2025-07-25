@@ -379,7 +379,6 @@ jQuery(document).ready(function($){
         
         //TODO add EUR and DKK values in data-attr
         // unitSelect.each(async function () { 
-        //     console.log("unit data=",data)
         //     for (const item of data.all_data) {
         //         //issue on code region selected. it is currently random
         //         console.log("item=",item)
