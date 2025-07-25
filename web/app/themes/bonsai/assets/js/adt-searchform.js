@@ -78,7 +78,7 @@ jQuery(document).ready(function($){
     copyTile();
 
     // on_change
-    $('input.amount').forEach(input => {
+    $('input.amount').each(input => {
         input.addEventListener('input', () => {
             let value = input.value;
 
