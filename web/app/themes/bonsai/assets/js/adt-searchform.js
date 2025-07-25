@@ -376,19 +376,9 @@ jQuery(document).ready(function($){
         });
 
         amountInput.val(numberInput);//keep value in input
-
-        console.log("unitSelect =",unitSelect)
-        console.log("unitRatio_name =",unitRatio_name)
-        console.log("unitRatio =",unitRatio)
-        console.log("unitSelect.closest('amount')=",unitSelect.closest('.amount'))
-        console.log("numberInput=",numberInput)
         
         //TODO add EUR and DKK values in data-attr
         // unitSelect.each(async function () { 
-        //     jQuery(this).val(unitRatio);
-        //     let tile = jQuery(this).closest('.tile');
-
-        //     console.log("newElement=",tile)
         //     console.log("unit data=",data)
         //     for (const item of data.all_data) {
         //         //issue on code region selected. it is currently random
@@ -406,8 +396,6 @@ jQuery(document).ready(function($){
         //         }
         //         finalAmount = item.value*unitRatio*currentAmount;
         //     }
-
-        //     jQuery(tile).find('.co2-value').first().text(Utils.reformatValue(finalAmount));
         // });
     });
 
