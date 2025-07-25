@@ -15,14 +15,14 @@ export function reformatValue(value){
 }
 
 export function displayLoading() {
-    jQuery('#autocomplete-input').after('<div class="loading"></div>');
-    jQuery('#autocomplete-input').prop('disabled', true);
+    jQuery('#search').after('<div class="loading"></div>');
+    jQuery('#search').prop('disabled', true);
     jQuery( "#error-message-content" ).remove(); //at the init
 }
 
 export function removeLoading() {
     jQuery('.loading').remove();
-    jQuery('#autocomplete-input').prop('disabled', false);
+    jQuery('#search').prop('disabled', false);
 }
 
 // Animations
