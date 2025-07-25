@@ -78,6 +78,26 @@ jQuery(document).ready(function($){
 
     // on_change
     $('input.amount').forEach(input => {
+        let lastValid = '';
+        // Prevent invalid key presses
+        input.addEventListener('keydown', function (e) {
+            const allowedKeys = [
+            'Backspace', 'Tab', 'ArrowLeft', 'ArrowRight', 'Delete', 'Home', 'End',
+            '.', // decimal point
+            ];
+
+            // Allow Ctrl/Cmd + key combos (copy, paste, etc)
+            if (e.ctrlKey || e.metaKey) return;
+
+            // Allow digits, allowedKeys only
+            if (
+            !allowedKeys.includes(e.key) &&     // not in allowed special keys
+            !e.key.match(/^\d$/)                 // and not a digit 0-9
+            ) {
+            e.preventDefault();
+            }
+        });
+        
         input.addEventListener('input', function () {
             const val = this.value.replace(',', '.');
 
