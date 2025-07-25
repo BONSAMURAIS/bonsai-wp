@@ -76,6 +76,26 @@ jQuery(document).ready(function($){
 
     copyTile();
 
+    // on_change
+    $('input.amount').forEach(input => {
+        input.addEventListener('input', function () {
+            const val = this.value.replace(',', '.');
+
+            // Check if valid number format and within limits
+            const isValidFormat = /^\d{0,6}(\.\d{0,3})?$/.test(val);
+            const isValidNumber = !isNaN(parseFloat(val)) && parseFloat(val) <= 999999;
+
+            if (isValidFormat && isValidNumber) {
+                lastValid = this.value;   // update last valid value
+                this.setCustomValidity('');
+            } else {
+                this.value = lastValid;   // revert to last valid value
+                this.setCustomValidity('Invalid input');
+            }
+            this.reportValidity();
+        });
+    });
+
     $('input[name="footprint_type"]').on('change',async function(){
         let isChecked = $(this).is(':checked');
         

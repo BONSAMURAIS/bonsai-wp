@@ -216,7 +216,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     <span class="version"></span>
                                 </div>
                                 <div class="unit-select-wrapper">
-                                    <input type="number" class="amount" id="amount" max="999999" min="1" step="any" inputmode="decimal"/>
+                                    <input type="text" class="amount"  id="amount" placeholder="Enter number with decimals" />
+                                    <!-- <input type="number" class="amount" id="amount" max="999999" min="1" step="any" inputmode="decimal"/> -->
                                     <label class="select" for="amount"></label>
                                     <label class="select" for="unit">
                                         <svg class="unit-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
