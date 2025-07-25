@@ -5,7 +5,7 @@ defined('ABSPATH') || exit;
 use Roots\WPConfig\Config;
 
 $CONFIG = json_decode(file_get_contents(__DIR__ .'/config.json'), true);
-$GLOBALS['APIURL'] = $CONFIG['API_URL'];
+$GLOBALS['APIURL'] = "https://lca.aau.dk/api";
 
 /**
  * Newest API version for the Bonsai API
