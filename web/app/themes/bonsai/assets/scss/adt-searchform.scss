@@ -148,29 +148,6 @@ div#initial-error-message {
     background-color: $grey;
     border-radius: 50px;
     border: 1px solid $dark-grey;
-}
-
-.switch-field-container-contri-analysis {
-    input:checked + label {
-        background-color: $secondary;
-        color: white;
-        box-shadow: none;
-        border-radius: 50px;
-    }
-
-    label{
-        font-size: 12px;
-        @media only screen and (max-width: 468px) {
-            font-size: 10px;
-        }
-    }
-}
-
-.switch-field-container {
-    display: flex;
-    background-color: $grey;
-    border-radius: 50px;
-    border: 1px solid $dark-grey;
 
     input {
         position: absolute !important;
@@ -180,13 +157,6 @@ div#initial-error-message {
         border: 0;
         overflow: hidden;
     }
-
-    input:checked + label {
-        background-color: $primary;
-        box-shadow: none;
-        border-radius: 50px;
-    }
-
     label {
         background-color: $grey;
         color: rgba(0, 0, 0, 0.6);
@@ -212,7 +182,30 @@ div#initial-error-message {
     label:hover {
         cursor: pointer;
     }
-    
+}
+
+.switch-field-container-contri-analysis {
+    input:checked + label {
+        background-color: $secondary;
+        color: white;
+        box-shadow: none;
+        border-radius: 50px;
+    }
+
+    label{
+        font-size: 12px;
+        @media only screen and (max-width: 468px) {
+            font-size: 10px;
+        }
+    }
+}
+
+.switch-field-container {
+    input:checked + label {
+        background-color: $primary;
+        box-shadow: none;
+        border-radius: 50px;
+    }    
 }
 
 .search-input-wrapper {
