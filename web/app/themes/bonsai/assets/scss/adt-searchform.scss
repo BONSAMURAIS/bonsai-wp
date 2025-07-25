@@ -53,7 +53,6 @@ div#initial-error-message {
     background-color: $grey;
     padding: 30px 20px;
     border-radius: 50px;
-    margin-bottom: 20px;
 
     .col {
         padding-bottom: 0;
@@ -277,7 +276,6 @@ input[name="search"] {
 }
 
 #most-popular {
-    margin-left: 20px;
     display: flex;
     align-items: center;
 
@@ -890,29 +888,25 @@ span#adt-close {
     margin-top: 15px;
 }
 
-#uncertainty-wrapper {
-    margin-bottom: 30px;
+#uncertainty-bar {
+    height: 30px;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid $dark-grey;
+    border-radius: 99px;
 
-    #uncertainty-bar {
-        height: 30px;
-        width: 100%;
-        background-color: #ffffff;
-        border: 1px solid $dark-grey;
+    #uncertainty-bar-background {
+        background-color: $primary;
+        width: 0%;
+        height: 100%;
         border-radius: 99px;
+        transition: width 0.3s ease-in-out;
+        position: relative;
 
-        #uncertainty-bar-background {
-            background-color: $primary;
-            width: 0%;
-            height: 100%;
-            border-radius: 99px;
-            transition: width 0.3s ease-in-out;
-            position: relative;
-
-            &:after {
-                content: attr(data-uncertainty, '0%');
-                position: absolute;
-                right: 10px;
-            }
+        &:after {
+            content: attr(data-uncertainty, '0%');
+            position: absolute;
+            right: 10px;
         }
     }
 }
