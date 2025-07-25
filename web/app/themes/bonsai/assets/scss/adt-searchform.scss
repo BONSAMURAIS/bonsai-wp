@@ -496,6 +496,10 @@ select, input[type=number], input[type=text].quantity {
     }
 }
 
+input[type=text].quantity{
+    width: 10em;
+}
+
 select{
     width: 100%;
 }
