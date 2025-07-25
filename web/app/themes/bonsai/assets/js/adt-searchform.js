@@ -454,7 +454,6 @@ jQuery(document).ready(function($){
     //listener on click emissions-table items 
     jQuery(document).on('click','span.link', async function(e) {
         e.preventDefault();
-        console.log("link jQuery(this)=",jQuery(this))
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
@@ -478,8 +477,6 @@ jQuery(document).ready(function($){
             data['footprint-type-label'] = userSelection.footprint_type_label;
             data['year'] = userSelection.year;
             const htmlclass = "#"+jQuery(this).closest(".tile-wrapper").attr('id');
-            console.log("htmlclass=",htmlclass)
-            console.log("userSelection=",userSelection.to_string())
             display_result(htmlclass,data);
             // adt_save_local_search_history(userSelection);
         } catch (err) {

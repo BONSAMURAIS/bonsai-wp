@@ -136,13 +136,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <?= do_shortcode('[block id="nothing-found-error-message"  style="color: blue;"]') ?> 
                     </div>
                     <div id="suggestions-wrapper" style="display: none;">
-                        <div id="search-history">
-                            <!-- Users current search history -->
+                        <!-- <div id="search-history">
                             <p><strong>Search history</strong></p>
                             <ul id="search-history-list">
-                                <!-- Empty before searches have been made -->
                             </ul>
-                        </div>
+                        </div> -->
                         <div id="suggestions">
                         </div>
                     </div>
