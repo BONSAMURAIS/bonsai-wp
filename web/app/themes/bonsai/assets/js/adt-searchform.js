@@ -452,7 +452,7 @@ jQuery(document).ready(function($){
     });
 
     //listener on click emissions-table items 
-    jQuery('span.link').on('click', async function(e) {
+    jQuery(document).on('click','span.link', async function(e) {
         e.preventDefault();
         console.log("link jQuery(this)=",jQuery(this))
         let productTitle = jQuery(this).text();
@@ -617,7 +617,7 @@ function display_result(htmlclass, data){
         
         //Create rows
         rowMarkup = '<tr>';
-        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + "recipe.flow_input" + '</span></td>';
+        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + "WILL_BE_UPDATED" + '</span></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
@@ -653,9 +653,9 @@ function display_result(htmlclass, data){
 
     // Convert the product code to product name
     recipeTable.find('tbody tr').each(async function(){
-        let productCode = jQuery(this).find('a').data('code');
+        let productCode = jQuery(this).find('span').data('code');
         let productTitle = await API.get_product_name_by_code(productCode);
-        jQuery('td a[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
+        jQuery('td span[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
     });
 
     // Remove previous click handlers to avoid stacking events
