@@ -314,7 +314,7 @@ Please try again later, or contact support if the issue persists.'];
     return $locations;
 }
 
-function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion,$metric='GWP100'): array{
+function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion,$metric): array{
     // Get the whole recipe list for the product
     $recipeUrl = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion.'&metric='.$metric;
     // error_log("test recipes");
@@ -363,7 +363,6 @@ function adt_get_updated_recipe_info(){
     $chosenCountry = $_POST['country'];
     $newestVersion = $_POST['version'];
     $metric = $_POST['metric'];
-    $metric = "GWP100";
 
     // Check if the data is already cached
     $cachedRecipe = get_transient('adt_recipe_cache');
@@ -416,7 +415,6 @@ function adt_get_product_footprint(){
     $chosenYear = $_POST['footprint_year'];
     $version = $_POST['database_version'];
     $metric = $_POST['metric'];
-    $metric = 'GWP100';
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
