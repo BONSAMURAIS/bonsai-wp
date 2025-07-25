@@ -77,6 +77,40 @@ jQuery(document).ready(function($){
 
     copyTile();
 
+    function controlInput_value(OBJ){
+        let val = OBJ.val();
+
+        // Remove all characters except digits and dot
+        val = val.replace(/[^0-9.]/g, '');
+
+        // Allow only one dot
+        const parts = val.split('.');
+        if (parts.length > 2) {
+            val = parts[0] + '.' + parts.slice(1).join('');
+        }
+
+        // Limit digits before decimal to 6
+        if (parts[0].length > 6) {
+            parts[0] = parts[0].substring(0, 6);
+        }
+
+        // Limit digits after decimal to 3
+        if (parts[1] && parts[1].length > 3) {
+            parts[1] = parts[1].substring(0, 3);
+        }
+
+        val = parts[1] !== undefined ? parts[0] + '.' + parts[1] : parts[0];
+
+        // Update the input value if changed
+        if (val !== OBJ.val()) {
+            OBJ.val(val);
+        }
+    }
+
+    $('input.test').on('input', function() {
+        controlInput_value($(this));
+    });
+
     $('input[name="footprint_type"]').on('change',async function(){
         let isChecked = $(this).is(':checked');
         
@@ -430,10 +464,8 @@ jQuery(document).ready(function($){
 
     jQuery('input.amount').on('input', function () {
         let amountInput = jQuery(this);
-        controlInput_value(amountInput);
-        
         let numberInput = parseFloat(amountInput.val());
-        let maxNumber = 999999;
+        let maxNumber = parseInt(amountInput.attr('max'));
         let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
                                     .find('p.co2-value');        // look inside for p.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
@@ -503,35 +535,6 @@ jQuery(document).ready(function($){
 
 });
 
-function controlInput_value(OBJ){
-    let val = OBJ.val();
-
-    // Remove all characters except digits and dot
-    val = val.replace(/[^0-9.]/g, '');
-
-    // Allow only one dot
-    const parts = val.split('.');
-    if (parts.length > 2) {
-        val = parts[0] + '.' + parts.slice(1).join('');
-    }
-
-    // Limit digits before decimal to 6
-    if (parts[0].length > 6) {
-        parts[0] = parts[0].substring(0, 6);
-    }
-
-    // Limit digits after decimal to 3
-    if (parts[1] && parts[1].length > 3) {
-        parts[1] = parts[1].substring(0, 3);
-    }
-
-    val = parts[1] !== undefined ? parts[0] + '.' + parts[1] : parts[0];
-
-    // Update the input value if changed
-    if (val !== OBJ.val()) {
-        OBJ.val(val);
-    }
-}
 
 function display_result(htmlclass, data){
     console.log("Start display data")
