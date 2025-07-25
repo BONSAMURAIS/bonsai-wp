@@ -216,7 +216,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     <span class="version"></span>
                                 </div>
                                 <div class="unit-select-wrapper">
-                                    <input type="text" class="test" id="test" />
+                                    <input type="text" class="test" id="test" pattern="\d{0,6}(\.\d{0,3})?"/>
                                     <input type="number" class="amount" id="amount" value="1.0" max="999999" min="1" step="any"/>
                                     <label class="select" for="amount"></label>
                                     <label class="select" for="unit">
