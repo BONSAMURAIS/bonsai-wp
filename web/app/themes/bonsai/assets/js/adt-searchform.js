@@ -524,6 +524,7 @@ function display_result(htmlclass, data){
     main_component.find('.co2-value').first().data("normal_value",Utils.reformatValue(data["value"]));
     main_component.find('.co2-value-unit').first().text(CONST.UNIT.KGCO2); //use of dataArray.unit_emission?
     let unit_options = main_component.find('select.unit'); 
+    unit_options.empty();
     const unit_ref = data.unit_reference;
     //set unitList
     const unitList = Utils.getUnitOptions(data, unit_ref);
