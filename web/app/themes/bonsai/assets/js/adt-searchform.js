@@ -300,7 +300,13 @@ jQuery(document).ready(function($){
         e.preventDefault();
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         if (selectedValue != 'person' && jQuery('#autocomplete-input').val() ==""){
-            console.log("pls prevent from click on any search btn");
+            let error_msg = jQuery('#error-message');
+            error_msg.append("<p id='error-message-content' class='error-message-content-decorator'> Please search for a product or service </p>");
+            error_msg.slideDown('fast');
+            setTimeout(function () {
+                jQuery("#error-message-content").remove();
+                error_msg.slideUp('fast');
+            }, CONST.ANIM.DURATION); //remove message after 0.5s
             return
         }
         
@@ -330,7 +336,13 @@ jQuery(document).ready(function($){
         e.preventDefault();
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         if (jQuery('#autocomplete-input').val() =="" && selectedValue != 'person'){
-            console.log("pls prevent from click on any search btn");
+            let error_msg = jQuery('#error-message');
+            error_msg.append("<p id='error-message-content' class='error-message-content-decorator'> Please search for a product or service </p>");
+            error_msg.slideDown('fast');
+            setTimeout(function () {
+                jQuery("#error-message-content").remove();
+                error_msg.slideUp('fast');
+            }, CONST.ANIM.DURATION); //remove message after 0.5s
             return
         }
         
