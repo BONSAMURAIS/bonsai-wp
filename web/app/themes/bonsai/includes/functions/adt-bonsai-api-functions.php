@@ -411,10 +411,9 @@ function adt_get_product_footprint(){
     $productUuid = $_POST['uuid'];
     $chosenCountry = $_POST['footprint_location'];
     $chosenType = $_POST['footprint_type'];
-    // Everything if from year 2016, but this might get updated.
     $chosenYear = $_POST['footprint_year'];
     $version = $_POST['database_version'];
-    $metric = $_POST['metric'];
+    $metric = $_POST['metric'];//TODO sth odd with metric
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');

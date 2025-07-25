@@ -3,8 +3,10 @@ import * as Utils from './tools.utils.js';
 export async function get_product_footprint(userSelection){
     console.log("START get_product_footprint");
     console.log("userSelect =",userSelection.to_string());
-
+    
     return new Promise((resolve, reject) => { 
+        console.log("userSelect.climate_metric =",userSelection.climate_metric);
+
         jQuery.ajax({
             type: 'POST',
             url: localize._ajax_url,
