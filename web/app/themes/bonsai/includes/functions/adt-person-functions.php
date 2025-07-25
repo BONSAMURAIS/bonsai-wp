@@ -92,7 +92,7 @@ function adt_get_person_footprint(){
     wp_send_json_success($data);
 }
 
-function get_total_value(array $fdemand_categories, string $country, string $act_code, int|string $version, string $metric : float {
+function get_total_value(array $fdemand_categories, string $country, string $act_code, int|string $version, string $metric) : float {
     global $SEPARATOR;
     $total = 0;
     foreach ($fdemand_categories as $cat){
