@@ -15,14 +15,14 @@ export function reformatValue(value){
 }
 
 export function displayLoading() {
-    jQuery('#search').after('<div class="loading"></div>');
-    jQuery('#search').prop('disabled', true);
+    jQuery('#co2-form-result-header').after('<div class="loading"></div>');
+    jQuery('#co2-form-result-header').prop('disabled', true);
     jQuery( "#error-message-content" ).remove(); //at the init
 }
 
 export function removeLoading() {
     jQuery('.loading').remove();
-    jQuery('#search').prop('disabled', false);
+    jQuery('#co2-form-result-header').prop('disabled', false);
 }
 
 // Animations
