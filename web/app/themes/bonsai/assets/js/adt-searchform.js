@@ -77,61 +77,6 @@ jQuery(document).ready(function($){
 
     copyTile();
 
-    function controlInput_value(OBJ){
-        let val = OBJ.val();
-
-        // Remove all characters except digits and dot
-        val = val.replace(/[^0-9.]/g, '');
-
-        // Allow only one dot
-        const parts = val.split('.');
-        if (parts.length > 2) {
-            val = parts[0] + '.' + parts.slice(1).join('');
-        }
-
-        // Limit digits before decimal to 6
-        if (parts[0].length > 6) {
-            parts[0] = parts[0].substring(0, 6);
-            OBJ.closest('.unit-select-wrapper').append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
-            setTimeout(() => {
-                jQuery('.error-message').fadeOut(CONST.ANIM.DURATION, function() {
-                    jQuery(this).remove();
-                });
-            }, 1000);
-        }
-
-        // Limit digits after decimal to 3
-        if (parts[1] && parts[1].length > 3) {
-            parts[1] = parts[1].substring(0, 3);
-        }
-
-        val = parts[1] !== undefined ? parts[0] + '.' + parts[1] : parts[0];
-
-        // Update the input value if changed
-        if (val !== OBJ.val()) {
-            OBJ.val(val);
-        }
-    }
-
-    $('input.test').on('input', function() {
-        controlInput_value($(this));
-        let amountInput = $(this);
-        let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
-                                .find('p.co2-value');        // look inside for p.co2-value
-        const co2_result_value = parseFloat(co2_result.data('normal_value'));
-        
-        let calculatedValue = co2_result_value * amountInput.val();
-        let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
-
-        co2_result.text(formattedCalculatedValue);
-        co2_result.css("width","fit-content");
-        co2_result.each(function(index, text) { 
-            Utils.resizeTextToFit(text);
-        });
-
-        amountInput.val(amountInput.val());//keep value in input
-    });
-
     $('input[name="footprint_type"]').on('change',async function(){
         let isChecked = $(this).is(':checked');
         
@@ -445,7 +390,7 @@ jQuery(document).ready(function($){
         let unitRatio = unitSelect.val();
         let unitRatio_name = unitSelect.find('option:selected').text();
         let amountInput = unitSelect.closest('.unit-select-wrapper')      // go up to the label wrapping <select>
-                                    .find('input.amount');        // look inside for input.amount
+                                    .find('input.quantity');        // look inside for input.amount
         let numberInput = amountInput.val();
         let co2_result = unitSelect.closest('div.choices')      // go up to the div wrapping 
                                     .find('p.co2-value');        // look inside for p.co2-value
@@ -481,6 +426,62 @@ jQuery(document).ready(function($){
         //         finalAmount = item.value*unitRatio*currentAmount;
         //     }
         // });
+    });
+
+    
+    function controlInput_value(OBJ){
+        let val = OBJ.val();
+
+        // Remove all characters except digits and dot
+        val = val.replace(/[^0-9.]/g, '');
+
+        // Allow only one dot
+        const parts = val.split('.');
+        if (parts.length > 2) {
+            val = parts[0] + '.' + parts.slice(1).join('');
+        }
+
+        // Limit digits before decimal to 6
+        if (parts[0].length > 6) {
+            parts[0] = parts[0].substring(0, 6);
+            OBJ.closest('.unit-select-wrapper').append('<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>');
+            setTimeout(() => {
+                jQuery('.error-message').fadeOut(CONST.ANIM.DURATION, function() {
+                    jQuery(this).remove();
+                });
+            }, 1000);
+        }
+
+        // Limit digits after decimal to 3
+        if (parts[1] && parts[1].length > 3) {
+            parts[1] = parts[1].substring(0, 3);
+        }
+
+        val = parts[1] !== undefined ? parts[0] + '.' + parts[1] : parts[0];
+
+        // Update the input value if changed
+        if (val !== OBJ.val()) {
+            OBJ.val(val);
+        }
+    }
+
+    $('input.quantity').on('input', function() {
+        controlInput_value($(this));
+        let amountInput = $(this);
+        let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
+                                .find('p.co2-value');        // look inside for p.co2-value
+        const co2_result_value = parseFloat(co2_result.data('normal_value'));
+        
+        let calculatedValue = co2_result_value * amountInput.val();
+        let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
+
+        co2_result.text(formattedCalculatedValue);
+        co2_result.css("width","fit-content");
+        co2_result.each(function(index, text) { 
+            Utils.resizeTextToFit(text);
+        });
+
+        amountInput.val(amountInput.val());//keep value in input
     });
 
     jQuery('input.amount').on('input', function () {
