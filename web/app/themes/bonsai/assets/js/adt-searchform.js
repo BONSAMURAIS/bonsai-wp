@@ -375,6 +375,7 @@ jQuery(document).ready(function($){
             let tile = jQuery(this).closest('.tile');
 
             console.log("newElement=",tile)
+            console.log("unit data=",data)
             for (const item of data.all_data) {
                 //issue on code region selected. it is currently random
                 console.log("item=",item)
@@ -396,14 +397,13 @@ jQuery(document).ready(function($){
         });
     });
 
-    //input TODO: keep in memory nominal value
     jQuery('input.amount').on('input', function () {
         let amountInput = jQuery(this);
         let numberInput = parseInt(amountInput.val());
         let maxNumber = parseInt(amountInput.attr('max'));
         let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
                                     .find('p.co2-value');        // look inside for p.co2-value
-        const co2_result_value = parseFloat(co2_result.data('normal_value')); //issue: it does not take the nominal value aka when 1kg
+        const co2_result_value = parseFloat(co2_result.data('normal_value'));
         
         if (isNaN(numberInput) || numberInput <= 0) {
             numberInput = 0;
