@@ -205,7 +205,6 @@ div#initial-error-message {
     }
 }
 
-
 .search-input-wrapper {
     margin: 20px 0;
     position: relative;
@@ -259,14 +258,14 @@ input[name="search"] {
     align-items: center;
 }
 
-.button.grey {
-    background-color: $dark-grey;
-    color: $text-color;
-    border: none;
-}
 
-.download.text-right {
+.download {
     margin: 0 0 0 auto;
+    & > a{
+        background-color: $dark-grey;
+        color: $text-color;
+        border: none;
+    }
 }
 
 .icon-dribbble:before {
