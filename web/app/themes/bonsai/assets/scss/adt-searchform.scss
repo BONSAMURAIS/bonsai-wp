@@ -618,28 +618,27 @@ div.tile {
     }
 }
 
+input[type=number] {
+    border-color: $dark-grey;
+    width:35%;
+    /* Remove arrows in Chrome, Safari, Edge, and Opera */
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    
+    /* Remove arrows in Firefox */
+    & {
+        -moz-appearance: textfield;
+    }
+}
 
 .unit-select-wrapper {
     display: flex;
     gap: 10px;
     align-items: center;
     position: relative;
-
-    select, input[type=number] {
-        border-color: $dark-grey;
-    }
-
-    /* Remove arrows in Chrome, Safari, Edge, and Opera */
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-
-    /* Remove arrows in Firefox */
-    input[type="number"] {
-        -moz-appearance: textfield;
-    }
 }
 
 select.unit {
