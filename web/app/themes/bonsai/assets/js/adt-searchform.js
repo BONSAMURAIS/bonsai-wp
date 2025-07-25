@@ -1,6 +1,7 @@
 import UserSelection from '../../model/user_selection.js'; 
 import * as CONST from '../../constants/constants.js'; 
-import * as Utils from '../../utils/tools.utils.js'; 
+import * as Utils from '../../utils/tools.utils.js';
+import * as CONFIG from '../../constants/config.js'; 
 import * as API from '../../utils/api-call.utils.js'; 
 
 // Makes sure to run the function when users go back and forth in browser
@@ -81,17 +82,28 @@ jQuery(document).ready(function($){
         input.addEventListener('input', () => {
             let value = input.value;
 
-            // Allow only valid decimal number
-            if (!/^\d*\.?\d*$/.test(value)) {
-            input.value = value.slice(0, -1); // remove last invalid char
-            return;
+            // Remove all characters except digits and dot
+            value = value.replace(/[^0-9.]/g, '');
+
+            // Allow only one dot
+            const parts = value.split('.');
+            if (parts.length > 2) {
+            value = parts[0] + '.' + parts[1];
             }
 
-            // Parse number and compare with max
+            // Limit to 3 decimal places
+            if (parts.length === 2 && parts[1].length > CONFIG.SIGNIFICANT_NB) {
+            parts[1] = parts[1].slice(0, CONFIG.SIGNIFICANT_NB);
+            value = parts[0] + '.' + parts[1];
+            }
+
+            // Enforce max value
             const num = parseFloat(value);
             if (!isNaN(num) && num > 999999) {
-            input.value = '999999';
+            value = '999999';
             }
+
+            input.value = value;
         });
     });
 
