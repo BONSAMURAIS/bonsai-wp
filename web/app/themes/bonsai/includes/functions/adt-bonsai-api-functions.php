@@ -5,7 +5,6 @@ defined('ABSPATH') || exit;
 use Roots\WPConfig\Config;
 
 $CONFIG = json_decode(file_get_contents(__DIR__.'/../../constants/config.json'), true);
-// $GLOBALS['APIURL'] = "https://lca.aau.dk/api";
 $GLOBALS['APIURL'] = $CONFIG['API_URL'];
 
 /**
