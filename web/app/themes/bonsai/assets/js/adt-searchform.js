@@ -205,6 +205,7 @@ jQuery(document).ready(function($){
         }
         data['country'] = userSelection.country;
         data['footprint-type'] = userSelection.footprint_type;
+        data['footprint-type-label'] = userSelection.footprint_type_label;
         data['year'] = userSelection.year;
         display_result("#summary-analysis-content",data);
         adt_save_local_search_history(userSelection);
@@ -319,6 +320,7 @@ jQuery(document).ready(function($){
         }
         data['country'] = userSelection.country;
         data['footprint-type'] = userSelection.footprint_type;
+        data['footprint-type-label'] = userSelection.footprint_type_label;
         data['year'] = userSelection.year;
         adt_push_parameter_to_url(userSelection);
         display_result("#summary-analysis-content",data);
@@ -349,6 +351,7 @@ jQuery(document).ready(function($){
         }
         data['country'] = userSelection.country;
         data['footprint-type'] = userSelection.footprint_type;
+        data['footprint-type-label'] = userSelection.footprint_type_label;
         data['year'] = userSelection.year;
         let hasResult = display_result("#compared-product-analysis-content",data);
         
@@ -506,13 +509,16 @@ function display_result(htmlclass, data){
     if (dataCode){
         if (dataCode.includes("M_")) {
             data['footprint-type'] = 'Cradle to consumer';
+            data['footprint-type-label'] ='Cradle to consumer';
         } else if (dataCode.includes('C_') || dataCode.includes('EF_') || dataCode.includes('A_')) {
             data['footprint-type'] = 'Cradle to gate';
+            data['footprint-type-label'] = 'Cradle to gate';
         } else if (dataCode.includes("F_")) {
             data['footprint-type'] = 'Cradle to grave';
+            data['footprint-type-label'] = 'Cradle to grave';
         }
     }
-    main_component.find('.footprint-type').first().text(data['footprint-type']);
+    main_component.find('.footprint-type').first().text(data['footprint-type-label']);
     //endTODO hardcode replacement
     main_component.find('.climate-metric').first().text(data.metric);
     main_component.find('.year').first().text(data["year"]);
@@ -1055,6 +1061,7 @@ async function init_form(){
     }
     data['country'] = userSelection.country;
     data['footprint-type'] = userSelection.footprint_type;
+    data['footprint-type-label'] = userSelection.footprint_type_label;
     data['year'] = userSelection.year;
     display_result("#summary-analysis-content",data);
     adt_save_local_search_history(userSelection);
