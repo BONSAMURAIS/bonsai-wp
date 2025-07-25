@@ -9,7 +9,7 @@ export function capitalize(str) {
 
 export function reformatValue(value){
     return new Intl.NumberFormat(CONFIG.NUMBERFORMAT, {
-        minimumFractionDigits: CONFIG.SIGNIFICANT_NB,
+        minimumFractionDigits: 0,
         maximumFractionDigits: CONFIG.SIGNIFICANT_NB
     }).format(value);
 }
