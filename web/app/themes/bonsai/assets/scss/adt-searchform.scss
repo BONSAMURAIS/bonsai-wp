@@ -159,10 +159,6 @@ div#initial-error-message {
     }
 }
 
-.co2-value-wrapper{
-    display: flex;
-}
-
 #search-btns > button{
     padding: 0px 20px;
     border-radius: 50px;
@@ -797,6 +793,13 @@ label.select {
     }
 }
 
+div.co2-value-wrapper{
+    display: flex;
+    gap: 1em;
+    & > *{
+        margin-bottom:unset;
+    }
+}
 
 p.co2-value {
     width: fit-content;
@@ -804,11 +807,10 @@ p.co2-value {
     line-height: 70px;
     color: $secondary;
     font-weight: 600;
-    margin-top: 15px;
-    margin-bottom:unset;
 }
 p.co2-value-unit {
     font-size: 20px;
+    align-self: end;
 }
 
 p.product-title {
