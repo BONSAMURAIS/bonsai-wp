@@ -458,12 +458,25 @@ jQuery(document).ready(function($){
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
+        let countryCode = jQuery(this).data('country');
+        let year = jQuery(this).data('year');
+        let metric = jQuery(this).data('metric');
 
         let userSelection = new UserSelection;
-        userSelection.get_from_form();
         userSelection.set_product(productTitle,productCode,productUuid);
+        userSelection.climate_metric = metric;
+        userSelection.year = year;
+        userSelection.countryCode = countryCode;
         try {
-            let data = await API.get_product_footprint(userSelection);
+            let data = await API.get_product_footprint(userSelection); //can only be footprint
+            if(data['flow_code']  !== null & data['title'] == null){
+                let productTitle = await API.get_product_name_by_code(data['flow_code'])
+                data['title'] = Utils.capitalize(productTitle);
+            }
+            data['country'] = userSelection.country;
+            data['footprint-type'] = userSelection.footprint_type;
+            data['footprint-type-label'] = userSelection.footprint_type_label;
+            data['year'] = userSelection.year;
             const htmlclass = jQuery(this).closest("tile-wrapper").attr('id');
             console.log("htmlclass=",htmlclass)
             console.log("userSelection=",userSelection.to_string())
@@ -616,8 +629,8 @@ function display_result(htmlclass, data){
         //end preprocessing
         
         //Create rows
-        rowMarkup = '<tr>';
-        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'">' + "WILL_BE_UPDATED" + '</span></td>';
+        rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
+        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + "WILL_BE_UPDATED" + '</span></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
