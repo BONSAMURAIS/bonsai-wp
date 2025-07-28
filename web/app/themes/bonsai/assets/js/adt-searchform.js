@@ -678,7 +678,6 @@ function display_result(htmlclass, data){
 
         // If unit_inflow "item" per tonnes just convert tonnes to kg
         if (recipe.unit_inflow === 'item') {
-            recipe.unit_inflow = 'item';
             recipe.value_emission = recipe.value_emission * 1000;
         }
 
@@ -768,34 +767,8 @@ function display_result(htmlclass, data){
 
 //TODO to remove. kept for the moment because of the uncertainty
 async function adt_update_comparison_info(dataArray = null){
-
     if (dataArray.all_data) {
         for (const element of jQuery('.search-result .col:first-child')) {
-            let $element = jQuery(element);
-            $element.find('select.unit').empty();
-
-            const unit_ref = dataArray.all_data[0].unit_reference;
-            const unitList = Utils.getUnitOptions(dataArray, unit_ref);
-                        
-            for (const unit of unitList){
-                $element.attr('data-set-' + 0, dataArray.all_data[0].id);
-                $element.find('select.unit').append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
-            }
-
-            //todo hide for person
-            if (unitList.length>1 & $element.find('.unit-arrow').length >0){
-                jQuery('.unit-arrow').each(function(index, arrow) {
-                    arrow.style.display = 'block';
-                })
-            }
-                    
-            let defaultUnit = $element.find('select.unit').val();
-            console.log("comparison : defaultUnit=",defaultUnit);
-            // Just let the first item be default instead of null
-            console.log(dataArray.all_data[0].value);
-            let valueForItems = dataArray.all_data[0].value;
-            let convertedValueForItems = null;
-
             for (const item of dataArray.all_data) {
                 if (item.unit_reference === defaultUnit) {
                     valueForItems = item.value;
@@ -848,13 +821,6 @@ async function adt_update_comparison_info(dataArray = null){
                     break;
                 }
             }
-
-            if (convertedValueForItems) {
-                valueForItems = convertedValueForItems;
-            }
-            let formatted = Utils.reformatValue(valueForItems);
-
-            $element.find('.co2-value').text(formatted);
         }
     }
 }
@@ -1107,19 +1073,6 @@ function adt_initialize_local_search_history()
         localStorage.setItem("adt_search_history", JSON.stringify(searchHistory));
         jQuery(this).parent().remove();
     });
-
-    // jQuery('#search-history-list li').on('click', async function() {
-    //     let productTitle = jQuery(this).text();
-    //     let productCode = jQuery(this).data('code');
-    //     let productUuid = jQuery(this).data('uuid');
-    //     userSelection.set_product(productTitle,productCode,productUuid);
-    //     userSelection.get_from_form();
-
-    //     let data_product = await API.get_product_footprint(userSelection);
-    //     updateTile(data_product);
-    //     adt_save_local_search_history(userSelection);
-
-    // });
 }
 
 //init get the first time the product 
