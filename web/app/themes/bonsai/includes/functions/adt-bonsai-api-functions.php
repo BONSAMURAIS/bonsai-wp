@@ -286,8 +286,8 @@ function adt_get_updated_recipe_info(){
     
     $unitInflow = $_POST['unitInflow'];
     $productCode = $_POST['productCode'];
-    $chosenCountry = $_POST['country'];
-    $newestVersion = $_POST['version'];
+    $countryCode = $_POST['country'];
+    $version = $_POST['version'];
     $metric = $_POST['metric'];
 
     // Check if the data is already cached
@@ -299,7 +299,7 @@ function adt_get_updated_recipe_info(){
     }
 
     // Need unitInflow
-    $url = $GLOBALS['APIURL'].'/recipes/?unit_inflow='.$unitInflow.'&flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion."&metric=".$metric;
+    $url = $GLOBALS['APIURL'].'/recipes/?unit_inflow='.$unitInflow.'&flow_reference='.$productCode.'&region_reference='.$countryCode.'&version='.$version."&metric=".$metric;
     // Make the API request
     $response = wp_remote_get($url);
 
@@ -335,9 +335,9 @@ add_action('wp_ajax_nopriv_adt_get_updated_recipe_info', 'adt_get_updated_recipe
 function adt_get_product_footprint(){
     $productCode = $_POST['code'];
     $productUuid = $_POST['uuid'];
-    $chosenCountry = $_POST['footprint_location'];
-    $chosenType = $_POST['footprint_type'];
-    $chosenYear = $_POST['footprint_year'];
+    $countryCode = $_POST['footprint_location'];
+    $type = $_POST['footprint_type'];
+    $year = $_POST['footprint_year'];
     $version = $_POST['database_version'];
     $metric = $_POST['metric'];//TODO sth odd with metric
 
@@ -347,7 +347,7 @@ function adt_get_product_footprint(){
     // If cache exists, return the cached data
     if ($cachedFootprints !== false) {
         if (array_key_exists($productCode, $cachedFootprints) 
-            && $cachedFootprints[$productCode]['chosen_country'] === $chosenCountry
+            && $cachedFootprints[$productCode]['chosen_country'] === $countryCode
             && $cachedFootprints[$productCode]['version'] === $version) {
                 wp_send_json_success($cachedFootprints[$productCode]);
                 die();
@@ -355,7 +355,7 @@ function adt_get_product_footprint(){
         }
         
     // API URL
-    $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$chosenCountry."&version=".$version."&metric=".$metric;
+    $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
     
     // Make the API request
     $response = wp_remote_get($url);
@@ -492,12 +492,12 @@ function adt_get_product_footprint(){
         }
     }
 
-    $recipeData = adt_get_product_recipe($productCode, $chosenCountry, $newestVersion, $metric);
+    $recipeData = adt_get_product_recipe($productCode, $countryCode, $newestVersion, $metric);
     
     $data = [
         'title' => $footprintTitle,
         'flow_code' => $productCode,
-        'chosen_country' => $chosenCountry,
+        'chosen_country' => $countryCode,
         "unit_reference" => $unit_reference,
         "unit_emission" => $unit_emission,
         'uuid' => $productUuid,
