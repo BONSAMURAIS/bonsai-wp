@@ -4,7 +4,7 @@ defined('ABSPATH') || exit;
 
 $SEPARATOR = "|";
 $CONFIG = json_decode(file_get_contents(__DIR__.'/../../constants/config.json'), true);
-$GLOBALS['APIURL'] = $CONFIG['API_URL'];
+$GLOBALS['APIURL'] = $CONFIG['APIURL'];
 
 function adt_get_person_footprint(){
     global $SEPARATOR;
