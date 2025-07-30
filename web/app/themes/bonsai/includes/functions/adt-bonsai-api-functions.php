@@ -229,7 +229,7 @@ Please try again later, or contact support if the issue persists.'];
 }
 
 function adt_get_product_recipe($productCode, $country, $version,$metric): array{
-    $url = 'https://lca.aau.dk/api'.'/recipes/?flow_reference='.$productCode.'&region_reference='.$country.'&version='.$version.'&metric='.$metric;
+    $url = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$country.'&version='.strtolower($version).'&metric='.$metric;
     $recipeResponse = wp_remote_get($recipeUrl); // Get the whole recipe list for the product
     
     // Check for errors
