@@ -282,6 +282,7 @@ function adt_get_updated_recipe_info(){
 
     // Need unitInflow
     $url = $GLOBALS['APIURL'].'/recipes/?unit_inflow='.$unitInflow.'&flow_reference='.$productCode.'&region_reference='.$countryCode.'&version='.$version."&metric=".$metric;
+    error_log($url);
     $response = wp_remote_get($url);
 
     // Check for errors
