@@ -266,7 +266,7 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
  */
 function adt_get_updated_recipe_info(){
     
-    $unitInflow = $_POST['unitInflow'];
+    // $unitInflow = $_POST['unitInflow'];
     $productCode = $_POST['productCode'];
     $countryCode = $_POST['country'];
     $version = $_POST['version'];
@@ -280,8 +280,8 @@ function adt_get_updated_recipe_info(){
         return $cachedRecipe;
     }
 
-    // Need unitInflow
-    $url = $GLOBALS['APIURL'].'/recipes/?unit_inflow='.$unitInflow.'&flow_reference='.$productCode.'&region_reference='.$countryCode.'&version='.$version."&metric=".$metric;
+    // // Need unitInflow
+    $url = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$countryCode.'&version='.$version."&metric=".$metric;
     error_log($url);
     $response = wp_remote_get($url);
 
