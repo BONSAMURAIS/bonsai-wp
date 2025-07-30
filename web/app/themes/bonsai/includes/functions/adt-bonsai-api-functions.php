@@ -5,7 +5,7 @@ defined('ABSPATH') || exit;
 use Roots\WPConfig\Config;
 
 $CONFIG = json_decode(file_get_contents(__DIR__.'/../../constants/config.json'), true);
-$GLOBALS['APIURL'] = $CONFIG['API_URL'];
+$GLOBALS['APIURL'] = $CONFIG['APIURL'];
 
 /**
  * Newest API version for the Bonsai API
@@ -195,78 +195,6 @@ if (isset($_GET['get_old_bonsai_products'])) {
     add_action('template_redirect', 'adt_get_old_bonsai_product_list');
 }
 
-function adt_get_bonsai_footprint_list() {
-    global $wpdb;
-
-    // I get 100 footprints per page
-    // get the count of footprints and divide by 100
-    // loop through the pages and get the footprints
-    $api_url = $GLOBALS['APIURL']."/footprint/?flow_code=A_Pines";
-
-    // Make the request
-    $response = wp_remote_get($api_url);
-
-    // Check for errors
-    if (is_wp_error($response)) {
-        return 'Error: ' . $response->get_error_message();
-    }
-
-    // Get the response body
-    $body = wp_remote_retrieve_body($response);
-    $result = json_decode($body, true);
-
-    $updatedPostIds = [];
-
-    foreach ($result['results'] as $product) {
-        $uuid = $product['id'];
-        
-        if (empty($uuid)) {
-            continue;
-        }
-
-        $postId = $wpdb->get_var($wpdb->prepare(
-            "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = 'adt_footprint_id' AND meta_value = %s",
-            $uuid
-        ));
-
-        $post_data = [
-            'post_title'   => $product['description'],
-            'post_content' => $product['description'],
-            'post_status'  => 'publish',
-            'post_type'    => 'footprint',
-        ];
-
-        if ($postId) {
-            $post_data['ID'] = $postId;
-        }
-
-        $postId = wp_insert_post($post_data);
-
-        $updatedPostIds[] = $postId;
-
-        update_post_meta($postId, 'adt_code', $product['flow_code']);
-        update_post_meta($postId, 'nace_related_code', $product['nace_related_code']);
-        update_post_meta($postId, 'adt_footprint_id', $product['id']);
-        update_post_meta($postId, 'region_code', $product['region_code']);
-    }
-}
-
-function adt_delete_old_bonsai_products(array $updatedPostIds) {
-    $args = array(
-        'post_type'      => 'product',
-        'posts_per_page' => -1,
-        'fields'         => 'ids', // Only retrieve IDs
-    );
-    
-    $products = get_posts($args);
-
-    $productsToDelete = array_diff($products, $updatedPostIds);
-
-    foreach ($productsToDelete as $productId) {
-        wp_delete_post($productId, true);
-    }
-}
-
 function adt_get_locations(): array{
     // Check if the data is already cached
     $cachedLocations = get_transient('adt_locations_cache');
@@ -314,11 +242,9 @@ Please try again later, or contact support if the issue persists.'];
     return $locations;
 }
 
-function adt_get_product_recipe($productCode, $chosenCountry, $newestVersion,$metric): array{
+function adt_get_product_recipe($productCode, $country, $version,$metric): array{
     // Get the whole recipe list for the product
-    $recipeUrl = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$chosenCountry.'&version='.$newestVersion.'&metric='.$metric;
-    // error_log("test recipes");
-    // error_log("recipeUrl=$recipeUrl");
+    $recipeUrl = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$country.'&version='.$version.'&metric='.$metric;
     
     // Make the API request
     $recipeResponse = wp_remote_get($recipeUrl);
