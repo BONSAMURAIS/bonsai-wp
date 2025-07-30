@@ -7,11 +7,6 @@ use Roots\WPConfig\Config;
 $CONFIG = json_decode(file_get_contents(__DIR__.'/../../constants/config.json'), true);
 $GLOBALS['APIURL'] = $CONFIG['APIURL'];
 
-/**
- * Newest API version for the Bonsai API
- * does not work correctly until february 2025
- * WARNING: This is too "new". It's not ready for production yet
- */
 function adt_get_bonsai_product_list() {
     global $wpdb;
 
@@ -19,8 +14,6 @@ function adt_get_bonsai_product_list() {
     // get the count of products and divide by 100
     // loop through the pages and get the products
     $api_url = $GLOBALS['APIURL']."/products/?page=1";
-
-    // Make the request
     $response = wp_remote_get($api_url);
 
     // Check for errors
@@ -98,9 +91,6 @@ function adt_get_bonsai_product_list() {
 
         $postId = wp_insert_post($post_data);
 
-        // error_log("adt_get_bonsai_product_list - postdata = ");
-        // error_log(print_r($post_data));
-
         $updatedPostIds[] = $postId;
 
         update_post_meta($postId, 'adt_code', $product['code']);
@@ -132,8 +122,6 @@ function adt_get_old_bonsai_product_list() {
     global $wpdb;
 
     $api_url = $GLOBALS['APIURL']."/activity-names/";
-
-    // Make the request
     $response = wp_remote_get($api_url);
 
     // Check for errors
@@ -206,8 +194,6 @@ function adt_get_locations(): array{
 
     // API URL
     $url = $GLOBALS['APIURL']."/locations/";
-
-    // Make the API request
     $response = wp_remote_get($url);
 
     // Check for errors
@@ -244,9 +230,7 @@ Please try again later, or contact support if the issue persists.'];
 
 function adt_get_product_recipe($productCode, $country, $version,$metric): array{
     // Get the whole recipe list for the product
-    $recipeUrl = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$country.'&version='.$version.'&metric='.$metric;
-    
-    // Make the API request
+    $url = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$country.'&version='.$version.'&metric='.$metric;
     $recipeResponse = wp_remote_get($recipeUrl);
     
     // Check for errors
@@ -276,7 +260,6 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
     return $recipes;
 }
 
-
 /**
  * Get the data for each recipe item.
  * Use transient to store and get data, as a form of caching.
@@ -300,7 +283,6 @@ function adt_get_updated_recipe_info(){
 
     // Need unitInflow
     $url = $GLOBALS['APIURL'].'/recipes/?unit_inflow='.$unitInflow.'&flow_reference='.$productCode.'&region_reference='.$countryCode.'&version='.$version."&metric=".$metric;
-    // Make the API request
     $response = wp_remote_get($url);
 
     // Check for errors
@@ -356,14 +338,7 @@ function adt_get_product_footprint(){
         
     // API URL
     $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
-    
-    // Make the API request
     $response = wp_remote_get($url);
-    // error_log( "get prod url=$url " );  
-    // error_log( "api call response=" );  
-    // error_log( print_r($response, true) );
-    // error_log("end api call");  
-
     
     // Check for errors
     if (is_wp_error($response)) {
@@ -411,13 +386,6 @@ function adt_get_product_footprint(){
 
     foreach ($footprints as $footprint) {
         if ($footprint['version'] === $newestVersion) {
-            // see if I can convert numbers here already everything is saved by the unit in tonnes.
-            // The frontend should display the units in kilograms emission instead.
-            // Item
-            // Meuro
-            // TJ to kWh
-            // TJ to MJ
-
             switch ($footprint['unit_reference']) {
                 case 'Meuro':
                     // Add danish currency Meuro to DKK 
@@ -425,13 +393,11 @@ function adt_get_product_footprint(){
                     $conversionRateInMillion = adt_convert_number_by_units('Meuro', 'DKK');
                     // Divide it by 1 million to get the value 1 Euro to 1 DKK
                     $conversionRate = $conversionRateInMillion / 1000000;
-
                     /* To get 1 euro per 1 kg emission
                      * instead of 1 Meuro per 1 tonne emission
                      * I need to divide by 1000
                      */
                     $footprint['value'] = $footprint['value'] / 1000;
-
                     /* To get 1 DKK per 1 kg emission
                      * I need to divide by the conversion rate
                      */
@@ -452,7 +418,6 @@ function adt_get_product_footprint(){
 
                     array_push($chosenFootprint, $danishFootprint);
                     break;
-
                 case 'items':
                     /* 
                      * To get 1 item per 1 kg emission
@@ -462,14 +427,6 @@ function adt_get_product_footprint(){
                     break;
 
                 case 'TJ':
-                    /* 
-                     * TJ should either be displayed in kWh or MJ
-                     * To get 1 kWh per 1 kg emission, check if the description contains electricity
-                     * Then find it's conversion rate from TJ to kWh divide the current TJ value by the conversion rate
-                     * And multiply by 1000 to get the value in kWh
-                     * 
-                     * The same goes for MJ but with another conversion rate
-                     */
                     if ( str_contains(strtolower($footprint['description']), 'electricity') ) {
                         $multiplier = adt_convert_number_by_units('TJ', 'kWh');
                         $footprint['unit_reference'] = 'kWh';
@@ -478,11 +435,8 @@ function adt_get_product_footprint(){
                         $footprint['unit_reference'] = 'MJ';
                     }
                     $footprint['value'] = $footprint['value'] / $multiplier * 1000;
-
                     break;
-                
                 default:
-                    # code...
                     break;
             }
             // restrict  significant number to 3
@@ -520,10 +474,6 @@ function adt_get_product_footprint(){
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_recipe_cache', $cachedFootprintArray, 86400);
 
-    error_log("test get_prod foot");
-    error_log(json_encode($data));
-    error_log("test recipeData recipeData");
-    error_log(json_encode($recipeData));
     wp_send_json_success($data);
 }
 
