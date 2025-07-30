@@ -43,7 +43,7 @@ function adt_get_person_footprint(){
     
     // Handle potential errors in the response
     if (empty($result)) {
-        return 'No footprints found or an error occurred.';
+        return ['No footprints found or an error occurred.'];
     }
 
     if (array_key_exists('detail', $result)) {
