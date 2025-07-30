@@ -7,7 +7,6 @@ $CONFIG = json_decode(file_get_contents(__DIR__.'/../../constants/config.json'),
 $GLOBALS['APIURL'] = $CONFIG['API_URL'];
 
 function adt_get_person_footprint(){
-    // error_log("-- adt_get_person_footprint --");
     global $SEPARATOR;
     $country = $_POST['region_code'];
     $act_code = $_POST['act_code'];
@@ -29,7 +28,6 @@ function adt_get_person_footprint(){
     $url = $GLOBALS['APIURL']."/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$act_code."&metric=".$metric; //TODO change if call with F_HOUS does not exist
     $response = wp_remote_get($url);
 
-    
     // Check for errors
     if (is_wp_error($response)) {
         return 'Error: ' . $response->get_error_message();
@@ -67,9 +65,6 @@ function adt_get_person_footprint(){
 
     // get only the first 20 elements
     $recipes = array_slice($recipes, 0, 20);
-
-    // error_log("json_encode(recipes)");
-    // error_log(json_encode($recipes));
 
     $data = [
         'id' => $footprintsArray[0]['id'],
@@ -162,18 +157,11 @@ function adt_accumulate_value($arrays, $productCode) {
 
 function adt_get_person_footprint_recipe(array $fdemand_categories, string $country, string $act_code, int|string $version, string $metric): array
 {
-    // Example:
-    // https://lca.aau.dk/api/recipes-country/?act_code=F_GOVE|1-5_average&region_code=AU
-
     global $SEPARATOR;
     $recipeResult = [];
     
     foreach ($fdemand_categories as $cat){
         $url = $GLOBALS['APIURL'].'/recipes-country/?act_code='.$cat.$SEPARATOR.$act_code.'&region_code='.$country.'&version='.$version.'&metric='.$metric;
-        
-        // error_log("url");
-        // error_log($url);
-        // Make the API request
         $recipeResponse = wp_remote_get($url);
         
         // Check for errors
@@ -185,22 +173,16 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         
         // Get the response body
         $body = wp_remote_retrieve_body($recipeResponse);
-        // error_log("body");
-        // error_log($body);
-        
-        // Parse the JSON response
         $result = json_decode($body, true);
+
         $productCount = $result['count'];
 
-        // error_log("before loop recipeResult count");
-        // error_log(count($recipeResult));      
-        
         if (empty($result)) {
-            return 'No person recipe found or an error occurred.';
+            return ['No person recipe found or an error occurred.'];
         }
         
         if (array_key_exists('detail', $result)) {
-            return 'Error: ' . $result['detail'];
+            return ['Error: ' . $result['detail']];
         }
 
         if (!empty($result['results'])) {
@@ -233,17 +215,8 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                 foreach ($recipeResult as $recipe) {
                     foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
                         if ($recipe["product_code"] == $new_recipe_val["product_code"]){
-                            // error_log("b4 val count");
-                            // error_log("count");
-                            // error_log(count($result['results']));
-                            // error_log($recipe["product_code"]);
-                            // error_log($recipe["value"]);
                             $recipe["value"] += $new_recipe_val["value"];
-                            // error_log("aft val");
-                            // error_log($recipe["value"]);
                             unset($result['results'][$new_recipe_key]);
-                            // error_log("after count");
-                            // error_log(count($result['results']));
                             // break;
                         }
      
