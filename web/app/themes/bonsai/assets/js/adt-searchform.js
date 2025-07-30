@@ -623,6 +623,9 @@ function display_result(htmlclass, data){
     let otherRowMarkup = '';
     let rowMarkup = '';
     let recipeArray = data.recipe;
+    if (recipeArray.error){
+        return true;
+    }
 
     for (const recipe of recipeArray) {
         //preprocessing recipe data
