@@ -229,8 +229,8 @@ Please try again later, or contact support if the issue persists.'];
 }
 
 function adt_get_product_recipe($productCode, $country, $version,$metric): array{
-    // $url = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$country.'&version='.strtolower($version).'&metric='.strtoupper($metric);
-    $url = 'https://lca.aau.dk/api/recipes/?flow_reference=C_Spinh&region_reference=AU&version=v1.0.0&metric=GTP20';
+    $url = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$country.'&version='.strtolower($version).'&metric='.strtoupper($metric);
+    // $url = 'https://lca.aau.dk/api/recipes/?flow_reference=C_Spinh&region_reference=AU&version=v1.0.0&metric=GTP20';
     $recipeResponse = wp_remote_get($url); // Get the whole recipe list for the product
     
     // Check for errors
