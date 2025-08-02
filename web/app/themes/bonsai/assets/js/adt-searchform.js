@@ -690,9 +690,11 @@ function display_result(htmlclass, data){
     // Convert the product code to product name
     recipeTable.find('tbody tr').each(async function(){
         let productCode = jQuery(this).find('span').data('code');
-        let productTitle = await API.get_product_name_by_code(productCode);
-        console.log("productcode,productTitle=",productCode,productTitle)
-        jQuery('td span[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
+        if (recipe.flow_input.toLowerCase() != "other" || recipe.flow_input.toLowerCase() != "direct"){
+            let productTitle = await API.get_product_name_by_code(productCode);
+            console.log("productcode,productTitle=",productCode,productTitle)
+            jQuery('td span[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
+        }
     });
 
     // Remove previous click handlers to avoid stacking events
