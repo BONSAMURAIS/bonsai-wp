@@ -376,9 +376,6 @@ function adt_get_product_footprint(){
         return $b['value'] <=> $a['value']; //b before a for descending order
     });
 
-    // get only the first 20 elements
-    $data = array_slice($data, 0, 20);
-
     $cachedFootprintArray = [
         $productCode => $data,
     ];
