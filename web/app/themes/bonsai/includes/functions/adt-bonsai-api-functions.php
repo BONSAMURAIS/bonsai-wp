@@ -341,6 +341,10 @@ function adt_get_product_footprint(){
     }
 
     $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric);
+
+    if(!empty($productCode) & empty($footprintTitle) ){
+        $footprintTitle = get_product_name_by_code($productCode);
+    }
     
     $data = [
         'title' => $footprintTitle,
@@ -359,6 +363,8 @@ function adt_get_product_footprint(){
         'samples' => $chosenFootprint[0]['samples'],
         'value' => $chosenFootprint[0]['value'],
         'recipe' => $recipeData,
+        'year' => $year,
+        'footprint-type' => $type,
     ];
 
     $cachedFootprintArray = [
@@ -373,6 +379,32 @@ function adt_get_product_footprint(){
 
 add_action('wp_ajax_adt_get_product_footprint', 'adt_get_product_footprint');
 add_action('wp_ajax_nopriv_adt_get_product_footprint', 'adt_get_product_footprint');
+
+
+function get_product_name_by_code($productCode){
+    $args = [
+        'post_type' => 'product',
+        'numberposts' => 1,
+        'meta_query' => [
+            [
+                'key' => 'adt_code',
+                'value' => $productCode,
+                'compare' => '=',
+            ],
+        ],
+    ];
+
+    $products = get_posts($args);
+
+    $productTitle = "";
+
+    foreach ($products as $product) {
+        $productTitle =  $product->post_title;
+        break;
+    }
+
+    return($productTitle);
+}
 
 // Maybe use version_compare instead PHP function
 function adt_get_newest_version(array $versions): string

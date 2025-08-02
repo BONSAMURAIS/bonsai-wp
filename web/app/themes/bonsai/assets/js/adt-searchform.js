@@ -194,10 +194,7 @@ jQuery(document).ready(function($){
         
         adt_push_parameter_to_url(userSelection);
         let data = await API.get_product_footprint(userSelection);
-        if(data['flow_code']  !== null & data['title'] == null){
-            const productTitle = await API.get_product_name_by_code(data['flow_code'])
-            data['title'] = Utils.capitalize(productTitle);
-        }
+
         if(selectedValue === 'person'){
             data['title'] = "Emission per person in " + userSelection.country + " - " + userSelection.year;
         }
@@ -315,10 +312,6 @@ jQuery(document).ready(function($){
         userSelection.get_from_form();
         data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
 
-        if(data['flow_code']  !== null & data['title'] == null){
-            let productTitle = await API.get_product_name_by_code(data['flow_code'])
-            data['title'] = Utils.capitalize(productTitle);
-        }
         if(selectedValue === 'person'){
             data['title'] = "Emission per person in " + userSelection.country + " - " + userSelection.year;
         }
@@ -352,10 +345,6 @@ jQuery(document).ready(function($){
         console.log("userSelection=", userSelection.to_string())
         
         data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
-        if(data['flow_code']  !== null & data['title'] == null){
-            let productTitle = await API.get_product_name_by_code(data['flow_code'])
-            data['title'] = Utils.capitalize(productTitle);
-        }
         if(selectedValue === 'person'){
             data['title'] = "Person in " + userSelection.country + " - " + userSelection.year;
         }
@@ -534,14 +523,8 @@ jQuery(document).ready(function($){
         userSelection.countryCode = countryCode;
         try {
             let data = await API.get_product_footprint(userSelection); //can only be footprint
-            if(data['flow_code']  !== null & data['title'] == null){
-                let productTitle = await API.get_product_name_by_code(data['flow_code'])
-                data['title'] = Utils.capitalize(productTitle);
-            }
             data['country'] = userSelection.country;
-            data['footprint-type'] = userSelection.footprint_type;
             data['footprint-type-label'] = userSelection.footprint_type_label;
-            data['year'] = userSelection.year;
             const htmlclass = "#"+jQuery(this).closest(".tile-wrapper").attr('id');
             display_result(htmlclass,data);
             // adt_save_local_search_history(userSelection);
@@ -578,7 +561,7 @@ function display_result(htmlclass, data){
     //summary information
     let main_component = jQuery(htmlclass);
     //set title
-    main_component.find('.product-title').first().text(data["title"]);
+    main_component.find('.product-title').first().text(Utils.capitalize(data["title"]));
     //set tags
     //TODO hardcode replacement
     let dataCode = data['flow_code'];
@@ -1072,17 +1055,12 @@ async function init_form(){
     console.log("init to_string()=",userSelection.to_string())
 
     let data = userSelection.footprint_type ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
-    if(data['flow_code']  !== null & data['title'] == null){
-        let productTitle = await API.get_product_name_by_code(data['flow_code'])
-        data['title'] = Utils.capitalize(productTitle);
-    }
+
     if(userSelection.footprint_type === 'person'){
         data['title'] = "Emission per person in " + userSelection.country + " - " + userSelection.year;
     }
     data['country'] = userSelection.country;
-    data['footprint-type'] = userSelection.footprint_type;
     data['footprint-type-label'] = userSelection.footprint_type_label;
-    data['year'] = userSelection.year;
     display_result("#summary-analysis-content",data);
     adt_save_local_search_history(userSelection);
 
