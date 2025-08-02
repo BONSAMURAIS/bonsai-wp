@@ -194,59 +194,6 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
     return $recipes;
 }
 
-/**
- * Get the data for each recipe item.
- * Use transient to store and get data, as a form of caching.
- * This will make sure we do not make too many requests to the API.
- */
-function adt_get_updated_recipe_info(){
-    
-    // $unitInflow = $_POST['unitInflow'];
-    $productCode = $_POST['productCode'];
-    $countryCode = $_POST['country'];
-    $version = $_POST['version'];
-    $metric = $_POST['metric'];
-
-    // Check if the data is already cached
-    $cachedRecipe = get_transient('adt_recipe_cache');
-    
-    // If cache exists, return the cached data
-    if ($cachedRecipe !== false) {
-        return $cachedRecipe;
-    }
-
-    // // Need unitInflow
-    $url = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$countryCode.'&version='.$version."&metric=".$metric;
-    error_log($url);
-    $response = wp_remote_get($url);
-
-    // Check for errors
-    if (is_wp_error($response)) {
-        return 'Error: ' . $response->get_error_message();
-    }
-
-    // Retrieve and decode the response body
-    $body = wp_remote_retrieve_body($response);
-    $locations = json_decode($body, true);
-
-    // Handle potential errors in the response
-    if (empty($locations)) {
-        return 'No footprints found or an error occurred.';
-    }
-
-    if (array_key_exists('detail', $locations)) {
-        return 'Error: ' . $locations['detail'];
-    }
-
-    // Cache the locations for 24 hour (86400 seconds)
-    set_transient('adt_recipe_cache', $locations, 86400);
-
-    wp_send_json_success($locations);
-}
-
-add_action('wp_ajax_adt_get_updated_recipe_info', 'adt_get_updated_recipe_info');
-add_action('wp_ajax_nopriv_adt_get_updated_recipe_info', 'adt_get_updated_recipe_info');
-
 function adt_get_product_footprint(){
     $productCode = $_POST['code'];
     $productUuid = $_POST['uuid'];
