@@ -371,6 +371,14 @@ function adt_get_product_footprint(){
         'footprint-type-label' => $type_label,
     ];
 
+        //sort per value
+    usort($data, function ($a, $b) {
+        return $b['value'] <=> $a['value']; //b before a for descending order
+    });
+
+    // get only the first 20 elements
+    $data = array_slice($data, 0, 20);
+
     $cachedFootprintArray = [
         $productCode => $data,
     ];
