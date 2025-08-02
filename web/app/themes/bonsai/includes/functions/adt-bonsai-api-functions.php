@@ -230,27 +230,26 @@ Please try again later, or contact support if the issue persists.'];
 
 function adt_get_product_recipe($productCode, $country, $version,$metric): array{
     $url = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$country.'&version='.strtolower($version).'&metric='.strtoupper($metric);
-    // $url = 'https://lca.aau.dk/api/recipes/?flow_reference=C_Spinh&region_reference=AU&version=v1.0.0&metric=GTP20';
-    $recipeResponse = wp_remote_get($url); // Get the whole recipe list for the product
+    $response = wp_remote_get($url); // Get the whole recipe list for the product
     
     // Check for errors
-    if (is_wp_error($recipeResponse)) {
+    if (is_wp_error($response)) {
         return [
-            'error' => $recipeResponse->get_error_message()
+            'error' => $response->get_error_message()
         ];
     }
     
-    // Retrieve and decode the recipeResponse body
-    $recipeBody = wp_remote_retrieve_body($recipeResponse);
-    $recipeResult = json_decode($recipeBody, true);
-    $recipes = $recipeResult["results"];
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+    $recipes = $result["results"];
 
     //sort per value
     usort($recipes, function ($a, $b) {
         return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
     });
     
-    // Handle potential errors in the recipeResponse
+    // Handle potential errors in the response
     if (empty($recipes)) {
         return [
             'error' => 'No recipes found or an error occurred.'
@@ -293,23 +292,21 @@ function adt_get_updated_recipe_info(){
 
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
-    $result = json_decode($body, true);
+    $locations = json_decode($body, true);
 
     // Handle potential errors in the response
-    if (empty($result)) {
+    if (empty($locations)) {
         return 'No footprints found or an error occurred.';
     }
 
-    if (array_key_exists('detail', $result)) {
-        return 'Error: ' . $result['detail'];
+    if (array_key_exists('detail', $locations)) {
+        return 'Error: ' . $locations['detail'];
     }
-
-    $locations = $result;
 
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_recipe_cache', $locations, 86400);
 
-    wp_send_json_success($result);
+    wp_send_json_success($locations);
 }
 
 add_action('wp_ajax_adt_get_updated_recipe_info', 'adt_get_updated_recipe_info');
