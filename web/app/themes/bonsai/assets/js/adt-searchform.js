@@ -672,8 +672,7 @@ function display_result(htmlclass, data){
         rowMarkup += '<td>' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';
         rowMarkup += '</tr>';
 
-
-        if (recipe.flow_input === "other" || recipe.flow_input === "direct"){
+        if (recipe.flow_input.toLowerCase() === "other" || recipe.flow_input.toLowerCase() === "direct"){
             otherRowMarkup += rowMarkup; // Store "other" row separately
         } else {
             tableMarkup += rowMarkup; // Append all other rows normally
