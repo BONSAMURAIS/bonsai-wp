@@ -131,30 +131,6 @@ function get_total_value(array $fdemand_categories, string $country, string $act
 add_action('wp_ajax_adt_get_person_footprint', 'adt_get_person_footprint');
 add_action('wp_ajax_nopriv_adt_get_person_footprint', 'adt_get_person_footprint');
 
-// Helper function to accumulate values by product_code
-function adt_accumulate_value($arrays, $productCode) {
-    $totalValue = 0;
-    $mergedItem = null;
-
-    foreach ($arrays as $array) {
-        foreach ($array as $item) {
-            if ($item['product_code'] === $productCode) {
-                $totalValue += $item['value'];
-                if (!$mergedItem) {
-                    $mergedItem = $item;
-                }
-            }
-        }
-    }
-
-    if ($mergedItem) {
-        $mergedItem['value'] = $totalValue;
-    }
-
-    return $mergedItem;
-}
-
-
 function adt_get_person_footprint_recipe(array $fdemand_categories, string $country, string $act_code, int|string $version, string $metric): array
 {
     global $SEPARATOR;
