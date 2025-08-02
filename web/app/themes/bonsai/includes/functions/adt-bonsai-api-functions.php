@@ -179,6 +179,20 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
     $result = json_decode($body, true);
     $recipes = $result["results"];
 
+    foreach ($recipe as $recipes) {
+        if (!isset($recipe['flow_input'])) {
+            $recipe['flow_input'] = $recipe['product_code'];
+        }
+    
+        if (!isset($recipe['region_inflow'])) {
+            $recipe['region_inflow'] = $recipe['region_code'];
+        }   
+    
+        if (!isset($recipe['value_emission'])) {
+            $recipe['value_emission'] = $recipe['value'];
+        }
+    }
+
     //sort per value
     usort($recipes, function ($a, $b) {
         return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order

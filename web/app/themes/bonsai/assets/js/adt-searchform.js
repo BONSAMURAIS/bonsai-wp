@@ -634,18 +634,6 @@ function display_result(htmlclass, data){
         const base64String = btoa(jsonString);  // Convert to base64
         const getParameter = `?data=${base64String}`;
 
-        if (recipe.flow_input === undefined) {
-            recipe.flow_input = recipe.product_code;
-        }
-
-        if (recipe.region_inflow === undefined) {
-            recipe.region_inflow = recipe.region_code;
-        }   
-
-        if (recipe.value_emission === undefined) {
-            recipe.value_emission = recipe.value;
-        }
-
         let updatedInflow = '';
 
         // If unit_inflow "Meuro" per tonnes convert to Euro per kg
