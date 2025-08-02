@@ -629,9 +629,10 @@ function display_result(htmlclass, data){
 
     for (const recipe of recipeArray) {
         //preprocessing recipe data
-        // Convert to base64
+        // Add to URL
         const jsonString = JSON.stringify(recipe);
-        const base64String = btoa(jsonString);  // base64 encode
+        const base64String = btoa(jsonString);  // Convert to base64
+        const getParameter = `?data=${base64String}`;
 
         if (recipe.flow_input === undefined) {
             recipe.flow_input = recipe.product_code;
@@ -645,8 +646,6 @@ function display_result(htmlclass, data){
             recipe.value_emission = recipe.value;
         }
 
-        // Add to URL
-        const getParameter = `?data=${base64String}`;
         let updatedInflow = '';
 
         // If unit_inflow "Meuro" per tonnes convert to Euro per kg
