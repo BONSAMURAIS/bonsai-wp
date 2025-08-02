@@ -352,7 +352,7 @@ function adt_get_product_footprint(){
         'title' => $footprintTitle,
         'flow_code' => $productCode,
         'chosen_country' => $countryCode,
-        '$country' => $country,
+        'country' => $country,
         "unit_reference" => $unit_reference,
         "unit_emission" => $unit_emission,
         'uuid' => $productUuid,
