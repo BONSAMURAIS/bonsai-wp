@@ -212,7 +212,9 @@ function adt_get_product_footprint(){
     $productCode = $_POST['code'];
     $productUuid = $_POST['uuid'];
     $countryCode = $_POST['footprint_location'];
+    $country = $_POST['country'];
     $type = $_POST['footprint_type'];
+    $type_label = $_POST['footprint_type_label'];
     $year = $_POST['footprint_year'];
     $version = $_POST['database_version'];
     $metric = $_POST['metric'];//TODO sth odd with metric
@@ -350,6 +352,7 @@ function adt_get_product_footprint(){
         'title' => $footprintTitle,
         'flow_code' => $productCode,
         'chosen_country' => $countryCode,
+        '$country' => $country,
         "unit_reference" => $unit_reference,
         "unit_emission" => $unit_emission,
         'uuid' => $productUuid,
@@ -365,6 +368,7 @@ function adt_get_product_footprint(){
         'recipe' => $recipeData,
         'year' => $year,
         'footprint-type' => $type,
+        'footprint-type-label' => $type_label,
     ];
 
     $cachedFootprintArray = [
