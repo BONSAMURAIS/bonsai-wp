@@ -931,12 +931,12 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         jQuery($input).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
         suggestionSelected = true;
         let userSelection = new UserSelection;
-        userSelection.set_product(text,code,uuid);
         userSelection.get_from_form();
+        userSelection.set_product(text,code,uuid);
         
         adt_push_parameter_to_url(userSelection);
-        let data_product = await API.get_product_footprint(userSelection);
-        display_result(data_product);
+        let data = await API.get_product_footprint(userSelection);
+        display_result(data);
         adt_save_local_search_history(userSelection);
     }
 }
