@@ -937,7 +937,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         
         adt_push_parameter_to_url(userSelection);
         let data_product = await API.get_product_footprint(userSelection);
-        updateTile(data_product);
+        display_result(data_product);
         adt_save_local_search_history(userSelection);
     }
 }
