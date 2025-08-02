@@ -691,8 +691,8 @@ function display_result(htmlclass, data){
     recipeTable.find('tbody tr').each(async function(){
         let productCode = jQuery(this).find('span').data('code');
         let productTitle = "";
-        if (recipe.flow_input.toLowerCase() === "other" || recipe.flow_input.toLowerCase() === "direct"){
-            productTitle = Utils.capitalize(recipe.flow_input.toLowerCase());
+        if (productCode.toLowerCase() === "other" || productCode.toLowerCase() === "direct"){
+            productTitle = productCode;
         }else{
             productTitle = await API.get_product_name_by_code(productCode);
         }
