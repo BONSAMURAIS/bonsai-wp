@@ -31,7 +31,7 @@ export async function get_product_footprint(userSelection){
                 reject(error);  // Reject if there is an error
                 console.log("adt_get_product_info ERROR");
                 console.log(error);
-                jQuery('#initial-error-message').html('<p>'+response.responseJSON?.data.error+'</p>');
+                jQuery('#initial-error-message').html('<p>'+error.responseJSON?.data.error+'</p>');
                 jQuery('#initial-error-message').slideDown('fast');
             }
         });
