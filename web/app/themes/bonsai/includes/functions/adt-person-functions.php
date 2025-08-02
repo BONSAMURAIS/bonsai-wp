@@ -168,6 +168,17 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                         $recipe["value"] += $new_recipe_val["value"];
                         unset($result['results'][$new_recipe_key]);
                     }
+                    if (!isset($new_recipe_val['flow_input'])) {
+                        $new_recipe_val['flow_input'] = $new_recipe_val['product_code'];
+                    }
+                
+                    if (!isset($new_recipe_val['region_inflow'])) {
+                        $new_recipe_val['region_inflow'] = $new_recipe_val['region_code'];
+                    }   
+                
+                    if (!isset($new_recipe_val['value_emission'])) {
+                        $new_recipe_val['value_emission'] = $new_recipe_val['value'];
+                    }
                 }
             }
             $recipeResult = array_merge($recipeResult, $result['results']);
@@ -193,9 +204,18 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
                         if ($recipe["product_code"] == $new_recipe_val["product_code"]){
                             $recipe["value"] += $new_recipe_val["value"];
                             unset($result['results'][$new_recipe_key]);
-                            // break;
                         }
-     
+                        if (!isset($new_recipe_val['flow_input'])) {
+                            $new_recipe_val['flow_input'] = $new_recipe_val['product_code'];
+                        }
+                    
+                        if (!isset($new_recipe_val['region_inflow'])) {
+                            $new_recipe_val['region_inflow'] = $new_recipe_val['region_code'];
+                        }   
+                    
+                        if (!isset($new_recipe_val['value_emission'])) {
+                            $new_recipe_val['value_emission'] = $new_recipe_val['value'];
+                        }
                     }
                 }
                 $recipeResult = array_merge($recipeResult, $result['results']);
