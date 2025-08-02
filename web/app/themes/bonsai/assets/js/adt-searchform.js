@@ -199,9 +199,9 @@ jQuery(document).ready(function($){
             data['title'] = "Emission per person in " + userSelection.country + " - " + userSelection.year;
         }
         data['country'] = userSelection.country;
-        data['footprint-type'] = userSelection.footprint_type;
+        
         data['footprint-type-label'] = userSelection.footprint_type_label;
-        data['year'] = userSelection.year;
+        
         display_result("#summary-analysis-content",data);
         adt_save_local_search_history(userSelection);
         console.log("END popular click")
@@ -316,9 +316,7 @@ jQuery(document).ready(function($){
             data['title'] = "Emission per person in " + userSelection.country + " - " + userSelection.year;
         }
         data['country'] = userSelection.country;
-        data['footprint-type'] = userSelection.footprint_type;
         data['footprint-type-label'] = userSelection.footprint_type_label;
-        data['year'] = userSelection.year;
         adt_push_parameter_to_url(userSelection);
         display_result("#summary-analysis-content",data);
         console.log('END searching');
@@ -349,9 +347,8 @@ jQuery(document).ready(function($){
             data['title'] = "Person in " + userSelection.country + " - " + userSelection.year;
         }
         data['country'] = userSelection.country;
-        data['footprint-type'] = userSelection.footprint_type;
         data['footprint-type-label'] = userSelection.footprint_type_label;
-        data['year'] = userSelection.year;
+        
         let hasResult = display_result("#compared-product-analysis-content",data);
         
         if (hasResult){
