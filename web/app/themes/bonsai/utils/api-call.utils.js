@@ -133,7 +133,7 @@ export async function get_country_name_by_code(code) {
             },
             success: (response) => {
                 console.log("resp=",response)
-                let country = response.data;
+                const country = response.data.results[0].name;
                 resolve(country);
     
             }
