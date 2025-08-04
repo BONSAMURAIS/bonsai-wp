@@ -502,7 +502,8 @@ jQuery(document).ready(function($){
         let productTitle = jQuery(this).text();
         let productCode = jQuery(this).data('code');
         let productUuid = jQuery(this).data('uuid');
-        let countryCode = jQuery(this).data('country');
+        let countryCode = jQuery(this).data('countryCode');
+        let country = jQuery(this).data('country');
         let year = jQuery(this).data('year');
         let metric = jQuery(this).data('metric');
 
@@ -511,6 +512,7 @@ jQuery(document).ready(function($){
         userSelection.climate_metric = metric;
         userSelection.year = year;
         userSelection.countryCode = countryCode;
+        userSelection.country = country;
         try {
             let data = await API.get_product_footprint(userSelection); //can only be footprint
             const htmlclass = "#"+jQuery(this).closest(".tile-wrapper").attr('id');
