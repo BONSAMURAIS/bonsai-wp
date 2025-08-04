@@ -240,6 +240,7 @@ function get_country_name_by_code(){
 }
 
 add_action('wp_ajax_get_country_name_by_code', 'get_country_name_by_code');
+add_action('wp_ajax_nopriv_get_country_name_by_code', 'get_country_name_by_code');
 
 
 function adt_get_product_footprint(){
