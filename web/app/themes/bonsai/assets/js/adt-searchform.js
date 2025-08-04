@@ -597,8 +597,8 @@ async function display_result(htmlclass, data){
     if (recipeArray.error){
         return true;
     }
-
-    for (const recipe of recipeArray) {
+    recipeArray.each(async function(recipe){
+        console.log("recipe=",recipe)
         //preprocessing recipe data
         // Add to URL
         const jsonString = JSON.stringify(recipe);
@@ -653,7 +653,7 @@ async function display_result(htmlclass, data){
         
         //Create rows
         rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
-        let country = API.get_country_name_by_code(recipe.region_inflow);
+        let country = await API.get_country_name_by_code(recipe.region_inflow);
         rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-countryCode="'+recipe.region_inflow+'" data-country="'+country+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + "WILL_BE_UPDATED" + '</span></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
@@ -677,9 +677,8 @@ async function display_result(htmlclass, data){
             otherRowMarkup += rowMarkup; // Store "other" row separately
         } else {
             tableMarkup += rowMarkup; // Append all other rows normally
-        }
-        //end Create rows
-    };//end loop on recipeArray
+        }//end Create rows
+    });//end loop on recipeArray
 
     // Append "other" row at the end if it exists
     tableMarkup += otherRowMarkup;
