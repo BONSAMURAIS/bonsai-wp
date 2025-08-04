@@ -528,7 +528,7 @@ jQuery(document).ready(function($){
 });
 
 
-function display_result(htmlclass, data){
+async function display_result(htmlclass, data){
     console.log("Start display data")
     console.log("data=",data)
 
@@ -653,7 +653,8 @@ function display_result(htmlclass, data){
         
         //Create rows
         rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
-        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + "WILL_BE_UPDATED" + '</span></td>';
+        let country = await API.get_country_name_by_code(recipe.region_inflow);
+        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-countryCode="'+recipe.region_inflow+'  data-country="'+country+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + "WILL_BE_UPDATED" + '</span></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 

@@ -208,6 +208,40 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
     return $recipes;
 }
 
+function get_country_name_by_code(){
+    $code = $_POST['code'];
+    // API URL
+    $url = $GLOBALS['APIURL']."/locations/?search==".$code;
+    $response = wp_remote_get($url);
+    
+    // Check for errors
+    if (is_wp_error($response)) {
+        return wp_send_json_error(['Error: ' . $response->get_error_message()]);
+    }
+    
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+
+    if (isset($result['count']) && $result['count'] === 0) {
+        wp_send_json_error(['error' => 'Country not found']);
+    }
+
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return 'No footprints found or an error occurred.';
+    }
+
+    if (array_key_exists('detail', $result)) {
+        wp_send_json_error(['error' => $result['detail']], 503);
+    }
+
+    wp_send_json_success($result['name']);
+}
+
+add_action('wp_ajax_get_country_name_by_code', 'get_country_name_by_code');
+
+
 function adt_get_product_footprint(){
     $productCode = $_POST['code'];
     $productUuid = $_POST['uuid'];
