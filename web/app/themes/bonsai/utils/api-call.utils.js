@@ -110,6 +110,7 @@ export async function get_product_name_by_code(productCode) {
                 code: productCode,
             },
             success: (response) => {
+                console.log("resp=",response)
                 let productTitle = response.data;
                 resolve(productTitle);
     
