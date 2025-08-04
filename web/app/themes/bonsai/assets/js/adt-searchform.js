@@ -705,7 +705,8 @@ async function display_result(htmlclass, data){
         }
 
         jQuery('td span[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
-        jQuery(this).find('span').data('country',country);
+        jQuery('td span[data-code="'+productCode+'"]').data('country',country);
+        console.log("country="+country)
         console.log("productcode, productTitle="+productCode + " -> "+productTitle)
     });
 
