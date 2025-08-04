@@ -655,7 +655,7 @@ async function display_result(htmlclass, data){
         
         //Create rows
         rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
-        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-countryCode="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + "WILL_BE_UPDATED" + '</span></td>';
+        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country-code="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + "WILL_BE_UPDATED" + '</span></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
@@ -698,7 +698,7 @@ async function display_result(htmlclass, data){
         }else{
             productTitle = await API.get_product_name_by_code(productCode);
         }
-        let countryCode = jQuery(this).find('span').data('countryCode');
+        let countryCode = jQuery(this).find('span').data('country-code');
         let country = "NULL";
         if (countryCode != null){
             country = await API.get_country_name_by_code(countryCode);
