@@ -211,7 +211,7 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
 function get_country_name_by_code(){
     $code = $_POST['code'];
     // API URL
-    $url = $GLOBALS['APIURL']."/locations/?search==".$code;
+    $url = $GLOBALS['APIURL']."/locations/?search=".$code;
     $response = wp_remote_get($url);
     
     // Check for errors
