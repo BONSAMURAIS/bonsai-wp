@@ -290,7 +290,7 @@ jQuery(document).ready(function($){
     adt_initialize_local_search_history();
 
     // Search 
-    $('#btn-search').click(async function(e){
+    $('#btn-search, #search-icon').click(async function(e){
         e.preventDefault();
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         if (selectedValue != 'person' && jQuery('#autocomplete-input').val() ==""){
@@ -901,15 +901,6 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         }
     });
 
-    $submitBtn.on('click', function (e) {
-        e.preventDefault();
-        
-        const $items = $suggestions.find('.suggestion-item');
-        if (!suggestionSelected && $items.length > 0) {
-            const firstItem = $items.eq(0);
-            selectSuggestion(firstItem.text(), firstItem.data('code'), firstItem.data('uuid'));
-        }
-    });
 
     jQuery(document).on('click', function (e) {
         if (!jQuery(e.target).is($input)) {
