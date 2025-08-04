@@ -196,7 +196,7 @@ jQuery(document).ready(function($){
         let data = await API.get_product_footprint(userSelection);
 
         if(selectedValue === 'person'){
-            data['title'] = "Emission per person in " + userSelection.country + " - " + userSelection.year;
+            data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
         }
 
         await display_result("#summary-analysis-content",data);
