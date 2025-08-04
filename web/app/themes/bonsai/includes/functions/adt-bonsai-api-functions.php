@@ -236,7 +236,7 @@ function get_country_name_by_code(){
         wp_send_json_error(['error' => $result['detail']], 503);
     }
 
-    wp_send_json_success($result[0]['name']);
+    wp_send_json_success($result);
 }
 
 add_action('wp_ajax_get_country_name_by_code', 'get_country_name_by_code');
