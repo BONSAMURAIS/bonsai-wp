@@ -199,7 +199,7 @@ jQuery(document).ready(function($){
             data['title'] = "Emission per person in " + userSelection.country + " - " + userSelection.year;
         }
 
-        display_result("#summary-analysis-content",data);
+        await display_result("#summary-analysis-content",data);
         adt_save_local_search_history(userSelection);
         console.log("END popular click")
     });
@@ -313,7 +313,7 @@ jQuery(document).ready(function($){
             data['title'] = "Emission per person in " + userSelection.country + " - " + userSelection.year;
         }
         adt_push_parameter_to_url(userSelection);
-        display_result("#summary-analysis-content",data);
+        await display_result("#summary-analysis-content",data);
         console.log('END searching');
     });
     
@@ -342,7 +342,7 @@ jQuery(document).ready(function($){
             data['title'] = "Person in " + userSelection.country + " - " + userSelection.year;
         }
         
-        let hasResult = display_result("#compared-product-analysis-content",data);
+        let hasResult = await display_result("#compared-product-analysis-content",data);
         
         if (hasResult){
             adt_push_parameter_to_url(userSelection);
@@ -514,7 +514,7 @@ jQuery(document).ready(function($){
         try {
             let data = await API.get_product_footprint(userSelection); //can only be footprint
             const htmlclass = "#"+jQuery(this).closest(".tile-wrapper").attr('id');
-            display_result(htmlclass,data);
+            await display_result(htmlclass,data);
             // adt_save_local_search_history(userSelection);
         } catch (err) {
             console.error('Error in async handler:', err);
@@ -928,7 +928,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         
         adt_push_parameter_to_url(userSelection);
         let data = await API.get_product_footprint(userSelection);
-        display_result(data);
+        await display_result(data);
         adt_save_local_search_history(userSelection);
     }
 }
@@ -1043,7 +1043,7 @@ async function init_form(){
     if(userSelection.footprint_type === 'person'){
         data['title'] = "Emission per person in " + userSelection.country + " - " + userSelection.year;
     }
-    display_result("#summary-analysis-content",data);
+    await display_result("#summary-analysis-content",data);
     adt_save_local_search_history(userSelection);
 
 }
