@@ -597,8 +597,8 @@ async function display_result(htmlclass, data){
     if (recipeArray.error){
         return true;
     }
-    jQuery.each(recipeArray,async function(index, recipe){
-        console.log("recipe=",recipe)
+
+    for (const recipe of recipeArray) {
         //preprocessing recipe data
         // Add to URL
         const jsonString = JSON.stringify(recipe);
@@ -653,11 +653,7 @@ async function display_result(htmlclass, data){
         
         //Create rows
         rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
-
-        let country = recipe.region_inflow != null ? await API.get_country_name_by_code(recipe.region_inflow) : "NULL";
-        console.log("country=",country)
-        console.log("recipe.flow_input=",recipe.flow_input)
-        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-countryCode="'+recipe.region_inflow+'" data-country="'+country+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + "WILL_BE_UPDATED" + '</span></td>';
+        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-countryCode="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + "WILL_BE_UPDATED" + '</span></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
@@ -680,8 +676,9 @@ async function display_result(htmlclass, data){
             otherRowMarkup += rowMarkup; // Store "other" row separately
         } else {
             tableMarkup += rowMarkup; // Append all other rows normally
-        }//end Create rows
-    });//end loop on recipeArray
+        }
+        //end Create rows
+    };//end loop on recipeArray
 
     // Append "other" row at the end if it exists
     tableMarkup += otherRowMarkup;
@@ -699,7 +696,14 @@ async function display_result(htmlclass, data){
         }else{
             productTitle = await API.get_product_name_by_code(productCode);
         }
+        let countryCode = jQuery(this).find('span').data('countryCode');
+        let country = "NULL";
+        if (countryCode != null){
+            country = await API.get_country_name_by_code(countryCode);
+        }
+
         jQuery('td span[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
+        jQuery(this).find('span').data('country',country);
         console.log("productcode, productTitle="+productCode + " -> "+productTitle)
     });
 
