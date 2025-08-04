@@ -597,7 +597,7 @@ async function display_result(htmlclass, data){
     if (recipeArray.error){
         return true;
     }
-    recipeArray.each(async function(recipe){
+    jQuery.each(recipeArray,async function(index, recipe){
         console.log("recipe=",recipe)
         //preprocessing recipe data
         // Add to URL
