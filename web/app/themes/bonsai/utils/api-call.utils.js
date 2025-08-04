@@ -110,7 +110,6 @@ export async function get_product_name_by_code(productCode) {
                 code: productCode,
             },
             success: (response) => {
-                console.log("resp=",response)
                 let productTitle = response.data;
                 resolve(productTitle);
             },
@@ -133,6 +132,7 @@ export async function get_country_name_by_code(code) {
                 code: code,
             },
             success: (response) => {
+                console.log("resp=",response)
                 let country = response.data;
                 resolve(country);
     
