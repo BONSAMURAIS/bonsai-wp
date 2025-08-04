@@ -132,8 +132,8 @@ export async function get_country_name_by_code(code) {
                 code: code,
             },
             success: (response) => {
-                console.log("resp=",response)
-                const country = response.data.results[0].name;
+                const country = data.success ? response.data.results[0].name : "NOT";
+                
                 resolve(country);
     
             }
