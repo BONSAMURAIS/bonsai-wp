@@ -133,7 +133,7 @@ function adt_get_locations(): array{
 
     // Check for errors
     if (is_wp_error($response)) {
-        return 'Error: ' . $response->get_error_message();
+        return ['Error: ' . $response->get_error_message()];
     }
 
     // Retrieve and decode the response body
