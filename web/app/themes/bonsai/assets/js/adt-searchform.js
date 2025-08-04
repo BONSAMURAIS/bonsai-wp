@@ -655,6 +655,8 @@ async function display_result(htmlclass, data){
         rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
 
         let country = recipe.region_inflow != null ? await API.get_country_name_by_code(recipe.region_inflow) : "NULL";
+        console.log("country=",country)
+        console.log("recipe.flow_input=",recipe.flow_input)
         rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-countryCode="'+recipe.region_inflow+'" data-country="'+country+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + "WILL_BE_UPDATED" + '</span></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
