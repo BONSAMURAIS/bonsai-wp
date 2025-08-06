@@ -128,7 +128,7 @@ export async function get_product_name_by_code_api(productCode) {
             url: localize._ajax_url,
             data: {
                 _ajax_nonce: localize._ajax_nonce,
-                action: 'adt_get_product_name_by_code_api',
+                action: 'get_product_name_by_code_api',
                 code: productCode,
             },
             success: (response) => {
