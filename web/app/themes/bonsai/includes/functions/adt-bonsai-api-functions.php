@@ -448,8 +448,7 @@ function get_product_name_by_code_api(){
     }
 
 
-    
-    return($result);
+    wp_send_json_success($result);
 }
 
 add_action('wp_ajax_get_product_name_by_code_api', 'get_product_name_by_code_api');
