@@ -121,6 +121,29 @@ export async function get_product_name_by_code(productCode) {
     })
 }
 
+export async function get_product_name_by_code_api(productCode) {
+    return new Promise((resolve, reject)=>{
+        jQuery.ajax({
+            type: 'POST',
+            url: localize._ajax_url,
+            data: {
+                _ajax_nonce: localize._ajax_nonce,
+                action: 'adt_get_product_name_by_code_api',
+                code: productCode,
+            },
+            success: (response) => {
+                console.log("api response=",response)
+                let productTitle = response.data;
+                resolve(productTitle);
+            },
+            error:(err)=>{
+                console.log("err=",err);
+                reject(err);
+            }
+        });
+    })
+}
+
 export async function get_country_name_by_code(code) {
     return new Promise((resolve, reject)=>{
         jQuery.ajax({

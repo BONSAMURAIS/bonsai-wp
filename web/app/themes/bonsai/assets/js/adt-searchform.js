@@ -697,6 +697,8 @@ async function display_result(htmlclass, data){
             productTitle = productCode;
         }else{
             productTitle = await API.get_product_name_by_code(productCode);
+            let test = await API.get_product_name_by_code_api(productCode);
+            console.log("test = ",test)
         }
         let countryCode = jQuery(this).find('span').data('country-code');
         let country = "NULL";

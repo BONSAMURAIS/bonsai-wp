@@ -420,6 +420,41 @@ add_action('wp_ajax_adt_get_product_footprint', 'adt_get_product_footprint');
 add_action('wp_ajax_nopriv_adt_get_product_footprint', 'adt_get_product_footprint');
 
 
+function get_product_name_by_code_api($productCode){
+    $productCode = $_POST['code'];
+    $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode;
+    $response = wp_remote_get($url);
+    
+    // Check for errors
+    if (is_wp_error($response)) {
+        return wp_send_json_error(['Error: ' . $response->get_error_message()]);
+    }
+    
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+
+    if (isset($result['count']) && $result['count'] === 0) {
+        wp_send_json_error(['error' => 'Product not found']);
+    }
+
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return 'No footprints found or an error occurred.';
+    }
+
+    if (array_key_exists('detail', $result)) {
+        wp_send_json_error(['error' => $result['detail']], 503);
+    }
+
+
+    
+    return($result);
+}
+
+add_action('wp_ajax_get_product_name_by_code_api', 'get_product_name_by_code_api');
+add_action('wp_ajax_nopriv_get_product_name_by_code_api', 'get_product_name_by_code_api');
+
 function get_product_name_by_code($productCode){
     $args = [
         'post_type' => 'product',
