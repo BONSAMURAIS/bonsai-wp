@@ -422,7 +422,7 @@ add_action('wp_ajax_nopriv_adt_get_product_footprint', 'adt_get_product_footprin
 
 function get_product_name_by_code_api(){
     $productCode = $_POST['code'];
-    $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode;
+    $url = $GLOBALS['APIURL']."/products/?search=".$productCode;
     $response = wp_remote_get($url);
     
     // Check for errors
