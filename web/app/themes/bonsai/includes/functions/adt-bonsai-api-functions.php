@@ -450,7 +450,7 @@ function get_product_name_by_code_api(){
     $name = "";
 
     foreach ($result as $elem) {
-        if ($elem['code'] == $productCode){
+        if (strcasecmp($elem['code'],$productCode)==0){
             $name = $elem['name'];
         }
     }
