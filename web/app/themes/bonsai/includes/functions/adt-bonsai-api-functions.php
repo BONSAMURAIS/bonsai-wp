@@ -450,7 +450,7 @@ function get_product_name_by_code_api(){
         wp_send_json_success($productCode);
     }
 
-    $name = "/";
+    $name = "/".$productCode;
 
     if($result['count']>0){
         foreach ($result['results'] as $elem) {
