@@ -435,16 +435,19 @@ function get_product_name_by_code_api(){
     $result = json_decode($body, true);
 
     if (isset($result['count']) && $result['count'] === 0) {
-        wp_send_json_error(['error' => 'Product not found']);
+        // wp_send_json_error(['error' => 'Product not found']);
+        wp_send_json_success($productCode);
     }
-
+    
     // Handle potential errors in the response
     if (empty($result)) {
-        return 'No footprints found or an error occurred.';
+        // return 'No footprints found or an error occurred.';
+        wp_send_json_success($productCode);
     }
-
+    
     if (array_key_exists('detail', $result)) {
-        wp_send_json_error(['error' => $result['detail']], 503);
+        // wp_send_json_error(['error' => $result['detail']], 503);
+        wp_send_json_success($productCode);
     }
 
     $name = "/";
