@@ -453,6 +453,7 @@ function get_product_name_by_code_api(){
         foreach ($result['results'] as $elem) {
             if (strcasecmp($elem['code'],$productCode)==0){
                 $name = $elem['name'];
+                break;
             }
         }
     }
