@@ -449,12 +449,13 @@ function get_product_name_by_code_api(){
 
     $name = "";
 
-    foreach ($result as $elem) {
-        if (strcasecmp($elem['code'],$productCode)==0){
-            $name = $elem['name'];
+    if($result['count']>0){
+        foreach ($result['results'] as $elem) {
+            if (strcasecmp($elem['code'],$productCode)==0){
+                $name = $elem['name'];
+            }
         }
     }
-
 
     wp_send_json_success($result);
 }
