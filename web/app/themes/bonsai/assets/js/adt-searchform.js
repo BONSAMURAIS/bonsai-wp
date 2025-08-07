@@ -696,9 +696,7 @@ async function display_result(htmlclass, data){
         if (productCode.toLowerCase() === "other" || productCode.toLowerCase() === "direct"){
             productTitle = productCode;
         }else{
-            productTitle = await API.get_product_name_by_code(productCode);
-            let test = await API.get_product_name_by_code_api(productCode);
-            console.log("test = ",test)
+            productTitle = await API.get_product_name_by_code_api(productCode);
         }
         let countryCode = jQuery(this).find('span').data('country-code');
         let country = "NULL";
