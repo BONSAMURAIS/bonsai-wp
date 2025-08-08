@@ -152,7 +152,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </datalist>
                 </div>
                 <section id="search">
-                    <div id="search-btns">
+                    <div id="search-btns" style="display:none;">
                         <button id="btn-search">
                             Search
                         </button>
