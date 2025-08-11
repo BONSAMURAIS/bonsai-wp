@@ -354,6 +354,7 @@ jQuery(document).ready(function($){
 
     $(".adt-close").click(function(e){
         e.preventDefault();
+        console.log("target e=",e)
         $("#add-btn").show();
         $("#compared-product-analysis-content").hide();
         $('#uncertainty-wrapper').slideUp();
