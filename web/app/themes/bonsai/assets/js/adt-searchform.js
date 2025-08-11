@@ -356,7 +356,7 @@ jQuery(document).ready(function($){
         e.preventDefault();
         console.log("target e.target.closest(.tile)=",e.target.closest(".tile"))
         $("#add-btn").show();
-        e.target.closest(".tile").hide();
+        $(e.target).closest(".tile").hide();
         // $("#compared-product-analysis-content").hide();
         $('#uncertainty-wrapper').slideUp();
     });
