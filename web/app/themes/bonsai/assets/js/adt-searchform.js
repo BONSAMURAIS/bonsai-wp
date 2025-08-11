@@ -46,8 +46,6 @@ function copyTile(){
     });
 
     clone
-        .append('<span id="adt-close"></span>') //add close button
-        .hide() //init hide behind add-btn
         .removeAttr("id")
         .attr("id","compared-product-analysis-content")
         .addClass("search-result")
@@ -354,7 +352,7 @@ jQuery(document).ready(function($){
         console.log('END searching for comparison');
     });
 
-    $("#adt-close").click(function(e){
+    $(".adt-close").click(function(e){
         e.preventDefault();
         $("#add-btn").show();
         $("#compared-product-analysis-content").hide();
