@@ -46,6 +46,7 @@ function copyTile(){
     });
 
     clone
+        .hide() //init hide behind add-btn
         .removeAttr("id")
         .attr("id","compared-product-analysis-content")
         .addClass("search-result")
