@@ -354,9 +354,10 @@ jQuery(document).ready(function($){
 
     $(".adt-close").click(function(e){
         e.preventDefault();
-        console.log("target e=",e)
+        console.log("target e.target.closest(.tile)=",e.target.closest(".tile"))
         $("#add-btn").show();
-        $("#compared-product-analysis-content").hide();
+        e.target.closest(".tile").hide();
+        // $("#compared-product-analysis-content").hide();
         $('#uncertainty-wrapper').slideUp();
     });
 
