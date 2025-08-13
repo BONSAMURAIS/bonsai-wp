@@ -489,6 +489,7 @@ jQuery(document).ready(function($){
         // history.pushState(null, '', href);
     });
 
+    //hide/display arrow
     $('label.select').each(function() {
         let listOptions = $(this).find('option');
         if (listOptions.length <= 1){
