@@ -350,7 +350,15 @@ jQuery(document).ready(function($){
 
     $(".adt-close").click(function(e){
         e.preventDefault();
+
+        let addBtn = $("#add-btn");
         console.log("target e.target.closest(.tile)=",e.target.closest(".tile"))
+
+        if (!addBtn.is(':hidden')){
+            Utils.hide_search_results('#co2-form-result');
+            return;
+        }
+
         $("#add-btn").show();
         $(e.target).closest(".tile").hide();
         // $("#compared-product-analysis-content").hide();
