@@ -15,7 +15,7 @@ window.addEventListener('popstate', async function(event) {
 
 function copyTile(){
     let original = jQuery('#product-analysis-content');
-    let clone = original.children().first().clone();
+    let clone = original.clone();
     const suffix = '-compared';
     
     clone.find('.switch-field-container-contri-analysis').first().children().each(function(){
