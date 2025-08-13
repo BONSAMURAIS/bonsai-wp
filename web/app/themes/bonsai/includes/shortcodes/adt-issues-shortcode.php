@@ -61,7 +61,6 @@ function adt_issues_shortcode() {
                 <tr>
                     <th colspan="1">
                         <span class="issues-open"><span class="issues-open-count"><?= $openedIssues ?> </span> open</span>
-                        <span class="issues-closed"><span class="issues-closed-count"><?= $closedIssues ?> </span> closed</span>
                     </th>
                     <th colspan="3"></th>
                     <th colspan="1">Milestone</th>
@@ -73,6 +72,9 @@ function adt_issues_shortcode() {
                     <?php 
 
                     $issueState = $issue['state'];
+                    if ($issueState == "closed"){
+                        continue;
+                    }
                     $labelsArray = $issue['labels'];
 
                     ?>
