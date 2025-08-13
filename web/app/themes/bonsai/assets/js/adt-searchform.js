@@ -190,7 +190,7 @@ jQuery(document).ready(function($){
         let data = await API.get_product_footprint(userSelection);
 
         if(selectedValue === 'person'){
-            data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
+            data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
         }
 
         await display_result("#summary-analysis-content",data);
@@ -304,7 +304,7 @@ jQuery(document).ready(function($){
         data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
 
         if(selectedValue === 'person'){
-            data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
+            data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
         }
         adt_push_parameter_to_url(userSelection);
         await display_result("#summary-analysis-content",data);
@@ -1033,7 +1033,7 @@ async function init_form(){
     let data = userSelection.footprint_type ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
 
     if(userSelection.footprint_type === 'person'){
-        data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
+        data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
     }
     await display_result("#summary-analysis-content",data);
     adt_save_local_search_history(userSelection);
