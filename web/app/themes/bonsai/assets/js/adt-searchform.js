@@ -82,7 +82,7 @@ jQuery(document).ready(function($){
                 $(this).toggle();
             });
             $('#most-popular-wrapper').toggle();
-            $('.search-input-wrapper').toggle();
+            $('#product-tab').toggle();
             $('#person-tab').toggle();
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change');

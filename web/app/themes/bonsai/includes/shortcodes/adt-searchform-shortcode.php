@@ -128,7 +128,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
 
                 <!-- Per product -->
-                <div class="search-input-wrapper">
+                <div id="product-tab">
                     <input name="search" type="text" id="autocomplete-input" placeholder="Find climate footprint by product">
                     <?= do_shortcode('[search_icon]')?>
 

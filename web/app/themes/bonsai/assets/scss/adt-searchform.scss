@@ -219,6 +219,32 @@ span.adt-close {
     margin-top: 15px;
 }
 
+#product-tab {
+    margin: 20px 0;
+    position: relative;
+
+    button {
+        position: absolute;
+        right: 15px;
+        height: 100px;
+        margin: 0;
+
+        svg {
+            display: flex;
+
+            @media only screen and (max-width: 468px) {
+                height: 26px;
+                width: 26px;
+            }
+        }
+
+        @media only screen and (max-width: 468px) {
+            height: 45px;
+            right: 0;
+        }
+    }
+}
+
 /**
 * Section search buttons
 **/
@@ -456,31 +482,6 @@ span.adt-close {
     }
 }
 
-.search-input-wrapper {
-    margin: 20px 0;
-    position: relative;
-
-    button {
-        position: absolute;
-        right: 15px;
-        height: 100px;
-        margin: 0;
-
-        svg {
-            display: flex;
-
-            @media only screen and (max-width: 468px) {
-                height: 26px;
-                width: 26px;
-            }
-        }
-
-        @media only screen and (max-width: 468px) {
-            height: 45px;
-            right: 0;
-        }
-    }
-}
 
 input[name="search"] {
     border-radius: 50px;
