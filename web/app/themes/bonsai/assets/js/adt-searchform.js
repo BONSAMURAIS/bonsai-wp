@@ -46,6 +46,7 @@ function copyTile(){
         }
     });
 
+    console.log("clone.find(#unit)=",clone.find("#unit"));
     clone.find("#unit").first().children().each(function(){
         jQuery(this).attr('id', currentId + suffix);
     });
