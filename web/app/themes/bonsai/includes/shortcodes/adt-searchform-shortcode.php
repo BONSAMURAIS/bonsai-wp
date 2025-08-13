@@ -194,8 +194,8 @@ add_shortcode( 'adt_searchform', function($atts) {
         <section id="co2-form-result">            
             <div class="divider">
             </div>
-            <div id="summary-analysis" class="search-result">
-                <div id="summary-analysis-content" class="tile-wrapper col medium-12 small-12 large-12">
+            <div id="product-analysis" class="search-result">
+                <div id="product-analysis-content" class="tile-wrapper col medium-12 small-12 large-12">
                     <div class="tile">
                         <div class="tile-corner">
                             <span class="adt-close"></span>

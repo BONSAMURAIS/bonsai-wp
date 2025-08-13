@@ -14,7 +14,7 @@ window.addEventListener('popstate', async function(event) {
 });
 
 function copyTile(){
-    let original = jQuery('#summary-analysis');
+    let original = jQuery('#product-analysis');
     let clone = original.children().first().clone();
     const suffix = '-compared';
     
@@ -193,7 +193,7 @@ jQuery(document).ready(function($){
             data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
         }
 
-        await display_result("#summary-analysis-content",data);
+        await display_result("#product-analysis-content",data);
         adt_save_local_search_history(userSelection);
         console.log("END popular click")
     });
@@ -307,7 +307,7 @@ jQuery(document).ready(function($){
             data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
         }
         adt_push_parameter_to_url(userSelection);
-        await display_result("#summary-analysis-content",data);
+        await display_result("#product-analysis-content",data);
         console.log('END searching');
     });
     
@@ -1035,7 +1035,7 @@ async function init_form(){
     if(userSelection.footprint_type === 'person'){
         data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
     }
-    await display_result("#summary-analysis-content",data);
+    await display_result("#product-analysis-content",data);
     adt_save_local_search_history(userSelection);
 
 }
