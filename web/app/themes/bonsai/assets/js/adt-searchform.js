@@ -592,9 +592,13 @@ async function display_result(htmlclass, data){
     }
     if (unitList.length>1){
         jQuery('.unit-arrow').each(function(index, arrow) {
-            console.log("arrow=",arrow)
             arrow.style.display = 'block';
         })
+    }else{
+        jQuery('.unit-arrow').each(function(index, arrow) {
+            arrow.style.display = 'none';
+        })
+
     }
 
     //recipe
