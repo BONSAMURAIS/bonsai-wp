@@ -244,8 +244,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                                         <tr>
                                             <th>Inputs</th> <!-- flow_input -->
                                             <th>Country</th> <!-- region_inflow -->
-                                            <th class="has-hover">Input</th> <!-- value_inflow + unit_inflow -->
-                                            <th class="has-hover">Emissions<span class="emission-header-unit">[Tonnes CO2eq]</span></th> <!-- value_emission + unit_emission -->
+                                            <th class="emissions-table-header-input">Input</th> <!-- value_inflow + unit_inflow -->
+                                            <th class="emissions-table-header-emissions">Emissions<span class="emission-header-unit">[Tonnes CO2eq]</span></th> <!-- value_emission + unit_emission -->
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -278,7 +278,7 @@ add_shortcode( 'adt_searchform', function($atts) {
             <div id="compared-product-analysis">
                 <div id="add-btn" class="tile col medium-12 small-12 large-12">
                     <a href="#">
-                        <p class="primary-text add">+</p>
+                        <p class="add">+</p>
                         <p>Add to comparison</p>
                     </a>
                 </div>
