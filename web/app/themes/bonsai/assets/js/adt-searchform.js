@@ -381,13 +381,13 @@ jQuery(document).ready(function($){
 
         clone.find('.switch-field-container-contri-analysis').first().children().each(function(){
             if (jQuery(this).is('input')) {
-                const currentId = jQuery(this).attr('id');
+                let currentId = jQuery(this).attr('id');
                 if (currentId) {
                     currentId = currentId.replace(suffix, "");
                     jQuery(this).attr('id', currentId);
                 }
             } else if (jQuery(this).is('label')) {
-                const currentFor = jQuery(this).attr('for');
+                let currentFor = jQuery(this).attr('for');
                 if (currentFor) {
                     currentFor = currentFor.replace(suffix, "");
                     jQuery(this).attr('for', currentFor);
@@ -397,13 +397,13 @@ jQuery(document).ready(function($){
         
         clone.find('.unit-select-wrapper').first().children().each(function(){
             if (jQuery(this).is('input') || jQuery(this).is('select')) {
-                const currentId = jQuery(this).attr('id');
+                let currentId = jQuery(this).attr('id');
                 if (currentId) {
                     currentId = currentId.replace(suffix, "");
                     jQuery(this).attr('id', currentId);
                 }
             } else if (jQuery(this).is('label')) {
-                const currentFor = jQuery(this).attr('for');
+                let currentFor = jQuery(this).attr('for');
                 if (currentFor) {
                     currentFor = currentFor.replace(suffix, "");
                     jQuery(this).attr('for', currentFor);
