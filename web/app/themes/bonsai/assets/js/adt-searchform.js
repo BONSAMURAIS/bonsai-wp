@@ -363,13 +363,55 @@ jQuery(document).ready(function($){
         let tile = $(e.target).closest(".tile-wrapper");
         console.log("tile=",tile);
         if (tile.attr("id")=="product-analysis-content"){
-            
+            tile.empty();
+            let copy = $("#compared-product-analysis-content").children().first();
+            removeSuffix(copy);
+            copy.appendTo("#"+tile.attr("id"));
+            $("#add-btn").show();
+
             return;
         }
         tile.hide();
         $("#add-btn").show();
         // $("#compared-product-analysis-content").hide();
     });
+
+    function removeSuffix(clone){
+        const suffix = '-compared';
+
+        clone.find('.switch-field-container-contri-analysis').first().children().each(function(){
+            if (jQuery(this).is('input')) {
+                const currentId = jQuery(this).attr('id');
+                if (currentId) {
+                    currentId = currentId.replace(suffix, "");
+                    jQuery(this).attr('id', currentId);
+                }
+            } else if (jQuery(this).is('label')) {
+                const currentFor = jQuery(this).attr('for');
+                if (currentFor) {
+                    currentFor = currentFor.replace(suffix, "");
+                    jQuery(this).attr('for', currentFor);
+                }
+            }
+        });
+        
+        clone.find('.unit-select-wrapper').first().children().each(function(){
+            if (jQuery(this).is('input') || jQuery(this).is('select')) {
+                const currentId = jQuery(this).attr('id');
+                if (currentId) {
+                    currentId = currentId.replace(suffix, "");
+                    jQuery(this).attr('id', currentId);
+                }
+            } else if (jQuery(this).is('label')) {
+                const currentFor = jQuery(this).attr('for');
+                if (currentFor) {
+                    currentFor = currentFor.replace(suffix, "");
+                    jQuery(this).attr('for', currentFor);
+                }
+            }
+        });
+        return clone;
+    }
 
     //observe on_change elements
     jQuery('#co2-form-result').find('select.unit').on('change', function () {
