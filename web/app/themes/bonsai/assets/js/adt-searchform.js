@@ -64,15 +64,6 @@ jQuery(document).ready(function($){
         init_form();
     }
 
-    $('label.select').each(function() {
-        let listOptions = $(this).find('option');
-        if (listOptions.length <= 1){
-            let arrowImg = $(this).children(':nth-child(2)');
-            arrowImg.hide();
-            $(this).prop('disabled', true);
-        }
-    });
-
     copyTile();
 
     $('input[name="footprint_type"]').on('change',async function(){
@@ -526,6 +517,15 @@ jQuery(document).ready(function($){
         // // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
         // const href = jQuery(this).attr('href');
         // history.pushState(null, '', href);
+    });
+
+    $('label.select').each(function() {
+        let listOptions = $(this).find('option');
+        if (listOptions.length <= 1){
+            let arrowImg = $(this).children(':nth-child(2)');
+            arrowImg.hide();
+            $(this).prop('disabled', true);
+        }
     });
 
 });
