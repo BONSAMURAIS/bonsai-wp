@@ -363,7 +363,7 @@ jQuery(document).ready(function($){
         let tile = $(e.target).closest(".tile-wrapper");
         console.log("tile=",tile);
         if (tile.attr("id")=="product-analysis-content"){
-            tile.empty();
+            tile.empty();//issue here with the button basic-advanced: the elements are not recognized by the document
             let copy = $("#compared-product-analysis-content").children().first();
             removeSuffix(copy);
             copy.appendTo("#"+tile.attr("id"));
