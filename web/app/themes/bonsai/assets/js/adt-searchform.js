@@ -590,7 +590,7 @@ async function display_result(htmlclass, data){
     for (const unit of unitList){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
-    if (unitList.length>1 & unit_options.find('.unit-arrow').length >0){
+    if (unitList.length>1){
         jQuery('.unit-arrow').each(function(index, arrow) {
             console.log("arrow=",arrow)
             arrow.style.display = 'block';
