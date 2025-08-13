@@ -448,11 +448,11 @@ jQuery(document).ready(function($){
 
         let unitSelect = amountInput.closest('div.unit-select-wrapper')      // go up to the div wrapping 
                                 .find('select.unit');        // look inside for p.co2-value
-        let unitRatio = unitSelect.val();
-        let unitRatio_name = unitSelect.find('option:selected').text();
-        console.log("unitRatio , unitRatio_name = ", unitRatio, unitRatio_name)
+        const unitRatio = unitSelect.val();
+        // let unitRatio_name = unitSelect.find('option:selected').text();
+        // console.log("unitRatio , unitRatio_name = ", unitRatio, unitRatio_name)
         
-        let calculatedValue = co2_result_value * amountInput.val();
+        let calculatedValue = co2_result_value * amountInput.val() * unitRatio;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
 
         co2_result.text(formattedCalculatedValue);
