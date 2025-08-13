@@ -397,6 +397,7 @@ jQuery(document).ready(function($){
             }
         });
         
+        console.log("clone.find('.unit-select-wrapper')=",clone.find('.unit-select-wrapper'));
         clone.find('.unit-select-wrapper').first().children().each(function(){
             if (jQuery(this).is('input') || jQuery(this).is('select')) {
                 let currentId = jQuery(this).attr('id');
@@ -412,7 +413,6 @@ jQuery(document).ready(function($){
                 }
             }
         });
-        return clone;
     }
 
     //observe on_change elements
