@@ -114,7 +114,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
 
                 <!-- Per person -->
-                <div id="person-choices" style="display: none;">
+                <div id="person-tab" style="display: none;">
                     <div class="select-wrapper col medium-12 small-12 large-12">
                         <div class="medium-6 small-12 large-6">
                             <?= do_shortcode('[tooltip id="info-household-composition" href="#info-household-composition" label="Household composition" block_id="household-composition-info-popup"]')?>
@@ -178,7 +178,7 @@ add_shortcode( 'adt_searchform', function($atts) {
         </section>
         
         <section id="uncertainty-wrapper" style="display: none;">
-            <div id="divider">
+            <div class="divider">
             </div>
             <p>How sure are we on the ranking of the two compared products on a scale from 0-100%?</p>
             <div id="uncertainty-bar">
@@ -192,7 +192,7 @@ add_shortcode( 'adt_searchform', function($atts) {
         </section>
         
         <section id="co2-form-result">            
-            <div id="divider">
+            <div class="divider">
             </div>
             <div id="summary-analysis" class="search-result">
                 <div id="summary-analysis-content" class="tile-wrapper col medium-12 small-12 large-12">

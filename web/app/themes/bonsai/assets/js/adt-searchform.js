@@ -83,7 +83,7 @@ jQuery(document).ready(function($){
             });
             $('#most-popular-wrapper').toggle();
             $('.search-input-wrapper').toggle();
-            $('#person-choices').toggle();
+            $('#person-tab').toggle();
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change');
             } else {
