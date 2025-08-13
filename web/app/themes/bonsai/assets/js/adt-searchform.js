@@ -359,8 +359,8 @@ jQuery(document).ready(function($){
             return;
         }
 
+        $(e.target).closest(".tile-wrapper").hide();
         $("#add-btn").show();
-        $(e.target).closest(".tile").hide();
         // $("#compared-product-analysis-content").hide();
         // $('#uncertainty-wrapper').slideUp();
     });
