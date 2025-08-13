@@ -14,7 +14,7 @@ window.addEventListener('popstate', async function(event) {
 });
 
 function copyTile(){
-    let original = jQuery('#product-analysis');
+    let original = jQuery('#product-analysis-content');
     let clone = original.children().first().clone();
     const suffix = '-compared';
     
@@ -350,19 +350,25 @@ jQuery(document).ready(function($){
 
     $(".adt-close").click(function(e){
         e.preventDefault();
-
+        
+        // $('#uncertainty-wrapper').slideUp();
+        
         let addBtn = $("#add-btn");
         console.log("target e.target.closest(.tile)=",e.target.closest(".tile"))
-
         if (!addBtn.is(':hidden')){
             Utils.hide_search_results('#co2-form-result');
             return;
         }
 
-        $(e.target).closest(".tile-wrapper").hide();
+        let tile = $(e.target).closest(".tile-wrapper");
+        console.log("tile=",tile);
+        if (tile.attr("id")=="product-analysis-content"){
+            
+            return;
+        }
+        tile.hide();
         $("#add-btn").show();
         // $("#compared-product-analysis-content").hide();
-        // $('#uncertainty-wrapper').slideUp();
     });
 
     //observe on_change elements
