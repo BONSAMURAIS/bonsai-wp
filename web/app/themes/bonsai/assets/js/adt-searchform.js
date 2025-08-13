@@ -592,6 +592,7 @@ async function display_result(htmlclass, data){
     }
     if (unitList.length>1 & unit_options.find('.unit-arrow').length >0){
         jQuery('.unit-arrow').each(function(index, arrow) {
+            console.log("arrow=",arrow)
             arrow.style.display = 'block';
         })
     }
