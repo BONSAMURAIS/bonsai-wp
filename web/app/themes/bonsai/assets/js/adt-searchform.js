@@ -368,6 +368,7 @@ jQuery(document).ready(function($){
             removeSuffix(copy);
             copy.appendTo("#"+tile.attr("id"));
             $("#add-btn").show();
+            $("#compared-product-analysis-content").remove();
             copyTile();
 
             return;
