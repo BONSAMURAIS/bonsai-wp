@@ -398,9 +398,11 @@ jQuery(document).ready(function($){
         });
         
         console.log("clone.find('.unit-select-wrapper')=",clone.find('.unit-select-wrapper'));
+        console.log("clone.find('.unit-select-wrapper').first()=",clone.find('.unit-select-wrapper').first());
         clone.find('.unit-select-wrapper').first().children().each(function(){
             if (jQuery(this).is('input') || jQuery(this).is('select')) {
                 let currentId = jQuery(this).attr('id');
+                console.log("currentId=",currentId)
                 if (currentId) {
                     currentId = currentId.replace(suffix, "");
                     jQuery(this).attr('id', currentId);
