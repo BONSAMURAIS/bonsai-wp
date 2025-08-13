@@ -55,15 +55,17 @@ div#initial-error-message {
 }
 
 span.adt-close {
-    right: 35px;
-    top: 20px;
     background-color: $secondary;
     height: 30px;
     width: 30px;
     border-radius: 15px;
     display: flex;
     justify-content: center;
+    justify-self: end;
     align-items: center;
+    margin-right: 1.5em;
+    margin-top: -0.5em;
+    margin-bottom: 1em;
     z-index: 800;
 
     &::before {
