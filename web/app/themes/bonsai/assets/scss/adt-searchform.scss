@@ -95,11 +95,6 @@ div.tooltip-wrapper {
 
 
 // switch-radio btns
-
-#switch-field-wrapper {
-    display: flex;
-}
-
 .radio-choice {
     background-color: $grey;
     padding: 5px 10px;
@@ -310,6 +305,20 @@ input[name="search"] {
     justify-content: space-between;
 }
 
+#switch-field-wrapper {
+    display: flex;
+}
+
+#footprint-type {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+
+    @media only screen and (max-width: 468px) {
+        flex-direction: column;
+    }
+}
+
 /**
 * Section most-popular
 **/
@@ -334,6 +343,10 @@ input[name="search"] {
             flex-wrap: wrap;
             max-width: 100%;
         }
+    }
+    
+    ul {
+        gap: 0.5em;
     }
 
     ul li {
@@ -844,16 +857,6 @@ span.adt-close {
 /**
 * Other
 **/
-
-#footprint-type {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-
-    @media only screen and (max-width: 468px) {
-        flex-direction: column;
-    }
-}
 
 .download {
     margin: 0 0 0 auto;
