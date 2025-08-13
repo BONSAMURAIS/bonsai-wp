@@ -342,7 +342,7 @@ jQuery(document).ready(function($){
             adt_push_parameter_to_url(userSelection);
             $("#add-btn").hide();
             $("#compared-product-analysis-content").show();
-            $('#uncertainty-wrapper').slideDown();
+            // $('#uncertainty-wrapper').slideDown();
         }
 
         console.log('END searching for comparison');
@@ -354,7 +354,7 @@ jQuery(document).ready(function($){
         $("#add-btn").show();
         $(e.target).closest(".tile").hide();
         // $("#compared-product-analysis-content").hide();
-        $('#uncertainty-wrapper').slideUp();
+        // $('#uncertainty-wrapper').slideUp();
     });
 
     //observe on_change elements
