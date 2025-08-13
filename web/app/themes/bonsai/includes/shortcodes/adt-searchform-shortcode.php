@@ -85,7 +85,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <div id="form-container">
                     <div>
                         <?= do_shortcode('[tooltip id="info-footprint" href="#info-footprint" label="Footprint" block_id="footprint-regular-info-popup"]')?>
-                        <div class="switch-field-wrapper">
+                        <div id="switch-field-wrapper">
                             <div class="switch-field switch-field-container">
                                 <input type="radio" id="radio-product" name="footprint_type" value="product" checked/>
                                 <label for="radio-product">Product</label>
