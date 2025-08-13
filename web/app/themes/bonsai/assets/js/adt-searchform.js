@@ -399,7 +399,7 @@ jQuery(document).ready(function($){
         
         console.log("clone.find('.unit-select-wrapper')=",clone.find('.unit-select-wrapper'));
         console.log("clone.find('.unit-select-wrapper').first()=",clone.find('.unit-select-wrapper').first());
-        clone.find('.unit-select-wrapper').first().children().each(function(){
+        clone.find('.unit-select-wrapper').children().each(function(){
             if (jQuery(this).is('input') || jQuery(this).is('select')) {
                 let currentId = jQuery(this).attr('id');
                 console.log("currentId=",currentId)
@@ -412,6 +412,16 @@ jQuery(document).ready(function($){
                 if (currentFor) {
                     currentFor = currentFor.replace(suffix, "");
                     jQuery(this).attr('for', currentFor);
+                    jQuery(this).children().each(function(){
+                        if (jQuery(this).is('input') || jQuery(this).is('select')) {
+                            let currentId = jQuery(this).attr('id');
+                            console.log("currentId=",currentId)
+                            if (currentId) {
+                                currentId = currentId.replace(suffix, "");
+                                jQuery(this).attr('id', currentId);
+                            }
+                        }
+                    })
                 }
             }
         });
