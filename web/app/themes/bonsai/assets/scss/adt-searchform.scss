@@ -31,6 +31,64 @@ div#initial-error-message {
 * Section most-popular
 **/
 
+
+
+/**
+* Section tile
+**/
+
+.switch-field-wrapper {
+    display: flex;
+}
+
+//right corner elements
+.tile-corner{
+    position: absolute;
+    right:3%;
+
+}
+
+.switch-field-wrapper-basic {
+    @media only screen and (max-width: 468px) {
+        justify-content: flex-end;
+    }
+}
+
+span.adt-close {
+    right: 35px;
+    top: 20px;
+    background-color: $secondary;
+    height: 30px;
+    width: 30px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 800;
+
+    &::before {
+        content: url("data:image/svg+xml,%3Csvg width='14px' height='14px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 12H20M12 4V20' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+        height: 23px;
+        rotate: 45deg;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+/**
+* Section search buttons
+**/
+
+#search-btns > button{
+    padding: 0px 20px;
+    border-radius: 50px;
+    border: 1px solid black;
+    color: black;
+}
+
+
 /**
 * Section co2-form-result
 **/
@@ -122,25 +180,7 @@ div#initial-error-message {
     }
 }
 
-.switch-field-wrapper {
-    display: flex;
 
-    &-basic {
-        position:absolute;
-        right:3%;
-
-        @media only screen and (max-width: 468px) {
-            justify-content: flex-end;
-        }
-    }
-}
-
-#search-btns > button{
-    padding: 0px 20px;
-    border-radius: 50px;
-    border: 1px solid black;
-    color: black;
-}
 
 .switch-field{
     display: flex;
@@ -779,29 +819,6 @@ p.product-title {
     cursor: pointer;
 }
 
-span.adt-close {
-    position: absolute;
-    right: 35px;
-    top: 20px;
-    background-color: $secondary;
-    height: 30px;
-    width: 30px;
-    border-radius: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 800;
-
-    &::before {
-        content: url("data:image/svg+xml,%3Csvg width='14px' height='14px' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 12H20M12 4V20' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-        height: 23px;
-        rotate: 45deg;
-    }
-
-    &:hover {
-        cursor: pointer;
-    }
-}
 
 .share-icon {
     display: flex;
