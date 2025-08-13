@@ -363,13 +363,13 @@ jQuery(document).ready(function($){
         let tile = $(e.target).closest(".tile-wrapper");
         console.log("tile=",tile);
         if (tile.attr("id")=="product-analysis-content"){
-            tile.empty();
             let copy = $("#compared-product-analysis-content").children().first();
             removeSuffix(copy);
             copy.appendTo("#"+tile.attr("id"));
             $("#add-btn").show();
             $("#compared-product-analysis-content").hide();
-
+            
+            tile.empty();
             return;
         }
         tile.hide();
