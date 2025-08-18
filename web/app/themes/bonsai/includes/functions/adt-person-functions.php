@@ -24,7 +24,7 @@ function adt_get_person_footprint(){
         }
     }
 
-    $fdemand_aux = "F_HOUS";
+    $fdemand_aux = "F_GOVE";
     $url = $GLOBALS['APIURL']."/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$act_code."&metric=".$metric; //TODO change if call with F_HOUS does not exist
     $response = wp_remote_get($url);
 
