@@ -93,89 +93,6 @@ div.tooltip-wrapper {
     }
 }
 
-
-// switch-radio btns
-.radio-choice {
-    background-color: $grey;
-    padding: 5px 10px;
-    margin: 0;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    border-radius: 20px;
-
-    &:hover {
-        cursor: pointer;
-    }
-
-    label {
-        font-weight: 400;
-        margin: 0;
-    }
-
-    input[type=radio] {
-        margin: 0;
-        appearance: none;
-        -webkit-appearance: none;
-        width: 16px;
-        height: 16px;
-        border: 1px solid #E8EDED;
-        border-radius: 50%;
-        background-color: white;
-        margin-right: 12px;
-
-        &:before {
-            height: 16px;
-        }
-        &:checked {
-            content: url("data:image/svg+xml,%3Csvg width='11' height='11' viewBox='0 0 11 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.3793 8.33771L1.67883 5.63756L2.42245 4.89403L4.3793 6.85065L8.58224 2.64819L9.32586 3.39172L4.3793 8.33771Z' fill='%23004238'/%3E%3C/svg%3E%0A");
-            background-color: $primary;
-            padding: 2px;
-        }
-    }
-}
-
-.switch-field{
-    display: flex;
-    background-color: $grey;
-    border-radius: 50px;
-    border: 1px solid $dark-grey;
-
-    input {
-        position: absolute !important;
-        clip: rect(0, 0, 0, 0);
-        height: 1px;
-        width: 1px;
-        border: 0;
-        overflow: hidden;
-    }
-    label {
-        background-color: $grey;
-        color: rgba(0, 0, 0, 0.6);
-        font-size: 16px;
-        line-height: 1;
-        text-align: center;
-        padding: 10px 25px;
-        margin-bottom: 0;
-        transition: all 0.1s ease-in-out;
-
-        @media only screen and (max-width: 468px) {
-            font-size: 10px;
-            padding: 5px 10px;
-            min-width: 70px;
-        }
-    }
-    label:first-of-type {
-        border-radius: 50px 0 0 50px;
-    }
-    label:last-of-type {
-        border-radius: 0 50px 50px 0;
-    }
-    label:hover {
-        cursor: pointer;
-    }
-}
-
 //select
 .unit-select-wrapper {
     display: flex;
@@ -309,6 +226,28 @@ input[name="search"] {
     display: flex;
 }
 
+
+.switch-field-container {
+    input:checked + label {
+        background-color: $primary;
+        box-shadow: none;
+    }  
+}
+
+.switch-field-container-contri-analysis {
+    input:checked + label {
+        background-color: $secondary;
+        color: white;
+    }
+
+    label{
+        font-size: 12px;
+        @media only screen and (max-width: 468px) {
+            font-size: 10px;
+        }
+    }
+}
+
 #footprint-type {
     display: flex;
     justify-content: flex-end;
@@ -316,6 +255,48 @@ input[name="search"] {
 
     @media only screen and (max-width: 468px) {
         flex-direction: column;
+    }
+
+    // radio btns
+    & > *{
+        background-color: $grey;
+        padding: 5px 10px;
+        margin: 0;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        border-radius: 20px;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        label {
+            font-weight: 400;
+            margin: 0;
+        }
+
+        input[type=radio] {
+            margin: 0;
+            appearance: none;
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            border: 1px solid #E8EDED;
+            border-radius: 50%;
+            background-color: white;
+            margin-right: 12px;
+
+            &:before {
+                height: 16px;
+            }
+            &:checked {
+                content: url("data:image/svg+xml,%3Csvg width='11' height='11' viewBox='0 0 11 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.3793 8.33771L1.67883 5.63756L2.42245 4.89403L4.3793 6.85065L8.58224 2.64819L9.32586 3.39172L4.3793 8.33771Z' fill='%23004238'/%3E%3C/svg%3E%0A");
+                background-color: $primary;
+                padding: 2px;
+            }
+        }
+
     }
 }
 
@@ -653,27 +634,6 @@ span.adt-close {
 /**
 * Section contri-analysis table
 **/
-
-.switch-field-container {
-    input:checked + label {
-        background-color: $primary;
-        box-shadow: none;
-    }  
-}
-
-.switch-field-container-contri-analysis {
-    input:checked + label {
-        background-color: $secondary;
-        color: white;
-    }
-
-    label{
-        font-size: 12px;
-        @media only screen and (max-width: 468px) {
-            font-size: 10px;
-        }
-    }
-}
 
 .contribution-analysis { 
     flex-direction: column;
