@@ -103,8 +103,8 @@ jQuery(document).ready(function($){
 
         if (isChecked) {
             const value = $(this).val();
-            const displayValue = value == 'advanced' ? 'flex' : 'none';
-            $('#analysis-wrapper').css('display', displayValue);
+            const displayValue = value == 'advanced' ? 'column' : 'row';
+            $('#analysis-wrapper').css('flex-direction', displayValue);
         }
     });
 
