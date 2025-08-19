@@ -210,6 +210,7 @@ jQuery(document).ready(function($){
     adt_download_recipe_csv();
 
     $('.share-icon').on('click', async function() {
+        e.preventDefault();
         let productTitle = $('.search-result.basic .col:first-child p.product-title').text();
         let productFootprint = $('input[name="footprint_type"]').val();
         let FootprintView = $('input[name="contri-analysis"]').val();
