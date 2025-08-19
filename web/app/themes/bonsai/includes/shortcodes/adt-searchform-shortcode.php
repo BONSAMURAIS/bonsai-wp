@@ -119,6 +119,15 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <option id="<?php echo $product['code'];?>" value="<?php echo $product['title'];?>">
                         <?php endforeach; ?>
                     </datalist>
+                    <section id="most-popular">
+                        <!-- By other searches -->
+                        <p>Most popular:</p>
+                        <ul>
+                            <?php foreach ($popularSearches as $popularSearch): ?>
+                                <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-choices="<?= $popularSearch->chosen_values ?>"><?= $popularSearch->search_phrase ?></button></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </section>
                 </div>
                 <section id="search">
                     <div id="search-btns" style="display:none;">
@@ -134,16 +143,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </div>
                 </section>
             </form>
-        </section>
-
-        <section id="most-popular">
-            <!-- By other searches -->
-            <p>Most popular:</p>
-            <ul>
-                <?php foreach ($popularSearches as $popularSearch): ?>
-                    <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-choices="<?= $popularSearch->chosen_values ?>"><?= $popularSearch->search_phrase ?></button></li>
-                <?php endforeach; ?>
-            </ul>
         </section>
         
         <section id="uncertainty-wrapper" style="display: none;">
@@ -163,7 +162,7 @@ add_shortcode( 'adt_searchform', function($atts) {
         <section id="co2-form-result">            
             <div class="divider">
             </div>
-                        <div class="row">
+            <div class="row">
                 <div class="col medium-6 small-12 large-6">
                     <h3>Climate Footprint</h3>
                 </div>
