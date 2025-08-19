@@ -429,6 +429,7 @@ div.tile {
     background-color: $grey;
     border-radius: 50px;
     text-align: left;
+    box-shadow: 0 4px 11px -1px rgba(0, 0, 0, 0.1);
 
     @media only screen and (max-width: 468px) {
         padding: 20px 15px;
