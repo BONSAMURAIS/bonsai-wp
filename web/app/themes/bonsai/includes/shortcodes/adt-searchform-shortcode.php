@@ -198,14 +198,13 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <div id="product-analysis-content" class="tile-wrapper col medium-12 small-12 large-12">
                     <div class="tile">
                         <div class="tile-corner">
-                            <span class="adt-close"></span>
-                            <div class="switch-field-wrapper-basic">
-                                <div class="switch-field switch-field-container-contri-analysis">
-                                    <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
-                                    <label for="basic-choice">Basic</label>
-                                    <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
-                                    <label for="advanced-choice">Advanced</label>
-                                </div>
+                            <span class="adt-close">
+                            </span>
+                            <div class="switch-field switch-field-container-contri-analysis">
+                                <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
+                                <label for="basic-choice">Basic</label>
+                                <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
+                                <label for="advanced-choice">Advanced</label>
                             </div>
                         </div>
                         <div class="calculation-wrapper">
