@@ -180,7 +180,12 @@ div.tooltip-wrapper {
     input[type="radio"]:checked + label {
         background-color: $primary;
         box-shadow: none;
-    }  
+    }
+    padding-bottom: 0;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    align-items: center;
 }
 
 .switch-field-container-contri-analysis {

@@ -164,8 +164,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <div class="col medium-6 small-12 large-6">
                     <h3>Climate Footprint</h3>
                 </div>
-                <div class="switch-field switch-field-container-contri-analysis col medium-6 small-12 large-6">
-                    <div class="switch-field-container">
+                <div class="switch-field-container-contri-analysis col medium-6 small-12 large-6">
+                    <div class="switch-field-container switch-field">
                         <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
                         <label for="basic-choice">Basic</label>
                         <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
