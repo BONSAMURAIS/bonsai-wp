@@ -103,8 +103,10 @@ jQuery(document).ready(function($){
 
         if (isChecked) {
             const value = $(this).val();
-            const displayValue = value == 'advanced' ? 'column' : 'row';
-            $('#analysis-wrapper').css('flex-direction', displayValue);
+            const flexDir = value == 'advanced' ? 'column' : 'row';
+            const displayValue = value == 'advanced' ? 'flex' : 'none';
+            $('#analysis-wrapper').css('flex-direction', flexDir);
+            $(".contribution-analysis").css('display',displayValue);
         }
     });
 
