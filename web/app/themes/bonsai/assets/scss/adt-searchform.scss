@@ -201,6 +201,11 @@ div.tooltip-wrapper {
     }
 }
 
+#basic-choice:checked + label {
+    background-color: $secondary;
+    color: white;
+}
+
 //select
 .unit-select-wrapper {
     display: flex;
