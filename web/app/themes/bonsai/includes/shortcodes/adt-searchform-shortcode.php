@@ -206,6 +206,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
                                     <label for="advanced-choice">Advanced</label>
                                 </div>
+                            </div>
                         </div>
                         <div class="calculation-wrapper">
                             <div class="choices">
