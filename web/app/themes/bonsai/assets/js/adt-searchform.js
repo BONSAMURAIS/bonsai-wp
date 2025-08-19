@@ -925,9 +925,11 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
                     .addClass('suggestion-item')
                     .attr('data-code', match.code)
                     .attr('data-uuid', match.uuid)
-                    .on('click', function () {
+                    .on('click', async function () {
                         $input.val(match.word);
                         $input.attr("data-code",match.code);
+                        let data = await API.get_product_footprint(userSelection);
+                        await display_result(data);
                     });
                 $suggestions.append($div);
             });
