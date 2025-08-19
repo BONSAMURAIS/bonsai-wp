@@ -182,7 +182,8 @@ jQuery(document).ready(function($){
 
     adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
-    $('#most-popular ul li button, #search-history-list li').on('click', async function() {
+    $('#most-popular ul li button, #search-history-list li').on('click', async function(e) {
+        e.preventDefault();
         let productTitle = $(this).text();
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
