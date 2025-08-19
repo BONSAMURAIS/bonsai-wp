@@ -928,6 +928,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
                     .on('click', async function () {
                         $input.val(match.word);
                         $input.attr("data-code",match.code);
+                        console.log("$input=",$input);
                         selectSuggestion($input.text(), $input.data('code'), $input.data('uuid'));
                     });
                 $suggestions.append($div);
