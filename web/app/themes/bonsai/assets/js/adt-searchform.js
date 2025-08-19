@@ -88,6 +88,10 @@ jQuery(document).ready(function($){
             $('#person-tab').toggle();
             if (value === 'person') {
                 $('#grave').prop('checked', true).trigger('change');
+                let userSelection = new UserSelection;
+                userSelection.get_from_form();
+                let data = await API.get_person_footprint(userSelection);
+                await display_result("#product-analysis-content",data);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
             }
