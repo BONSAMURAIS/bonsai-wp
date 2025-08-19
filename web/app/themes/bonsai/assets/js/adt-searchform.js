@@ -928,7 +928,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
                     .on('click', async function () {
                         $input.val(match.word);
                         $input.attr("data-code",match.code);
-                        selectSuggestion(match.word, match.code, match.uuid);
+                        await selectSuggestion(match.word, match.code, match.uuid);
                     });
                 $suggestions.append($div);
             });
@@ -938,7 +938,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         }
     });
 
-    $input.on('keydown', function (e) {
+    $input.on('keydown', async function (e) {
         const $items = $suggestions.find('.suggestion-item');
         if ($items.length > 0) {
             if (e.key === 'ArrowDown') {
@@ -953,10 +953,10 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
                 e.preventDefault();
                 if (currentIndex >= 0) {
                     const selectedItem = $items.eq(currentIndex);
-                    selectSuggestion(selectedItem.text(), selectedItem.data('code'), selectedItem.data('uuid'));
+                    await selectSuggestion(selectedItem.text(), selectedItem.data('code'), selectedItem.data('uuid'));
                 } else if (!suggestionSelected && $items.length > 0) {
                     const firstItem = $items.eq(0);
-                    selectSuggestion(firstItem.text(), firstItem.data('code'), firstItem.data('uuid'));
+                    await selectSuggestion(firstItem.text(), firstItem.data('code'), firstItem.data('uuid'));
                 }
             }
         }
@@ -988,7 +988,6 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         
         adt_push_parameter_to_url(userSelection);
         let data = await API.get_product_footprint(userSelection);
-        data.title = text;
         await display_result(data);
         adt_save_local_search_history(userSelection);
     }
