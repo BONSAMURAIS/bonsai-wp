@@ -28,6 +28,12 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <div class="col medium-6 small-12 large-6">
                     <h3>Climate Footprint</h3>
                 </div>
+                <div class="switch-field switch-field-container-contri-analysis col medium-6 small-12 large-6"">
+                    <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
+                    <label for="basic-choice">Basic</label>
+                    <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
+                    <label for="advanced-choice">Advanced</label>
+                </div>
             </div>
             <div class="row">
                 <div class="select-wrapper col medium-12 small-12 large-12">
@@ -200,12 +206,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <div class="tile-corner">
                             <span class="adt-close">
                             </span>
-                            <div class="switch-field switch-field-container-contri-analysis">
-                                <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
-                                <label for="basic-choice">Basic</label>
-                                <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
-                                <label for="advanced-choice">Advanced</label>
-                            </div>
                         </div>
                         <div class="calculation-wrapper">
                             <div class="choices">
