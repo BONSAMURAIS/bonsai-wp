@@ -46,7 +46,6 @@ function copyTile(){
         }
     });
 
-    console.log("clone.find(#unit)=",clone.find("#unit"));
     clone.find("#unit").first().attr('id', "unit" + suffix);
 
     clone
