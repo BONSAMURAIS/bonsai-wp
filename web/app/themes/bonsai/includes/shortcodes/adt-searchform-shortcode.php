@@ -23,124 +23,123 @@ add_shortcode( 'adt_searchform', function($atts) {
     ?>
 
     <div id="main-content">
-                <!-- Not ready yet -->
-                <!-- <div id="share-wrapper">
-                    <div class="share-icon">
-                        <div>
-                            <p class="pb-0 mb-0">Share search</p>
-                        </div>
+            <!-- Not ready yet -->
+            <!-- <div id="share-wrapper">
+                <div class="share-icon">
+                    <div>
+                        <p class="pb-0 mb-0">Share search</p>
+                    </div>
+                    <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 13V17.5C20 20.5577 16 20.5 12 20.5C8 20.5 4 20.5577 4 17.5V13M12 3L12 15M12 3L16 7M12 3L8 7" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+            </div>
+            <div id="shared-search-box" style="display: none;">
+                <div class="background"></div>
+                <div class="shared-search-box-wrapper">
+                    <input type="text" id="shared-search" value="https://www.google.dk" readonly>
+                    <button id="copy-search">
                         <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20 13V17.5C20 20.5577 16 20.5 12 20.5C8 20.5 4 20.5577 4 17.5V13M12 3L12 15M12 3L16 7M12 3L8 7" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M6 11C6 8.17157 6 6.75736 6.87868 5.87868C7.75736 5 9.17157 5 12 5H15C17.8284 5 19.2426 5 20.1213 5.87868C21 6.75736 21 8.17157 21 11V16C21 18.8284 21 20.2426 20.1213 21.1213C19.2426 22 17.8284 22 15 22H12C9.17157 22 7.75736 22 6.87868 21.1213C6 20.2426 6 18.8284 6 16V11Z" stroke="#1C274C" stroke-width="1.5"/>
+                            <path d="M6 19C4.34315 19 3 17.6569 3 16V10C3 6.22876 3 4.34315 4.17157 3.17157C5.34315 2 7.22876 2 11 2H15C16.6569 2 18 3.34315 18 5" stroke="#1C274C" stroke-width="1.5"/>
                         </svg>
-                    </div>
+                    </button>
                 </div>
-                <div id="shared-search-box" style="display: none;">
-                    <div class="background"></div>
-                    <div class="shared-search-box-wrapper">
-                        <input type="text" id="shared-search" value="https://www.google.dk" readonly>
-                        <button id="copy-search">
-                            <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6 11C6 8.17157 6 6.75736 6.87868 5.87868C7.75736 5 9.17157 5 12 5H15C17.8284 5 19.2426 5 20.1213 5.87868C21 6.75736 21 8.17157 21 11V16C21 18.8284 21 20.2426 20.1213 21.1213C19.2426 22 17.8284 22 15 22H12C9.17157 22 7.75736 22 6.87868 21.1213C6 20.2426 6 18.8284 6 16V11Z" stroke="#1C274C" stroke-width="1.5"/>
-                                <path d="M6 19C4.34315 19 3 17.6569 3 16V10C3 6.22876 3 4.34315 4.17157 3.17157C5.34315 2 7.22876 2 11 2H15C16.6569 2 18 3.34315 18 5" stroke="#1C274C" stroke-width="1.5"/>
-                            </svg>
-                        </button>
-                    </div>
-                </div> -->
-            <form id="form">
-                <div id="form-container">
-                    <div>
-                        <?= do_shortcode('[tooltip id="info-footprint" href="#info-footprint" label="Footprint" block_id="footprint-regular-info-popup"]')?>
-                        <div id="switch-field-wrapper">
-                            <div class="switch-field switch-field-container">
-                                <input type="radio" id="radio-product" name="footprint_type" value="product" checked/>
-                                <label for="radio-product">Product</label>
-                                <input type="radio" id="radio-person" name="footprint_type" value="person"/>
-                                <label for="radio-person">Person</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
-                        <div id="footprint-type" class="select">
-                            <div class="radio-choice">
-                                <input type="radio" id="production" name="footprint_type_extend" value="product" checked/>
-                                <label for="production">Cradle to gate</label>
-                            </div>
-                            <div class="radio-choice">
-                                <input type="radio" id="market" name="footprint_type_extend" value="market" />
-                                <label for="market">Cradle to consumer</label>
-                            </div>
-                            <div class="radio-choice" style="display: none;">
-                                <input type="radio" id="grave" name="footprint_type_extend" value="grave" />
-                                <label for="grave">Cradle to grave</label>
-                            </div>
+            </div> -->
+        <form id="form">
+            <div id="form-container">
+                <div>
+                    <?= do_shortcode('[tooltip id="info-footprint" href="#info-footprint" label="Footprint" block_id="footprint-regular-info-popup"]')?>
+                    <div id="switch-field-wrapper">
+                        <div class="switch-field switch-field-container">
+                            <input type="radio" id="radio-product" name="footprint_type" value="product" checked/>
+                            <label for="radio-product">Product</label>
+                            <input type="radio" id="radio-person" name="footprint_type" value="person"/>
+                            <label for="radio-person">Person</label>
                         </div>
                     </div>
                 </div>
-
-                <!-- Per person -->
-                <div id="person-tab" style="display: none;">
-                    <div class="select-wrapper col medium-12 small-12 large-12">
-                        <div class="medium-6 small-12 large-6">
-                            <?= do_shortcode('[tooltip id="info-household-composition" href="#info-household-composition" label="Household composition" block_id="household-composition-info-popup"]')?>
-                            <?= do_shortcode('[dropdown_list id="household-composition" filepath="'.__DIR__.'/../../dropdown_options/household_compo.json"]')?>
+                <div>
+                    <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
+                    <div id="footprint-type" class="select">
+                        <div class="radio-choice">
+                            <input type="radio" id="production" name="footprint_type_extend" value="product" checked/>
+                            <label for="production">Cradle to gate</label>
                         </div>
-                        <div class="medium-6 small-12 large-6">
-                            <?= do_shortcode('[tooltip id="info-income-group" href="#info-income-group" label="Income group" block_id="income-group-info-popup"]')?>
-                            <?= do_shortcode('[dropdown_list id="income-group" filepath="'.__DIR__.'/../../dropdown_options/income_gpe.json"]')?>
+                        <div class="radio-choice">
+                            <input type="radio" id="market" name="footprint_type_extend" value="market" />
+                            <label for="market">Cradle to consumer</label>
+                        </div>
+                        <div class="radio-choice" style="display: none;">
+                            <input type="radio" id="grave" name="footprint_type_extend" value="grave" />
+                            <label for="grave">Cradle to grave</label>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Per product -->
-                <div id="product-tab">
-                    <input name="search" type="text" id="autocomplete-input" placeholder="Find climate footprint by product">
-                    <?= do_shortcode('[search_icon]')?>
-
-                    <div id="initial-error-message" style="display: none;">
-                        <?= do_shortcode('[block id="nothing-found-error-message"  style="color: blue;"]') ?> 
+            <!-- Per person -->
+            <div id="person-tab" style="display: none;">
+                <div class="select-wrapper col medium-12 small-12 large-12">
+                    <div class="medium-6 small-12 large-6">
+                        <?= do_shortcode('[tooltip id="info-household-composition" href="#info-household-composition" label="Household composition" block_id="household-composition-info-popup"]')?>
+                        <?= do_shortcode('[dropdown_list id="household-composition" filepath="'.__DIR__.'/../../dropdown_options/household_compo.json"]')?>
                     </div>
-                    <div id="suggestions-wrapper" style="display: none;">
-                        <div id="search-history">
-                            <p><strong>Search history</strong></p>
-                            <ul id="search-history-list">
-                            </ul>
-                        </div>
-                        <div id="suggestions">
-                        </div>
+                    <div class="medium-6 small-12 large-6">
+                        <?= do_shortcode('[tooltip id="info-income-group" href="#info-income-group" label="Income group" block_id="income-group-info-popup"]')?>
+                        <?= do_shortcode('[dropdown_list id="income-group" filepath="'.__DIR__.'/../../dropdown_options/income_gpe.json"]')?>
                     </div>
+                </div>
+            </div>
 
-                    <datalist id="words">
-                        <?php foreach($productsArray as $product): ?>
-                            <option id="<?php echo $product['code'];?>" value="<?php echo $product['title'];?>">
-                        <?php endforeach; ?>
-                    </datalist>
+            <!-- Per product -->
+            <div id="product-tab">
+                <input name="search" type="text" id="autocomplete-input" placeholder="Find climate footprint by product">
+                <?= do_shortcode('[search_icon]')?>
+                <div id="initial-error-message" style="display: none;">
+                    <?= do_shortcode('[block id="nothing-found-error-message"  style="color: blue;"]') ?> 
+                </div>
+                <div id="suggestions-wrapper" style="display: none;">
+                    <div id="search-history">
+                        <p><strong>Search history</strong></p>
+                        <ul id="search-history-list">
+                        </ul>
+                    </div>
+                    <div id="suggestions">
+                    </div>
                 </div>
 
-                <section id="most-popular">
-                    <!-- By other searches -->
-                    <p>Most popular:</p>
-                    <ul>
-                        <?php foreach ($popularSearches as $popularSearch): ?>
-                            <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-choices="<?= $popularSearch->chosen_values ?>"><?= $popularSearch->search_phrase ?></button></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </section>
+                <datalist id="words">
+                    <?php foreach($productsArray as $product): ?>
+                        <option id="<?php echo $product['code'];?>" value="<?php echo $product['title'];?>">
+                    <?php endforeach; ?>
+                </datalist>
+            </div>
 
-                <section id="search">
-                    <div id="search-btns" style="display:none;">
-                        <button id="btn-search">
-                            Search
-                        </button>
-                        <button id="btn-add-comparison">
-                            Add to comparison
-                        </button>
-                    </div>
-                    <div id="error-message" style="display: none;">
-                        <!-- <?= do_shortcode('[block id="nothing-found-error-message"]') ?> -->
-                    </div>
-                </section>
-            </form>
+            <section id="most-popular">
+                <!-- By other searches -->
+                <p>Most popular:</p>
+                <ul>
+                    <?php foreach ($popularSearches as $popularSearch): ?>
+                        <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-choices="<?= $popularSearch->chosen_values ?>"><?= $popularSearch->search_phrase ?></button></li>
+                    <?php endforeach; ?>
+                </ul>
+            </section>
+
+            <section id="search">
+                <div id="search-btns" style="display:none;">
+                    <button id="btn-search">
+                        Search
+                    </button>
+                    <button id="btn-add-comparison">
+                        Add to comparison
+                    </button>
+                </div>
+                <div id="error-message" style="display: none;">
+                    <!-- <?= do_shortcode('[block id="nothing-found-error-message"]') ?> -->
+                </div>
+            </section>
+        </form>
         
         <section id="uncertainty-wrapper" style="display: none;">
             <div class="divider">
@@ -159,48 +158,48 @@ add_shortcode( 'adt_searchform', function($atts) {
         <section id="co2-form-result">            
             <div class="divider">
             </div>
-        <section id="co2-form-result-header" class="col medium-12 small-12 large-12">
-            <div class="row">
-                <div class="col medium-6 small-12 large-6">
-                    <h3>Climate Footprint</h3>
-                </div>
-                <div class="switch-field-container-contri-analysis col medium-6 small-12 large-6">
-                    <div class="switch-field-container switch-field">
-                        <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
-                        <label for="basic-choice">Basic</label>
-                        <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
-                        <label for="advanced-choice">Advanced</label>
+            <section id="co2-form-result-header" class="col medium-12 small-12 large-12">
+                <div class="row">
+                    <div class="col medium-6 small-12 large-6">
+                        <h3>Climate Footprint</h3>
+                    </div>
+                    <div class="switch-field-container-contri-analysis col medium-6 small-12 large-6">
+                        <div class="switch-field-container switch-field">
+                            <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
+                            <label for="basic-choice">Basic</label>
+                            <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
+                            <label for="advanced-choice">Advanced</label>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="select-wrapper col medium-12 small-12 large-12">
-                    <div class="medium-6 small-12 large-3">
-                        <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
-                        <label class="select" for="location">
-                            <select id="location">
-                                <?php foreach($locationsArray as $location): ?>
-                                    <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <?= do_shortcode('[arrow_icon]')?>
-                        </label>
+                <div class="row">
+                    <div class="select-wrapper col medium-12 small-12 large-12">
+                        <div class="medium-6 small-12 large-3">
+                            <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
+                            <label class="select" for="location">
+                                <select id="location">
+                                    <?php foreach($locationsArray as $location): ?>
+                                        <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
+                                    <?php endforeach; ?>
+                                </select>
+                                <?= do_shortcode('[arrow_icon]')?>
+                            </label>
+                        </div>
+                        <div class="medium-6 small-12 large-3">
+                            <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
+                            <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
+                        </div>
+                        <div class="medium-6 small-12 large-3">
+                            <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
+                            <?= do_shortcode('[dropdown_list id="climate-metric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
+                        </div>
+                        <div class="medium-6 small-12 large-3">
+                            <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
+                            <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
+                        </div>
                     </div>
-                    <div class="medium-6 small-12 large-3">
-                        <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
-                        <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
-                    </div>
-                    <div class="medium-6 small-12 large-3">
-                        <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
-                        <?= do_shortcode('[dropdown_list id="climate-metric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
-                    </div>
-                    <div class="medium-6 small-12 large-3">
-                        <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
-                        <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
-                    </div>
-                </div>
-            </div>        
-        </section>
+                </div>        
+            </section>
             <div id="product-analysis" class="search-result">
                 <div id="product-analysis-content" class="tile-wrapper col medium-12 small-12 large-12">
                     <div class="tile">
