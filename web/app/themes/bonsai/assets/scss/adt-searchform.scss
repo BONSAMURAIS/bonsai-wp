@@ -177,7 +177,7 @@ div.tooltip-wrapper {
 }
 
 .switch-field-container {
-    input:checked + label {
+    input[type="radio"]:checked + label {
         background-color: $primary;
         box-shadow: none;
     }  
@@ -188,7 +188,7 @@ div.tooltip-wrapper {
         justify-content: flex-end;
     }
 
-    input:checked + label {
+    input[type="radio"]:checked + label {
         background-color: $secondary;
         color: white;
     }
