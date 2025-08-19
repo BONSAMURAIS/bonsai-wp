@@ -31,15 +31,9 @@ div.divider {
 
 //add btn
 p.add{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: $primary;
+    color: #C3F138;
     line-height: 150px;
     font-size: 150px;
-    opacity: 1;
 }
 
 //tooltip
@@ -649,6 +643,7 @@ span.adt-close {
 
 #add-btn{
     text-align: unset;
+    padding: 2em 7em;
 }
 
 #co2-form-result-header {
