@@ -104,7 +104,7 @@ jQuery(document).ready(function($){
         if (isChecked) {
             const value = $(this).val();
             const displayValue = value == 'advanced' ? 'flex' : 'none';
-            $(this).closest('.tile').find('.contribution-analysis').first().css('display', displayValue);
+            $('#analysis-wrapper').css('display', displayValue);
         }
     });
 
