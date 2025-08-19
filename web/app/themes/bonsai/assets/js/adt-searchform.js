@@ -69,6 +69,9 @@ jQuery(document).ready(function($){
 
     copyTile();
 
+    $('#product-analysis-content .adt-close').remove(); // remove close btn
+
+
     $('input[name="footprint_type"]').on('change',async function(){
         let isChecked = $(this).is(':checked');
         
