@@ -184,30 +184,26 @@ div.tooltip-wrapper {
 }
 
 .switch-field-container-contri-analysis {
-  label {
-    background-color: #ccc;
-    padding: 10px;
-    display: inline-block;
-    cursor: pointer;
-    font-size: 12px;
-
-    @media (max-width: 468px) {
-      font-size: 10px;
+    @media only screen and (max-width: 468px) {
+        justify-content: flex-end;
     }
 
-    input[type="radio"] {
-      display: none;
+    input[type="radio"]:checked + label {
+        background-color: $secondary;
+        color: white;
     }
 
-    input[type="radio"]:checked + & {
-      background-color: #fff;
-      color: white;
+    label{
+        font-size: 12px;
+        @media only screen and (max-width: 468px) {
+            font-size: 10px;
+        }
     }
-  }
+}
 
-  @media (max-width: 468px) {
-    justify-content: flex-end;
-  }
+#basic-choice:checked + label {
+    background-color: $secondary;
+    color: white;
 }
 
 //select
