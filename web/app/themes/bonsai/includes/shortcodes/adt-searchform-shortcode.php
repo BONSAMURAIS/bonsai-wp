@@ -46,8 +46,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </button>
                     </div>
                 </div> -->
-            <div id="divider">
-            </div>
             <form id="form">
                 <div id="form-container">
                     <div>
@@ -141,7 +139,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </div>
                 </section>
             </form>
-        </section>
         
         <section id="uncertainty-wrapper" style="display: none;">
             <div class="divider">
@@ -161,7 +158,6 @@ add_shortcode( 'adt_searchform', function($atts) {
             <div class="divider">
             </div>
         <section id="co2-form-result-header" class="col medium-12 small-12 large-12">
-
             <div class="row">
                 <div class="col medium-6 small-12 large-6">
                     <h3>Climate Footprint</h3>
@@ -199,7 +195,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
                     </div>
                 </div>
-            </div>
+            </div>        
+        </section>
             <div id="product-analysis" class="search-result">
                 <div id="product-analysis-content" class="tile-wrapper col medium-12 small-12 large-12">
                     <div class="tile">
