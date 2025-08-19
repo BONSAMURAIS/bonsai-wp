@@ -235,6 +235,9 @@ input[name="search"] {
 }
 
 .switch-field-container-contri-analysis {
+    @media only screen and (max-width: 468px) {
+        justify-content: flex-end;
+    }
     input:checked + label {
         background-color: $secondary;
         color: white;
@@ -454,12 +457,6 @@ p.co2-value-unit {
     position: absolute;
     right:3%;
 
-}
-
-.switch-field-wrapper-basic {
-    @media only screen and (max-width: 468px) {
-        justify-content: flex-end;
-    }
 }
 
 span.adt-close {
