@@ -24,43 +24,6 @@ add_shortcode( 'adt_searchform', function($atts) {
 
     <div id="main-content">
         <section id="co2-form-result-header" class="col medium-12 small-12 large-12">
-            <div class="row">
-                <div class="col medium-6 small-12 large-6">
-                    <h3>Climate Footprint</h3>
-                </div>
-                <div class="switch-field switch-field-container-contri-analysis col medium-6 small-12 large-6"">
-                    <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
-                    <label for="basic-choice">Basic</label>
-                    <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
-                    <label for="advanced-choice">Advanced</label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="select-wrapper col medium-12 small-12 large-12">
-                    <div class="medium-6 small-12 large-3">
-                        <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
-                        <label class="select" for="location">
-                            <select id="location">
-                                <?php foreach($locationsArray as $location): ?>
-                                    <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <?= do_shortcode('[arrow_icon]')?>
-                        </label>
-                    </div>
-                    <div class="medium-6 small-12 large-3">
-                        <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
-                        <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
-                    </div>
-                    <div class="medium-6 small-12 large-3">
-                        <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
-                        <?= do_shortcode('[dropdown_list id="climate-metric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
-                    </div>
-                    <div class="medium-6 small-12 large-3">
-                        <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
-                        <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
-                    </div>
-                </div>
                 <!-- Not ready yet -->
                 <!-- <div id="share-wrapper">
                     <div class="share-icon">
@@ -200,6 +163,43 @@ add_shortcode( 'adt_searchform', function($atts) {
         <section id="co2-form-result">            
             <div class="divider">
             </div>
+                        <div class="row">
+                <div class="col medium-6 small-12 large-6">
+                    <h3>Climate Footprint</h3>
+                </div>
+                <div class="switch-field switch-field-container-contri-analysis col medium-6 small-12 large-6"">
+                    <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
+                    <label for="basic-choice">Basic</label>
+                    <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
+                    <label for="advanced-choice">Advanced</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="select-wrapper col medium-12 small-12 large-12">
+                    <div class="medium-6 small-12 large-3">
+                        <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
+                        <label class="select" for="location">
+                            <select id="location">
+                                <?php foreach($locationsArray as $location): ?>
+                                    <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <?= do_shortcode('[arrow_icon]')?>
+                        </label>
+                    </div>
+                    <div class="medium-6 small-12 large-3">
+                        <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
+                        <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
+                    </div>
+                    <div class="medium-6 small-12 large-3">
+                        <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
+                        <?= do_shortcode('[dropdown_list id="climate-metric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
+                    </div>
+                    <div class="medium-6 small-12 large-3">
+                        <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
+                        <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
+                    </div>
+                </div>
             <div id="product-analysis" class="search-result">
                 <div id="product-analysis-content" class="tile-wrapper col medium-12 small-12 large-12">
                     <div class="tile">
