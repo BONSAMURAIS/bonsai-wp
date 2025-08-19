@@ -988,7 +988,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
         
         adt_push_parameter_to_url(userSelection);
         let data = await API.get_product_footprint(userSelection);
-        await display_result(data);
+        await display_result("#product-analysis-content",data);
         adt_save_local_search_history(userSelection);
     }
 }
