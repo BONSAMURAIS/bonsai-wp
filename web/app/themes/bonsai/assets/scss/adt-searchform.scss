@@ -421,6 +421,14 @@ input[name="search"] {
     }
 }
 
+/**
+* Section tile wrapper
+**/
+
+#analysis-wrapper{
+    display: flex;
+    flex-direction: row;
+}
 
 /**
 * Section tile
