@@ -182,7 +182,7 @@ div.tooltip-wrapper {
     justify-content: flex-end;
     margin-bottom: 20px;
     align-items: center;
-    
+
     input[type="radio"]:checked + label {
         background-color: $primary;
         box-shadow: none;
@@ -644,7 +644,8 @@ span.adt-close {
     background-color: $grey;
     padding: 30px 20px;
     border-radius: 50px;
-    
+    margin-bottom: 20px;
+
     .col {
         padding-bottom: 0;
     }
