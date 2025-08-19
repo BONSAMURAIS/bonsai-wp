@@ -73,7 +73,7 @@ jQuery(document).ready(function($){
 
 
     $('input[name="footprint_type"]').on('change',async function(){
-        let isChecked = $(this).is(':checked');
+        const isChecked = $(this).is(':checked');
         
         if (isChecked) {
             let value = $(this).val();
@@ -99,7 +99,7 @@ jQuery(document).ready(function($){
     });
 
     $('input[name="contri-analysis"]').on('change', function(){
-        let isChecked = $(this).is(':checked');
+        const isChecked = $(this).is(':checked');
 
         if (isChecked) {
             const value = $(this).val();
