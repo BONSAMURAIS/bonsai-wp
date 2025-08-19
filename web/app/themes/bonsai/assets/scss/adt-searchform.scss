@@ -176,6 +176,27 @@ div.tooltip-wrapper {
     }
 }
 
+.switch-field-container-contri-analysis, .switch-field-container {
+    input:checked + label {
+        background-color: $primary;
+        box-shadow: none;
+    }  
+}
+
+.switch-field-container-contri-analysis {
+    input:checked + label {
+        background-color: $secondary;
+        color: white;
+    }
+
+    label{
+        font-size: 12px;
+        @media only screen and (max-width: 468px) {
+            font-size: 10px;
+        }
+    }
+}
+
 //select
 .unit-select-wrapper {
     display: flex;
@@ -654,49 +675,29 @@ span.adt-close {
 * Section contri-analysis table
 **/
 
-.switch-field-container-contri-analysis, .switch-field-container {
-    input:checked + label {
-        background-color: $primary;
-        box-shadow: none;
-    }  
-}
-
-.switch-field-container-contri-analysis {
-    input:checked + label {
-        background-color: $secondary;
-        color: white;
-    }
-
-    label{
-        font-size: 12px;
-        @media only screen and (max-width: 468px) {
-            font-size: 10px;
-        }
-    }
-}
-
 .contribution-analysis { 
     flex-direction: column;
-    .calculation-wrapper {
-        display: flex;
-        margin-bottom: 55px;
+}
 
-        @media only screen and (max-width: 468px) {
-            flex-direction: column;
-        }
-    
-        > * {
-            flex: 1 1 50%;
+.calculation-wrapper {
+    display: flex;
+    margin-bottom: 55px;
 
-            &:nth-child(2) {
-                justify-items: flex-end;
+    @media only screen and (max-width: 468px) {
+        flex-direction: column;
+    }
 
-                @media only screen and (max-width: 468px) {
-                    display: flex;
-                    flex-direction: row;
-                    justify-items: flex-start;
-                    align-items: flex-end;
-                }
+    > * {
+        flex: 1 1 50%;
+
+        &:nth-child(2) {
+            justify-items: flex-end;
+
+            @media only screen and (max-width: 468px) {
+                display: flex;
+                flex-direction: row;
+                justify-items: flex-start;
+                align-items: flex-end;
             }
         }
     }
