@@ -222,6 +222,12 @@ input[name="search"] {
     justify-content: space-between;
 }
 
+.switch-field-wrapper-basic {
+    @media only screen and (max-width: 468px) {
+        justify-content: flex-end;
+    }
+}
+
 #switch-field-wrapper {
     display: flex;
 }
@@ -235,9 +241,6 @@ input[name="search"] {
 }
 
 .switch-field-container-contri-analysis {
-    @media only screen and (max-width: 468px) {
-        justify-content: flex-end;
-    }
     input:checked + label {
         background-color: $secondary;
         color: white;
