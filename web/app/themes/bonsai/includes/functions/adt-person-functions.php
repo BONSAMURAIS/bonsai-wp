@@ -132,7 +132,7 @@ add_action('wp_ajax_adt_get_person_footprint', 'adt_get_person_footprint');
 add_action('wp_ajax_nopriv_adt_get_person_footprint', 'adt_get_person_footprint');
 
 function adt_get_person_footprint_recipe(array $fdemand_categories, string $country, string $act_code, int|string $version, string $metric): array
-{
+{ //something off here
     global $SEPARATOR;
     $recipeResult = [];
     
