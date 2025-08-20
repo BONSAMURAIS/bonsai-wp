@@ -143,20 +143,21 @@ add_shortcode( 'adt_searchform', function($atts) {
         <section id="co2-form-result">            
             <div class="divider">
             </div>
+            <section id="uncertainty-wrapper" style="display: none;">
+                <div class="divider">
+                </div>
+                <p>How sure are we on the ranking of the two compared products on a scale from 0-100%?</p>
+                <div id="uncertainty-bar">
+                    <div id="uncertainty-bar-background">
+                        <div id="uncertainty-bar-fill" style="width: 10%; background-color: green"></div>
+                    </div>
+                </div>
+                <div class="tooltip-wrapper">
+                    <?= do_shortcode('[tooltip id="info-uncertainty" href="#info-uncertainty" label="read more about the uncertainty in the data" block_id="uncertainty-info-popup"]')?>
+                </div>
+            </section>
             <section id="co2-form-result-header" class="col medium-12 small-12 large-12">
-                    <section id="uncertainty-wrapper" style="display: none;">
-                        <div class="divider">
-                        </div>
-                        <p>How sure are we on the ranking of the two compared products on a scale from 0-100%?</p>
-                        <div id="uncertainty-bar">
-                            <div id="uncertainty-bar-background">
-                                <div id="uncertainty-bar-fill" style="width: 10%; background-color: green"></div>
-                            </div>
-                        </div>
-                        <div class="tooltip-wrapper">
-                            <?= do_shortcode('[tooltip id="info-uncertainty" href="#info-uncertainty" label="read more about the uncertainty in the data" block_id="uncertainty-info-popup"]')?>
-                        </div>
-                    </section>
+                <div class="row">
                     <div class="col medium-6 small-12 large-6">
                         <h3>Climate Footprint</h3>
                     </div>
