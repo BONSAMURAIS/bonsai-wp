@@ -72,7 +72,7 @@ function adt_issues_shortcode() {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($closed_issues as $issue) : ?>
+                <!-- <?php foreach ($closed_issues as $issue) : ?>
                     <tr class="adt-issue <?php echo esc_attr($issue['state']); ?>">
                         <td colspan="4" class="adt-issue-title-wrapper">
                             <a href="<?= $issue['web_url'] ?>" target="_blank"><span class="issue-title"><?= $issue['title'] ?></span></a>
@@ -87,7 +87,7 @@ function adt_issues_shortcode() {
                         <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']); ?></td>
                         <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue['state']); ?></td>
                     </tr>
-                <?php endforeach; ?>
+                <?php endforeach; ?> -->
                 <?php foreach ($open_issues as $issue) : ?>
                     <tr class="adt-issue <?php echo esc_attr($issue['state']); ?>">
                         <td colspan="4" class="adt-issue-title-wrapper">
