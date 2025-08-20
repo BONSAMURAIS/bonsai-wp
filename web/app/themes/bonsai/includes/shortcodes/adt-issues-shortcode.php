@@ -56,7 +56,7 @@ function adt_issues_shortcode() {
             $closed_issues[] = $issue;
         }
     }
-    $string = json_encode($open_issues[0]);
+    // $string = json_encode($open_issues[0]);
     ?>
 
     <!-- List -->
@@ -85,8 +85,8 @@ function adt_issues_shortcode() {
                                 <?php endif; ?>
                             </div>
                         </td>
-                        <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']); ?></td>
-                        <td colspan="1" class="adt-issue-status"><?php echo esc_html($string); ?></td>
+                        <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']['title']); ?></td>
+                        <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue['state']); ?></td>
                     </tr>
                 <?php endforeach; ?> 
                 <?php foreach ($closed_issues as $issue) : ?>
@@ -101,7 +101,7 @@ function adt_issues_shortcode() {
                                 <?php endif; ?>
                             </div>
                         </td>
-                        <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']); ?></td>
+                        <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']['title']); ?></td>
                         <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue['state']); ?></td>
                     </tr>
                 <?php endforeach; ?>
