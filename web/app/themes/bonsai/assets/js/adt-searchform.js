@@ -339,7 +339,7 @@ jQuery(document).ready(function($){
         console.log('Start searching for comparison');
         let userSelection = new UserSelection;
         userSelection.get_from_form();
-        console.log("userSelection=", userSelection.to_string())
+        console.log("userSelection=", userSelection.to_string());
         
         data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
         if(selectedValue === 'person'){
@@ -423,7 +423,7 @@ jQuery(document).ready(function($){
                     jQuery(this).children().each(function(){
                         if (jQuery(this).is('input') || jQuery(this).is('select')) {
                             let currentId = jQuery(this).attr('id');
-                            console.log("currentId=",currentId)
+                            console.log("currentId=",currentId);
                             if (currentId) {
                                 currentId = currentId.replace(suffix, "");
                                 jQuery(this).attr('id', currentId);
@@ -440,7 +440,6 @@ jQuery(document).ready(function($){
 
         let unitSelect = jQuery(this);
         let unitRatio = unitSelect.val();
-        let unitRatio_name = unitSelect.find('option:selected').text();
         let amountInput = unitSelect.closest('.unit-select-wrapper')      // go up to the label wrapping <select>
                                     .find('input.quantity');        // look inside for input.amount
         let numberInput = amountInput.val();
