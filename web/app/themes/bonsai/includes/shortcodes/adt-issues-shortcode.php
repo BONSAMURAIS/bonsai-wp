@@ -56,7 +56,7 @@ function adt_issues_shortcode() {
             $closed_issues[] = $issue;
         }
     }
-    $string = implode(', ', $open_issues);
+    $string = json_encode($open_issues[0]);
     ?>
 
     <!-- List -->
