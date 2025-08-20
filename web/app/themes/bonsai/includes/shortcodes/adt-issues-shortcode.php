@@ -85,7 +85,7 @@ function adt_issues_shortcode() {
                             </div>
                         </td>
                         <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']); ?></td>
-                        <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue['state']); ?></td>
+                        <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue); ?></td>
                     </tr>
                 <?php endforeach; ?> 
                 <?php foreach ($closed_issues as $issue) : ?>
