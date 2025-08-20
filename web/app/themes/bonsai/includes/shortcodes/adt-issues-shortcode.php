@@ -44,12 +44,16 @@ function adt_issues_shortcode() {
     error_log("test git issues");
     $openedIssues = 0;
     $closedIssues = 0;
+    $open_issues =array();
+    $closed_issues =array();
 
     foreach ($issues as $issue) {
         if ($issue['state'] === 'opened') {
             $openedIssues++;
+            $open_issues[] = $issue;
         } else {
             $closedIssues++;
+            $closed_issues[] = $issue;
         }
     }
     ?>
@@ -68,16 +72,23 @@ function adt_issues_shortcode() {
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($issues as $issue) : ?>
-                    <?php 
-
-                    $issueState = $issue['state'];
-                    if ($issueState == "closed"){
-                        continue;
-                    }
-                    $labelsArray = $issue['labels'];
-
-                    ?>
+                <?php foreach ($open_issues as $issue) : ?>
+                    <tr class="adt-issue <?php echo esc_attr($issue['state']); ?>">
+                        <td colspan="4" class="adt-issue-title-wrapper">
+                            <a href="<?= $issue['web_url'] ?>" target="_blank"><span class="issue-title"><?= $issue['title'] ?></span></a>
+                            <div class="issue-tags-wrapper">
+                                <?php if ($labelsArray) : ?>
+                                    <?php foreach ($labelsArray as $label) : ?>
+                                        <span class="issue-tag"><?= $label ?></span>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </div>
+                        </td>
+                        <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']); ?></td>
+                        <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue['state']); ?></td>
+                    </tr>
+                <?php endforeach; ?>
+                <?php foreach ($closed_issues as $issue) : ?>
                     <tr class="adt-issue <?php echo esc_attr($issue['state']); ?>">
                         <td colspan="4" class="adt-issue-title-wrapper">
                             <a href="<?= $issue['web_url'] ?>" target="_blank"><span class="issue-title"><?= $issue['title'] ?></span></a>
