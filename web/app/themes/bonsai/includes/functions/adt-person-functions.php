@@ -211,6 +211,6 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         }
     }
 
-    // return $recipeResult;
+    return $recipeResult;
     return array();
 }
