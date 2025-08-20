@@ -56,6 +56,7 @@ function adt_issues_shortcode() {
             $closed_issues[] = $issue;
         }
     }
+    $string = implode(', ', $open_issues);
     ?>
 
     <!-- List -->
@@ -85,7 +86,7 @@ function adt_issues_shortcode() {
                             </div>
                         </td>
                         <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']); ?></td>
-                        <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue); ?></td>
+                        <td colspan="1" class="adt-issue-status"><?php echo esc_html($string); ?></td>
                     </tr>
                 <?php endforeach; ?> 
                 <?php foreach ($closed_issues as $issue) : ?>
