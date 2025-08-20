@@ -85,7 +85,7 @@ function adt_issues_shortcode() {
                                 <?php endif; ?>
                             </div>
                         </td>
-                        <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']['title']); ?></td>
+                        <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']['title'] ?? ""); ?></td>
                         <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue['state']); ?></td>
                     </tr>
                 <?php endforeach; ?> 
@@ -101,7 +101,7 @@ function adt_issues_shortcode() {
                                 <?php endif; ?>
                             </div>
                         </td>
-                        <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']['title']); ?></td>
+                        <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']['title'] ?? ""); ?></td>
                         <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue['state']); ?></td>
                     </tr>
                 <?php endforeach; ?>
