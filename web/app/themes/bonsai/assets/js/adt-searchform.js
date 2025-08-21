@@ -483,8 +483,7 @@ jQuery(document).ready(function($){
     });
 
     $('#household-composition, #income-group, #info-location, #info-year, #info-climate-metric, #info-database-version').on('change', async function(){
-        console.log("household-composition");
-        console.log('Start searching for comparison');
+        console.log('Start searching for dropdown');
         let userSelection = new UserSelection;
         userSelection.get_from_form();
         console.log("userSelection=", userSelection.to_string());
