@@ -122,10 +122,13 @@ echo "
             const tbody = table.tBodies[0];
             const rows = Array.from(tbody.rows);
             console.log('rows=',rows)
-
+            
             const dateColIndex = 4;
-
+            
             rows.sort((a, b) => {
+                console.log('a=',a)
+                console.log('a.cells=',a.cells)
+                console.log('a.cells[dateColIndex]=',a.cells[dateColIndex])
                 const dateA = new Date(a.cells[dateColIndex].innerText.trim());
                 const dateB = new Date(b.cells[dateColIndex].innerText.trim());
                 return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
