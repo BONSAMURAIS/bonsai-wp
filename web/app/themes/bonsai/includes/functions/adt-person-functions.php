@@ -147,9 +147,9 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             ];
         }
         
-        // // Get the response body
-        // $body = wp_remote_retrieve_body($recipeResponse);
-        // $result = json_decode($body, true);
+        // Get the response body
+        $body = wp_remote_retrieve_body($recipeResponse);
+        $result = json_decode($body, true);
 
         // $productCount = $result['count'];
 
