@@ -55,8 +55,7 @@ function adt_get_person_footprint(){
 
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
     $value = get_total_value($fdemand_categories,$country,$act_code,$version,$metric);
-    // $recipes = adt_get_person_footprint_recipe($fdemand_categories, $country, $act_code, $version,$metric);
-    $recipes = array();
+    $recipes = adt_get_person_footprint_recipe($fdemand_categories, $country, $act_code, $version,$metric);
 
     
     //sort per value
@@ -141,75 +140,75 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         $url = $GLOBALS['APIURL'].'/recipes-country/?act_code='.$cat.$SEPARATOR.$act_code.'&region_code='.$country.'&version='.$version.'&metric='.$metric;
         $recipeResponse = wp_remote_get($url);
         
-        // Check for errors
+        // // Check for errors
         // if (is_wp_error($recipeResponse)) {
         //     return [
         //         'error_oui' => $recipeResponse->get_error_message()
         //     ];
         // }
         
-        // Get the response body
-        $body = wp_remote_retrieve_body($recipeResponse);
-        $result = json_decode($body, true);
+        // // Get the response body
+        // $body = wp_remote_retrieve_body($recipeResponse);
+        // $result = json_decode($body, true);
 
-        $productCount = $result['count'];
+        // $productCount = $result['count'];
 
-        if (empty($result)) {
-            return ['No person recipe found or an error occurred.'];
-        }
+        // if (empty($result)) {
+        //     return ['No person recipe found or an error occurred.'];
+        // }
         
-        if (array_key_exists('detail', $result)) {
-            return ['Error: ' . $result['detail']];
-        }
+        // if (array_key_exists('detail', $result)) {
+        //     return ['Error: ' . $result['detail']];
+        // }
 
-        if (!empty($result['results'])) {
-            foreach ($recipeResult as $recipe) {
-                foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
+        // if (!empty($result['results'])) {
+        //     foreach ($recipeResult as $recipe) {
+        //         foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
                     
-                    if ($recipe["product_code"] == $new_recipe_val["product_code"]){
-                        $recipe["value"] += $new_recipe_val["value"];
-                        unset($result['results'][$new_recipe_key]);
-                    }
-                }
-            }
-            $recipeResult = array_merge($recipeResult, $result['results']);
-        }
+        //             if ($recipe["product_code"] == $new_recipe_val["product_code"]){
+        //                 $recipe["value"] += $new_recipe_val["value"];
+        //                 unset($result['results'][$new_recipe_key]);
+        //             }
+        //         }
+        //     }
+        //     $recipeResult = array_merge($recipeResult, $result['results']);
+        // }
         
-        $pages = ceil($productCount / 100);
+        // $pages = ceil($productCount / 100);
 
-        // TODO: Throttled again for loading through the pages?
-        for ($i = 1; $i <= $pages; $i++) {
-            $api_url = $GLOBALS['APIURL']."/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version."&metric=".$metric;
-            $response = wp_remote_get($api_url);
+        // // TODO: Throttled again for loading through the pages?
+        // for ($i = 1; $i <= $pages; $i++) {
+        //     $api_url = $GLOBALS['APIURL']."/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version."&metric=".$metric;
+        //     $response = wp_remote_get($api_url);
             
-            if (is_wp_error($response)) {
-                continue;
-            }
+        //     if (is_wp_error($response)) {
+        //         continue;
+        //     }
             
-            $body = wp_remote_retrieve_body($response);
-            $result = json_decode($body, true);
+        //     $body = wp_remote_retrieve_body($response);
+        //     $result = json_decode($body, true);
             
-            if (!empty($result['results'])) {
-                foreach ($recipeResult as $recipe) {
-                    foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
-                        if ($recipe["product_code"] == $new_recipe_val["product_code"]){
-                            $recipe["value"] += $new_recipe_val["value"];
-                            unset($result['results'][$new_recipe_key]);
-                            // break;
-                        }
+        //     if (!empty($result['results'])) {
+        //         foreach ($recipeResult as $recipe) {
+        //             foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
+        //                 if ($recipe["product_code"] == $new_recipe_val["product_code"]){
+        //                     $recipe["value"] += $new_recipe_val["value"];
+        //                     unset($result['results'][$new_recipe_key]);
+        //                     // break;
+        //                 }
      
-                    }
-                }
-                $recipeResult = array_merge($recipeResult, $result['results']);
-            }            
-        }
+        //             }
+        //         }
+        //         $recipeResult = array_merge($recipeResult, $result['results']);
+        //     }            
+        // }
         
-        // Handle potential errors in the recipeResponse
-        if (empty($recipeResult)) {
-            return [
-                'error' => 'No recipes found or an error occurred.'
-            ];
-        }
+        // // Handle potential errors in the recipeResponse
+        // if (empty($recipeResult)) {
+        //     return [
+        //         'error' => 'No recipes found or an error occurred.'
+        //     ];
+        // }
     }
 
     return $recipeResult;
