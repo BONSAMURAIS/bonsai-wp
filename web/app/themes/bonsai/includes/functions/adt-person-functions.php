@@ -142,9 +142,8 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         
         // Check for errors
         if (is_wp_error($recipeResponse)) {
-            return ['No .'];
             return [
-                'error' => $recipeResponse->get_error_message()
+                'error_oui' => $recipeResponse->get_error_message()
             ];
         }
         
