@@ -123,7 +123,7 @@ echo "
             const rows = Array.from(tbody.rows);
             console.log('rows=',rows)
             
-            const dateColIndex = 4;
+            const dateColIndex = 3;
             
             rows.sort((a, b) => {
                 console.log('a=',a)
