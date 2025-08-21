@@ -68,7 +68,6 @@ function adt_issues_shortcode() {
                         <span class="issues-open"><span class="issues-open-count"><?= $openedIssues ?> </span> open</span>
                     </th>
                     <th colspan="3"></th>
-                    <th colspan="1">Milestone</th>
                     <th colspan="1">Status</th>
                     <th colspan="1" onclick="sortTableByDate()" id="git-updated-date">Date</th>
                 </tr>
