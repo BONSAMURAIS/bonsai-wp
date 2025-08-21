@@ -61,7 +61,7 @@ function adt_issues_shortcode() {
 
     <!-- List -->
     <div class="adt-issues-list">
-        <table class="adt-issues-table">
+        <table id="git-issue-table" class="adt-issues-table">
             <thead>
                 <tr>
                     <th colspan="1">
@@ -70,6 +70,7 @@ function adt_issues_shortcode() {
                     <th colspan="3"></th>
                     <th colspan="1">Milestone</th>
                     <th colspan="1">Status</th>
+                    <th colspan="1" onclick="sortTableByDate()">Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -87,6 +88,7 @@ function adt_issues_shortcode() {
                         </td>
                         <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']['title'] ?? ""); ?></td>
                         <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue['state']); ?></td>
+                        <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue['created_at']); ?></td>
                     </tr>
                 <?php endforeach; ?> 
                 <?php foreach ($closed_issues as $issue) : ?>
@@ -103,11 +105,35 @@ function adt_issues_shortcode() {
                         </td>
                         <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']['title'] ?? ""); ?></td>
                         <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue['state']); ?></td>
+                        <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue['created_at']); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
+
+    <script>
+        let sortDirection = 'asc';
+
+        function sortTableByDate() {
+            const table = document.getElementById("git-issue-table");
+            const tbody = table.tBodies[0];
+            const rows = Array.from(tbody.rows);
+
+            const dateColIndex = 4;
+
+            rows.sort((a, b) => {
+                const dateA = new Date(a.cells[dateColIndex].innerText.trim());
+                const dateB = new Date(b.cells[dateColIndex].innerText.trim());
+                return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
+            });
+
+            sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+        }
+    </script>
     <?php
     // Return the buffered content
     return ob_get_clean();
