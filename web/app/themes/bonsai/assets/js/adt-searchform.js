@@ -295,7 +295,7 @@ jQuery(document).ready(function($){
     adt_initialize_local_search_history();
 
     // Search 
-    $('#btn-search, #search-icon').click(async function(e){
+    $('#btn-search, #search-icon, #household-composition, #income-group, #location, #year, #climate-metric, #database-version').click(async function(e){
         e.preventDefault();
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         if (selectedValue != 'person' && jQuery('#autocomplete-input').val() ==""){
@@ -482,24 +482,6 @@ jQuery(document).ready(function($){
         // });
     });
 
-    $('#household-composition, #income-group, #location, #year, #climate-metric, #database-version').on('change', async function(){
-        console.log('Start searching for dropdown');
-        let userSelection = new UserSelection;
-        userSelection.get_from_form();
-        console.log("userSelection=", userSelection.to_string());
-        const selectedValue = $('input[name="footprint_type"]:checked').val();
-        
-        data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
-        if(selectedValue === 'person'){
-            // data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
-            data['title'] = "Emission per person";
-        }
-
-        adt_push_parameter_to_url(userSelection);
-        await display_result("#product-analysis-content",data);
-
-    });
-    
     function controlInput_value(OBJ){
         let val = OBJ.val();
 
