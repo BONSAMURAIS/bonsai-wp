@@ -161,18 +161,18 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             return ['Error: ' . $result['detail']];
         }
 
-        if (!empty($result['results'])) {
-            foreach ($recipeResult as $recipe) {
-                foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
+        // if (!empty($result['results'])) {
+        //     foreach ($recipeResult as $recipe) {
+        //         foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
                     
-                    if ($recipe["product_code"] == $new_recipe_val["product_code"]){
-                        $recipe["value"] += $new_recipe_val["value"];
-                        unset($result['results'][$new_recipe_key]);
-                    }
-                }
-            }
-            $recipeResult = array_merge($recipeResult, $result['results']);
-        }
+        //             if ($recipe["product_code"] == $new_recipe_val["product_code"]){
+        //                 $recipe["value"] += $new_recipe_val["value"];
+        //                 unset($result['results'][$new_recipe_key]);
+        //             }
+        //         }
+        //     }
+        //     $recipeResult = array_merge($recipeResult, $result['results']);
+        // }
         
         // $pages = ceil($productCount / 100);
 
