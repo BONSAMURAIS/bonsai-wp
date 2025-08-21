@@ -494,6 +494,10 @@ jQuery(document).ready(function($){
             // data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
             data['title'] = "Emission per person";
         }
+
+        adt_push_parameter_to_url(userSelection);
+        await display_result("#product-analysis-content",data);
+
     });
     
     function controlInput_value(OBJ){
