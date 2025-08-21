@@ -88,7 +88,7 @@ function adt_issues_shortcode() {
                         </td>
                         <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']['title'] ?? ""); ?></td>
                         <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue['state']); ?></td>
-                        <td colspan="1" class="adt-issue-date"><?php echo esc_html($issue['created_at']); ?></td>
+                        <td colspan="1" class="adt-issue-date"><?php echo esc_html($issue['updated_at']); ?></td>
                     </tr>
                 <?php endforeach; ?> 
                 <?php foreach ($closed_issues as $issue) : ?>
@@ -105,7 +105,7 @@ function adt_issues_shortcode() {
                         </td>
                         <td colspan="1" class="adt-issue-milestone"><?php echo esc_html($issue['milestone']['title'] ?? ""); ?></td>
                         <td colspan="1" class="adt-issue-status"><?php echo esc_html($issue['state']); ?></td>
-                        <td colspan="1" class="adt-issue-date"><?php echo esc_html($issue['created_at']); ?></td>
+                        <td colspan="1" class="adt-issue-date"><?php echo esc_html($issue['updated_at']); ?></td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
