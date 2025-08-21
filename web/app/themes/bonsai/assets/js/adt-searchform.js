@@ -91,6 +91,7 @@ jQuery(document).ready(function($){
                 let userSelection = new UserSelection;
                 userSelection.get_from_form();
                 let data = await API.get_person_footprint(userSelection);
+                data['title'] = "Emission per person";
                 await display_result("#product-analysis-content",data);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
