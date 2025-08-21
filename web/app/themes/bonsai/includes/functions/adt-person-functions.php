@@ -141,11 +141,11 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         $recipeResponse = wp_remote_get($url);
         
         // Check for errors
-        if (is_wp_error($recipeResponse)) {
-            return [
-                'error_oui' => $recipeResponse->get_error_message()
-            ];
-        }
+        // if (is_wp_error($recipeResponse)) {
+        //     return [
+        //         'error_oui' => $recipeResponse->get_error_message()
+        //     ];
+        // }
         
         // Get the response body
         $body = wp_remote_retrieve_body($recipeResponse);
