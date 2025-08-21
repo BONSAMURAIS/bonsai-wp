@@ -177,31 +177,31 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         $pages = ceil($productCount / 100);
 
         // TODO: Throttled again for loading through the pages?
-        for ($i = 1; $i <= $pages; $i++) {
-            $api_url = $GLOBALS['APIURL']."/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version."&metric=".$metric;
-            $response = wp_remote_get($api_url);
+        // for ($i = 1; $i <= $pages; $i++) {
+        //     $api_url = $GLOBALS['APIURL']."/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version."&metric=".$metric;
+        //     $response = wp_remote_get($api_url);
             
-            if (is_wp_error($response)) {
-                continue;
-            }
+        //     if (is_wp_error($response)) {
+        //         continue;
+        //     }
             
-            $body = wp_remote_retrieve_body($response);
-            $result = json_decode($body, true);
+        //     $body = wp_remote_retrieve_body($response);
+        //     $result = json_decode($body, true);
             
-            if (!empty($result['results'])) {
-                foreach ($recipeResult as $recipe) {
-                    foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
-                        if ($recipe["product_code"] == $new_recipe_val["product_code"]){
-                            $recipe["value"] += $new_recipe_val["value"];
-                            unset($result['results'][$new_recipe_key]);
-                            // break;
-                        }
+        //     if (!empty($result['results'])) {
+        //         foreach ($recipeResult as $recipe) {
+        //             foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
+        //                 if ($recipe["product_code"] == $new_recipe_val["product_code"]){
+        //                     $recipe["value"] += $new_recipe_val["value"];
+        //                     unset($result['results'][$new_recipe_key]);
+        //                     // break;
+        //                 }
      
-                    }
-                }
-                $recipeResult = array_merge($recipeResult, $result['results']);
-            }            
-        }
+        //             }
+        //         }
+        //         $recipeResult = array_merge($recipeResult, $result['results']);
+        //     }            
+        // }
         
         // Handle potential errors in the recipeResponse
         if (empty($recipeResult)) {
