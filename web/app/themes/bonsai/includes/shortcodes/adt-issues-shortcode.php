@@ -112,11 +112,13 @@ function adt_issues_shortcode() {
         </table>
     </div>
 
+    <?php
+echo "
     <script>
-        let sortDirection = 'asc';
+        let sortDirection ='asc';
 
         function sortTableByDate() {
-            const table = document.getElementById("git-issue-table");
+            const table = document.getElementById('git-issue-table');
             const tbody = table.tBodies[0];
             const rows = Array.from(tbody.rows);
 
@@ -134,7 +136,7 @@ function adt_issues_shortcode() {
             rows.forEach(row => tbody.appendChild(row));
         }
     </script>
-    <?php
+    ";
     // Return the buffered content
     return ob_get_clean();
 }
