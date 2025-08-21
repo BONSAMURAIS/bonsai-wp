@@ -163,13 +163,13 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
 
         if (!empty($result['results'])) {
             foreach ($recipeResult as $recipe) {
-        //         foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
+                foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
                     
-        //             if ($recipe["product_code"] == $new_recipe_val["product_code"]){
-        //                 $recipe["value"] += $new_recipe_val["value"];
-        //                 unset($result['results'][$new_recipe_key]);
-        //             }
-        //         }
+                    if ($recipe["flow_input"] == $new_recipe_val["flow_input"]){
+                        $recipe["value_emission"] += $new_recipe_val["value_emission"];
+                        unset($result['results'][$new_recipe_key]);
+                    }
+                }
             }
             $recipeResult = array_merge($recipeResult, $result['results']);
         }
