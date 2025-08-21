@@ -482,6 +482,34 @@ jQuery(document).ready(function($){
         // });
     });
 
+    $('#household-composition').on('change', async function(){
+        console.log("household-composition");
+        console.log('Start searching for comparison');
+        let userSelection = new UserSelection;
+        userSelection.get_from_form();
+        console.log("userSelection=", userSelection.to_string());
+        
+        data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+        if(selectedValue === 'person'){
+            // data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
+            data['title'] = "Emission per person";
+        }
+    });
+
+    $('#income-group').on('change',async function(){
+        console.log("change income");
+        console.log('Start searching for comparison');
+        let userSelection = new UserSelection;
+        userSelection.get_from_form();
+        console.log("userSelection=", userSelection.to_string());
+        
+        data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+        if(selectedValue === 'person'){
+            // data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
+            data['title'] = "Emission per person";
+        }
+    });
+
     
     function controlInput_value(OBJ){
         let val = OBJ.val();
