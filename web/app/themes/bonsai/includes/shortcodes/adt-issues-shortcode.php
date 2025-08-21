@@ -70,7 +70,7 @@ function adt_issues_shortcode() {
                     <th colspan="3"></th>
                     <th colspan="1">Milestone</th>
                     <th colspan="1">Status</th>
-                    <th colspan="1" onclick="sortTableByDate()" style="hover:cursor;">Date</th>
+                    <th colspan="1" onclick="sortTableByDate()" id="git-updated-date">Date</th>
                 </tr>
             </thead>
             <tbody>
@@ -114,6 +114,12 @@ function adt_issues_shortcode() {
 
     <?php
 echo "
+    <style>
+        #git-updated-date {
+            cursor: pointer;
+        }
+    </style>
+
     <script>
         let sortDirection ='asc';
 
