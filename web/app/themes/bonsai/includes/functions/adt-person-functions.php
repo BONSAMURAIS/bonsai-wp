@@ -140,12 +140,12 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
         $url = $GLOBALS['APIURL'].'/recipes-country/?act_code='.$cat.$SEPARATOR.$act_code.'&region_code='.$country.'&version='.$version.'&metric='.$metric;
         $recipeResponse = wp_remote_get($url);
         
-        // // Check for errors
-        // if (is_wp_error($recipeResponse)) {
-        //     return [
-        //         'error_oui' => $recipeResponse->get_error_message()
-        //     ];
-        // }
+        // Check for errors
+        if (is_wp_error($recipeResponse)) {
+            return [
+                'error_oui' => $recipeResponse->get_error_message()
+            ];
+        }
         
         // // Get the response body
         // $body = wp_remote_retrieve_body($recipeResponse);
