@@ -22,12 +22,13 @@ export async function get_product_footprint(userSelection){
                 footprint_year: userSelection.year,
                 database_version: userSelection.db_version,
             },
-            beforeSend: Utils.displayLoading(),
+            beforeSend: Utils.showLoading(),
             success: (response) => {
-                Utils.removeLoading();
+                Utils.hideLoading();
                 resolve(response.data);
             },
             error: (error) => {
+                Utils.hideLoading();
                 reject(error);  // Reject if there is an error
                 console.log("adt_get_product_info ERROR");
                 console.log(error);
@@ -58,9 +59,9 @@ export async function get_person_footprint(userSelection){
                 country: userSelection.country,
                 year: userSelection.year,
             },
-            beforeSend: Utils.displayLoading(),
+            beforeSend: Utils.showLoading(),
             success: function(response) {
-                Utils.removeLoading();
+                Utils.hideLoading();
                 jQuery('.loading').remove();
                 autocomplete_input.prop('disabled', false);
                 console.log("person_data response = ",response)
@@ -68,6 +69,7 @@ export async function get_person_footprint(userSelection){
                 
             },
             error: (response) => {
+                Utils.hideLoading();
                 console.log("error: ",response);
                 let error_initMsg = jQuery('#initial-error-message');
 

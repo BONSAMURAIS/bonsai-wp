@@ -25,6 +25,14 @@ export function removeLoading() {
     jQuery('#co2-form-result-header').prop('disabled', false);
 }
 
+export function showLoading() {
+    document.getElementById('loadingModal').style.display = 'flex';
+}
+
+export function hideLoading() {
+    document.getElementById('loadingModal').style.display = 'none';
+}
+
 // Animations
 export function show_search_results(id){
     jQuery(id).slideDown('slow', function(){

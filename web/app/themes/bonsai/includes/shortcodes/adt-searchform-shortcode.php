@@ -23,6 +23,10 @@ add_shortcode( 'adt_searchform', function($atts) {
     ?>
 
     <div id="main-content">
+        <!-- Loading modal -->
+        <div id="loadingModal" style="display:none;">
+        <div class="spinner"></div>
+        </div>
             <!-- Not ready yet -->
             <!-- <div id="share-wrapper">
                 <div class="share-icon">
