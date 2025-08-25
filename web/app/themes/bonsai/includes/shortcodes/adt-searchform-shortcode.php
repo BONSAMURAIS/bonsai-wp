@@ -236,7 +236,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     </div>
                                 </div>
                                 <div class="contribution-analysis" style="display: none;">
-                                    <p class="big-font emission-message">Where do emissions for 1 tonne of CO2eq come from?</p>
+                                    <p class="big-font emission-message">Where do emissions for 1 <span class="emission-unit"></span> of CO2eq come from?</p>
                                     <table class="emissions-table">
                                         <thead>
                                             <tr>
