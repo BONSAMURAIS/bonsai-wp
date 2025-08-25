@@ -614,9 +614,6 @@ async function display_result(htmlclass, data){
     //TODO hardcode replacement
     let dataCode = data['flow_code'];
     if (dataCode){
-        data['footprint-type'] = 'Cradle to grave';
-        data['footprint-type-label'] ='Cradle to grave';
-    }else{
         if (dataCode.includes("M_")) {
             data['footprint-type'] = 'Cradle to consumer';
             data['footprint-type-label'] ='Cradle to consumer';
@@ -627,6 +624,9 @@ async function display_result(htmlclass, data){
             data['footprint-type'] = 'Cradle to grave';
             data['footprint-type-label'] = 'Cradle to grave';
         }
+    }else{
+        data['footprint-type'] = 'Cradle to grave';
+        data['footprint-type-label'] ='Cradle to grave';
     }
     main_component.find('.footprint-type').first().text(data['footprint-type-label']);
     //endTODO hardcode replacement
