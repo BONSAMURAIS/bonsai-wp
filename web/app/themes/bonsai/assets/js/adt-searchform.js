@@ -635,7 +635,7 @@ async function display_result(htmlclass, data){
     main_component.find('.country').first().text(data["country"]);
     const isPersonTab = data['flow_code'] == null;
     main_component.find('.emission-unit').each(function () {
-        $(this).text(isPersonTab ? "tonne" : "kg");
+        jQuery(this).text(isPersonTab ? "tonne" : "kg");
     });
     main_component.find('.version').first().text(data["version"]);
     //set value
