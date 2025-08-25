@@ -133,7 +133,6 @@ export async function get_product_name_by_code_api(productCode) {
                 code: productCode,
             },
             success: (response) => {
-                console.log("api response=",response)
                 let productTitle = response.data;
                 resolve(productTitle);
             },
