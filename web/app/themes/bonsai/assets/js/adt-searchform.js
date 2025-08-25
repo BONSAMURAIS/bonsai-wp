@@ -769,8 +769,8 @@ async function display_result(htmlclass, data){
 
         jQuery('td span[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
         jQuery('td span[data-code="'+productCode+'"]').data('country',country);
-        console.log("countryCode, country="+countryCode +" -> "+country)
-        console.log("productcode, productTitle="+productCode + " -> "+productTitle)
+        // console.log("countryCode, country="+countryCode +" -> "+country)
+        // console.log("productcode, productTitle="+productCode + " -> "+productTitle)
     });
 
     // Remove previous click handlers to avoid stacking events
