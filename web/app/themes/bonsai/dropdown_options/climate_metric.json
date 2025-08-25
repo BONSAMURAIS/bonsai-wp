@@ -1,10 +1,10 @@
 [
     {
-        "id":"GTP20",
-        "label":"GTP20"
-    },
-    {
         "id":"GWP100",
         "label":"GWP100"
+    },
+    {
+        "id":"GTP20",
+        "label":"GTP20"
     }
 ]
