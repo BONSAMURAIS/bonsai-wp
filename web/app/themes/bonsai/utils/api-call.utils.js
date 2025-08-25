@@ -55,6 +55,7 @@ export async function get_person_footprint(userSelection){
                 act_code: act_code,
                 metric: userSelection.climate_metric,
                 region_code: userSelection.countryCode,
+                country: userSelection.country,
             },
             beforeSend: Utils.displayLoading(),
             success: function(response) {
