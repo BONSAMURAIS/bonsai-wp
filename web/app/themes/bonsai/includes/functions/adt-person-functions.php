@@ -8,11 +8,11 @@ $GLOBALS['APIURL'] = $CONFIG['APIURL'];
 
 function adt_get_person_footprint(){
     global $SEPARATOR;
+    $country = $_POST['country'];
     $countryCode = $_POST['region_code'];
     $act_code = $_POST['act_code'];
     $version = $_POST['version'];
     $metric = $_POST['metric'];
-    $country = $_POST['country'];
     $year = $_POST['year'];
 
     // Check if the data is already cached
