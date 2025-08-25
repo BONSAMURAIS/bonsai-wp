@@ -612,28 +612,28 @@ async function display_result(htmlclass, data){
     main_component.find('.product-title').first().text(Utils.capitalize(data["title"]));
     //set tags
     //TODO hardcode replacement
-    let isPersonTab = data['flow_code'];
-    if (isPersonTab){
-        if (isPersonTab.includes("M_")) {
+    let dataCode = data['flow_code'];
+    if (dataCode){
+        data['footprint-type'] = 'Cradle to grave';
+        data['footprint-type-label'] ='Cradle to grave';
+    }else{
+        if (dataCode.includes("M_")) {
             data['footprint-type'] = 'Cradle to consumer';
             data['footprint-type-label'] ='Cradle to consumer';
-        } else if (isPersonTab.includes('C_') || isPersonTab.includes('EF_') || isPersonTab.includes('A_')) {
+        } else if (dataCode.includes('C_') || dataCode.includes('EF_') || dataCode.includes('A_')) {
             data['footprint-type'] = 'Cradle to gate';
             data['footprint-type-label'] = 'Cradle to gate';
-        } else if (isPersonTab.includes("F_")) {
+        } else if (dataCode.includes("F_")) {
             data['footprint-type'] = 'Cradle to grave';
             data['footprint-type-label'] = 'Cradle to grave';
         }
-    }else{
-        // console.log("tag for person tab");
-        data['footprint-type'] = 'Cradle to grave';
-        data['footprint-type-label'] ='Cradle to grave';
     }
     main_component.find('.footprint-type').first().text(data['footprint-type-label']);
     //endTODO hardcode replacement
     main_component.find('.climate-metric').first().text(data.metric);
     main_component.find('.year').first().text(data["year"]);
     main_component.find('.country').first().text(data["country"]);
+    const isPersonTab = data['flow_code'] == null;
     main_component.find('.emission-unit').first().text(isPersonTab ? "tonne" : "kg");
     main_component.find('.version').first().text(data["version"]);
     //set value
