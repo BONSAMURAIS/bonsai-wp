@@ -13,6 +13,7 @@ function adt_get_person_footprint(){
     $version = $_POST['version'];
     $metric = $_POST['metric'];
     $country = $_POST['country'];
+    $year = $_POST['year'];
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_person_footprint_cache');
@@ -77,6 +78,7 @@ function adt_get_person_footprint(){
         'metric' => $metric,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
         'recipe' => $recipes,
+        'year' => $year,
     ];
 
     $productCode = "";

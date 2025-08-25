@@ -56,6 +56,7 @@ export async function get_person_footprint(userSelection){
                 metric: userSelection.climate_metric,
                 region_code: userSelection.countryCode,
                 country: userSelection.country,
+                year: userSelection.year,
             },
             beforeSend: Utils.displayLoading(),
             success: function(response) {
