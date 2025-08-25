@@ -312,71 +312,6 @@ function adt_get_product_footprint(){
         $newestVersion = $version;
     }
 
-    // Get the footprint with the newest version
-    $chosenFootprint = [];
-
-    foreach ($footprints as $footprint) {
-        if ($footprint['version'] === $newestVersion) {
-            switch ($footprint['unit_reference']) {
-                case 'Meuro':
-                    // Add danish currency Meuro to DKK 
-                    // The conversion rate is per million euro
-                    $conversionRateInMillion = adt_convert_number_by_units('Meuro', 'DKK');
-                    // Divide it by 1 million to get the value 1 Euro to 1 DKK
-                    $conversionRate = $conversionRateInMillion / 1000000;
-                    /* To get 1 euro per 1 kg emission
-                     * instead of 1 Meuro per 1 tonne emission
-                     * I need to divide by 1000
-                     */
-                    $footprint['value'] = $footprint['value'] / 1000;
-                    /* To get 1 DKK per 1 kg emission
-                     * I need to divide by the conversion rate
-                     */
-                    $danishValue = $footprint['value'] / $conversionRate;
-
-                    // Footprint with DKK as unit
-                    $danishFootprint = [
-                        'description' => $footprint['description'],
-                        'flow_code' => $footprint['flow_code'],
-                        'id' => $footprint['id'],
-                        'nace_related_code' => $footprint['nace_related_code'],
-                        'region_code' => $footprint['region_code'],
-                        'unit_emission' => $footprint['unit_emission'],
-                        'unit_reference' => 'DKK',
-                        'value' => $danishValue,
-                        'version' => $footprint['version'],
-                    ];
-
-                    array_push($chosenFootprint, $danishFootprint);
-                    break;
-                case 'items':
-                    /* 
-                     * To get 1 item per 1 kg emission
-                     * I need to multiply by 1000
-                     */
-                    $footprint['value'] = $footprint['value'] * 1000;
-                    break;
-
-                case 'TJ':
-                    if ( str_contains(strtolower($footprint['description']), 'electricity') ) {
-                        $multiplier = adt_convert_number_by_units('TJ', 'kWh');
-                        $footprint['unit_reference'] = 'kWh';
-                    } else {
-                        $multiplier = adt_convert_number_by_units('TJ', 'MJ');
-                        $footprint['unit_reference'] = 'MJ';
-                    }
-                    $footprint['value'] = $footprint['value'] / $multiplier * 1000;
-                    break;
-                default:
-                    break;
-            }
-            // restrict  significant number to 3
-            $footprint['value'] = roundToSignificantFigures($footprint['value']);
-
-            $chosenFootprint[] = $footprint;
-        }
-    }
-
     $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric);
 
     if(!empty($productCode) & empty($footprintTitle) ){
@@ -392,14 +327,14 @@ function adt_get_product_footprint(){
         "unit_emission" => $unit_emission,
         'uuid' => $productUuid,
         'version' => $newestVersion,
-        'all_data' => $chosenFootprint,
-        'description' => $chosenFootprint[0]['description'],
-        'id' => $chosenFootprint[0]['id'],
-        'metric' => $chosenFootprint[0]['metric'],
-        'nace_related_code' => $chosenFootprint[0]['nace_related_code'],
-        'region_code' => $chosenFootprint[0]['region_code'],
-        'samples' => $chosenFootprint[0]['samples'],
-        'value' => $chosenFootprint[0]['value'],
+        'all_data' => $footprint,
+        'description' => $footprint[0]['description'],
+        'id' => $footprint[0]['id'],
+        'metric' => $footprint[0]['metric'],
+        'nace_related_code' => $footprint[0]['nace_related_code'],
+        'region_code' => $footprint[0]['region_code'],
+        'samples' => $footprint[0]['samples'],
+        'value' => $footprint[0]['value'],
         'recipe' => $recipeData,
         'year' => $year,
         'footprint-type' => $type,
