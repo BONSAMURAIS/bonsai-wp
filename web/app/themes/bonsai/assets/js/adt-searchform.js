@@ -624,6 +624,8 @@ async function display_result(htmlclass, data){
             data['footprint-type'] = 'Cradle to grave';
             data['footprint-type-label'] = 'Cradle to grave';
         }
+    }else{
+        console.log("should only be person")
     }
     main_component.find('.footprint-type').first().text(data['footprint-type-label']);
     //endTODO hardcode replacement
