@@ -451,7 +451,7 @@ jQuery(document).ready(function($){
         let co2_result = unitSelect.closest('div.choices')      // go up to the div wrapping 
                                     .find('p.co2-value');        // look inside for p.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
-
+//ici
         let calculatedValue = co2_result_value * numberInput * unitRatio;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
 
@@ -462,7 +462,7 @@ jQuery(document).ready(function($){
         });
 
         amountInput.val(numberInput);//keep value in input
-        unitSelect.closest('.unit-select-wrapper').find('.product-unit').first().text(unitLabel); //change name in question "Where do emissions for 1 'unit' of CO2eq come from?"
+        unitSelect.closest('.tile-wrapper').find('.product-unit').first().text(unitLabel); //change name in question "Where do emissions for 1 'unit' of CO2eq come from?"
         
         //TODO add EUR and DKK values in data-attr
         // unitSelect.each(async function () { 
