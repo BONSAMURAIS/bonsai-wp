@@ -440,8 +440,10 @@ jQuery(document).ready(function($){
 
     //observe on_change elements
     jQuery('#co2-form-result').find('select.unit').on('change', function () {
-
+        console.log("change unit")
+        
         let unitSelect = jQuery(this);
+        console.log("unitSelect=",unitSelect)
         let unitRatio = unitSelect.val();
         let amountInput = unitSelect.closest('.unit-select-wrapper')      // go up to the label wrapping <select>
                                     .find('input.quantity');        // look inside for input.amount
