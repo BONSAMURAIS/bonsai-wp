@@ -180,8 +180,8 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
     $recipes = $result["results"];
 
     foreach ($recipe as $recipes) {
-        if (!isset($recipe['flow_input'])) {
-            $recipe['flow_input'] = $recipe['product_code'];
+        if (!isset($recipe['inflow'])) {
+            $recipe['inflow'] = $recipe['product_code'];
         }
     
         if (!isset($recipe['region_inflow'])) {

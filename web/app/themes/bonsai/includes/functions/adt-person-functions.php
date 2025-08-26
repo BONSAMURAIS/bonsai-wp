@@ -169,7 +169,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             foreach ($recipeResult as $recipe) {
                 foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
                     
-                    if ($recipe["flow_input"] == $new_recipe_val["flow_input"]){
+                    if ($recipe["inflow"] == $new_recipe_val["inflow"]){
                         $recipe["value_emission"] += $new_recipe_val["value_emission"];
                         unset($result['results'][$new_recipe_key]);
                     }
@@ -195,7 +195,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             if (!empty($result['results'])) {
                 foreach ($recipeResult as $recipe) {
                     foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
-                        if ($recipe["flow_input"] == $new_recipe_val["flow_input"]){
+                        if ($recipe["inflow"] == $new_recipe_val["inflow"]){
                             $recipe["value_emission"] += $new_recipe_val["value_emission"];
                             unset($result['results'][$new_recipe_key]);
                             // break;
