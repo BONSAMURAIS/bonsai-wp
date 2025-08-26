@@ -725,7 +725,7 @@ async function display_result(htmlclass, data){
         
         //Create rows
         rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
-        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country-code="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + "LOADING..." + '</span></td>';
+        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country-code="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + Utils.capitalize(recipe.inflow_name) + '</span></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
@@ -759,26 +759,26 @@ async function display_result(htmlclass, data){
     let recipeTable = main_component.find('.emissions-table').first();
     recipeTable.find('tbody').html(tableMarkup);
 
-    // Convert the product code to product name
-    recipeTable.find('tbody tr').each(async function(){
-        let productCode = jQuery(this).find('span').data('code');
-        let productTitle = "";
-        if (productCode.toLowerCase() === "other" || productCode.toLowerCase() === "direct"){
-            productTitle = productCode;
-        }else{
-            productTitle = await API.get_product_name_by_code_api(productCode);
-        }
-        let countryCode = jQuery(this).find('span').data('country-code');
-        let country = "NULL";
-        if (countryCode != null){
-            country = await API.get_country_name_by_code(countryCode);
-        }
+    // // Convert the product code to product name
+    // recipeTable.find('tbody tr').each(async function(){
+    //     let productCode = jQuery(this).find('span').data('code');
+    //     let productTitle = "";
+    //     if (productCode.toLowerCase() === "other" || productCode.toLowerCase() === "direct"){
+    //         productTitle = productCode;
+    //     }else{
+    //         productTitle = await API.get_product_name_by_code_api(productCode);
+    //     }
+    //     let countryCode = jQuery(this).find('span').data('country-code');
+    //     let country = "NULL";
+    //     if (countryCode != null){
+    //         country = await API.get_country_name_by_code(countryCode);
+    //     }
 
-        jQuery('td span[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
-        jQuery('td span[data-code="'+productCode+'"]').data('country',country);
-        // console.log("countryCode, country="+countryCode +" -> "+country)
-        // console.log("productcode, productTitle="+productCode + " -> "+productTitle)
-    });
+    //     jQuery('td span[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
+    //     jQuery('td span[data-code="'+productCode+'"]').data('country',country);
+    //     // console.log("countryCode, country="+countryCode +" -> "+country)
+    //     // console.log("productcode, productTitle="+productCode + " -> "+productTitle)
+    // });
 
     // Remove previous click handlers to avoid stacking events
     recipeTable.find('thead th').off('click');
