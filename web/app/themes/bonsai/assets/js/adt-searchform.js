@@ -886,7 +886,6 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     let suggestionSelected = false;
 
     $input.on('input', function () {
-        console.log("words=",words)
         const query = $input.val().toLowerCase();
         const matches = words
         .map((word, index) => ({ word, code: productCodeArray[index], uuid: productUuidArray[index] }))
