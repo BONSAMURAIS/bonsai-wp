@@ -104,28 +104,6 @@ export async function get_converted_number_by_units(fromUnit, toUnit, number) {
     });
 }
 
-export async function get_product_name_by_code(productCode) {
-    return new Promise((resolve, reject)=>{
-        jQuery.ajax({
-            type: 'POST',
-            url: localize._ajax_url,
-            data: {
-                _ajax_nonce: localize._ajax_nonce,
-                action: 'adt_get_product_name_by_code',
-                code: productCode,
-            },
-            success: (response) => {
-                let productTitle = response.data;
-                resolve(productTitle);
-            },
-            error:(err)=>{
-                console.log("err=",err);
-                reject(err);
-            }
-        });
-    })
-}
-
 export async function get_product_name_by_code_api(productCode) {
     return new Promise((resolve, reject)=>{
         jQuery.ajax({
