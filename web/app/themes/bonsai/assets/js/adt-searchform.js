@@ -443,7 +443,7 @@ jQuery(document).ready(function($){
         console.log("change unit")
         
         let unitSelect = jQuery(this);
-        console.log("unitSelect=",unitSelect)
+        let unitLabel = unitSelect.find('option:selected').text();
         let unitRatio = unitSelect.val();
         let amountInput = unitSelect.closest('.unit-select-wrapper')      // go up to the label wrapping <select>
                                     .find('input.quantity');        // look inside for input.amount
@@ -462,7 +462,7 @@ jQuery(document).ready(function($){
         });
 
         amountInput.val(numberInput);//keep value in input
-        unitSelect.closest('.unit-select-wrapper').find('.product-unit').first().text(unitSelect); //change name in question "Where do emissions for 1 'unit' of CO2eq come from?"
+        unitSelect.closest('.unit-select-wrapper').find('.product-unit').first().text(unitLabel); //change name in question "Where do emissions for 1 'unit' of CO2eq come from?"
         
         //TODO add EUR and DKK values in data-attr
         // unitSelect.each(async function () { 
