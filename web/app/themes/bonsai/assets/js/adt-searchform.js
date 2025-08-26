@@ -460,6 +460,7 @@ jQuery(document).ready(function($){
         });
 
         amountInput.val(numberInput);//keep value in input
+        unitSelect.closest('.unit-select-wrapper').find('.product-unit').first().text(unitSelect); //change name in question "Where do emissions for 1 'unit' of CO2eq come from?"
         
         //TODO add EUR and DKK values in data-attr
         // unitSelect.each(async function () { 
@@ -634,7 +635,6 @@ async function display_result(htmlclass, data){
     main_component.find('.country').first().text(data["country"]);
     const isPersonTab = data['flow_code'] == null;
     main_component.find('.emission-unit').first().text(isPersonTab ? "tonne" : "kg");
-    main_component.find('.product-unit').first().text(data.unit_reference);
     main_component.find('.version').first().text(data["version"]);
     //set value
     main_component.find('.co2-value').first().text(Utils.reformatValue(data["value"]));
@@ -657,8 +657,8 @@ async function display_result(htmlclass, data){
             arrow.style.display = 'none';
         })
     }
-    const test = main_component.find('select.unit option:selected').first();
-    console.log("test=",test)
+    const default_unit = main_component.find('select.unit option:selected').first();
+    main_component.find('.product-unit').first().text(default_unit);
 
     //recipe
     let tableMarkup = '';
