@@ -657,7 +657,7 @@ async function display_result(htmlclass, data){
             arrow.style.display = 'none';
         })
     }
-    const default_unit = main_component.find('select.unit option:selected').first();
+    const default_unit = main_component.find('select.unit option:selected').first().text;
     main_component.find('.product-unit').first().text(default_unit);
 
     //recipe
