@@ -316,7 +316,6 @@ jQuery(document).ready(function($){
         data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
 
         if(selectedValue === 'person'){
-            // data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
             data['title'] = "Emission per person";
         }
         adt_push_parameter_to_url(userSelection);
@@ -657,8 +656,9 @@ async function display_result(htmlclass, data){
         jQuery('.unit-arrow').each(function(index, arrow) {
             arrow.style.display = 'none';
         })
-
     }
+    const test = main_component.find('select.unit option:selected').first();
+    console.log("test=",test)
 
     //recipe
     let tableMarkup = '';
