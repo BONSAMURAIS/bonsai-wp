@@ -84,6 +84,7 @@ div.tooltip-wrapper {
     width: 100vw;
     height: 100vh;
     display: flex;
+    background: rgba(145, 145, 145, 0.568); /* semi-transparent black */
     justify-content: center;
     align-items: center;
     z-index: 9999; /* high z-index */
