@@ -451,7 +451,6 @@ jQuery(document).ready(function($){
         let co2_result = unitSelect.closest('div.choices')      // go up to the div wrapping 
                                     .find('p.co2-value');        // look inside for p.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
-//ici
         let calculatedValue = co2_result_value * numberInput * unitRatio;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
 
@@ -463,26 +462,6 @@ jQuery(document).ready(function($){
 
         amountInput.val(numberInput);//keep value in input
         unitSelect.closest('.tile-wrapper').find('.product-unit').first().text(unitLabel); //change name in question "Where do emissions for 1 'unit' of CO2eq come from?"
-        
-        //TODO add EUR and DKK values in data-attr
-        // unitSelect.each(async function () { 
-        //     for (const item of data.all_data) {
-        //         //issue on code region selected. it is currently random
-        //         console.log("item=",item)
-        //         console.log("item.value=",item.value)
-        //         console.log("item.value*ratio=",item.value*unitRatio)
-        //         if (item.unit_reference == CONST.UNIT.DKK){
-        //             if (unitRatio_name.includes(CONST.UNIT.DKK)){ //TODO to rafactor
-        //                 finalAmount = item.value*unitRatio*currentAmount;
-        //                 break;
-        //             } else if (unitRatio_name.includes(CONST.UNIT.EUR)){
-        //                 finalAmount = item.value*unitRatio*currentAmount;
-        //                 break;
-        //             }
-        //         }
-        //         finalAmount = item.value*unitRatio*currentAmount;
-        //     }
-        // });
     });
 
     function controlInput_value(OBJ){
