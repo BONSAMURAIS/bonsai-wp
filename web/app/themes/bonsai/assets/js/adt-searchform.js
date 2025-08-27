@@ -576,7 +576,6 @@ async function display_result(htmlclass, data){
     //error management
     let error_msg = jQuery('#error-message');
     if (data && (data.error && data.error.includes("Product not found") || data.title == "")) {
-        console.log(jQuery('#error-message-content'))
         if(jQuery('#error-message-content').length == 0){
             error_msg.append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
         }
@@ -881,6 +880,7 @@ function adt_download_recipe_csv()
 function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray) 
 {
     const words = [...new Set(productTitleArray)];
+    console.log("words=",words)
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
     const $suggestions = jQuery('#suggestions');
