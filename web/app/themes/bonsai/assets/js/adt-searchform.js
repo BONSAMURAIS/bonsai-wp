@@ -111,6 +111,8 @@ jQuery(document).ready(function($){
         }
     });
 
+    let list_product = {};
+
     let productTitleArray = [];
     let productContentArray = [];
     let productCodeArray = [];
@@ -135,7 +137,7 @@ jQuery(document).ready(function($){
         if (this.code.startsWith('A_')) {
             this.code = this.code.replace(/^A_/, 'C_');
         }
-        
+        list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid} //because title is unique
         productTitleArray.push(this.title);
         productContentArray.push(this.content);
         productCodeArray.push(this.code);
@@ -147,6 +149,8 @@ jQuery(document).ready(function($){
     $('input[name="footprint_type_extend"]').on('change', function() {
         chosenFootprintType = $(this).val();
         
+        list_product = {};
+
         productTitleArray = [];
         productContentArray = [];
         productCodeArray = [];
@@ -168,6 +172,8 @@ jQuery(document).ready(function($){
             if (this.code.startsWith('A_')) {
                 this.code = this.code.replace(/^A_/, 'C_');
             }
+
+            list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid} //because title is unique
             
             productTitleArray.push(this.title);
             productContentArray.push(this.content);
@@ -881,6 +887,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
 {
     const words = productTitleArray;
     console.log("words=",words)
+    console.log("list_product=",list_product)
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
     const $suggestions = jQuery('#suggestions');
