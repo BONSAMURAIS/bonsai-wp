@@ -98,7 +98,7 @@ export function getUnitOptions(dataArray, unit_ref){
         ]
     } else if (unit_ref === 'tonnes (service)'){
         unitList = [
-            {ratio:1,label:"tonne(s) (service)"},
+            {ratio:1,label:"tonne(s)"}, //requested by Jannick Schmidt
         ]
     } else if (unit_ref == null){ //for person footprint-type
         unitList = [
