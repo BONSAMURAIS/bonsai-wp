@@ -114,10 +114,6 @@ jQuery(document).ready(function($){
     let list_product = {};
     let list_product_title = new Set();
 
-    let productTitleArray = [];
-    let productContentArray = [];
-    let productCodeArray = [];
-    let productUuidArray = [];
     let chosenFootprintType = $('input[name="footprint_type_extend"]:checked').val();
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
@@ -140,10 +136,6 @@ jQuery(document).ready(function($){
         }
         list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid}; //because title is unique
         list_product_title.add(this.title);
-        productTitleArray.push(this.title);
-        productContentArray.push(this.content);
-        productCodeArray.push(this.code);
-        productUuidArray.push(this.uuid);    
     });
     
     // when radio button 'Cradle to consumer' is selected 
@@ -153,11 +145,6 @@ jQuery(document).ready(function($){
         
         list_product = {};
         list_product_title = new Set();
-
-        productTitleArray = [];
-        productContentArray = [];
-        productCodeArray = [];
-        productUuidArray = [];
 
         $(searchform.products).each(function() {
         if (this.code.toLowerCase() == "M_Beef_ons".toLowerCase() || this.code.toLowerCase() == "C_Beef_ons".toLowerCase() ){//|| this.code.toLowerCase() == "M_Beef_veal".toLowerCase() ){
@@ -177,21 +164,16 @@ jQuery(document).ready(function($){
             }
 
             list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid} //because title is unique
-            
-            productTitleArray.push(this.title);
             list_product_title.add(this.title);
-            productContentArray.push(this.content);
-            productCodeArray.push(this.code);
-            productUuidArray.push(this.uuid);    
         });
 
         jQuery('#autocomplete-input').val('');
 
-        adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray,list_product,list_product_title);
+        adt_dynamic_search_input(list_product,list_product_title);
 
     });
 
-    adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray,list_product,list_product_title);
+    adt_dynamic_search_input(list_product,list_product_title);
 
     $('#most-popular ul li button, #search-history-list li').on('click', async function(e) {
         e.preventDefault();
@@ -887,7 +869,7 @@ function adt_download_recipe_csv()
     });
 }
 
-function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray, list_product, list_product_title) 
+function adt_dynamic_search_input(list_product, list_product_title) 
 {
     const words = [...list_product_title];
     console.log("words=",words)
