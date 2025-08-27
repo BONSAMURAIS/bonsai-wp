@@ -879,8 +879,7 @@ function adt_download_recipe_csv()
 
 function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray) 
 {
-    const words =  [...new Set(productTitleArray)];
-    const codes =  [...new Set(productCodeArray)];
+    const words = productTitleArray;
     console.log("words=",words)
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
@@ -892,7 +891,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     $input.on('input', function () {
         const query = $input.val().toLowerCase();
         const matches = words
-        .map((word, index) => ({ word, code: productCodeArray[index], uuid: codes[index] }))
+        .map((word, index) => ({ word, code: productCodeArray[index], uuid: productUuidArray[index] }))
         .filter(item => item.word.toLowerCase().includes(query));
         $suggestions.empty();
         currentIndex = -1;
