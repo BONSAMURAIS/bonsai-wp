@@ -111,10 +111,10 @@ jQuery(document).ready(function($){
         }
     });
 
-    let productTitleArray = new Set();
-    let productContentArray = new Set();
-    let productCodeArray = new Set();
-    let productUuidArray = new Set();
+    let productTitleArray = [];
+    let productContentArray = [];
+    let productCodeArray = [];
+    let productUuidArray = [];
     let chosenFootprintType = $('input[name="footprint_type_extend"]:checked').val();
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
@@ -136,10 +136,10 @@ jQuery(document).ready(function($){
             this.code = this.code.replace(/^A_/, 'C_');
         }
         
-        productTitleArray.add(this.title);
-        productContentArray.add(this.content);
-        productCodeArray.add(this.code);
-        productUuidArray.add(this.uuid);    
+        productTitleArray.push(this.title);
+        productContentArray.push(this.content);
+        productCodeArray.push(this.code);
+        productUuidArray.push(this.uuid);    
     });
     
     // when radio button 'Cradle to consumer' is selected 
@@ -147,10 +147,10 @@ jQuery(document).ready(function($){
     $('input[name="footprint_type_extend"]').on('change', function() {
         chosenFootprintType = $(this).val();
         
-        productTitleArray = new Set();
-        productContentArray = new Set();
-        productCodeArray = new Set();
-        productUuidArray = new Set();
+        productTitleArray = [];
+        productContentArray = [];
+        productCodeArray = [];
+        productUuidArray = [];
 
         $(searchform.products).each(function() {
         if (this.code.toLowerCase() == "M_Beef_ons".toLowerCase() || this.code.toLowerCase() == "C_Beef_ons".toLowerCase() ){//|| this.code.toLowerCase() == "M_Beef_veal".toLowerCase() ){
@@ -169,28 +169,18 @@ jQuery(document).ready(function($){
                 this.code = this.code.replace(/^A_/, 'C_');
             }
             
-            productTitleArray.add(this.title);
-            productContentArray.add(this.content);
-            productCodeArray.add(this.code);
-            productUuidArray.add(this.uuid);    
+            productTitleArray.push(this.title);
+            productContentArray.push(this.content);
+            productCodeArray.push(this.code);
+            productUuidArray.push(this.uuid);    
         });
 
         jQuery('#autocomplete-input').val('');
-
-        
-        productTitleArray = Array.from(productTitleArray);
-        productContentArray = Array.from(productContentArray);
-        productCodeArray = Array.from(productCodeArray);
-        productUuidArray = Array.from(productUuidArray);
 
         adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
     });
 
-    productTitleArray = Array.from(productTitleArray);
-    productContentArray = Array.from(productContentArray);
-    productCodeArray = Array.from(productCodeArray);
-    productUuidArray = Array.from(productUuidArray);
     adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
 
     $('#most-popular ul li button, #search-history-list li').on('click', async function(e) {
