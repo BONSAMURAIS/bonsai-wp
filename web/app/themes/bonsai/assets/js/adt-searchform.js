@@ -183,11 +183,11 @@ jQuery(document).ready(function($){
 
         jQuery('#autocomplete-input').val('');
 
-        adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
+        adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray,list_product);
 
     });
 
-    adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
+    adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray,list_product);
 
     $('#most-popular ul li button, #search-history-list li').on('click', async function(e) {
         e.preventDefault();
@@ -883,7 +883,7 @@ function adt_download_recipe_csv()
     });
 }
 
-function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray) 
+function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray, list_product) 
 {
     const words = productTitleArray;
     console.log("words=",words)
