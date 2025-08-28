@@ -101,6 +101,7 @@ jQuery(document).ready(function($){
 
     $('#household-composition, #income-group, #location, #year, #climate-metric, #database-version').on('change', async function(){
         console.log("change ", jQuery(this).attr('id'));
+        console.log("jQuery(this).closest('.tile-wrapper').find('.product-title') ", jQuery(this).closest('.tile-wrapper').find('.product-title'));
         let text = jQuery(this).closest('.tile-wrapper').find('.product-title').first().text();
         let code = jQuery(this).closest('.tile-wrapper').find('.product-title').first().attr('code');
         let uuid = jQuery(this).closest('.tile-wrapper').find('.product-title').first().attr('uuid');
