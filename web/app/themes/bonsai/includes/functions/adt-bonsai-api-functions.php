@@ -367,6 +367,7 @@ function convert_footprint_value($unit,$value){
             $value /= 1000;
         break;
         case $GLOBALS['UNIT']['TJ']:
+            $value /= 1000;
         break;
         case $GLOBALS['UNIT']['HA_PER_YEAR']:
             $value *= 10;
