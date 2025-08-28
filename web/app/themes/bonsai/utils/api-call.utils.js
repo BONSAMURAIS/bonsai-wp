@@ -70,7 +70,7 @@ export async function get_person_footprint(userSelection){
             },
             error: (response) => {
                 Utils.hideLoading();
-                console.log("error: ",response);
+                console.log("error -: ",response);
                 let error_initMsg = jQuery('#initial-error-message');
 
                 // Request was throttled

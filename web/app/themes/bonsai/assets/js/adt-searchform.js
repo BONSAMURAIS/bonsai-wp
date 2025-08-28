@@ -115,6 +115,8 @@ jQuery(document).ready(function($){
     let productContentArray = [];
     let productCodeArray = [];
     let productUuidArray = [];
+
+
     let chosenFootprintType = $('input[name="footprint_type_extend"]:checked').val();
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
@@ -135,16 +137,16 @@ jQuery(document).ready(function($){
         if (this.code.startsWith('A_')) {
             this.code = this.code.replace(/^A_/, 'C_');
         }
-        
-        productTitleArray.push(this.title);
-        productContentArray.push(this.content);
-        productCodeArray.push(this.code);
-        productUuidArray.push(this.uuid);    
+            productTitleArray.push(this.title);
+            productContentArray.push(this.content);
+            productCodeArray.push(this.code);
+            productUuidArray.push(this.uuid);    
     });
     
     // when radio button 'Cradle to consumer' is selected 
     // If user chooses to change footprint type then get new data
     $('input[name="footprint_type_extend"]').on('change', function() {
+        console.log("footprint_type_extend changed");
         chosenFootprintType = $(this).val();
         
         productTitleArray = [];
@@ -168,7 +170,7 @@ jQuery(document).ready(function($){
             if (this.code.startsWith('A_')) {
                 this.code = this.code.replace(/^A_/, 'C_');
             }
-            
+
             productTitleArray.push(this.title);
             productContentArray.push(this.content);
             productCodeArray.push(this.code);
@@ -879,7 +881,7 @@ function adt_download_recipe_csv()
 
 function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray) 
 {
-    const words = [productTitleArray];
+    const words = [...productTitleArray];
     console.log("words=",words)
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
