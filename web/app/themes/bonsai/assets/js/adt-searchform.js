@@ -101,7 +101,9 @@ jQuery(document).ready(function($){
 
     $('#household-composition, #income-group, #location, #year, #climate-metric, #database-version').on('change', async function(){
         console.log("change ", jQuery(this).attr('id'));
-        jQuery(this).find('option:selected').text().val(text).attr('data-code', code).attr('data-uuid', uuid);
+        let text = jQuery(this).closest('.tile-wrapper').find('.product-title').first().text();
+        let code = jQuery(this).closest('.tile-wrapper').find('.product-title').first().attr('code');
+        let uuid = jQuery(this).closest('.tile-wrapper').find('.product-title').first().attr('uuid');
         let userSelection = new UserSelection;
         userSelection.get_from_form();
         userSelection.set_product(text,code,uuid);
@@ -600,6 +602,7 @@ async function display_result(htmlclass, data){
     let main_component = jQuery(htmlclass);
     //set title
     main_component.find('.product-title').first().text(Utils.capitalize(data["title"]));
+    main_component.find('.product-title').first().attr("code",dataCode);
     //set tags
     //TODO hardcode replacement
     let dataCode = data['flow_code'];
