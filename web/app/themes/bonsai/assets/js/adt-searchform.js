@@ -147,7 +147,9 @@ jQuery(document).ready(function($){
         list_product = {};
         list_product_title = new Set();
 
+        let count = 0;
         $(searchform.products).each(function() {
+            console.log("count=",count)
         if (this.code.toLowerCase() == "M_Beef_ons".toLowerCase() || this.code.toLowerCase() == "C_Beef_ons".toLowerCase() ){//|| this.code.toLowerCase() == "M_Beef_veal".toLowerCase() ){
                 return true;
             }
