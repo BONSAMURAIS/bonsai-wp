@@ -597,7 +597,7 @@ async function display_result(htmlclass, data){
     //summary information
     let main_component = jQuery(htmlclass);
     //set title
-    main_component.find('.product-title').first().text(Utils.capitalize(data["title"]));
+    main_component.find('.product-title').first().text(Utils.capitalize(data["title"])+"sdsad");
     main_component.find('.product-title').first().attr("data-code",dataCode);
     //set tags
     //TODO hardcode replacement
