@@ -101,7 +101,7 @@ jQuery(document).ready(function($){
 
     $('#household-composition, #income-group, #location, #year, #climate-metric, #database-version').on('change', async function(){
         console.log("change ", jQuery(this).attr('id'));
-        $input.val(text).attr('data-code', code).attr('data-uuid', uuid);
+        jQuery(this).find('option:selected').text().val(text).attr('data-code', code).attr('data-uuid', uuid);
         let userSelection = new UserSelection;
         userSelection.get_from_form();
         userSelection.set_product(text,code,uuid);
