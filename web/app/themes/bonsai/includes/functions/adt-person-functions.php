@@ -12,14 +12,15 @@ function adt_get_person_footprint(){
     $act_code = $_POST['act_code'];
     $version = $_POST['version'];
     $metric = $_POST['metric'];
+    $year = $_POST['year'];
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_person_footprint_cache');
     
     // If cache exists, return the cached data
     if ($cachedFootprints !== false) {
-        if (array_key_exists($country, $cachedFootprints) && $cachedFootprints[$country]['chosen_country'] === $country) {
-            wp_send_json_success($cachedFootprints[$country]);
+        if (array_key_exists($countryCode, $cachedFootprints) && $cachedFootprints[$countryCode]['chosen_country'] === $countryCode) {
+            wp_send_json_success($cachedFootprints[$countryCode]);
             die();
         }
     }
@@ -54,8 +55,8 @@ function adt_get_person_footprint(){
     $footprintsArray = $result['results'];
 
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
-    $value = get_total_value($fdemand_categories,$country,$act_code,$version,$metric);
-    $recipes = adt_get_person_footprint_recipe($fdemand_categories, $country, $act_code, $version,$metric);
+    $value = get_total_value($fdemand_categories,$countryCode,$act_code,$version,$metric);
+    $recipes = adt_get_person_footprint_recipe($fdemand_categories, $countryCode, $act_code, $version,$metric);
 
     
     //sort per value
@@ -69,12 +70,14 @@ function adt_get_person_footprint(){
     $data = [
         'id' => $footprintsArray[0]['id'],
         'act_code' => $footprintsArray[0]['act_code'],
-        'region_code' => $country,
+        'region_code' => $countryCode,
+        'country' => $country,
         'value' => $value,
         'version' => $version,
         'metric' => $metric,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
         'recipe' => $recipes,
+        'year' => $year,
     ];
 
     $productCode = "";
@@ -87,7 +90,7 @@ function adt_get_person_footprint(){
     wp_send_json_success($data);
 }
 
-function get_total_value(array $fdemand_categories, string $country, string $act_code, int|string $version, string $metric) : float {
+function get_total_value(array $fdemand_categories, string $countryCode, string $act_code, int|string $version, string $metric) : float {
     global $SEPARATOR;
     $total = 0;
     foreach ($fdemand_categories as $cat){
@@ -131,7 +134,7 @@ function get_total_value(array $fdemand_categories, string $country, string $act
 add_action('wp_ajax_adt_get_person_footprint', 'adt_get_person_footprint');
 add_action('wp_ajax_nopriv_adt_get_person_footprint', 'adt_get_person_footprint');
 
-function adt_get_person_footprint_recipe(array $fdemand_categories, string $country, string $act_code, int|string $version, string $metric): array
+function adt_get_person_footprint_recipe(array $fdemand_categories, string $countryCode, string $act_code, int|string $version, string $metric): array
 { //something off here
     global $SEPARATOR;
     $recipeResult = [];
@@ -165,7 +168,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             foreach ($recipeResult as $recipe) {
                 foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
                     
-                    if ($recipe["flow_input"] == $new_recipe_val["flow_input"]){
+                    if ($recipe["inflow"] == $new_recipe_val["inflow"]){
                         $recipe["value_emission"] += $new_recipe_val["value_emission"];
                         unset($result['results'][$new_recipe_key]);
                     }
@@ -191,7 +194,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
             if (!empty($result['results'])) {
                 foreach ($recipeResult as $recipe) {
                     foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
-                        if ($recipe["flow_input"] == $new_recipe_val["flow_input"]){
+                        if ($recipe["inflow"] == $new_recipe_val["inflow"]){
                             $recipe["value_emission"] += $new_recipe_val["value_emission"];
                             unset($result['results'][$new_recipe_key]);
                             // break;
