@@ -883,7 +883,6 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
 {
     const words = [...productTitleArray];
     console.log("words=",words)
-    console.log("list_product=",list_product)
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
     const $suggestions = jQuery('#suggestions');
