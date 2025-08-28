@@ -291,6 +291,7 @@ jQuery(document).ready(function($){
     // Search 
     $('#btn-search, #search-icon, #household-composition, #income-group, #location, #year, #climate-metric, #database-version').click(async function(e){
         e.preventDefault();
+        console.log("on click ",jQuery(this).attr('id'))
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         if (selectedValue != 'person' && jQuery('#autocomplete-input').val() ==""){
             let error_msg = jQuery('#error-message');
