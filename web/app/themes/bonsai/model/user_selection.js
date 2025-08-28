@@ -56,9 +56,9 @@ class UserSelection{
     }
 
     get_from_dropdown(){
-        this.title = jQuery('#product-title').val();
-        this.code = jQuery('#product-title').attr('data-code');
-        this.uuid = jQuery('#product-title').attr('data-uuid');
+        this.title = jQuery('#product-analysis-content .product-title').val();
+        this.code = jQuery('#product-analysis-content .product-title').attr('data-code');
+        this.uuid = jQuery('#product-analysis-content .product-title').attr('data-uuid');
         this.countryCode = jQuery('#location option:selected').val();
         this.country = jQuery('#location option:selected').text();
         this.db_version = jQuery('#database-version').val();
