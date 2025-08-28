@@ -27,7 +27,8 @@ function adt_get_person_footprint(){
     }
 
     $fdemand_aux = "F_GOVE";
-    $url = $GLOBALS['APIURL']."/footprint-country/?region_code=".$countryCode."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$act_code."&metric=".$metric; //TODO change if call with F_HOUS does not exist
+    $url = "https://lca.aau.dk/api/footprint-country/?region_code=AU&version=v1.0.0&act_code=F_GOVE|1-5_average&metric=gwp100";////TODO change if call with F_HOUS does not exist
+    // $url = $GLOBALS['APIURL']."/footprint-country/?region_code=".$countryCode."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$act_code."&metric=".$metric; //TODO change if call with F_HOUS does not exist
     $response = wp_remote_get($url);
 
     // Check for errors
