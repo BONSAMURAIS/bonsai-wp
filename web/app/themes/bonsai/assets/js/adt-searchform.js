@@ -597,11 +597,12 @@ async function display_result(htmlclass, data){
     //summary information
     let main_component = jQuery(htmlclass);
     //set title
-    let dataCode = data['flow_code'];
     main_component.find('.product-title').first().text(Utils.capitalize(data["title"]));
-    main_component.find('.product-title').first().attr("data-code",dataCode);
+    main_component.find('.product-title').first().attr("data-code",data['flow_code']);
+    main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
     //set tags
     //TODO hardcode replacement
+    let dataCode = data['flow_code'];
     if (dataCode){
         if (dataCode.includes("M_")) {
             data['footprint-type'] = 'Cradle to consumer';
