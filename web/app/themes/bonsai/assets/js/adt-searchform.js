@@ -657,52 +657,6 @@ async function display_result(htmlclass, data){
         const jsonString = JSON.stringify(recipe);
         const base64String = btoa(jsonString);  // Convert to base64
         const getParameter = `?data=${base64String}`;
-
-        let updatedInflow = '';
-
-        // If unit_inflow "Meuro" per tonnes convert to Euro per kg
-        if (recipe.unit_inflow === CONST.UNIT.MEURO) {
-            recipe.value_inflow = recipe.value_inflow / 1000;
-            recipe.value_emission = recipe.value_emission / 1000;
-            recipe.unit_inflow = CONST.UNIT.EUR;
-        }
-
-        // If unit_inflow "tonnes" per tonnes convert to kg per kg (same number)
-        if (recipe.unit_inflow === CONST.UNIT.TONNES) {
-            recipe.unit_inflow = CONST.UNIT.KG;
-        }
-        
-        // If unit_inflow "TJ" per tonnes with electricity convert to kWh per kg
-        if (recipe.unit_inflow === CONST.UNIT.TJ){
-            let final_unit = ""; 
-            if(recipe.flow_reference.includes('electricity')) {
-                final_unit = CONST.UNIT.KWH;
-            }else{
-                final_unit = CONST.UNIT.MJ;
-                recipe.value_emission = recipe.value_emission / 1000;
-            }
-            recipe.unit_inflow = final_unit;
-            // updatedInflow = API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, recipe.value_inflow);
-            // Wait for the conversion to complete before continuing
-            // if (!updatedInflow) {
-            //     console.error('Conversion failed for '+CONST.UNIT.TJ+'to'+ final_unit);
-            //     return false;
-            // }
-        }
-
-        // If unit_inflow "item" per tonnes just convert tonnes to kg
-        if (recipe.unit_inflow === 'item') {
-            recipe.value_emission = recipe.value_emission / 1000;
-        }
-
-        // If unit_inflow "ha*year" per tonnes convert tonnes to kg
-        // And convert "ha*year" to "m²*year"
-        if (recipe.unit_inflow === CONST.UNIT.HA_PER_YEAR) {
-            recipe.unit_inflow = CONST.UNIT.M2_PER_YEAR;
-            updatedInflow = recipe.value_inflow * 10;
-            recipe.value_emission = recipe.value_emission;
-        }
-        //end preprocessing
         
         //Create rows
         rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
@@ -710,16 +664,13 @@ async function display_result(htmlclass, data){
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
-        if (recipe.value_inflow && recipe.value_inflow !== NaN) {
-            updatedInflow = Utils.reformatValue(recipe.value_inflow);
-        }
         
         if (recipe.value_emission && recipe.value_emission !== NaN) {
             recipe.value_emission = Utils.reformatValue(recipe.value_emission);
         }
 
-        rowMarkup += '<span class="inflow-value">' + (updatedInflow ? updatedInflow : '') + '</span>';
-        rowMarkup += '<span class="inflow-unit">' + (recipe.unit_inflow || '') + '</span>';
+        rowMarkup += '<span class="inflow-value">' + (recipe.value_inflow) + '</span>';
+        rowMarkup += '<span class="inflow-unit">' + (recipe.unit_inflow) + '</span>';
 
         rowMarkup += '</td>';
         rowMarkup += '<td>' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';
