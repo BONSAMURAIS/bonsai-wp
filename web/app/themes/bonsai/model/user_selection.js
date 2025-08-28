@@ -56,7 +56,7 @@ class UserSelection{
     }
 
     get_from_dropdown(){
-        this.title = jQuery('#product-analysis-content .product-title').val();
+        this.title = jQuery('#product-analysis-content .product-title').text();
         this.code = jQuery('#product-analysis-content .product-title').attr('data-code');
         this.uuid = jQuery('#product-analysis-content .product-title').attr('data-uuid');
         this.countryCode = jQuery('#location option:selected').val();
