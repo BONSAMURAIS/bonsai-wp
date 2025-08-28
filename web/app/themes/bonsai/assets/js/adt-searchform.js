@@ -879,7 +879,7 @@ function adt_download_recipe_csv()
 
 function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray) 
 {
-    const words = [...new Set(productTitleArray)];
+    const words = [productTitleArray];
     console.log("words=",words)
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
