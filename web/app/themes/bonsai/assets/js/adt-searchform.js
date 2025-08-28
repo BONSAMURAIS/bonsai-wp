@@ -662,8 +662,8 @@ async function display_result(htmlclass, data){
 
         // If unit_inflow "Meuro" per tonnes convert to Euro per kg
         if (recipe.unit_inflow === CONST.UNIT.MEURO) {
-            updatedInflow = recipe.value_inflow * 1000;
-            recipe.value_emission = recipe.value_emission * 1000;
+            updatedInflow = recipe.value_inflow / 1000;
+            recipe.value_emission = recipe.value_emission / 1000;
             recipe.unit_inflow = CONST.UNIT.EUR;
         }
 
@@ -679,7 +679,7 @@ async function display_result(htmlclass, data){
                 final_unit = CONST.UNIT.KWH;
             }else{
                 final_unit = CONST.UNIT.MJ;
-                recipe.value_emission = recipe.value_emission * 1000;
+                recipe.value_emission = recipe.value_emission / 1000;
             }
             recipe.unit_inflow = final_unit;
             // updatedInflow = API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, recipe.value_inflow);
@@ -692,7 +692,7 @@ async function display_result(htmlclass, data){
 
         // If unit_inflow "item" per tonnes just convert tonnes to kg
         if (recipe.unit_inflow === 'item') {
-            recipe.value_emission = recipe.value_emission * 1000;
+            recipe.value_emission = recipe.value_emission / 1000;
         }
 
         // If unit_inflow "ha*year" per tonnes convert tonnes to kg
@@ -820,7 +820,7 @@ async function adt_update_comparison_info(dataArray = null){
                         }else{
                             console.log('does not contain electricity');
                             // convertedValueForItems = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, valueForItems);
-                            convertedValueForItems = convertedValueForItems * 1000; // multiply by 1000 to convert from MJ per tonnes to MJ per kg
+                            convertedValueForItems = convertedValueForItems / 1000; // multiply by 1000 to convert from MJ per tonnes to MJ per kg
                         }
                         item.value = convertedValueForItems;
                     }
