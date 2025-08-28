@@ -101,13 +101,8 @@ jQuery(document).ready(function($){
 
     $('#household-composition, #income-group, #location, #year, #climate-metric, #database-version').on('change', async function(){
         console.log("change ", jQuery(this).attr('id'));
-        console.log("jQuery(this).closest('.tile-wrapper').find('.product-title') ", jQuery(this).closest('.tile-wrapper').find('.product-title'));
-        let text = jQuery(this).closest('.tile-wrapper').find('.product-title').first().text();
-        let code = jQuery(this).closest('.tile-wrapper').find('.product-title').first().attr('code');
-        let uuid = jQuery(this).closest('.tile-wrapper').find('.product-title').first().attr('uuid');
         let userSelection = new UserSelection;
-        userSelection.get_from_form();
-        userSelection.set_product(text,code,uuid);
+        userSelection.get_from_dropdown();
         
         adt_push_parameter_to_url(userSelection);
         let data = await API.get_product_footprint(userSelection);
