@@ -105,7 +105,7 @@ jQuery(document).ready(function($){
         userSelection.get_from_dropdown();
         
         adt_push_parameter_to_url(userSelection);
-        let selectedValue = $('input[name="footprint_type"]:checked').val();
+        let selectedValue = jQuery('#product-analysis-content .product-title').attr('data-code');
         console.log("selectedValue=",selectedValue)
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
         if(selectedValue === 'person'){
@@ -603,7 +603,7 @@ async function display_result(htmlclass, data){
     let main_component = jQuery(htmlclass);
     //set title
     main_component.find('.product-title').first().text(Utils.capitalize(data["title"]));
-    main_component.find('.product-title').first().attr("data-code",data['flow_code']);
+    main_component.find('.product-title').first().attr("data-code",data['flow_code'] ?? "person");
     main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
     //set tags
     //TODO hardcode replacement
