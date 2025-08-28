@@ -662,7 +662,7 @@ async function display_result(htmlclass, data){
 
         // If unit_inflow "Meuro" per tonnes convert to Euro per kg
         if (recipe.unit_inflow === CONST.UNIT.MEURO) {
-            updatedInflow = recipe.value_inflow / 1000;
+            recipe.value_inflow = recipe.value_inflow / 1000;
             recipe.value_emission = recipe.value_emission / 1000;
             recipe.unit_inflow = CONST.UNIT.EUR;
         }
@@ -684,10 +684,10 @@ async function display_result(htmlclass, data){
             recipe.unit_inflow = final_unit;
             // updatedInflow = API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, recipe.value_inflow);
             // Wait for the conversion to complete before continuing
-            if (!updatedInflow) {
-                console.error('Conversion failed for '+CONST.UNIT.TJ+'to'+ final_unit);
-                return false;
-            }
+            // if (!updatedInflow) {
+            //     console.error('Conversion failed for '+CONST.UNIT.TJ+'to'+ final_unit);
+            //     return false;
+            // }
         }
 
         // If unit_inflow "item" per tonnes just convert tonnes to kg
