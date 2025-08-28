@@ -141,6 +141,7 @@ jQuery(document).ready(function($){
     // when radio button 'Cradle to consumer' is selected 
     // If user chooses to change footprint type then get new data
     $('input[name="footprint_type_extend"]').on('change', function() {
+        console.log("footprint_type_extend changed");
         chosenFootprintType = $(this).val();
         
         list_product = {};
@@ -169,6 +170,7 @@ jQuery(document).ready(function($){
 
         jQuery('#autocomplete-input').val('');
 
+        console.log("bou list_product_title=",list_product_title)
         adt_dynamic_search_input(list_product,list_product_title);
 
     });
