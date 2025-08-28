@@ -6,6 +6,7 @@ use Roots\WPConfig\Config;
 
 $CONFIG = json_decode(file_get_contents(__DIR__.'/../../constants/config.json'), true);
 $GLOBALS['APIURL'] = $CONFIG['APIURL'];
+$GLOBALS['UNIT'] = $CONFIG['UNIT'];
 
 function adt_get_bonsai_product_list() {
     global $wpdb;
@@ -317,6 +318,8 @@ function adt_get_product_footprint(){
     if(!empty($productCode) & empty($footprintTitle) ){
         $footprintTitle = get_product_name_by_code($productCode);
     }
+
+    $footprint['value'] = convert_footprint_value($unit_reference,$footprint['value']);
     
     $data = [
         'title' => $footprintTitle,
@@ -355,6 +358,25 @@ function adt_get_product_footprint(){
 add_action('wp_ajax_adt_get_product_footprint', 'adt_get_product_footprint');
 add_action('wp_ajax_nopriv_adt_get_product_footprint', 'adt_get_product_footprint');
 
+function convert_footprint_value($unit,$value){
+    switch ($unit){
+        case $GLOBALS['UNIT']['MEURO']:
+            $value /= 1000;
+        break;
+        case $GLOBALS['UNIT']['TONNES']:
+            $value /= 1000;
+        break;
+        case $GLOBALS['UNIT']['TJ']:
+        break;
+        case $GLOBALS['UNIT']['HA_PER_YEAR']:
+            $value *= 10;
+        break;
+        case $GLOBALS['UNIT']['ITEM']:
+            $value /= 1000;
+        break;
+    }
+    return $value;
+}
 
 function get_product_name_by_code_api(){
     $productCode = $_POST['code'];
