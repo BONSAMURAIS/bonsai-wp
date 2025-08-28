@@ -25,7 +25,7 @@ function adt_get_person_footprint(){
     }
 
     $fdemand_aux = "F_GOVE";
-    $url = $GLOBALS['APIURL']."/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$act_code."&metric=".$metric; //TODO change if call with F_HOUS does not exist
+    $url = $GLOBALS['APIURL']."/footprint-country/?region_reference=".$country."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$act_code."&metric=".$metric; //TODO change if call with F_HOUS does not exist
     $response = wp_remote_get($url);
 
     // Check for errors
@@ -91,7 +91,7 @@ function get_total_value(array $fdemand_categories, string $country, string $act
     global $SEPARATOR;
     $total = 0;
     foreach ($fdemand_categories as $cat){
-        $url = $GLOBALS['APIURL']."/footprint-country/?region_code=".$country."&version=".$version."&act_code=".$cat.$SEPARATOR.$act_code."&metric=".$metric;
+        $url = $GLOBALS['APIURL']."/footprint-country/?region_reference=".$country."&version=".$version."&act_code=".$cat.$SEPARATOR.$act_code."&metric=".$metric;
         $response = wp_remote_get($url);
        
         // Check for errors
@@ -137,7 +137,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
     $recipeResult = [];
     
     foreach ($fdemand_categories as $cat){
-        $url = $GLOBALS['APIURL'].'/recipes-country/?act_code='.$cat.$SEPARATOR.$act_code.'&region_code='.$country.'&version='.$version.'&metric='.$metric;
+        $url = $GLOBALS['APIURL'].'/recipes-country/?act_code='.$cat.$SEPARATOR.$act_code.'&region_reference='.$country.'&version='.$version.'&metric='.$metric;
         $recipeResponse = wp_remote_get($url);
         
         // Check for errors
@@ -178,7 +178,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
 
         // TODO: Throttled again for loading through the pages?
         for ($i = 1; $i <= $pages; $i++) {
-            $api_url = $GLOBALS['APIURL']."/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_code=" . $country . "&version=" . $version."&metric=".$metric;
+            $api_url = $GLOBALS['APIURL']."/recipes-country/?page=" . $i . "&act_code=" .$cat.$SEPARATOR.$act_code. "&region_reference=" . $country . "&version=" . $version."&metric=".$metric;
             $response = wp_remote_get($api_url);
             
             if (is_wp_error($response)) {
