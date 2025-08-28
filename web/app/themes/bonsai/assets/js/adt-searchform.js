@@ -111,10 +111,9 @@ jQuery(document).ready(function($){
         }
     });
 
-    let productTitleArray = [];
-    let productContentArray = [];
-    let productCodeArray = [];
-    let productUuidArray = [];
+    let list_product = {};
+    let list_product_title = new Set();
+
     let chosenFootprintType = $('input[name="footprint_type_extend"]:checked').val();
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
@@ -135,24 +134,22 @@ jQuery(document).ready(function($){
         if (this.code.startsWith('A_')) {
             this.code = this.code.replace(/^A_/, 'C_');
         }
-        
-        productTitleArray.push(this.title);
-        productContentArray.push(this.content);
-        productCodeArray.push(this.code);
-        productUuidArray.push(this.uuid);    
+        list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid}; //because title is unique
+        list_product_title.add(this.title);
     });
     
     // when radio button 'Cradle to consumer' is selected 
     // If user chooses to change footprint type then get new data
     $('input[name="footprint_type_extend"]').on('change', function() {
+        console.log("footprint_type_extend changed");
         chosenFootprintType = $(this).val();
         
-        productTitleArray = [];
-        productContentArray = [];
-        productCodeArray = [];
-        productUuidArray = [];
+        list_product = {};
+        list_product_title = new Set();
 
+        let count = 0;
         $(searchform.products).each(function() {
+            console.log("count=",count)
         if (this.code.toLowerCase() == "M_Beef_ons".toLowerCase() || this.code.toLowerCase() == "C_Beef_ons".toLowerCase() ){//|| this.code.toLowerCase() == "M_Beef_veal".toLowerCase() ){
                 return true;
             }
@@ -168,20 +165,19 @@ jQuery(document).ready(function($){
             if (this.code.startsWith('A_')) {
                 this.code = this.code.replace(/^A_/, 'C_');
             }
-            
-            productTitleArray.push(this.title);
-            productContentArray.push(this.content);
-            productCodeArray.push(this.code);
-            productUuidArray.push(this.uuid);    
+
+            list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid} //because title is unique
+            list_product_title.add(this.title);
         });
 
         jQuery('#autocomplete-input').val('');
 
-        adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
+        console.log("bou list_product_title=",list_product_title)
+        adt_dynamic_search_input(list_product,list_product_title);
 
     });
 
-    adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
+    adt_dynamic_search_input(list_product,list_product_title);
 
     $('#most-popular ul li button, #search-history-list li').on('click', async function(e) {
         e.preventDefault();
@@ -877,10 +873,11 @@ function adt_download_recipe_csv()
     });
 }
 
-function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray) 
+function adt_dynamic_search_input(list_product, list_product_title) 
 {
-    const words = [...new Set(productTitleArray)];
+    const words = [...list_product_title];
     console.log("words=",words)
+    console.log("list_product=",list_product)
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
     const $suggestions = jQuery('#suggestions');
@@ -891,7 +888,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     $input.on('input', function () {
         const query = $input.val().toLowerCase();
         const matches = words
-        .map((word, index) => ({ word, code: productCodeArray[index], uuid: productUuidArray[index] }))
+        .map((word, index) => ({ word, code: list_product[word]["code"], uuid: list_product[word]["uuid"] }))
         .filter(item => item.word.toLowerCase().includes(query));
         $suggestions.empty();
         currentIndex = -1;
