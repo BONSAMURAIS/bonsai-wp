@@ -319,7 +319,7 @@ function adt_get_product_footprint(){
         $footprintTitle = get_product_name_by_code($productCode);
     }
 
-    $footprint['value'] = convert_footprint_value($unit_reference,$footprint['value']);
+    $footprint['value'] = 111;// convert_footprint_value($unit_reference,$footprint['value']);
     
     $data = [
         'title' => $footprintTitle,
