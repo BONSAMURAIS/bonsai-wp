@@ -105,7 +105,10 @@ jQuery(document).ready(function($){
         userSelection.get_from_dropdown();
         
         adt_push_parameter_to_url(userSelection);
-        let data = await API.get_product_footprint(userSelection);
+        let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+        if(selectedValue === 'person'){
+            data['title'] = "Emission per person";
+        }
         await display_result("#product-analysis-content",data);
         adt_save_local_search_history(userSelection);
     });
