@@ -682,7 +682,7 @@ async function display_result(htmlclass, data){
                 recipe.value_emission = recipe.value_emission * 1000;
             }
             recipe.unit_inflow = final_unit;
-            updatedInflow = API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, recipe.value_inflow);
+            // updatedInflow = API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, recipe.value_inflow);
             // Wait for the conversion to complete before continuing
             if (!updatedInflow) {
                 console.error('Conversion failed for '+CONST.UNIT.TJ+'to'+ final_unit);
@@ -816,10 +816,10 @@ async function adt_update_comparison_info(dataArray = null){
                     if (item.unit_reference === CONST.UNIT.TJ){
                         if(item.description.includes('electricity')){
                             console.log('ELECTRICITY is found');
-                            convertedValueForItems = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.KWH, valueForItems);
+                            // convertedValueForItems = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.KWH, valueForItems);
                         }else{
                             console.log('does not contain electricity');
-                            convertedValueForItems = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, valueForItems);
+                            // convertedValueForItems = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, valueForItems);
                             convertedValueForItems = convertedValueForItems * 1000; // multiply by 1000 to convert from MJ per tonnes to MJ per kg
                         }
                         item.value = convertedValueForItems;
