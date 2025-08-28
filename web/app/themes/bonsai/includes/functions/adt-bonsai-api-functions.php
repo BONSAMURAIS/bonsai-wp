@@ -361,13 +361,13 @@ add_action('wp_ajax_nopriv_adt_get_product_footprint', 'adt_get_product_footprin
 function convert_footprint_value($unit,$value){
     switch ($unit){
         case $GLOBALS['UNIT']['MEURO']:
-            $value /= 1000;
+            $value *= 1000;
         break;
         case $GLOBALS['UNIT']['TONNES']:
-            $value /= 1000;
+            $value *= 1000;
         break;
         case $GLOBALS['UNIT']['TJ']:
-            $value /= 1000;
+            $value *= 1000;
         break;
         case $GLOBALS['UNIT']['HA_PER_YEAR']:
             $value *= 10;
