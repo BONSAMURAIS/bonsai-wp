@@ -682,7 +682,7 @@ async function display_result(htmlclass, data){
             recipe.value_emission = Utils.reformatValue(recipe.value_emission);
         }
 
-        rowMarkup += '<span class="inflow-value">' + (recipe.value_inflow) + '</span>';
+        rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow) + '</span>';
         rowMarkup += '<span class="inflow-unit">' + (recipe.unit_inflow) + '</span>';
 
         rowMarkup += '</td>';
