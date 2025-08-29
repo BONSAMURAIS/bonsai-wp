@@ -629,12 +629,12 @@ async function display_result(htmlclass, data){
     main_component.find('.year').first().text(data["year"]);
     main_component.find('.country').first().text(data["country"]);
     const isPersonTab = data['flow_code'] == null;
-    main_component.find('.emission-unit').first().text(isPersonTab ? "tonne" : "kg");
+    main_component.find('.emission-unit').first().text(isPersonTab ? CONST.UNIT.TONNES : CONST.UNIT.KG);
     main_component.find('.version').first().text(data["version"]);
     //set value
     main_component.find('.co2-value').first().text(Utils.reformatValue(data["value"]));
     main_component.find('.co2-value').first().data("normal_value",Utils.reformatValue(data["value"]));
-    main_component.find('.co2-value-unit').first().text(CONST.UNIT.KGCO2); //use of dataArray.unit_emission?
+    main_component.find('.co2-value-unit').first().text(isPersonTab ? CONST.UNIT.TONNESCO2 : CONST.UNIT.KGCO2); //use of dataArray.unit_emission?
     let unit_options = main_component.find('select.unit'); 
     unit_options.empty();
     const unit_ref = data.unit_reference;
