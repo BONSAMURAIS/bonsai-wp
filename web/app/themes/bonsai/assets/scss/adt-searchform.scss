@@ -205,6 +205,8 @@ div.tooltip-wrapper {
 }
 
 .switch-field-container-contri-analysis {
+    display: flex;
+    justify-content: right;
     @media only screen and (max-width: 468px) {
         justify-content: flex-end;
     }
