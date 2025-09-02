@@ -69,12 +69,12 @@ jQuery(document).ready(function($){
 
     copyTile();
 
-    console.log(Utils.reformatNumber(12457.1745));    // 12500
-console.log(Utils.reformatNumber(1245.71745));    // 1250
-console.log(Utils.reformatNumber(124.571745));    // 125
-console.log(Utils.reformatNumber(12.4571745));    // 12.5
-console.log(Utils.reformatNumber(1.24571745));    // 1.25
-console.log(Utils.reformatNumber(0.012457));  
+    console.log(Utils.reformatValue(12457.1745));    // 12500
+console.log(Utils.reformatValue(1245.71745));    // 1250
+console.log(Utils.reformatValue(124.571745));    // 125
+console.log(Utils.reformatValue(12.4571745));    // 12.5
+console.log(Utils.reformatValue(1.24571745));    // 1.25
+console.log(Utils.reformatValue(0.012457));  
 
     $('#product-analysis-content .adt-close').remove(); // remove close btn
 
