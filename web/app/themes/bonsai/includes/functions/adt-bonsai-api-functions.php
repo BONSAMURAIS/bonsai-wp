@@ -192,6 +192,7 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
         if (!isset($recipe['value_emission'])) {
             $recipe['value_emission'] = $recipe['value'];
         }
+        convert_footprint_value($recipe['value']);
     }
 
     //sort per value
