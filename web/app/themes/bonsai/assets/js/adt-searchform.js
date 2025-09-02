@@ -99,7 +99,7 @@ jQuery(document).ready(function($){
         }
     });
 
-    $('#household-composition, #income-group, #location, #year, #climate-metric, #database-version').on('change', async function(){
+    $('#household-composition, #income-group, #location, #year, #climatemetric, #database-version').on('change', async function(){
         console.log("change ", jQuery(this).attr('id'));
         let userSelection = new UserSelection;
         userSelection.get_from_dropdown();
