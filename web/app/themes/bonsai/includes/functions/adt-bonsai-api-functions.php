@@ -241,12 +241,43 @@ function get_country_name_by_code(){
     wp_send_json_success($result);
 }
 
+function get_code_by_name($name){
+    $url = $GLOBALS['APIURL']."/search/?q=".$name;
+    $response = wp_remote_get($url);
+    
+    // Check for errors
+    if (is_wp_error($response)) {
+        return wp_send_json_error(['Error: ' . $response->get_error_message()]);
+    }
+    
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+
+    if (isset($result['products']) && $result['products'] === 0) {
+        wp_send_json_error(['error' => 'Country not found']);
+    }
+
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return 'No footprints found or an error occurred.';
+    }
+
+    if (array_key_exists('detail', $result)) {
+        wp_send_json_error(['error' => $result['detail']], 503);
+    }
+
+    $code = $result['best_match']['product']['code'];
+    return $code;
+}
+
 add_action('wp_ajax_get_country_name_by_code', 'get_country_name_by_code');
 add_action('wp_ajax_nopriv_get_country_name_by_code', 'get_country_name_by_code');
 
 
 function adt_get_product_footprint(){
-    $productCode = $_POST['code'];
+    $productName = $_POST['name'];
+    $productCode = $_POST['code'] ?? get_code_by_name($productName);
     $productUuid = $_POST['uuid'];
     $countryCode = $_POST['footprint_location'];
     $country = $_POST['country'];
@@ -258,6 +289,10 @@ function adt_get_product_footprint(){
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
+
+    if($productCode == null){
+        return wp_send_json_error(['Error: no code found for this product']);
+    }
 
     // If cache exists, return the cached data
     if ($cachedFootprints !== false) {
@@ -334,7 +369,7 @@ function adt_get_product_footprint(){
         'all_data' => $footprint,
         'description' => $footprint['description'],
         'id' => $footprint['id'],
-        // 'metric' => $footprint['metric'],
+        'best_match' => get_code_by_name($productName),
         'metric' => $metric,
         'nace_related_code' => $footprint['nace_related_code'],
         'region_code' => $footprint['region_code'],
