@@ -335,7 +335,7 @@ function adt_get_product_footprint(){
     }
 
     error_log("test body= ".$body);
-    error_log("test result= ".$result['results'][0]['metric']);
+    error_log("test result= ".$result['results'][0]);
 
     // get newest version of the footprint.
     $footprints = $result['results'];
