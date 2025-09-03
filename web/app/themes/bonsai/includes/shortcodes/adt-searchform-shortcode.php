@@ -174,18 +174,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                         <div class="medium-6 small-12 large-3">
                             <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
-                            <label class="select" for="climatemetric">
-                                <select id="climatemetric">
-                                    <?php foreach($list_climate_metric as $metric): 
-                                        $id = isset($metric['id']) ? esc_html($metric['id']) : '';
-                                        $label = isset($metric['label']) ? esc_html(ucfirst($metric['label'])) : '';
-                                    ?>
-                                        <option value="<?php echo $id; ?>"><?php echo $label; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <?= do_shortcode('[arrow_icon]')?>
-                            </label>
-                            <!-- <?= do_shortcode('[dropdown_list id="climatemetric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?> -->
+                            <?= do_shortcode('[dropdown_list id="climatemetric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
                         </div>
                         <div class="medium-6 small-12 large-3">
                             <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
