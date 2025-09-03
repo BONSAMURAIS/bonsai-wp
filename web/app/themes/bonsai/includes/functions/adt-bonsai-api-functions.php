@@ -308,6 +308,9 @@ function adt_get_product_footprint(){
     // API URL
     $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
     $response = wp_remote_get($url);
+
+    error_log("test url".$url);
+
     
     // Check for errors
     if (is_wp_error($response)) {
@@ -330,6 +333,9 @@ function adt_get_product_footprint(){
     if (array_key_exists('detail', $result)) {
         wp_send_json_error(['error' => $result['detail']], 503);
     }
+
+    error_log("test body= ".$body);
+    error_log("test result= ".$result['results']['metric']);
 
     // get newest version of the footprint.
     $footprints = $result['results'];
