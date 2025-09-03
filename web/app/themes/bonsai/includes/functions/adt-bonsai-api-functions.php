@@ -276,7 +276,7 @@ add_action('wp_ajax_nopriv_get_country_name_by_code', 'get_country_name_by_code'
 
 
 function adt_get_product_footprint(){
-    $productName = $_POST['name'];
+    $productName = $_POST['title'];
     $productCode = $_POST['code'] ?? get_code_by_name($productName);
     $productUuid = $_POST['uuid'];
     $countryCode = $_POST['footprint_location'];
