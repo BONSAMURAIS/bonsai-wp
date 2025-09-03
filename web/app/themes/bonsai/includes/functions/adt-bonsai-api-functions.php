@@ -378,7 +378,7 @@ function adt_get_product_footprint(){
         'id' => $footprint['id'],
         'best_match' => get_code_by_name($productName),
         'metric' => $metric,
-        'nace_related_code' => $footprint['nace_related_code'],
+        // 'nace_related_code' => $footprint['nace_related_code'],
         'region_code' => $footprint['region_code'],
         'samples' => $footprint['samples'],
         'value' => $footprint['value'],
