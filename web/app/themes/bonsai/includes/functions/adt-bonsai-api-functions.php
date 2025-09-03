@@ -180,7 +180,7 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
     $result = json_decode($body, true);
     $recipes = $result["results"];
 
-    foreach ($recipe as $recipes) {
+    foreach ($recipes as $recipe) {
         if (!isset($recipe['inflow'])) {
             $recipe['inflow'] = $recipe['product_code'];
         }
