@@ -286,6 +286,7 @@ function adt_get_product_footprint(){
     $year = $_POST['footprint_year'];
     $version = $_POST['database_version'];
     $metric = $_POST['metric'];//TODO sth odd with metric
+    error_log("test metric".$metric);
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
