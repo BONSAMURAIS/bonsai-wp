@@ -8,18 +8,9 @@ export function capitalize(str) {
 }
 
 export function reformatValue(value){
-  // Keep 3 significant digits
-  const precise = Number.parseFloat(value).toPrecision(CONFIG.SIGNIFICANT_NB);
-
-  // Convert to number to remove scientific notation
-  const rounded = Number(precise);
-
-  return rounded;
-
-    return new Intl.NumberFormat(CONFIG.NUMBERFORMAT, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: CONFIG.SIGNIFICANT_NB
-    }).format(value);
+  const precise = Number.parseFloat(value).toPrecision(CONFIG.SIGNIFICANT_NB); // Keep 3 significant digits
+  const rounded = Number(precise); // Convert to number to remove scientific notation
+  return new Intl.NumberFormat(CONFIG.NUMBERFORMAT).format(rounded);
 }
 
 export function displayLoading() {
