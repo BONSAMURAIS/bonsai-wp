@@ -295,15 +295,15 @@ function adt_get_product_footprint(){
         return wp_send_json_error(['Error: no code found for this product']);
     }
 
-    // If cache exists, return the cached data
-    if ($cachedFootprints !== false) {
-        if (array_key_exists($productCode, $cachedFootprints) 
-            && $cachedFootprints[$productCode]['chosen_country'] === $countryCode
-            && $cachedFootprints[$productCode]['version'] === $version) {
-                wp_send_json_success($cachedFootprints[$productCode]);
-                die();
-            }
-        }
+    // // If cache exists, return the cached data
+    // if ($cachedFootprints !== false) {
+    //     if (array_key_exists($productCode, $cachedFootprints) 
+    //         && $cachedFootprints[$productCode]['chosen_country'] === $countryCode
+    //         && $cachedFootprints[$productCode]['version'] === $version) {
+    //             wp_send_json_success($cachedFootprints[$productCode]);
+    //             die();
+    //         }
+    //     }
         
     // API URL
     $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
