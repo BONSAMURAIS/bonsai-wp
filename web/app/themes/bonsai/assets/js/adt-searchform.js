@@ -895,16 +895,7 @@ function adt_dynamic_search_input(list_product, list_product_title)
                 e.preventDefault();
                 currentIndex = (currentIndex - 1 + $items.length) % $items.length;
                 markCurrentItem($items);
-            } else if (e.key === 'Enter') {
-                e.preventDefault();
-                if (currentIndex >= 0) {
-                    const selectedItem = $items.eq(currentIndex);
-                    await selectSuggestion(selectedItem.text(), selectedItem.data('code'), selectedItem.data('uuid'));
-                } else if (!suggestionSelected && $items.length > 0) {
-                    const firstItem = $items.eq(0);
-                    await selectSuggestion(firstItem.text(), firstItem.data('code'), firstItem.data('uuid'));
-                }
-            }
+            } 
         }
     });
 
