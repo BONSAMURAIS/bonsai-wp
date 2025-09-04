@@ -602,7 +602,7 @@ async function display_result(htmlclass, data){
     //summary information
     let main_component = jQuery(htmlclass);
     //set title
-    main_component.find('.product-title').first().text(Utils.capitalize(data["title"]));
+    main_component.find('.product-title').text(Utils.capitalize(data["title"]));
     main_component.find('.product-title').first().attr("data-code",data['flow_code'] ?? "person");
     main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
     //set tags
