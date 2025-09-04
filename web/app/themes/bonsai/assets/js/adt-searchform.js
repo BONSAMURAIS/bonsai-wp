@@ -474,7 +474,6 @@ jQuery(document).ready(function($){
         });
 
         amountInput.val(numberInput);//keep value in input
-        unitSelect.closest('.tile-wrapper').find('.product-unit').first().text(unitLabel); //change name in question "Where do emissions for 1 'unit' of CO2eq come from?"
     });
 
     function controlInput_value(OBJ){
