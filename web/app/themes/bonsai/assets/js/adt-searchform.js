@@ -306,7 +306,7 @@ jQuery(document).ready(function($){
     adt_initialize_local_search_history();
 
     // Search 
-    $('#btn-search, #search-icon').click(async function(e){
+    $('#btn-search').click(async function(e){
         e.preventDefault();
         console.log("on click ",jQuery(this).attr('id'))
         let selectedValue = $('input[name="footprint_type"]:checked').val();
