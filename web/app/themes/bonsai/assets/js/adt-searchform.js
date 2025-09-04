@@ -896,6 +896,9 @@ function adt_dynamic_search_input(list_product, list_product_title)
                 currentIndex = (currentIndex - 1 + $items.length) % $items.length;
                 markCurrentItem($items);
             } 
+            else if (e.key === 'Enter') {
+                e.preventDefault();
+            }
         }
     });
 
