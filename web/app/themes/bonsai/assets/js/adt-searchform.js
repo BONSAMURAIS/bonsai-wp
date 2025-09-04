@@ -647,6 +647,7 @@ async function display_result(htmlclass, data){
         jQuery('.unit-arrow').each(function(index, arrow) {
             arrow.style.display = 'block';
         })
+        main_component.find('select.unit').first().prop('disabled', false); 
     }else{
         jQuery('.unit-arrow').each(function(index, arrow) {
             arrow.style.display = 'none';
