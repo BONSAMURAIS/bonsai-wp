@@ -654,7 +654,13 @@ async function display_result(htmlclass, data){
             arrow.style.display = 'none';
         })
     }
-    main_component.find('.product-unit').first().text(unit_ref == CONST.UNIT.TONNES ? CONST.UNIT.KG : unit_ref);
+    let displayed_unit = unit_ref;
+    if(displayed_unit == CONST.UNIT.TONNES){
+        displayed_unit = CONST.UNIT.KG;
+    }else if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
+        displayed_unit = CONST.UNIT.TONNES;
+    }
+    main_component.find('.product-unit').first().text(displayed_unit);
 
     //recipe
     let tableMarkup = '';
@@ -683,8 +689,14 @@ async function display_result(htmlclass, data){
             recipe.value_emission = Utils.reformatValue(recipe.value_emission);
         }
 
+        let displayed_unit = recipe.unit_inflow;
+        if(displayed_unit == CONST.UNIT.TONNES){
+            displayed_unit = CONST.UNIT.KG;
+        }else if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
+            displayed_unit = CONST.UNIT.TONNES;
+        }
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow) + '</span>';
-        rowMarkup += '<span class="inflow-unit">' + (recipe.unit_inflow) + '</span>';
+        rowMarkup += '<span class="inflow-unit">' + (displayed_unit) + '</span>';
 
         rowMarkup += '</td>';
         rowMarkup += '<td>' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';

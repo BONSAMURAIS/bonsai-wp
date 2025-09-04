@@ -11,6 +11,7 @@ export const ANIM = {
 export const UNIT = {
 	KGCO2:'kg CO2eq',
 	TONNESCO2:'tonnes CO2eq',
+	TONNES_SERVICE:'tonnes (service)',
 	KG: 'kg',
 	TONNES: 'tonnes',
 	EUR: 'EUR',
