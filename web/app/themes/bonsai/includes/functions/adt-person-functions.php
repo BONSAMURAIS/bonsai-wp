@@ -219,6 +219,7 @@ function adt_get_person_footprint_recipe(array $fdemand_categories, string $coun
     usort($recipeResult, function ($a, $b) {
         return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
     });
+    $recipeResult = array_slice($recipeResult, 0, 20);
 
     return $recipeResult;
 }
