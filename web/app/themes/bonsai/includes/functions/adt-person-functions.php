@@ -58,7 +58,7 @@ function adt_get_person_footprint(){
     $footprintsArray = $result['results'];
 
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
-    $value = get_total_value($countryCode,$act_code,$version,$metric);
+    $value = get_total_value($countryCode,$household_type, $income_group,$version,$metric);
     $recipes = adt_get_person_footprint_recipe($fdemand_categories, $countryCode, $act_code, $version,$metric);
 
     
@@ -93,7 +93,7 @@ function adt_get_person_footprint(){
     wp_send_json_success($data);
 }
 
-function get_total_value(string $countryCode, string $act_code, string $version, string $metric) : float {
+function get_total_value(string $countryCode, string $household_type, string $income_group, string $version, string $metric) : float {
     global $SEPARATOR;
     $total = 0;
     $url = $GLOBALS['APIURL']."/footprint-country/?region_reference=".$countryCode."&version=".$version."&metric=".$metric."&household_type=".$household_type."&income_group=".$income_group;
