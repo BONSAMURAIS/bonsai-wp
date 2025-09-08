@@ -345,7 +345,6 @@ function adt_get_product_footprint(){
     $unit_emission = "";
     foreach ($footprints as $footprint) {
         $versionArray[] = $footprint['version'];
-        $footprintTitle = $footprint['description'];
         $unit_reference = $footprint['unit_reference'];
         $unit_emission = $footprint['unit_emission'];
     }
@@ -374,7 +373,6 @@ function adt_get_product_footprint(){
         'uuid' => $productUuid,
         'version' => $newestVersion,
         'all_data' => $footprint,
-        'description' => $footprint['description'],
         'id' => $footprint['id'],
         'best_match' => get_code_by_name($productName),
         'metric' => $metric,
