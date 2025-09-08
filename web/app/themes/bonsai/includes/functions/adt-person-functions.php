@@ -11,6 +11,8 @@ function adt_get_person_footprint(){
     $country = $_POST['country'];
     $countryCode = $_POST['region_code'];
     $act_code = $_POST['act_code'];
+    $household_type = $_POST['household_type'];
+    $income_group = $_POST['income_group'];
     $version = $_POST['version'];
     $metric = $_POST['metric'];
     $year = $_POST['year'];
@@ -26,8 +28,8 @@ function adt_get_person_footprint(){
         }
     }
 
-    $fdemand_aux = "F_GOVE";
-    $url = $GLOBALS['APIURL']."/footprint-country/?region_reference=".$countryCode."&version=".$version."&act_code=".$fdemand_aux.$SEPARATOR.$act_code."&metric=".$metric; //TODO change if call with F_HOUS does not exist
+    $final_demand_aux = "F_GOVE";
+    $url = $GLOBALS['APIURL']."/footprint-country/?region_reference=".$countryCode."&version=".$version."&metric=".$metric."&household_type=".$household_type."&income_group=".$income_group."&final_demand=".$final_demand_aux; //TODO change if call with F_HOUS does not exist
     $response = wp_remote_get($url);
 
     // Check for errors
@@ -56,7 +58,7 @@ function adt_get_person_footprint(){
     $footprintsArray = $result['results'];
 
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
-    $value = get_total_value($fdemand_categories,$countryCode,$act_code,$version,$metric);
+    $value = get_total_value($countryCode,$act_code,$version,$metric);
     $recipes = adt_get_person_footprint_recipe($fdemand_categories, $countryCode, $act_code, $version,$metric);
 
     
@@ -91,44 +93,39 @@ function adt_get_person_footprint(){
     wp_send_json_success($data);
 }
 
-function get_total_value(array $fdemand_categories, string $countryCode, string $act_code, int|string $version, string $metric) : float {
+function get_total_value(string $countryCode, string $act_code, string $version, string $metric) : float {
     global $SEPARATOR;
     $total = 0;
-    foreach ($fdemand_categories as $cat){
-        $url = $GLOBALS['APIURL']."/footprint-country/?region_reference=".$countryCode."&version=".$version."&act_code=".$cat.$SEPARATOR.$act_code."&metric=".$metric;
-        $response = wp_remote_get($url);
-       
-        // Check for errors
-        if (is_wp_error($response)) {
-            return 'Error: ' . $response->get_error_message();
-        }
-        
-        // Retrieve and decode the response body
-        $body = wp_remote_retrieve_body($response);
-        $result = json_decode($body, true);
-        
-        if (isset($result['count']) && $result['count'] === 0) {
-            wp_send_json_error(['error' => 'Footprint not found']);
-        }
-        
-        // Handle potential errors in the response
-        if (empty($result)) {
-            return 'No footprints found or an error occurred.';
-        }
+    $url = $GLOBALS['APIURL']."/footprint-country/?region_reference=".$countryCode."&version=".$version."&metric=".$metric."&household_type=".$household_type."&income_group=".$income_group;
 
-        if (array_key_exists('detail', $result)) {
-            wp_send_json_error(['error' => $result['detail']], 503);
-        }
+    $response = wp_remote_get($url);
+    
+    // Check for errors
+    if (is_wp_error($response)) {
+        return 'Error: ' . $response->get_error_message();
+    }
+    
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+    
+    if (isset($result['count']) && $result['count'] === 0) {
+        wp_send_json_error(['error' => 'Footprint not found']);
+    }
+    
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return 'No footprints found or an error occurred.';
+    }
 
-        $footprintsArray = $result['results'];
-        foreach ($footprintsArray as $key => $footprint) {
-            if (str_contains($footprint['act_code'], $cat)){
-                $governmentValue = $footprint['value'];
-                $total += $footprint['value'];
-                break;
-            }
-        }
-    } 
+    if (array_key_exists('detail', $result)) {
+        wp_send_json_error(['error' => $result['detail']], 503);
+    }
+
+    $footprintsArray = $result['results'];
+    foreach ($footprintsArray as $key => $footprint) {
+        $total += $footprint['value'];
+    }
     return $total;
 }
 

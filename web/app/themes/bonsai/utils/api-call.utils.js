@@ -54,6 +54,8 @@ export async function get_person_footprint(userSelection){
                 action: 'adt_get_person_footprint', //reference in adt-person-functions.php
                 version: userSelection.db_version,
                 act_code: act_code,
+                income_group: userSelection.income_group,
+                household_type: userSelection.household_type,
                 metric: userSelection.climate_metric,
                 region_code: userSelection.countryCode,
                 country: userSelection.country,
