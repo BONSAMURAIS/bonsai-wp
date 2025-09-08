@@ -1072,7 +1072,7 @@ function adt_push_parameter_to_url(userSelection)
         uuid: userSelection.uuid,
         climate_metric: userSelection.climate_metric,
         household_compo: userSelection.household_compo,
-        income_gpe: userSelection.income_gpe,
+        income_group: userSelection.income_group,
         location: userSelection.countryCode,
         country: userSelection.country,
         footprint_type_label: userSelection.footprint_type_label,

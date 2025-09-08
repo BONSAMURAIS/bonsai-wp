@@ -40,7 +40,7 @@ export async function get_product_footprint(userSelection){
 }
 
 export async function get_person_footprint(userSelection){
-    let act_code = userSelection.income_gpe+"_"+userSelection.household_compo; //fdemandCat will be prefixed in adt-person-functions.php
+    let act_code = userSelection.income_group+"_"+userSelection.household_compo; //fdemandCat will be prefixed in adt-person-functions.php
     console.log("act_code=",act_code);
     console.log("userSelection=",userSelection.to_string());
     let autocomplete_input = jQuery('#autocomplete-input'); 
