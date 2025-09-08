@@ -60,8 +60,7 @@ function adt_get_person_footprint(){
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
     $value = get_total_value($countryCode,$household_type, $income_group,$version,$metric);
     $recipes = adt_get_person_footprint_recipe($countryCode,$household_type, $income_group,$version,$metric);
-
-    
+  
     //sort per value
     usort($recipes, function ($a, $b) {
         return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
@@ -211,10 +210,6 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
         ];
     }
 
-        //sort per value
-    usort($recipeResult, function ($a, $b) {
-        return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
-    });
     $recipeResult = array_slice($recipeResult, 0, 20);
 
     return $recipeResult;
