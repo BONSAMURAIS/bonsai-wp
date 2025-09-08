@@ -64,7 +64,7 @@ function adt_get_person_footprint(){
     
     //sort per value
     usort($recipes, function ($a, $b) {
-        return $b['value'] <=> $a['value']; //b before a for descending order
+        return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
     });
 
     // get only the first 20 elements
