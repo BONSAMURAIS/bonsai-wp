@@ -706,7 +706,7 @@ async function display_result(htmlclass, data){
         rowMarkup += '<span class="inflow-unit">' + (displayed_unit) + '</span>';
 
         rowMarkup += '</td>';
-        rowMarkup += '<td>' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';
+        rowMarkup += '<td class="emissions-value">' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';
         rowMarkup += '</tr>';
 
         if (recipe.flow_input != null && (recipe.flow_input.toLowerCase() === "other" || recipe.flow_input.toLowerCase() === "direct")){
