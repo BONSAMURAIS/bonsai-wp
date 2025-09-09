@@ -360,6 +360,8 @@ function adt_get_product_footprint(){
     }
 
     $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric);
+    error_log("recipeData");
+    error_log($recipeData);
 
     if(!empty($productCode) & empty($footprintTitle) ){
         $footprintTitle = get_product_name_by_code($productCode);
