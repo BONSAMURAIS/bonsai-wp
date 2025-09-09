@@ -58,6 +58,7 @@ function adt_get_person_footprint(){
     $footprintsArray = $result['results'];
 
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
+
     $value = get_total_value($countryCode,$household_type, $income_group,$version,$metric);
     $recipes = adt_get_person_footprint_recipe($countryCode,$household_type, $income_group,$version,$metric);
 
