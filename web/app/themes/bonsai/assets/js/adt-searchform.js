@@ -656,13 +656,16 @@ async function display_result(htmlclass, data){
         })
     }
     let displayed_unit = unit_ref;
+    let preposition = "of ";
     if(displayed_unit == CONST.UNIT.TONNES){
         displayed_unit = CONST.UNIT.KG;
     }else if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
         displayed_unit = CONST.UNIT.TONNES;
     } else if (isPersonTab){
         displayed_unit = CONST.UNIT.PERSON_YEAR;
+        preposition = "in ";
     }
+    displayed_unit += preposition;
     main_component.find('.product-unit').first().text(displayed_unit);
     main_component.find('.question-unit').text(displayed_unit);
 
