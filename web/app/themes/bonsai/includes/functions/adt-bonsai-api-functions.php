@@ -194,6 +194,9 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
         }
         error_log($recipe['unit_reference']);
         $recipe['value_emission'] = convert_footprint_value($recipe['unit_reference'],$recipe['value_emission']);
+        error_log('value_emission' );
+        error_log($recipe['value_emission'] );
+
     }
 
     //sort per value
