@@ -660,8 +660,11 @@ async function display_result(htmlclass, data){
         displayed_unit = CONST.UNIT.KG;
     }else if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
         displayed_unit = CONST.UNIT.TONNES;
+    } else if (isPersonTab){
+        displayed_unit = CONST.UNIT.PERSON_YEAR;
     }
     main_component.find('.product-unit').first().text(displayed_unit);
+    main_component.find('.question-unit').text(displayed_unit);
 
     //recipe
     let tableMarkup = '';
