@@ -180,7 +180,7 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
     $result = json_decode($body, true);
     $recipes = $result["results"];
 
-    foreach ($recipes as $recipe) {
+    foreach ($recipes as &$recipe) {
         if (!isset($recipe['inflow'])) {
             $recipe['inflow'] = $recipe['product_code'];
         }
@@ -193,9 +193,7 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
             $recipe['value_emission'] = $recipe['value'];
         }
         error_log($recipe['unit_reference']);
-        error_log('value_emission' );
-        error_log($recipe['value_emission'] );
-
+        $recipe['value_emission'] = convert_footprint_value($recipe['unit_reference'],$recipe['value_emission']);
     }
 
     //sort per value
@@ -358,12 +356,6 @@ function adt_get_product_footprint(){
     }
 
     $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric);
-
-    foreach ($recipeData as $recipe) {
-        $recipe['value_emission'] = convert_footprint_value($recipe['unit_reference'],$recipe['value_emission']);
-    }
-    error_log("recipeData");
-    error_log(print_r($recipeData,true));
 
     if(!empty($productCode) & empty($footprintTitle) ){
         $footprintTitle = get_product_name_by_code($productCode);
