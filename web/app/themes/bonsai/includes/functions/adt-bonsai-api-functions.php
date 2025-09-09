@@ -193,7 +193,6 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
             $recipe['value_emission'] = $recipe['value'];
         }
         error_log($recipe['unit_reference']);
-        $recipe['value_emission'] = convert_footprint_value($recipe['unit_reference'],$recipe['value_emission']);
         error_log('value_emission' );
         error_log($recipe['value_emission'] );
 
@@ -289,8 +288,7 @@ function adt_get_product_footprint(){
     $type_label = $_POST['footprint_type_label'];
     $year = $_POST['footprint_year'];
     $version = $_POST['database_version'];
-    $metric = $_POST['metric'];//TODO sth odd with metric
-    error_log("test metric".$metric);
+    $metric = $_POST['metric'];
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
@@ -360,6 +358,10 @@ function adt_get_product_footprint(){
     }
 
     $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric);
+
+    foreach ($recipeData as $recipe) {
+        $recipe['value_emission'] = convert_footprint_value($recipe['unit_reference'],$recipe['value_emission']);
+    }
     error_log("recipeData");
     error_log(print_r($recipeData,true));
 
