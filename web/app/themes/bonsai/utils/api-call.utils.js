@@ -22,12 +22,13 @@ export async function get_product_footprint(userSelection){
                 footprint_year: userSelection.year,
                 database_version: userSelection.db_version,
             },
-            beforeSend: Utils.displayLoading(),
+            beforeSend: Utils.showLoading(),
             success: (response) => {
-                Utils.removeLoading();
+                Utils.hideLoading();
                 resolve(response.data);
             },
             error: (error) => {
+                Utils.hideLoading();
                 reject(error);  // Reject if there is an error
                 console.log("adt_get_product_info ERROR");
                 console.log(error);
@@ -39,7 +40,7 @@ export async function get_product_footprint(userSelection){
 }
 
 export async function get_person_footprint(userSelection){
-    let act_code = userSelection.income_gpe+"_"+userSelection.household_compo; //fdemandCat will be prefixed in adt-person-functions.php
+    let act_code = userSelection.income_group+"_"+userSelection.household_type; //fdemandCat will be prefixed in adt-person-functions.php
     console.log("act_code=",act_code);
     console.log("userSelection=",userSelection.to_string());
     let autocomplete_input = jQuery('#autocomplete-input'); 
@@ -53,12 +54,16 @@ export async function get_person_footprint(userSelection){
                 action: 'adt_get_person_footprint', //reference in adt-person-functions.php
                 version: userSelection.db_version,
                 act_code: act_code,
+                income_group: userSelection.income_group,
+                household_type: userSelection.household_type,
                 metric: userSelection.climate_metric,
                 region_code: userSelection.countryCode,
+                country: userSelection.country,
+                year: userSelection.year,
             },
-            beforeSend: Utils.displayLoading(),
+            beforeSend: Utils.showLoading(),
             success: function(response) {
-                Utils.removeLoading();
+                Utils.hideLoading();
                 jQuery('.loading').remove();
                 autocomplete_input.prop('disabled', false);
                 console.log("person_data response = ",response)
@@ -66,7 +71,8 @@ export async function get_person_footprint(userSelection){
                 
             },
             error: (response) => {
-                console.log("error: ",response);
+                Utils.hideLoading();
+                console.log("error -: ",response);
                 let error_initMsg = jQuery('#initial-error-message');
 
                 // Request was throttled
@@ -100,28 +106,6 @@ export async function get_converted_number_by_units(fromUnit, toUnit, number) {
     });
 }
 
-export async function get_product_name_by_code(productCode) {
-    return new Promise((resolve, reject)=>{
-        jQuery.ajax({
-            type: 'POST',
-            url: localize._ajax_url,
-            data: {
-                _ajax_nonce: localize._ajax_nonce,
-                action: 'adt_get_product_name_by_code',
-                code: productCode,
-            },
-            success: (response) => {
-                let productTitle = response.data;
-                resolve(productTitle);
-            },
-            error:(err)=>{
-                console.log("err=",err);
-                reject(err);
-            }
-        });
-    })
-}
-
 export async function get_product_name_by_code_api(productCode) {
     return new Promise((resolve, reject)=>{
         jQuery.ajax({
@@ -133,7 +117,6 @@ export async function get_product_name_by_code_api(productCode) {
                 code: productCode,
             },
             success: (response) => {
-                console.log("api response=",response)
                 let productTitle = response.data;
                 resolve(productTitle);
             },

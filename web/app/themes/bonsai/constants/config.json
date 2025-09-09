@@ -1,4 +1,11 @@
 {
     "APIURL":"https://lca.aau.dk/api",
-    "APIGITLAB_URL":"https://gitlab.com/api/v4/projects"
+    "APIGITLAB_URL":"https://gitlab.com/api/v4/projects",
+    "UNIT":{
+        "MEURO":"MEURO",
+        "TONNES":"TONNES",
+        "TJ":"TJ",
+        "HA_PER_YEAR":"HA_PER_YEAR",
+        "ITEM":"ITEM"
+    }
 }

@@ -71,6 +71,8 @@ jQuery(document).ready(function($){
 
     $('#product-analysis-content .adt-close').remove(); // remove close btn
 
+    $('button#search-icon').prop('disabled', true);
+
 
     $('input[name="footprint_type"]').on('change',async function(){
         const isChecked = $(this).is(':checked');
@@ -99,6 +101,23 @@ jQuery(document).ready(function($){
         }
     });
 
+    $('#household-composition, #income-group, #location, #year, #climatemetric, #database-version').on('change', async function(){
+        console.log("change ", jQuery(this).attr('id'));
+        let userSelection = new UserSelection;
+        userSelection.get_from_dropdown();
+        
+        adt_push_parameter_to_url(userSelection);
+        console.log("at change userSelection:", userSelection.to_string())
+        let selectedValue = jQuery('#product-analysis-content .product-title').attr('data-code');
+        console.log("selectedValue=",selectedValue)
+        let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+        if(selectedValue === 'person'){
+            data['title'] = "Emission per person";
+        }
+        await display_result("#product-analysis-content",data);
+        adt_save_local_search_history(userSelection);
+    });
+
     $('input[name="contri-analysis"]').on('change', function(){
         const isChecked = $(this).is(':checked');
 
@@ -111,10 +130,9 @@ jQuery(document).ready(function($){
         }
     });
 
-    let productTitleArray = [];
-    let productContentArray = [];
-    let productCodeArray = [];
-    let productUuidArray = [];
+    let list_product = {};
+    let list_product_title = new Set();
+
     let chosenFootprintType = $('input[name="footprint_type_extend"]:checked').val();
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
@@ -135,23 +153,18 @@ jQuery(document).ready(function($){
         if (this.code.startsWith('A_')) {
             this.code = this.code.replace(/^A_/, 'C_');
         }
-        
-        productTitleArray.push(this.title);
-        productContentArray.push(this.content);
-        productCodeArray.push(this.code);
-        productUuidArray.push(this.uuid);    
+        list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid}; //because title is unique
+        list_product_title.add(this.title);
     });
     
     // when radio button 'Cradle to consumer' is selected 
     // If user chooses to change footprint type then get new data
     $('input[name="footprint_type_extend"]').on('change', function() {
+        console.log("footprint_type_extend changed");
         chosenFootprintType = $(this).val();
         
-        productTitleArray = [];
-        productContentArray = [];
-        productCodeArray = [];
-        productUuidArray = [];
-
+        list_product = {};
+        list_product_title = new Set();
         $(searchform.products).each(function() {
         if (this.code.toLowerCase() == "M_Beef_ons".toLowerCase() || this.code.toLowerCase() == "C_Beef_ons".toLowerCase() ){//|| this.code.toLowerCase() == "M_Beef_veal".toLowerCase() ){
                 return true;
@@ -168,20 +181,19 @@ jQuery(document).ready(function($){
             if (this.code.startsWith('A_')) {
                 this.code = this.code.replace(/^A_/, 'C_');
             }
-            
-            productTitleArray.push(this.title);
-            productContentArray.push(this.content);
-            productCodeArray.push(this.code);
-            productUuidArray.push(this.uuid);    
+
+            list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid} //because title is unique
+            list_product_title.add(this.title);
         });
 
         jQuery('#autocomplete-input').val('');
 
-        adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
+        console.log("bou list_product_title=",list_product_title)
+        adt_dynamic_search_input(list_product,list_product_title);
 
     });
 
-    adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray);
+    adt_dynamic_search_input(list_product,list_product_title);
 
     $('#most-popular ul li button, #search-history-list li').on('click', async function(e) {
         e.preventDefault();
@@ -296,8 +308,9 @@ jQuery(document).ready(function($){
     adt_initialize_local_search_history();
 
     // Search 
-    $('#btn-search, #search-icon, #household-composition, #income-group, #location, #year, #climate-metric, #database-version').click(async function(e){
+    $('#btn-search').click(async function(e){
         e.preventDefault();
+        console.log("on click ",jQuery(this).attr('id'))
         let selectedValue = $('input[name="footprint_type"]:checked').val();
         if (selectedValue != 'person' && jQuery('#autocomplete-input').val() ==""){
             let error_msg = jQuery('#error-message');
@@ -316,7 +329,6 @@ jQuery(document).ready(function($){
         data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
 
         if(selectedValue === 'person'){
-            // data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
             data['title'] = "Emission per person";
         }
         adt_push_parameter_to_url(userSelection);
@@ -441,8 +453,10 @@ jQuery(document).ready(function($){
 
     //observe on_change elements
     jQuery('#co2-form-result').find('select.unit').on('change', function () {
-
+        console.log("change unit")
+        
         let unitSelect = jQuery(this);
+        let unitLabel = unitSelect.find('option:selected').text();
         let unitRatio = unitSelect.val();
         let amountInput = unitSelect.closest('.unit-select-wrapper')      // go up to the label wrapping <select>
                                     .find('input.quantity');        // look inside for input.amount
@@ -450,7 +464,6 @@ jQuery(document).ready(function($){
         let co2_result = unitSelect.closest('div.choices')      // go up to the div wrapping 
                                     .find('p.co2-value');        // look inside for p.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
-
         let calculatedValue = co2_result_value * numberInput * unitRatio;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
 
@@ -461,26 +474,6 @@ jQuery(document).ready(function($){
         });
 
         amountInput.val(numberInput);//keep value in input
-        
-        //TODO add EUR and DKK values in data-attr
-        // unitSelect.each(async function () { 
-        //     for (const item of data.all_data) {
-        //         //issue on code region selected. it is currently random
-        //         console.log("item=",item)
-        //         console.log("item.value=",item.value)
-        //         console.log("item.value*ratio=",item.value*unitRatio)
-        //         if (item.unit_reference == CONST.UNIT.DKK){
-        //             if (unitRatio_name.includes(CONST.UNIT.DKK)){ //TODO to rafactor
-        //                 finalAmount = item.value*unitRatio*currentAmount;
-        //                 break;
-        //             } else if (unitRatio_name.includes(CONST.UNIT.EUR)){
-        //                 finalAmount = item.value*unitRatio*currentAmount;
-        //                 break;
-        //             }
-        //         }
-        //         finalAmount = item.value*unitRatio*currentAmount;
-        //     }
-        // });
     });
 
     function controlInput_value(OBJ){
@@ -579,9 +572,8 @@ jQuery(document).ready(function($){
     $('label.select').each(function() {
         let listOptions = $(this).find('option');
         if (listOptions.length <= 1){
-            let arrowImg = $(this).children(':nth-child(2)');
-            arrowImg.hide();
-            $(this).prop('disabled', true);
+            $(this).children('svg').first().hide(); //hide arrow
+            $(this).children('select').first().prop('disabled', true); //disable select
         }
     });
 
@@ -595,7 +587,9 @@ async function display_result(htmlclass, data){
     //error management
     let error_msg = jQuery('#error-message');
     if (data && (data.error && data.error.includes("Product not found") || data.title == "")) {
-        error_msg.append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
+        if(jQuery('#error-message-content').length == 0){
+            error_msg.append("<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>");
+        }
         error_msg.slideDown('fast');
         return false;
     }
@@ -609,7 +603,9 @@ async function display_result(htmlclass, data){
     //summary information
     let main_component = jQuery(htmlclass);
     //set title
-    main_component.find('.product-title').first().text(Utils.capitalize(data["title"]));
+    main_component.find('.product-title').text(Utils.capitalize(data["title"]));
+    main_component.find('.product-title').first().attr("data-code",data['flow_code'] ?? "person");
+    main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
     //set tags
     //TODO hardcode replacement
     let dataCode = data['flow_code'];
@@ -624,17 +620,23 @@ async function display_result(htmlclass, data){
             data['footprint-type'] = 'Cradle to grave';
             data['footprint-type-label'] = 'Cradle to grave';
         }
+    }else{
+        data['footprint-type'] = 'Cradle to grave';
+        data['footprint-type-label'] ='Cradle to grave';
     }
     main_component.find('.footprint-type').first().text(data['footprint-type-label']);
     //endTODO hardcode replacement
     main_component.find('.climate-metric').first().text(data.metric);
     main_component.find('.year').first().text(data["year"]);
     main_component.find('.country').first().text(data["country"]);
+    const isPersonTab = data['flow_code'] == null;
+    main_component.find('.emission-unit').first().text(isPersonTab ? CONST.UNIT.TONNES : CONST.UNIT.KG);
+    main_component.find('.question-location').text(isPersonTab ? data["country"] : Utils.capitalize(data["title"]));
     main_component.find('.version').first().text(data["version"]);
     //set value
     main_component.find('.co2-value').first().text(Utils.reformatValue(data["value"]));
     main_component.find('.co2-value').first().data("normal_value",Utils.reformatValue(data["value"]));
-    main_component.find('.co2-value-unit').first().text(CONST.UNIT.KGCO2); //use of dataArray.unit_emission?
+    main_component.find('.co2-value-unit').first().text(isPersonTab ? CONST.UNIT.TONNESCO2 : CONST.UNIT.KGCO2); //use of dataArray.unit_emission?
     let unit_options = main_component.find('select.unit'); 
     unit_options.empty();
     const unit_ref = data.unit_reference;
@@ -647,12 +649,25 @@ async function display_result(htmlclass, data){
         jQuery('.unit-arrow').each(function(index, arrow) {
             arrow.style.display = 'block';
         })
+        main_component.find('select.unit').first().prop('disabled', false); 
     }else{
         jQuery('.unit-arrow').each(function(index, arrow) {
             arrow.style.display = 'none';
         })
-
     }
+    let displayed_unit = unit_ref;
+    let preposition = " of ";
+    if(displayed_unit == CONST.UNIT.TONNES){
+        displayed_unit = CONST.UNIT.KG;
+    }else if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
+        displayed_unit = CONST.UNIT.TONNES;
+    } else if (isPersonTab){
+        displayed_unit = CONST.UNIT.PERSON_YEAR;
+        preposition = " in ";
+    }
+    displayed_unit += preposition;
+    main_component.find('.product-unit').first().text(displayed_unit);
+    main_component.find('.question-unit').text(displayed_unit);
 
     //recipe
     let tableMarkup = '';
@@ -669,72 +684,29 @@ async function display_result(htmlclass, data){
         const jsonString = JSON.stringify(recipe);
         const base64String = btoa(jsonString);  // Convert to base64
         const getParameter = `?data=${base64String}`;
-
-        let updatedInflow = '';
-
-        // If unit_inflow "Meuro" per tonnes convert to Euro per kg
-        if (recipe.unit_inflow === CONST.UNIT.MEURO) {
-            updatedInflow = recipe.value_inflow * 1000;
-            recipe.value_emission = recipe.value_emission * 1000;
-            recipe.unit_inflow = CONST.UNIT.EUR;
-        }
-
-        // If unit_inflow "tonnes" per tonnes convert to kg per kg (same number)
-        if (recipe.unit_inflow === CONST.UNIT.TONNES) {
-            recipe.unit_inflow = CONST.UNIT.KG;
-        }
-        
-        // If unit_inflow "TJ" per tonnes with electricity convert to kWh per kg
-        if (recipe.unit_inflow === CONST.UNIT.TJ){
-            let final_unit = ""; 
-            if(recipe.flow_reference.includes('electricity')) {
-                final_unit = CONST.UNIT.KWH;
-            }else{
-                final_unit = CONST.UNIT.MJ;
-                recipe.value_emission = recipe.value_emission * 1000;
-            }
-            recipe.unit_inflow = final_unit;
-            updatedInflow = API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, recipe.value_inflow);
-            // Wait for the conversion to complete before continuing
-            if (!updatedInflow) {
-                console.error('Conversion failed for '+CONST.UNIT.TJ+'to'+ final_unit);
-                return false;
-            }
-        }
-
-        // If unit_inflow "item" per tonnes just convert tonnes to kg
-        if (recipe.unit_inflow === 'item') {
-            recipe.value_emission = recipe.value_emission * 1000;
-        }
-
-        // If unit_inflow "ha*year" per tonnes convert tonnes to kg
-        // And convert "ha*year" to "m²*year"
-        if (recipe.unit_inflow === CONST.UNIT.HA_PER_YEAR) {
-            recipe.unit_inflow = CONST.UNIT.M2_PER_YEAR;
-            updatedInflow = recipe.value_inflow * 10;
-            recipe.value_emission = recipe.value_emission;
-        }
-        //end preprocessing
         
         //Create rows
         rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
-        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country-code="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + "LOADING..." + '</span></td>';
+        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country-code="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + Utils.capitalize(recipe.inflow_name) + '</span></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
-        if (recipe.value_inflow && recipe.value_inflow !== NaN) {
-            updatedInflow = Utils.reformatValue(recipe.value_inflow);
-        }
         
         if (recipe.value_emission && recipe.value_emission !== NaN) {
             recipe.value_emission = Utils.reformatValue(recipe.value_emission);
         }
 
-        rowMarkup += '<span class="inflow-value">' + (updatedInflow ? updatedInflow : '') + '</span>';
-        rowMarkup += '<span class="inflow-unit">' + (recipe.unit_inflow || '') + '</span>';
+        let displayed_unit = recipe.unit_inflow;
+        if(displayed_unit == CONST.UNIT.TONNES){
+            displayed_unit = CONST.UNIT.KG;
+        }else if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
+            displayed_unit = CONST.UNIT.TONNES;
+        }
+        rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow) + '</span>';
+        rowMarkup += '<span class="inflow-unit">' + (displayed_unit) + '</span>';
 
         rowMarkup += '</td>';
-        rowMarkup += '<td>' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';
+        rowMarkup += '<td class="emissions-value">' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';
         rowMarkup += '</tr>';
 
         if (recipe.flow_input != null && (recipe.flow_input.toLowerCase() === "other" || recipe.flow_input.toLowerCase() === "direct")){
@@ -751,27 +723,6 @@ async function display_result(htmlclass, data){
     // Display the table
     let recipeTable = main_component.find('.emissions-table').first();
     recipeTable.find('tbody').html(tableMarkup);
-
-    // Convert the product code to product name
-    recipeTable.find('tbody tr').each(async function(){
-        let productCode = jQuery(this).find('span').data('code');
-        let productTitle = "";
-        if (productCode.toLowerCase() === "other" || productCode.toLowerCase() === "direct"){
-            productTitle = productCode;
-        }else{
-            productTitle = await API.get_product_name_by_code_api(productCode);
-        }
-        let countryCode = jQuery(this).find('span').data('country-code');
-        let country = "NULL";
-        if (countryCode != null){
-            country = await API.get_country_name_by_code(countryCode);
-        }
-
-        jQuery('td span[data-code="'+productCode+'"]').text(Utils.capitalize(productTitle));
-        jQuery('td span[data-code="'+productCode+'"]').data('country',country);
-        console.log("countryCode, country="+countryCode +" -> "+country)
-        console.log("productcode, productTitle="+productCode + " -> "+productTitle)
-    });
 
     // Remove previous click handlers to avoid stacking events
     recipeTable.find('thead th').off('click');
@@ -849,11 +800,11 @@ async function adt_update_comparison_info(dataArray = null){
                     if (item.unit_reference === CONST.UNIT.TJ){
                         if(item.description.includes('electricity')){
                             console.log('ELECTRICITY is found');
-                            convertedValueForItems = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.KWH, valueForItems);
+                            // convertedValueForItems = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.KWH, valueForItems);
                         }else{
                             console.log('does not contain electricity');
-                            convertedValueForItems = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, valueForItems);
-                            convertedValueForItems = convertedValueForItems * 1000; // multiply by 1000 to convert from MJ per tonnes to MJ per kg
+                            // convertedValueForItems = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, valueForItems);
+                            convertedValueForItems = convertedValueForItems / 1000; // multiply by 1000 to convert from MJ per tonnes to MJ per kg
                         }
                         item.value = convertedValueForItems;
                     }
@@ -909,9 +860,11 @@ function adt_download_recipe_csv()
     });
 }
 
-function adt_dynamic_search_input(productTitleArray, productCodeArray, productUuidArray) 
+function adt_dynamic_search_input(list_product, list_product_title) 
 {
-    const words = productTitleArray;
+    const words = [...list_product_title];
+    console.log("words=",words)
+    console.log("list_product=",list_product)
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
     const $suggestions = jQuery('#suggestions');
@@ -922,7 +875,7 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
     $input.on('input', function () {
         const query = $input.val().toLowerCase();
         const matches = words
-        .map((word, index) => ({ word, code: productCodeArray[index], uuid: productUuidArray[index] }))
+        .map((word, index) => ({ word, code: list_product[word]["code"], uuid: list_product[word]["uuid"] }))
         .filter(item => item.word.toLowerCase().includes(query));
         $suggestions.empty();
         currentIndex = -1;
@@ -962,15 +915,9 @@ function adt_dynamic_search_input(productTitleArray, productCodeArray, productUu
                 e.preventDefault();
                 currentIndex = (currentIndex - 1 + $items.length) % $items.length;
                 markCurrentItem($items);
-            } else if (e.key === 'Enter') {
+            } 
+            else if (e.key === 'Enter') {
                 e.preventDefault();
-                if (currentIndex >= 0) {
-                    const selectedItem = $items.eq(currentIndex);
-                    await selectSuggestion(selectedItem.text(), selectedItem.data('code'), selectedItem.data('uuid'));
-                } else if (!suggestionSelected && $items.length > 0) {
-                    const firstItem = $items.eq(0);
-                    await selectSuggestion(firstItem.text(), firstItem.data('code'), firstItem.data('uuid'));
-                }
             }
         }
     });
@@ -1131,8 +1078,8 @@ function adt_push_parameter_to_url(userSelection)
         code: userSelection.code,
         uuid: userSelection.uuid,
         climate_metric: userSelection.climate_metric,
-        household_compo: userSelection.household_compo,
-        income_gpe: userSelection.income_gpe,
+        household_type: userSelection.household_type,
+        income_group: userSelection.income_group,
         location: userSelection.countryCode,
         country: userSelection.country,
         footprint_type_label: userSelection.footprint_type_label,

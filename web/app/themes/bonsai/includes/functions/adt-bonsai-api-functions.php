@@ -6,6 +6,7 @@ use Roots\WPConfig\Config;
 
 $CONFIG = json_decode(file_get_contents(__DIR__.'/../../constants/config.json'), true);
 $GLOBALS['APIURL'] = $CONFIG['APIURL'];
+$GLOBALS['UNIT'] = $CONFIG['UNIT'];
 
 function adt_get_bonsai_product_list() {
     global $wpdb;
@@ -179,9 +180,9 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
     $result = json_decode($body, true);
     $recipes = $result["results"];
 
-    foreach ($recipe as $recipes) {
-        if (!isset($recipe['flow_input'])) {
-            $recipe['flow_input'] = $recipe['product_code'];
+    foreach ($recipes as &$recipe) {
+        if (!isset($recipe['inflow'])) {
+            $recipe['inflow'] = $recipe['product_code'];
         }
     
         if (!isset($recipe['region_inflow'])) {
@@ -191,6 +192,8 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
         if (!isset($recipe['value_emission'])) {
             $recipe['value_emission'] = $recipe['value'];
         }
+        error_log($recipe['unit_reference']);
+        $recipe['value_emission'] = convert_footprint_value($recipe['unit_reference'],$recipe['value_emission']);
     }
 
     //sort per value
@@ -239,12 +242,43 @@ function get_country_name_by_code(){
     wp_send_json_success($result);
 }
 
+function get_code_by_name($name){
+    $url = $GLOBALS['APIURL']."/search/?q=".$name;
+    $response = wp_remote_get($url);
+    
+    // Check for errors
+    if (is_wp_error($response)) {
+        return wp_send_json_error(['Error: ' . $response->get_error_message()]);
+    }
+    
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+
+    if (isset($result['products']) && $result['products'] === 0) {
+        wp_send_json_error(['error' => 'Country not found']);
+    }
+
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return 'No footprints found or an error occurred.';
+    }
+
+    if (array_key_exists('detail', $result)) {
+        wp_send_json_error(['error' => $result['detail']], 503);
+    }
+
+    $code = $result['best_match']['product']['code'];
+    return $code;
+}
+
 add_action('wp_ajax_get_country_name_by_code', 'get_country_name_by_code');
 add_action('wp_ajax_nopriv_get_country_name_by_code', 'get_country_name_by_code');
 
 
 function adt_get_product_footprint(){
-    $productCode = $_POST['code'];
+    $productName = $_POST['title'];
+    $productCode = $_POST['code'] ?? get_code_by_name($productName);
     $productUuid = $_POST['uuid'];
     $countryCode = $_POST['footprint_location'];
     $country = $_POST['country'];
@@ -252,24 +286,31 @@ function adt_get_product_footprint(){
     $type_label = $_POST['footprint_type_label'];
     $year = $_POST['footprint_year'];
     $version = $_POST['database_version'];
-    $metric = $_POST['metric'];//TODO sth odd with metric
+    $metric = $_POST['metric'];
 
     // Check if the data is already cached
     $cachedFootprints = get_transient('adt_recipe_cache');
 
-    // If cache exists, return the cached data
-    if ($cachedFootprints !== false) {
-        if (array_key_exists($productCode, $cachedFootprints) 
-            && $cachedFootprints[$productCode]['chosen_country'] === $countryCode
-            && $cachedFootprints[$productCode]['version'] === $version) {
-                wp_send_json_success($cachedFootprints[$productCode]);
-                die();
-            }
-        }
+    if($productCode == null){
+        return wp_send_json_error(['Error: no code found for this product']);
+    }
+
+    // // If cache exists, return the cached data
+    // if ($cachedFootprints !== false) {
+    //     if (array_key_exists($productCode, $cachedFootprints) 
+    //         && $cachedFootprints[$productCode]['chosen_country'] === $countryCode
+    //         && $cachedFootprints[$productCode]['version'] === $version) {
+    //             wp_send_json_success($cachedFootprints[$productCode]);
+    //             die();
+    //         }
+    //     }
         
     // API URL
     $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
     $response = wp_remote_get($url);
+
+    error_log("test url".$url);
+
     
     // Check for errors
     if (is_wp_error($response)) {
@@ -293,6 +334,9 @@ function adt_get_product_footprint(){
         wp_send_json_error(['error' => $result['detail']], 503);
     }
 
+    error_log("test body= ".$body);
+    error_log("test result= ".$result['results'][0]);
+
     // get newest version of the footprint.
     $footprints = $result['results'];
     $versionArray = [];
@@ -301,7 +345,6 @@ function adt_get_product_footprint(){
     $unit_emission = "";
     foreach ($footprints as $footprint) {
         $versionArray[] = $footprint['version'];
-        $footprintTitle = $footprint['description'];
         $unit_reference = $footprint['unit_reference'];
         $unit_emission = $footprint['unit_emission'];
     }
@@ -312,76 +355,13 @@ function adt_get_product_footprint(){
         $newestVersion = $version;
     }
 
-    // Get the footprint with the newest version
-    $chosenFootprint = [];
-
-    foreach ($footprints as $footprint) {
-        if ($footprint['version'] === $newestVersion) {
-            switch ($footprint['unit_reference']) {
-                case 'Meuro':
-                    // Add danish currency Meuro to DKK 
-                    // The conversion rate is per million euro
-                    $conversionRateInMillion = adt_convert_number_by_units('Meuro', 'DKK');
-                    // Divide it by 1 million to get the value 1 Euro to 1 DKK
-                    $conversionRate = $conversionRateInMillion / 1000000;
-                    /* To get 1 euro per 1 kg emission
-                     * instead of 1 Meuro per 1 tonne emission
-                     * I need to divide by 1000
-                     */
-                    $footprint['value'] = $footprint['value'] / 1000;
-                    /* To get 1 DKK per 1 kg emission
-                     * I need to divide by the conversion rate
-                     */
-                    $danishValue = $footprint['value'] / $conversionRate;
-
-                    // Footprint with DKK as unit
-                    $danishFootprint = [
-                        'description' => $footprint['description'],
-                        'flow_code' => $footprint['flow_code'],
-                        'id' => $footprint['id'],
-                        'nace_related_code' => $footprint['nace_related_code'],
-                        'region_code' => $footprint['region_code'],
-                        'unit_emission' => $footprint['unit_emission'],
-                        'unit_reference' => 'DKK',
-                        'value' => $danishValue,
-                        'version' => $footprint['version'],
-                    ];
-
-                    array_push($chosenFootprint, $danishFootprint);
-                    break;
-                case 'items':
-                    /* 
-                     * To get 1 item per 1 kg emission
-                     * I need to multiply by 1000
-                     */
-                    $footprint['value'] = $footprint['value'] * 1000;
-                    break;
-
-                case 'TJ':
-                    if ( str_contains(strtolower($footprint['description']), 'electricity') ) {
-                        $multiplier = adt_convert_number_by_units('TJ', 'kWh');
-                        $footprint['unit_reference'] = 'kWh';
-                    } else {
-                        $multiplier = adt_convert_number_by_units('TJ', 'MJ');
-                        $footprint['unit_reference'] = 'MJ';
-                    }
-                    $footprint['value'] = $footprint['value'] / $multiplier * 1000;
-                    break;
-                default:
-                    break;
-            }
-            // restrict  significant number to 3
-            $footprint['value'] = roundToSignificantFigures($footprint['value']);
-
-            $chosenFootprint[] = $footprint;
-        }
-    }
-
     $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric);
 
     if(!empty($productCode) & empty($footprintTitle) ){
         $footprintTitle = get_product_name_by_code($productCode);
     }
+
+    $footprint['value'] = convert_footprint_value($unit_reference,$footprint['value']);
     
     $data = [
         'title' => $footprintTitle,
@@ -392,14 +372,14 @@ function adt_get_product_footprint(){
         "unit_emission" => $unit_emission,
         'uuid' => $productUuid,
         'version' => $newestVersion,
-        'all_data' => $chosenFootprint,
-        'description' => $chosenFootprint[0]['description'],
-        'id' => $chosenFootprint[0]['id'],
-        'metric' => $chosenFootprint[0]['metric'],
-        'nace_related_code' => $chosenFootprint[0]['nace_related_code'],
-        'region_code' => $chosenFootprint[0]['region_code'],
-        'samples' => $chosenFootprint[0]['samples'],
-        'value' => $chosenFootprint[0]['value'],
+        'all_data' => $footprint,
+        'id' => $footprint['id'],
+        'best_match' => get_code_by_name($productName),
+        'metric' => $metric,
+        // 'nace_related_code' => $footprint['nace_related_code'],
+        'region_code' => $footprint['region_code'],
+        'samples' => $footprint['samples'],
+        'value' => $footprint['value'],
         'recipe' => $recipeData,
         'year' => $year,
         'footprint-type' => $type,
@@ -419,6 +399,28 @@ function adt_get_product_footprint(){
 add_action('wp_ajax_adt_get_product_footprint', 'adt_get_product_footprint');
 add_action('wp_ajax_nopriv_adt_get_product_footprint', 'adt_get_product_footprint');
 
+function convert_footprint_value($unit,$value){
+    switch ($unit){
+        case $GLOBALS['UNIT']['MEURO']:
+            $value *= 1000;
+        break;
+        case $GLOBALS['UNIT']['TONNES']:
+            $value *= 1000;
+        break;
+        case $GLOBALS['UNIT']['TJ']:
+            error_log("TJ");
+            $value *= 1000;
+            error_log($value);
+        break;
+        case $GLOBALS['UNIT']['HA_PER_YEAR']:
+            $value *= 10;
+        break;
+        case $GLOBALS['UNIT']['ITEM']:
+            $value /= 1000;
+        break;
+    }
+    return $value;
+}
 
 function get_product_name_by_code_api(){
     $productCode = $_POST['code'];

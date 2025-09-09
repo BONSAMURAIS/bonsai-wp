@@ -8,10 +8,9 @@ export function capitalize(str) {
 }
 
 export function reformatValue(value){
-    return new Intl.NumberFormat(CONFIG.NUMBERFORMAT, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: CONFIG.SIGNIFICANT_NB
-    }).format(value);
+  const precise = Number.parseFloat(value).toPrecision(CONFIG.SIGNIFICANT_NB); // Keep 3 significant digits
+  const rounded = Number(precise); // Convert to number to remove scientific notation
+  return new Intl.NumberFormat(CONFIG.NUMBERFORMAT).format(rounded);
 }
 
 export function displayLoading() {
@@ -23,6 +22,14 @@ export function displayLoading() {
 export function removeLoading() {
     jQuery('.loading').remove();
     jQuery('#co2-form-result-header').prop('disabled', false);
+}
+
+export function showLoading() {
+    document.getElementById('loadingModal').style.display = 'flex';
+}
+
+export function hideLoading() {
+    document.getElementById('loadingModal').style.display = 'none';
 }
 
 // Animations
@@ -90,7 +97,7 @@ export function getUnitOptions(dataArray, unit_ref){
         ]
     } else if (unit_ref === 'tonnes (service)'){
         unitList = [
-            {ratio:1,label:"tonne(s) (service)"},
+            {ratio:1,label:"tonne(s)"}, //requested by Jannick Schmidt
         ]
     } else if (unit_ref == null){ //for person footprint-type
         unitList = [
