@@ -631,6 +631,7 @@ async function display_result(htmlclass, data){
     main_component.find('.country').first().text(data["country"]);
     const isPersonTab = data['flow_code'] == null;
     main_component.find('.emission-unit').first().text(isPersonTab ? CONST.UNIT.TONNES : CONST.UNIT.KG);
+    main_component.find('.question').text(PersonTab ? CONST.UNIT.PERSON_YEAR : Utils.capitalize(data["title"]));
     main_component.find('.version').first().text(data["version"]);
     //set value
     main_component.find('.co2-value').first().text(Utils.reformatValue(data["value"]));
