@@ -416,6 +416,8 @@ function convert_footprint_value($unit,&$value){
             $value *= 1000;
         break;
     }
+    error_log("in convert footprint");
+    error_log($value);
     return $value;
 }
 
