@@ -663,6 +663,7 @@ async function display_result(htmlclass, data){
         displayed_unit = CONST.UNIT.PERSON_YEAR;
         preposition = " in ";
     }
+    displayed_unit = displayed_unit.endsWith("s") ? displayed_unit.slice(0, -1) : displayed_unit;
     displayed_unit += preposition;
     main_component.find('.product-unit').first().text(displayed_unit);
     main_component.find('.question-unit').text(displayed_unit);
