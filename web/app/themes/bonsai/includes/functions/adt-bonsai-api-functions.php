@@ -410,9 +410,6 @@ function convert_footprint_value($unit,$value){
         case $GLOBALS['UNIT']['HA_PER_YEAR']:
             $value *= 10;
         break;
-        case $GLOBALS['UNIT']['ITEM']:
-            $value /= 1000;
-        break;
     }
     return $value;
 }
