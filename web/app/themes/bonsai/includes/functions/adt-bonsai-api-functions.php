@@ -360,6 +360,7 @@ function adt_get_product_footprint(){
 
     $footprint['value'] = convert_footprint_value($unit_reference,$footprint['value']);
     if ($GLOBALS['UNIT']['ITEMS'] == $unit_reference){
+        error_log("log");
         $footprint['value'] *= 1000;
     }
         
