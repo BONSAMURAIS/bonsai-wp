@@ -396,7 +396,7 @@ function adt_get_product_footprint(){
 add_action('wp_ajax_adt_get_product_footprint', 'adt_get_product_footprint');
 add_action('wp_ajax_nopriv_adt_get_product_footprint', 'adt_get_product_footprint');
 
-function convert_footprint_value($unit,$value){
+function convert_footprint_value($unit,&$value){
     switch ($unit){
         case $GLOBALS['UNIT']['MEURO']:
             $value *= 1000;
