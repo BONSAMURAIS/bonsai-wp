@@ -185,7 +185,7 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
             $recipe['inflow'] = $recipe['product_code'];
         }
     
-        if (!isset($recipe['region_inflow'])) {
+        if (!isset($recipe['region_inflow']) & isset($recipe['region_code'])) {
             $recipe['region_inflow'] = $recipe['region_code'];
         }   
     
