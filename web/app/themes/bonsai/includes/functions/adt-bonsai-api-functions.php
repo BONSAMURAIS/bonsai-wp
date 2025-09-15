@@ -334,9 +334,6 @@ function adt_get_product_footprint(){
         wp_send_json_error(['error' => $result['detail']], 503);
     }
 
-    error_log("test body= ".$body);
-    error_log("test result= ".$result['results'][0]);
-
     // get newest version of the footprint.
     $footprints = $result['results'];
     $versionArray = [];
@@ -408,9 +405,7 @@ function convert_footprint_value($unit,$value){
             $value *= 1000;
         break;
         case $GLOBALS['UNIT']['TJ']:
-            error_log("TJ");
             $value *= 1000;
-            error_log($value);
         break;
         case $GLOBALS['UNIT']['HA_PER_YEAR']:
             $value *= 10;
