@@ -359,6 +359,10 @@ function adt_get_product_footprint(){
     }
 
     $footprint['value'] = convert_footprint_value($unit_reference,$footprint['value']);
+    if ($GLOBALS['UNIT']['ITEMS'] == $unit_reference){
+        $footprint['value'] *= 1000;
+    }
+        
     error_log($footprintTitle);
     error_log($footprint['value']);
     
@@ -411,10 +415,6 @@ function convert_footprint_value($unit,&$value){
         break;
         case $GLOBALS['UNIT']['HA_PER_YEAR']:
             $value *= 10;
-        break;
-        case $GLOBALS['UNIT']['ITEMS']:
-            error_log("true");
-            $value *= 1000;
         break;
     }
     return $value;
