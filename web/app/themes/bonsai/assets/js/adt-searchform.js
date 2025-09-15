@@ -695,9 +695,7 @@ async function display_result(htmlclass, data){
         }
 
         let displayed_unit = recipe.unit_inflow;
-        if(displayed_unit == CONST.UNIT.TONNES){
-            displayed_unit = CONST.UNIT.KG;
-        }else if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
+        if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
             displayed_unit = CONST.UNIT.TONNES;
         }
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow) + '</span>';
