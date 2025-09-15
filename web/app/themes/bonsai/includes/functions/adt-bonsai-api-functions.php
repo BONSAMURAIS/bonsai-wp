@@ -413,6 +413,7 @@ function convert_footprint_value($unit,&$value){
             $value *= 10;
         break;
         case $GLOBALS['UNIT']['ITEMS']:
+            error_log("true");
             $value *= 1000;
         break;
     }
