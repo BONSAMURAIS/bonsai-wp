@@ -358,7 +358,6 @@ function adt_get_product_footprint(){
         $footprintTitle = get_product_name_by_code($productCode);
     }
 
-    error_log("going to convert");
     $footprint['value'] = convert_footprint_value($unit_reference,$footprint['value']);
     error_log($footprintTitle);
     error_log($footprint['value']);
@@ -418,6 +417,7 @@ function convert_footprint_value($unit,&$value){
         break;
     }
     error_log("in convert footprint");
+    error_log($unit);
     error_log($value);
     return $value;
 }
