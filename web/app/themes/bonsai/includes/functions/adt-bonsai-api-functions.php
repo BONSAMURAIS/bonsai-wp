@@ -185,7 +185,7 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
             $recipe['inflow'] = $recipe['product_code'];
         }
     
-        if (!isset($recipe['region_inflow'])) {
+        if (!isset($recipe['region_inflow']) & isset($recipe['region_code'])) {
             $recipe['region_inflow'] = $recipe['region_code'];
         }   
     
@@ -334,9 +334,6 @@ function adt_get_product_footprint(){
         wp_send_json_error(['error' => $result['detail']], 503);
     }
 
-    error_log("test body= ".$body);
-    error_log("test result= ".$result['results'][0]);
-
     // get newest version of the footprint.
     $footprints = $result['results'];
     $versionArray = [];
@@ -362,6 +359,12 @@ function adt_get_product_footprint(){
     }
 
     $footprint['value'] = convert_footprint_value($unit_reference,$footprint['value']);
+    if ($GLOBALS['UNIT']['ITEMS'] == strtoupper($unit_reference)){
+        $footprint['value'] *= 1000;
+    }
+        
+    error_log($footprintTitle);
+    error_log($footprint['value']);
     
     $data = [
         'title' => $footprintTitle,
@@ -399,8 +402,8 @@ function adt_get_product_footprint(){
 add_action('wp_ajax_adt_get_product_footprint', 'adt_get_product_footprint');
 add_action('wp_ajax_nopriv_adt_get_product_footprint', 'adt_get_product_footprint');
 
-function convert_footprint_value($unit,$value){
-    switch ($unit){
+function convert_footprint_value($unit,&$value){
+    switch (strtoupper($unit)){
         case $GLOBALS['UNIT']['MEURO']:
             $value *= 1000;
         break;
@@ -408,15 +411,10 @@ function convert_footprint_value($unit,$value){
             $value *= 1000;
         break;
         case $GLOBALS['UNIT']['TJ']:
-            error_log("TJ");
             $value *= 1000;
-            error_log($value);
         break;
         case $GLOBALS['UNIT']['HA_PER_YEAR']:
             $value *= 10;
-        break;
-        case $GLOBALS['UNIT']['ITEM']:
-            $value /= 1000;
         break;
     }
     return $value;
