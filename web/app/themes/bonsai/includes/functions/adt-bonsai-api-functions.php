@@ -243,7 +243,7 @@ function get_country_name_by_code(){
 }
 
 function get_country_name_by_country_code(){
-    $code = $_POST['countryCode'];
+    $code = $_POST['footprint_location'];
     // API URL
     $url = $GLOBALS['APIURL']."/locations/?search=".$code;
     $response = wp_remote_get($url);
