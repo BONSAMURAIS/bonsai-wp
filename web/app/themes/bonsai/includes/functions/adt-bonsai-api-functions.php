@@ -276,7 +276,6 @@ function get_country_name_by_country_code(){
             $countryName=$e['name'];
             break;
         }
-        error_log($e);
     }
 
     wp_send_json_success($countryName);
