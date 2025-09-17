@@ -243,7 +243,7 @@ function get_country_name_by_code(){
 }
 
 function get_country_name_by_country_code(){
-    $code = $_POST['country'];
+    $code = $_POST['countryCode'];
     // API URL
     $url = $GLOBALS['APIURL']."/locations/?search=".$code;
     $response = wp_remote_get($url);
@@ -270,7 +270,7 @@ function get_country_name_by_country_code(){
         wp_send_json_error(['error' => $result['detail']], 503);
     }
 
-    foreach ($e as $result) {
+    foreach ($result as $e) {
         error_log($e);
     }
 
