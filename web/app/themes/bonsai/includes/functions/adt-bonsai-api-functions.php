@@ -270,6 +270,10 @@ function get_country_name_by_country_code(){
         wp_send_json_error(['error' => $result['detail']], 503);
     }
 
+    foreach ($e as $result) {
+        error_log($e);
+    }
+
     wp_send_json_success($result);
 }
 
