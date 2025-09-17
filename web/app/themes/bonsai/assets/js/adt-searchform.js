@@ -630,7 +630,7 @@ async function display_result(htmlclass, data){
     main_component.find('.year').first().text(data["year"]);
     main_component.find('.country').first().text(data["country"]);
     const isPersonTab = data['flow_code'] == null;
-    main_component.find('.emission-unit').first().text(data['unit_emission']);
+    main_component.find('.emission-unit').first().text("in "+data['unit_emission']);
     main_component.find('.question-location').text(isPersonTab ? data["country"] : Utils.capitalize(data["title"]));
     main_component.find('.version').first().text(data["version"]);
     //set value
