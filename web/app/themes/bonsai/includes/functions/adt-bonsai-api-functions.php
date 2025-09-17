@@ -277,11 +277,8 @@ function get_country_name_by_country_code(){
             break;
         }
     }
-    $data = [
-        'country' => $countryName,
-    ];
 
-    wp_send_json_success($data);
+    return $countryName;
 }
 
 function get_code_by_name($name){
