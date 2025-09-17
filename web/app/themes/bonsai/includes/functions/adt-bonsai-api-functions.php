@@ -270,11 +270,16 @@ function get_country_name_by_country_code(){
         wp_send_json_error(['error' => $result['detail']], 503);
     }
 
-    foreach ($result as $e) {
+    $countryName = "";
+    foreach ($result['results'] as $e) {
+        if($e['code']==$code){
+            $countryName=$e['name'];
+        }
+        break;
         error_log($e);
     }
 
-    wp_send_json_success($result);
+    wp_send_json_success($countryName);
 }
 
 function get_code_by_name($name){
