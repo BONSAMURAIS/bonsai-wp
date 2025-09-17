@@ -309,7 +309,6 @@ function adt_get_product_footprint(){
     $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
     $response = wp_remote_get($url);
 
-    error_log("test url".$url);
 
     
     // Check for errors
@@ -362,10 +361,7 @@ function adt_get_product_footprint(){
     if ($GLOBALS['UNIT']['ITEMS'] == strtoupper($unit_reference)){
         $footprint['value'] *= 1000;
     }
-        
-    error_log($footprintTitle);
-    error_log($footprint['value']);
-    
+            
     $data = [
         'title' => $footprintTitle,
         'flow_code' => $productCode,
