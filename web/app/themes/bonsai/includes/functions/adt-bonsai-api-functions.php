@@ -242,6 +242,37 @@ function get_country_name_by_code(){
     wp_send_json_success($result);
 }
 
+function get_country_name_by_country_code(){
+    $code = $_POST['country'];
+    // API URL
+    $url = $GLOBALS['APIURL']."/locations/?search=".$code;
+    $response = wp_remote_get($url);
+    
+    // Check for errors
+    if (is_wp_error($response)) {
+        return wp_send_json_error(['Error: ' . $response->get_error_message()]);
+    }
+    
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+
+    if (isset($result['count']) && $result['count'] === 0) {
+        wp_send_json_error(['error' => 'Country not found']);
+    }
+
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return 'No footprints found or an error occurred.';
+    }
+
+    if (array_key_exists('detail', $result)) {
+        wp_send_json_error(['error' => $result['detail']], 503);
+    }
+
+    wp_send_json_success($result);
+}
+
 function get_code_by_name($name){
     $url = $GLOBALS['APIURL']."/search/?q=".$name;
     $response = wp_remote_get($url);
@@ -281,7 +312,7 @@ function adt_get_product_footprint(){
     $productCode = $_POST['code'] ?? get_code_by_name($productName);
     $productUuid = $_POST['uuid'];
     $countryCode = $_POST['footprint_location'];
-    $country = $_POST['country'] ?? get_country_name_by_code();
+    $country = $_POST['country'] ?? get_country_name_by_country_code();
     $type = $_POST['footprint_type'];
     $type_label = $_POST['footprint_type_label'];
     $year = $_POST['footprint_year'];
