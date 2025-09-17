@@ -274,8 +274,8 @@ function get_country_name_by_country_code(){
     foreach ($result['results'] as $e) {
         if($e['code']==$code){
             $countryName=$e['name'];
+            break;
         }
-        break;
         error_log($e);
     }
 
