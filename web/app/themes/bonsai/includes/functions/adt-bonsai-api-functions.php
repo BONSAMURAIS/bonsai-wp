@@ -281,7 +281,7 @@ function adt_get_product_footprint(){
     $productCode = $_POST['code'] ?? get_code_by_name($productName);
     $productUuid = $_POST['uuid'];
     $countryCode = $_POST['footprint_location'];
-    $country = $_POST['country'];
+    $country = $_POST['country'] ?? get_country_name_by_code();
     $type = $_POST['footprint_type'];
     $type_label = $_POST['footprint_type_label'];
     $year = $_POST['footprint_year'];
