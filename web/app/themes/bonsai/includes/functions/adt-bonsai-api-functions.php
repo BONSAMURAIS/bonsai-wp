@@ -242,6 +242,45 @@ function get_country_name_by_code(){
     wp_send_json_success($result);
 }
 
+function get_country_name_by_country_code(){
+    $code = $_POST['footprint_location'];
+    // API URL
+    $url = $GLOBALS['APIURL']."/locations/?search=".$code;
+    $response = wp_remote_get($url);
+    
+    // Check for errors
+    if (is_wp_error($response)) {
+        return wp_send_json_error(['Error: ' . $response->get_error_message()]);
+    }
+    
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+
+    if (isset($result['count']) && $result['count'] === 0) {
+        wp_send_json_error(['error' => 'Country not found']);
+    }
+
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return 'No footprints found or an error occurred.';
+    }
+
+    if (array_key_exists('detail', $result)) {
+        wp_send_json_error(['error' => $result['detail']], 503);
+    }
+
+    $countryName = "";
+    foreach ($result['results'] as $e) {
+        if($e['code']==$code){
+            $countryName=$e['name'];
+            break;
+        }
+    }
+
+    return $countryName;
+}
+
 function get_code_by_name($name){
     $url = $GLOBALS['APIURL']."/search/?q=".$name;
     $response = wp_remote_get($url);
@@ -281,7 +320,7 @@ function adt_get_product_footprint(){
     $productCode = $_POST['code'] ?? get_code_by_name($productName);
     $productUuid = $_POST['uuid'];
     $countryCode = $_POST['footprint_location'];
-    $country = $_POST['country'];
+    $country = $_POST['country'] ?? get_country_name_by_country_code();
     $type = $_POST['footprint_type'];
     $type_label = $_POST['footprint_type_label'];
     $year = $_POST['footprint_year'];
@@ -309,7 +348,6 @@ function adt_get_product_footprint(){
     $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
     $response = wp_remote_get($url);
 
-    error_log("test url".$url);
 
     
     // Check for errors
@@ -362,10 +400,7 @@ function adt_get_product_footprint(){
     if ($GLOBALS['UNIT']['ITEMS'] == strtoupper($unit_reference)){
         $footprint['value'] *= 1000;
     }
-        
-    error_log($footprintTitle);
-    error_log($footprint['value']);
-    
+            
     $data = [
         'title' => $footprintTitle,
         'flow_code' => $productCode,
@@ -405,9 +440,6 @@ add_action('wp_ajax_nopriv_adt_get_product_footprint', 'adt_get_product_footprin
 function convert_footprint_value($unit,&$value){
     switch (strtoupper($unit)){
         case $GLOBALS['UNIT']['MEURO']:
-            $value *= 1000;
-        break;
-        case $GLOBALS['UNIT']['TONNES']:
             $value *= 1000;
         break;
         case $GLOBALS['UNIT']['TJ']:

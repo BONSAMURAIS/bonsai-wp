@@ -630,7 +630,7 @@ async function display_result(htmlclass, data){
     main_component.find('.year').first().text(data["year"]);
     main_component.find('.country').first().text(data["country"]);
     const isPersonTab = data['flow_code'] == null;
-    main_component.find('.emission-unit').first().text(data['unit_emission']);
+    main_component.find('.emission-unit').first().text("in "+data['unit_emission']);
     main_component.find('.question-location').text(isPersonTab ? data["country"] : Utils.capitalize(data["title"]));
     main_component.find('.version').first().text(data["version"]);
     //set value
@@ -686,7 +686,7 @@ async function display_result(htmlclass, data){
         
         //Create rows
         rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
-        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.flow_input+'" data-uuid="'+recipe.id+'" data-country-code="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + Utils.capitalize(recipe.inflow_name) + '</span></td>';
+        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.inflow+'" data-uuid="'+recipe.id+'" data-country-code="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + Utils.capitalize(recipe.inflow_name) + '</span></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
 
