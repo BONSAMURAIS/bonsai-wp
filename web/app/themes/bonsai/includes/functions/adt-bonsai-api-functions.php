@@ -442,9 +442,6 @@ function convert_footprint_value($unit,&$value){
         case $GLOBALS['UNIT']['MEURO']:
             $value *= 1000;
         break;
-        case $GLOBALS['UNIT']['TONNES']:
-            $value *= 1000;
-        break;
         case $GLOBALS['UNIT']['TJ']:
             $value *= 1000;
         break;
