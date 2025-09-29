@@ -18,7 +18,8 @@ function contribute_shortcode() {
     </div>
 
 <?php
-
+    // Return the buffered content
+    return ob_get_clean();
     }
 
     // Add the shortcode
