@@ -8,11 +8,15 @@ export function capitalize(str) {
 }
 
 export function reformatValue(value){
-    let precise = Number.parseFloat(value).toPrecision(CONFIG.SIGNIFICANT_NB); // Keep 3 significant digits
+
+    const precise = Number.parseFloat(value).toPrecision(CONFIG.SIGNIFICANT_NB); // Keep 3 significant digits
+    const rounded = Number(precise); // Convert to number to remove scientific notation
+    let result = new Intl.NumberFormat(CONFIG.NUMBERFORMAT).format(rounded);
     if(Math.abs(value) > 1e-3 || Math.abs(value) < 1e9){
-        precise = Number(precise); // Convert to number to remove scientific notation
+        result = value.toExponential(2);
     }
-    return new Intl.NumberFormat(CONFIG.NUMBERFORMAT).format(precise);
+
+    return result;
 }
 
 export function displayLoading() {
