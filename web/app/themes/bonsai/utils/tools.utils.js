@@ -13,7 +13,7 @@ export function reformatValue(value){
     const rounded = Number(precise); // Convert to number to remove scientific notation
     let result = new Intl.NumberFormat(CONFIG.NUMBERFORMAT).format(rounded);
     if((Math.abs(value) < 1e-3 && value != 0) || Math.abs(value) > 1e9){
-        result = value.toExponential(2);
+        result = value.toExponential(CONFIG.SIGNIFICANT_NB-1);
     }
 
     return result;
