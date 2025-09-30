@@ -12,7 +12,7 @@ export function reformatValue(value){
     const precise = Number.parseFloat(value).toPrecision(CONFIG.SIGNIFICANT_NB); // Keep 3 significant digits
     const rounded = Number(precise); // Convert to number to remove scientific notation
     let result = new Intl.NumberFormat(CONFIG.NUMBERFORMAT).format(rounded);
-    if(Math.abs(value) > 1e-3 || Math.abs(value) < 1e9){
+    if(Math.abs(value) < 1e-3 || Math.abs(value) > 1e9){
         result = value.toExponential(2);
     }
 
