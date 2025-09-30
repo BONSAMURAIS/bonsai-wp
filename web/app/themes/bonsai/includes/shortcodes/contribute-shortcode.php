@@ -12,7 +12,7 @@ function contribute_shortcode() {
         <input type="text" id="search" placeholder="Search issues" />
         <input type="text" id="labels" placeholder="Labels" readonly />
         <input type="text" id="milestones" placeholder="Milestones" readonly />
-        <a href="https://gitlab.com/bonsamurais/bonsai/bug-report-website/-/issues/new" class="button primary" target="_blank">                  
+        <a href="https://gitlab.com/bonsamurais/bonsai/clean/data_contribution/-/issues/new" class="button primary" target="_blank">                  
             New data contribution
         </a>
     </div>
