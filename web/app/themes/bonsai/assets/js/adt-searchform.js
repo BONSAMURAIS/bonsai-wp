@@ -13,6 +13,9 @@ window.addEventListener('popstate', async function(event) {
     }
 });
 
+let recipeArray = [];
+
+
 function copyTile(){
     let original = jQuery('#product-analysis-content');
     let clone = original.clone();
@@ -537,6 +540,8 @@ jQuery(document).ready(function($){
             Utils.resizeTextToFit(text);
         });
 
+        console.log("recipeArray=",recipeArray)
+
         amountInput.val(amountInput.val());//keep value in input
         quantityQuestion.text(amountInput.val());
     });
@@ -676,7 +681,7 @@ async function display_result(htmlclass, data){
     let tableMarkup = '';
     let otherRowMarkup = '';
     let rowMarkup = '';
-    let recipeArray = data.recipe;
+    recipeArray = data.recipe;
     if (recipeArray.error){
         return true;
     }
