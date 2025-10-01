@@ -519,6 +519,9 @@ jQuery(document).ready(function($){
                                 .find('p.co2-value');        // look inside for p.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
 
+        let quantityQuestion = amountInput.closest('div.calculation-wrapper')      // go up to the div wrapping 
+                                .find('span.quantity-value');        // look inside for p.co2-value
+
         let unitSelect = amountInput.closest('div.unit-select-wrapper')      // go up to the div wrapping 
                                 .find('select.unit');        // look inside for p.co2-value
         const unitRatio = unitSelect.val();
@@ -535,6 +538,7 @@ jQuery(document).ready(function($){
         });
 
         amountInput.val(amountInput.val());//keep value in input
+        quantityQuestion.text(amountInput.val());
     });
 
     //listener on click emissions-table items 
