@@ -542,9 +542,9 @@ jQuery(document).ready(function($){
 
         console.log("recipeArray=",recipeArray)
 
-
         recipeArray[0].value_emission = -9999999;
-        display_recipe_table(recipeArray);
+        let main_component = amountInput.closest("div.tile-wrapper");
+        display_recipe_table(main_component, recipeArray);
 
         amountInput.val(amountInput.val());//keep value in input
         quantityQuestion.text(amountInput.val());
@@ -683,11 +683,11 @@ async function display_result(htmlclass, data){
 
     //recipe
     recipeArray = data.recipe;
-    display_recipe_table(recipeArray);
+    display_recipe_table(main_component,recipeArray);
     return true;
 }
 
-function display_recipe_table(recipeArray){
+function display_recipe_table(main_component,recipeArray){
     if (recipeArray.error){
         return true;
     }
