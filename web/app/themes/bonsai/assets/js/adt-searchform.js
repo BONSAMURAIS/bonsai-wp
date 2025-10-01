@@ -542,6 +542,10 @@ jQuery(document).ready(function($){
 
         console.log("recipeArray=",recipeArray)
 
+
+        recipeArray[0].value_emission = -9999999;
+        display_recipe_table(recipeArray);
+
         amountInput.val(amountInput.val());//keep value in input
         quantityQuestion.text(amountInput.val());
     });
@@ -678,13 +682,19 @@ async function display_result(htmlclass, data){
     main_component.find('.question-unit').text(displayed_unit);
 
     //recipe
-    let tableMarkup = '';
-    let otherRowMarkup = '';
-    let rowMarkup = '';
     recipeArray = data.recipe;
+    display_recipe_table(recipeArray);
+    return true;
+}
+
+function display_recipe_table(recipeArray){
     if (recipeArray.error){
         return true;
     }
+
+    let tableMarkup = '';
+    let otherRowMarkup = '';
+    let rowMarkup = '';
 
     for (const recipe of recipeArray) {
         //preprocessing recipe data
@@ -756,8 +766,6 @@ async function display_result(htmlclass, data){
 
         table.find('tbody').append(rows);
     });
-
-    return true;
 }
 
 
