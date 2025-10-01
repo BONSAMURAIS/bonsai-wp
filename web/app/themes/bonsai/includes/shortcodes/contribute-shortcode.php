@@ -23,5 +23,5 @@ function contribute_shortcode() {
     }
 
     // Add the shortcode
-    add_shortcode('contribute-shortcode-wordpress', 'contribute_shortcode');
+    add_shortcode('contribute-shortcode-wp', 'contribute_shortcode');
 ?>

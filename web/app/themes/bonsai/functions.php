@@ -21,6 +21,7 @@ require_once "includes/shortcodes/adt-navigation-shortcode.php";
 require_once "includes/shortcodes/adt-searchform-shortcode.php";
 require_once "includes/shortcodes/adt-issues-shortcode.php";
 require_once "includes/shortcodes/contribute-shortcode.php";
+require_once "includes/shortcodes/download-template-shortcode.php";
 
 // icons
 require_once "includes/icons/arrow.icon.php";
