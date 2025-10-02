@@ -542,11 +542,13 @@ jQuery(document).ready(function($){
 
         console.log("recipeArray=",recipeArray)
         
-        recipeArray[0].value_emission *= 9999999;
-        recipeArray[0].value_emission *= 9999999;
-        console.log("recipeArray[0].value_emission=",recipeArray[0].value_emission)
-        console.log("typeof recipeArray[0].value_emission=",typeof recipeArray[0].value_emission)
-        console.log("after recipeArray=",recipeArray)
+        console.log(" amountInput.val() =", amountInput.val() );
+        for (let i = 0; i<recipeArray.length; i++){
+            console.log(" recipeArray[i].value_emission  =", recipeArray[i].value_emission  );
+            recipeArray[i].value_emission *=  amountInput.val();
+
+        }
+        console.log("----- after recipeArray=",recipeArray)
         let main_component = amountInput.closest("div.tile-wrapper");
         display_recipe_table(main_component, recipeArray);
 
@@ -717,7 +719,7 @@ function display_recipe_table(main_component,recipeArray){
         if (recipe.value_emission && recipe.value_emission !== NaN) {
             console.log("test type recipe.value_emission=",typeof recipe.value_emission)
             console.log("test recipe.value_emission=",recipe.value_emission)
-            recipe.value_emission = Utils.reformatValue(recipe.value_emission);
+            recipe.value_emission = Utils.reformatValue(parseFloat(recipe.value_emission));
         }
 
         let displayed_unit = recipe.unit_inflow;
