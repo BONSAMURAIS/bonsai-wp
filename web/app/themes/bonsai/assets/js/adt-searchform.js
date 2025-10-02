@@ -549,7 +549,7 @@ jQuery(document).ready(function($){
         let main_component = amountInput.closest("div.tile-wrapper");
         display_recipe_table(main_component, recipeArray);
 
-        amountInput.val(amountInputValue);//keep value in input
+        amountInput.val(amountInput.val());//keep value in input
         
         let quantityQuestion = amountInput.closest('div.calculation-wrapper')
                                 .find('span.quantity-value');
