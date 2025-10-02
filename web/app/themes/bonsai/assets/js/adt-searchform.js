@@ -715,7 +715,7 @@ function display_recipe_table(main_component,recipeArray){
         rowMarkup += '<td class="input-flow">';
 
         
-        if (recipe.value_emission !== NaN && recipe.value_emission !== null) {
+        if (recipe.value_emission !== NaN) {
             recipe.value_emission = Utils.reformatValue(parseFloat(recipe.value_emission));
         }
 
