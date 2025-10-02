@@ -84,7 +84,7 @@ export function getUnitOptions(dataArray, unit_ref){
     } else if (unit_ref === CONST.UNIT.TONNES) {
         unitList = [
             {ratio:1,label:"kg"},
-            {ratio:1e-3,label:"g"},
+            // {ratio:1e-3,label:"g"},
             {ratio:1,label:"tonne(s)"}, //ratio is 1 because the unit label changes too
         ];
     } else if (unit_ref === CONST.UNIT.MJ){
