@@ -515,9 +515,7 @@ jQuery(document).ready(function($){
     $('input.quantity').on('input', function() {
         controlInput_value($(this));
         let amountInput = $(this);
-        console.log("amountInput.val() == null ",amountInput.val() == null )
-        console.log("amountInput.val() == '' ",amountInput.val() == "" )
-        let amountInputValue = amountInput.val() == null ? 0 : amountInput.val();
+        let amountInputValue = amountInput.val() == '' ? 0 : amountInput.val();
         let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
                                 .find('p.co2-value');        // look inside for p.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
