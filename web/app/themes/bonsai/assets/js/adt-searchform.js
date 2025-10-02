@@ -520,8 +520,7 @@ jQuery(document).ready(function($){
                                 .find('p.co2-value');        // look inside for p.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
 
-        let quantityQuestion = amountInput.closest('div.calculation-wrapper')
-                                .find('span.quantity-value');
+
 
         let unitSelect = amountInput.closest('div.unit-select-wrapper')
                                 .find('select.unit');
@@ -539,17 +538,21 @@ jQuery(document).ready(function($){
         });
 
         console.log("amountInputValue=",amountInputValue)
-
+        
         const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
         for (let i = 0; i<recipeArray.length; i++){
             recipeArray[i].value_emission *=  amountInputValue;
             recipeArray[i].value_inflow *=  amountInputValue;
-
+            
         }
+        console.log("after recipeArray=",recipeArray)
         let main_component = amountInput.closest("div.tile-wrapper");
         display_recipe_table(main_component, recipeArray);
 
         amountInput.val(amountInputValue);//keep value in input
+        
+        let quantityQuestion = amountInput.closest('div.calculation-wrapper')
+                                .find('span.quantity-value');
         quantityQuestion.text(amountInputValue);
     });
 
