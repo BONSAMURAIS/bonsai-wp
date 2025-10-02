@@ -724,11 +724,16 @@ function display_recipe_table(main_component,recipeArray){
         }
 
         let displayed_unit = recipe.unit_inflow;
-        if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
-            displayed_unit = CONST.UNIT.TONNES;
+        if (displayed_unit){
+
+            if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
+                displayed_unit = CONST.UNIT.TONNES;
+            }else{
+                displayed_unit = Utils.getUnitContriAnalysis(displayed_unit);
+            }
         }
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow) + '</span>';
-        rowMarkup += '<span class="inflow-unit">' + Utils.getUnitContriAnalysis(displayed_unit) + '</span>';
+        rowMarkup += '<span class="inflow-unit">' + displayed_unit + '</span>';
 
         rowMarkup += '</td>';
         rowMarkup += '<td class="emissions-value">' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';
