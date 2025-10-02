@@ -543,6 +543,9 @@ jQuery(document).ready(function($){
         console.log("recipeArray=",recipeArray)
         
         recipeArray[0].value_emission *= 9999999;
+        recipeArray[0].value_emission *= 9999999;
+        console.log("recipeArray[0].value_emission=",recipeArray[0].value_emission)
+        console.log("typeof recipeArray[0].value_emission=",typeof recipeArray[0].value_emission)
         console.log("after recipeArray=",recipeArray)
         let main_component = amountInput.closest("div.tile-wrapper");
         display_recipe_table(main_component, recipeArray);
