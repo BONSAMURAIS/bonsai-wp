@@ -138,31 +138,31 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     let finalUnit = "";
     if (unitList_for_kgco2.includes(unit_ref.toLowerCase())){
         switch (unit){
-            case CONST.UNIT.TJ:
+            case CONST.UNIT.TJ.toLowerCase():
                 finalUnit = CONST.UNIT.MJ;
                 break;
-            case CONST.UNIT.ITEMS:
+            case CONST.UNIT.ITEMS.toLowerCase():
                 finalUnit = CONST.UNIT.ITEMS;
                 break;
-            case CONST.UNIT.EUR:
+            case CONST.UNIT.EUR.toLowerCase():
                 finalUnit = CONST.UNIT.EUR;
                 break;
-            case CONST.UNIT.TONNES:
+            case CONST.UNIT.TONNES.toLowerCase():
                 finalUnit = CONST.UNIT.KG;
                 break;
         }
     }else{
         switch (unit){
-            case CONST.UNIT.TJ:
+            case CONST.UNIT.TJ.toLowerCase():
                 finalUnit = CONST.UNIT.GJ;
                 break;
-            case CONST.UNIT.ITEMS:
+            case CONST.UNIT.ITEMS.toLowerCase():
                 finalUnit = CONST.UNIT.ITEMS;
                 break;
-            case CONST.UNIT.EUR:
+            case CONST.UNIT.EUR.toLowerCase():
                 finalUnit = CONST.UNIT.EUR;
                 break;
-            case CONST.UNIT.TONNES:
+            case CONST.UNIT.TONNES.toLowerCase():
                 finalUnit = CONST.UNIT.TONNES;
                 break;
         }
