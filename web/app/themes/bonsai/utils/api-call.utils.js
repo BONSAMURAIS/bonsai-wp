@@ -25,6 +25,7 @@ export async function get_product_footprint(userSelection){
             beforeSend: Utils.showLoading(),
             success: (response) => {
                 Utils.hideLoading();
+                localStorage.setItem('emission_contriAnalysis', JSON.stringify(response.data.recipe));
                 resolve(response.data);
             },
             error: (error) => {
@@ -67,6 +68,7 @@ export async function get_person_footprint(userSelection){
                 jQuery('.loading').remove();
                 autocomplete_input.prop('disabled', false);
                 console.log("person_data response = ",response)
+                localStorage.setItem('emission_contriAnalysis', JSON.stringify(response.data.recipe));
                 resolve(response.data);
                 
             },

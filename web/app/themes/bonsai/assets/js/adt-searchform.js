@@ -540,9 +540,8 @@ jQuery(document).ready(function($){
             Utils.resizeTextToFit(text);
         });
 
-        console.log("recipeArray=",recipeArray)
-        
-        console.log(" amountInput.val() =", amountInput.val() );
+        recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
+        console.log(" input recipeArray =", recipeArray );
         for (let i = 0; i<recipeArray.length; i++){
             console.log(" recipeArray[i].value_emission  =", recipeArray[i].value_emission  );
             recipeArray[i].value_emission *=  amountInput.val();
