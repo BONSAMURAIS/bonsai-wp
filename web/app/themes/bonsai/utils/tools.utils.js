@@ -117,3 +117,34 @@ export function getUnitOptions(dataArray, unit_ref){
 
     return unitList;
 }
+
+export function getResultUnitCO2(unit_ref){
+    let unit = unit_ref.toLowerCase();
+    let finalUnit = CONST.UNIT.TONNESCO2;
+    switch (unit){
+        case CONST.UNIT.KG:
+        case CONST.UNIT.MJ:
+        case CONST.UNIT.KWH:
+        case CONST.UNIT.EUR:
+            finalUnit = CONST.UNIT.KGCO2;
+        break;
+    }
+    return finalUnit;
+}
+export function getResultUnit(unit_ref){
+    let unit = unit_ref.toLowerCase();
+    let finalUnit = CONST.UNIT.TONNES;
+    switch (unit){
+        case CONST.UNIT.KG:
+        case CONST.UNIT.MJ:
+        case CONST.UNIT.KWH:
+        case CONST.UNIT.EUR:
+            finalUnit = CONST.UNIT.KG;
+        break;
+    }
+    return finalUnit;
+}
+
+export function convertUnit(unit_ref){
+    //TODO
+}

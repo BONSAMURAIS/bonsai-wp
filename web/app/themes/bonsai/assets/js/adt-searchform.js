@@ -475,6 +475,8 @@ jQuery(document).ready(function($){
 
         let main_component = amountInput.closest("div.tile-wrapper");
         main_component.find('.question-unit').first().text(unitLabel);
+        const co2Value_unit = Utils.getResultUnitCO2(unitLabel);
+        main_component.find('.co2-value-unit').first().text(isPersonTab ? CONST.UNIT.TONNESCO2 : co2Value_unit);
 
         amountInput.val(numberInput);//keep value in input
     });
@@ -655,7 +657,9 @@ async function display_result(htmlclass, data){
     //set value
     main_component.find('.co2-value').first().text(Utils.reformatValue(data["value"]));
     main_component.find('.co2-value').first().data("normal_value",Utils.reformatValue(data["value"]));
-    main_component.find('.co2-value-unit').first().text(isPersonTab ? CONST.UNIT.TONNESCO2 : CONST.UNIT.KGCO2); //use of dataArray.unit_emission?
+    const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
+    const co2Value_unit = Utils.getResultUnitCO2(selectedUnit_dropdownlist);
+    main_component.find('.co2-value-unit').first().text(isPersonTab ? CONST.UNIT.TONNESCO2 : co2Value_unit);
     let unit_options = main_component.find('select.unit'); 
     unit_options.empty();
     const unit_ref = data.unit_reference;
@@ -684,7 +688,7 @@ async function display_result(htmlclass, data){
     }
     displayed_unit = displayed_unit.endsWith("s") ? displayed_unit.slice(0, -1) : displayed_unit;
     main_component.find('.product-unit').first().text(displayed_unit);
-    main_component.find('.question-unit').first().text(main_component.find('select.unit').find('option:selected').text());
+    main_component.find('.question-unit').first().text(selectedUnit_dropdownlist);
     main_component.find('.question-unit-preposition').first().text(preposition);
 
     //recipe
