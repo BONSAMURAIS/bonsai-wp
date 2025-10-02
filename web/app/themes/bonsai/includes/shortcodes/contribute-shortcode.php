@@ -8,7 +8,7 @@ function contribute_shortcode() {
     ?>
 
     <div class="flex data-contri-search">
-        <a href="https://gitlab.com/bonsamurais/bonsai/clean/data_contribution/-/issues/new" class="button primary" style="width:250px" target="_blank">                  
+        <a href="https://gitlab.com/bonsamurais/bonsai/clean/data_contribution/-/issues/new" class="button primary data-contri-link" target="_blank">                  
             Add a new data contribution
         </a>
     </div>
