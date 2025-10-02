@@ -128,7 +128,6 @@ export function getResultUnitCO2(unit_ref){
     return finalUnit;
 }
 export function getUnitContriAnalysis(selectedUnit, unit_ref){
-    console.log("blabla unit_ref=",unit_ref)
     if (unit_ref == null){
         return ""
     }
@@ -162,6 +161,9 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
             break;
         }
     }
+    console.log("blabla unit_ref=",unit_ref)
+    console.log("blabla finalUnit=",finalUnit)
+
     return finalUnit;
 }
 
