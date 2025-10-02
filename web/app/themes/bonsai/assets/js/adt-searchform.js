@@ -715,6 +715,8 @@ function display_recipe_table(main_component,recipeArray){
 
         
         if (recipe.value_emission && recipe.value_emission !== NaN) {
+            console.log("test type recipe.value_emission=",typeof recipe.value_emission)
+            console.log("test recipe.value_emission=",recipe.value_emission)
             recipe.value_emission = Utils.reformatValue(recipe.value_emission);
         }
 
