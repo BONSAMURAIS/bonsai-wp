@@ -13,9 +13,6 @@ window.addEventListener('popstate', async function(event) {
     }
 });
 
-let recipeArray = [];
-
-
 function copyTile(){
     let original = jQuery('#product-analysis-content');
     let clone = original.clone();
@@ -540,14 +537,12 @@ jQuery(document).ready(function($){
             Utils.resizeTextToFit(text);
         });
 
-        recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
-        console.log(" input recipeArray =", recipeArray );
+        const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
         for (let i = 0; i<recipeArray.length; i++){
-            console.log(" recipeArray[i].value_emission  =", recipeArray[i].value_emission  );
             recipeArray[i].value_emission *=  amountInput.val();
+            recipeArray[i].value_inflow *=  amountInput.val();
 
         }
-        console.log("----- after recipeArray=",recipeArray)
         let main_component = amountInput.closest("div.tile-wrapper");
         display_recipe_table(main_component, recipeArray);
 
@@ -687,8 +682,7 @@ async function display_result(htmlclass, data){
     main_component.find('.question-unit').text(displayed_unit);
 
     //recipe
-    recipeArray = data.recipe;
-    display_recipe_table(main_component,recipeArray);
+    display_recipe_table(main_component,data.recipe);
     return true;
 }
 
