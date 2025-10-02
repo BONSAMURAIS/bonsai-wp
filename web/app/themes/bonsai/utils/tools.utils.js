@@ -74,48 +74,48 @@ export function getUnitOptions(dataArray, unit_ref){
 
     if (unit_ref === CONST.UNIT.DKK){
         unitList = [
-            {ratio:1e-6,label:"EUR"},
-            {ratio:1e-3,label:"kEUR"},
-            {ratio:1,label:"mEUR"},
-            {ratio:1,label:"DKK"},
-            {ratio:1e3,label:"kDKK"},
-            {ratio:1e6,label:"mDKK"}
+            {ratio:1e-6,label: CONST.UNIT.EUR},
+            {ratio:1e-3,label: CONST.UNIT.kEUR},
+            {ratio:1,label: CONST.UNIT.MEURO},
+            {ratio:1,label: CONST.UNIT.DKK},
+            {ratio:1e3,label:CONST.UNIT.kDKK},
+            {ratio:1e6,label:CONST.UNIT.mDKK}
         ];
     } else if (unit_ref === CONST.UNIT.TONNES) {
         unitList = [
-            {ratio:1,label:"kg"},
+            {ratio:1,label:CONST.UNIT.KG},
             // {ratio:1e-3,label:"g"},
-            {ratio:1,label:"tonne(s)"}, //ratio is 1 because the unit label changes too
+            {ratio:1,label:CONST.UNIT.TONNES}, //ratio is 1 because the unit label changes too
         ];
     } else if (unit_ref === CONST.UNIT.MJ){
         if (dataArray.all_data[0].flow_code.includes('_elec') || dataArray.all_data[0].flow_code.includes('_POW')){
             unitList = [
-                {ratio:1,label:"kWh"},
+                {ratio:1,label:CONST.UNIT.KWH},
             ];
         } else {
             unitList = [
-                {ratio:1,label:"kWh"},
-                {ratio:1e-3,label:"MJ"},
-                {ratio:1,label:"GJ"}, //ratio is 1 because the unit label changes too
+                {ratio:1,label:CONST.UNIT.KWH},
+                {ratio:1e-3,label:CONST.UNIT.MJ},
+                {ratio:1,label:CONST.UNIT.GJ}, //ratio is 1 because the unit label changes too
             ];
         }
     } else if (unit_ref === CONST.UNIT.ITEMS){
         unitList = [
-            {ratio:1,label:"item(s)"},
+            {ratio:1,label:CONST.UNIT.ITEMS},
         ]
-    } else if (unit_ref === 'tonnes (service)'){
+    } else if (unit_ref === CONST.UNIT.TONNES_SERVICE){
         unitList = [
-            {ratio:1,label:"tonne(s)"}, //requested by Jannick Schmidt
+            {ratio:1,label:CONST.UNIT.TONNES}, //requested by Jannick Schmidt
         ]
     } else if (unit_ref == null){ //for person footprint-type
         unitList = [
-            {ratio:1,label:"Person Year"},
+            {ratio:1,label:CONST.UNIT.PERSON_YEAR},
         ]
     } else if (unit_ref == CONST.UNIT.TJ){ //for person footprint-type
         unitList = [
-            {ratio:1,label:"kWh"},
-            {ratio:1e-3,label:"MJ"},
-            {ratio:1,label:"GJ"}, //ratio is 1 because the unit label changes too
+            {ratio:1,label:CONST.UNIT.KWH},
+            {ratio:1e-3,label:CONST.UNIT.MJ},
+            {ratio:1,label:CONST.UNIT.GJ}, //ratio is 1 because the unit label changes too
         ]
     }
 
@@ -139,7 +139,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){
         switch (unit_ref){
             case CONST.UNIT.TJ.toLowerCase():
-                finalUnit = CONST.UNIT.MJ;
+                finalUnit = {ratio:1,label:CONST.UNIT.MJ};
                 break;
             case CONST.UNIT.ITEMS.toLowerCase():
                 finalUnit = CONST.UNIT.ITEMS;

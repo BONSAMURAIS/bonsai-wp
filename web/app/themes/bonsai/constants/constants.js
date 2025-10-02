@@ -16,6 +16,8 @@ export const UNIT = {
 	KG: 'kg',
 	TONNES: 'tonnes',
 	EUR: 'EUR',
+	kEUR: 'kEUR',
+	mEUR: 'mEUR',
 	MEURO:'Meuro',
 	DKK:'DKK',
 	TJ:'TJ',
