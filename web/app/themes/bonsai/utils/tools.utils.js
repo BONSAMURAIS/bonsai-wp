@@ -85,7 +85,7 @@ export function getUnitOptions(dataArray, unit_ref){
         unitList = [
             {ratio:1,label:"kg"},
             {ratio:1e-3,label:"g"},
-            {ratio:1e3,label:"tonne(s)"},
+            {ratio:1,label:"tonne(s)"}, //ratio is 1 because the unit label changes too
         ];
     } else if (unit_ref === CONST.UNIT.MJ){
         if (dataArray.all_data[0].flow_code.includes('_elec') || dataArray.all_data[0].flow_code.includes('_POW')){
