@@ -7,13 +7,9 @@ function contribute_shortcode() {
     ob_start();
     ?>
 
-    
-    <div class="flex issues-search">
-        <input type="text" id="search" placeholder="Search issues" />
-        <input type="text" id="labels" placeholder="Labels" readonly />
-        <input type="text" id="milestones" placeholder="Milestones" readonly />
-        <a href="https://gitlab.com/bonsamurais/bonsai/clean/data_contribution/-/issues/new" class="button primary" target="_blank">                  
-            New data contribution
+    <div class="flex data-contri-search">
+        <a href="https://gitlab.com/bonsamurais/bonsai/clean/data_contribution/-/issues/new" class="button primary" style="width:250px" target="_blank">                  
+            Add a new data contribution
         </a>
     </div>
 
