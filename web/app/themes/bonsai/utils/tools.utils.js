@@ -144,7 +144,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 finalUnit = CONST.UNIT.ITEMS;
             case CONST.UNIT.EUR:
                 finalUnit = CONST.UNIT.EUR;
-            case CONST.UNIT.KG:
+            case CONST.UNIT.TONNES:
                 finalUnit = CONST.UNIT.KG;
             break;
         }
@@ -156,7 +156,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 finalUnit = CONST.UNIT.ITEMS;
             case CONST.UNIT.EUR:
                 finalUnit = CONST.UNIT.EUR;
-            case CONST.UNIT.KG:
+            case CONST.UNIT.TONNES:
                 finalUnit = CONST.UNIT.TONNES;
             break;
         }
