@@ -167,8 +167,6 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 break;
         }
     }
-    console.log("blabla unit_ref=",unit_ref)
-    console.log("blabla finalUnit=",finalUnit)
 
     return finalUnit;
 }

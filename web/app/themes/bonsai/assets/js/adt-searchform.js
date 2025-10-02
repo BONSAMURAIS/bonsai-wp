@@ -477,6 +477,8 @@ jQuery(document).ready(function($){
         main_component.find('.question-unit').first().text(unitLabel);
         const co2Value_unit = Utils.getResultUnitCO2(unitLabel);
         main_component.find('.co2-value-unit').text(co2Value_unit);
+        const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
+        display_recipe_table(main_component, recipeArray);
 
         amountInput.val(numberInput);//keep value in input
     });
