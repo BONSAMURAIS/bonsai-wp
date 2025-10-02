@@ -723,13 +723,13 @@ function display_recipe_table(main_component,recipeArray){
             recipe.value_emission = Utils.reformatValue(parseFloat(recipe.value_emission));
         }
 
+        const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
         let displayed_unit = recipe.unit_inflow;
         if (displayed_unit){
-
             if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
                 displayed_unit = CONST.UNIT.TONNES;
             }else{
-                displayed_unit = Utils.getUnitContriAnalysis(displayed_unit);
+                displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,displayed_unit);
             }
         }
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow) + '</span>';

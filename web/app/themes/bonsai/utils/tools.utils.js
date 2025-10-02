@@ -129,6 +129,9 @@ export function getResultUnitCO2(unit_ref){
 }
 export function getUnitContriAnalysis(selectedUnit, unit_ref){
     console.log("blabla unit_ref=",unit_ref)
+    if (unit_ref == null){
+        return ""
+    }
     let unit = unit_ref.toLowerCase();
     selectedUnit = selectedUnit.toLowerCase();
     const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase()];
