@@ -515,6 +515,7 @@ jQuery(document).ready(function($){
     $('input.quantity').on('input', function() {
         controlInput_value($(this));
         let amountInput = $(this);
+        let amountInputValue = amountInput.val() == null ? 0 : amountInput.val();
         let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
                                 .find('p.co2-value');        // look inside for p.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
@@ -527,10 +528,8 @@ jQuery(document).ready(function($){
         const unitRatio = unitSelect.val();
         // let unitRatio_name = unitSelect.find('option:selected').text();
         // console.log("unitRatio , unitRatio_name = ", unitRatio, unitRatio_name)
-        if (amountInput.val() == null){
-            amountInput.val() = 0;
-        }
-        let calculatedValue = co2_result_value * amountInput.val() * unitRatio;
+
+        let calculatedValue = co2_result_value * amountInputValue * unitRatio;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
 
         co2_result.text(formattedCalculatedValue);
@@ -539,19 +538,19 @@ jQuery(document).ready(function($){
             Utils.resizeTextToFit(text);
         });
 
-        console.log("amountInput.val()=",)
+        console.log("amountInputValue=",amountInputValue)
 
         const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
         for (let i = 0; i<recipeArray.length; i++){
-            recipeArray[i].value_emission *=  amountInput.val();
-            recipeArray[i].value_inflow *=  amountInput.val();
+            recipeArray[i].value_emission *=  amountInputValue;
+            recipeArray[i].value_inflow *=  amountInputValue;
 
         }
         let main_component = amountInput.closest("div.tile-wrapper");
         display_recipe_table(main_component, recipeArray);
 
-        amountInput.val(amountInput.val());//keep value in input
-        quantityQuestion.text(amountInput.val());
+        amountInput.val(amountInputValue);//keep value in input
+        quantityQuestion.text(amountInputValue);
     });
 
     //listener on click emissions-table items 
