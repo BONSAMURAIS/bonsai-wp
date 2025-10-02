@@ -715,9 +715,7 @@ function display_recipe_table(main_component,recipeArray){
         rowMarkup += '<td class="input-flow">';
 
         
-        if (recipe.value_emission && recipe.value_emission !== NaN) {
-            console.log("test type recipe.value_emission=",typeof recipe.value_emission)
-            console.log("test recipe.value_emission=",recipe.value_emission)
+        if (recipe.value_emission !== NaN && recipe.value_emission !== null) {
             recipe.value_emission = Utils.reformatValue(parseFloat(recipe.value_emission));
         }
 
