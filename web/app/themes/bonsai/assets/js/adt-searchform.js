@@ -537,6 +537,8 @@ jQuery(document).ready(function($){
             Utils.resizeTextToFit(text);
         });
 
+        console.log("amountInput.val()=",amountInput.val())
+
         const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
         for (let i = 0; i<recipeArray.length; i++){
             recipeArray[i].value_emission *=  amountInput.val();
