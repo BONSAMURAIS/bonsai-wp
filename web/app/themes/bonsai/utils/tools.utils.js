@@ -139,7 +139,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){
         switch (unit_ref){
             case CONST.UNIT.TJ.toLowerCase():
-                finalUnit = {ratio:20,label:CONST.UNIT.MJ};
+                finalUnit = {ratio:1,label:CONST.UNIT.MJ};
                 break;
             case CONST.UNIT.ITEMS.toLowerCase():
                 finalUnit =  {ratio:1,label:CONST.UNIT.ITEMS};
