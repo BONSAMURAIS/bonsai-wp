@@ -476,7 +476,7 @@ jQuery(document).ready(function($){
         let main_component = amountInput.closest("div.tile-wrapper");
         main_component.find('.question-unit').first().text(unitLabel);
         const co2Value_unit = Utils.getResultUnitCO2(unitLabel);
-        main_component.find('.co2-value-unit').first().text(isPersonTab ? CONST.UNIT.TONNESCO2 : co2Value_unit);
+        main_component.find('.co2-value-unit').first().text(co2Value_unit);
 
         amountInput.val(numberInput);//keep value in input
     });
