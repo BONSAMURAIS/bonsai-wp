@@ -34,7 +34,7 @@
     function secure_static_download_shortcode() {
         $filename = 'Template_PPF_v1.xlsx';
         $url = admin_url('admin-post.php?action=download_file');
-        return '<a href="' . esc_url($url) . '" download="'.$filename.'">Download</a>';
+        return '<a href="' . esc_url($url) . '" download="'.$filename.'">Download the Excel template:</a>';
     }
 
     add_shortcode('download-data-contribute-template-shortcode-wp', 'secure_static_download_shortcode');
