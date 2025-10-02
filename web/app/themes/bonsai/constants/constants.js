@@ -20,6 +20,7 @@ export const UNIT = {
 	DKK:'DKK',
 	TJ:'TJ',
 	MJ:'MJ',
+	GJ:'GJ',
 	KWH:'kWh',
  	ITEMS:'items',
 	HA_PER_YEAR:'ha*year',
