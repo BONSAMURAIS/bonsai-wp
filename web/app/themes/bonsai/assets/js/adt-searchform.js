@@ -728,7 +728,7 @@ function display_recipe_table(main_component,recipeArray){
             displayed_unit = CONST.UNIT.TONNES;
         }
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow) + '</span>';
-        rowMarkup += '<span class="inflow-unit">' + (displayed_unit) + '</span>';
+        rowMarkup += '<span class="inflow-unit">' + Utils.getUnitContriAnalysis(displayed_unit) + '</span>';
 
         rowMarkup += '</td>';
         rowMarkup += '<td class="emissions-value">' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';

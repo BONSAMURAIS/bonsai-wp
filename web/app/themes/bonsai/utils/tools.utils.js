@@ -127,16 +127,36 @@ export function getResultUnitCO2(unit_ref){
     let finalUnit = unitList_for_kgco2.includes(unit_ref.toLowerCase()) ? CONST.UNIT.KGCO2 : CONST.UNIT.TONNESCO2;
     return finalUnit;
 }
-export function getResultUnit(unit_ref){
+export function getUnitContriAnalysis(selectedUnit, unit_ref){
     let unit = unit_ref.toLowerCase();
-    let finalUnit = CONST.UNIT.TONNES;
-    switch (unit){
-        case CONST.UNIT.KG:
-        case CONST.UNIT.MJ:
-        case CONST.UNIT.KWH:
-        case CONST.UNIT.EUR:
-            finalUnit = CONST.UNIT.KG;
-        break;
+    selectedUnit = selectedUnit.toLowerCase();
+    const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase()];
+    
+    let finalUnit = "";
+    if (unitList_for_kgco2.includes(unit_ref.toLowerCase())){
+        switch (unit){
+            case CONST.UNIT.TJ:
+                finalUnit = CONST.UNIT.MJ;
+            case CONST.UNIT.ITEMS:
+                finalUnit = CONST.UNIT.ITEMS;
+            case CONST.UNIT.EUR:
+                finalUnit = CONST.UNIT.EUR;
+            case CONST.UNIT.KG:
+                finalUnit = CONST.UNIT.KG;
+            break;
+        }
+    }else{
+        switch (unit){
+            case CONST.UNIT.TJ:
+                finalUnit = CONST.UNIT.GJ;
+            case CONST.UNIT.ITEMS:
+                finalUnit = CONST.UNIT.ITEMS;
+            case CONST.UNIT.EUR:
+                finalUnit = CONST.UNIT.EUR;
+            case CONST.UNIT.KG:
+                finalUnit = CONST.UNIT.TONNES;
+            break;
+        }
     }
     return finalUnit;
 }
