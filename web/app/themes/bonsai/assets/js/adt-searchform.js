@@ -527,7 +527,9 @@ jQuery(document).ready(function($){
         const unitRatio = unitSelect.val();
         // let unitRatio_name = unitSelect.find('option:selected').text();
         // console.log("unitRatio , unitRatio_name = ", unitRatio, unitRatio_name)
-        
+        if (amountInput.val() == null){
+            amountInput.val() = 0;
+        }
         let calculatedValue = co2_result_value * amountInput.val() * unitRatio;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
 
@@ -537,7 +539,7 @@ jQuery(document).ready(function($){
             Utils.resizeTextToFit(text);
         });
 
-        console.log("amountInput.val()=",amountInput.val())
+        console.log("amountInput.val()=",)
 
         const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
         for (let i = 0; i<recipeArray.length; i++){
