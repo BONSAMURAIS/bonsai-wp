@@ -537,15 +537,12 @@ jQuery(document).ready(function($){
             Utils.resizeTextToFit(text);
         });
 
-        console.log("amountInputValue=",amountInputValue)
-        
         const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
         for (let i = 0; i<recipeArray.length; i++){
             recipeArray[i].value_emission *=  amountInputValue;
             recipeArray[i].value_inflow *=  amountInputValue;
             
         }
-        console.log("after recipeArray=",recipeArray)
         let main_component = amountInput.closest("div.tile-wrapper");
         display_recipe_table(main_component, recipeArray);
 
