@@ -476,7 +476,7 @@ jQuery(document).ready(function($){
         let main_component = amountInput.closest("div.tile-wrapper");
         main_component.find('.question-unit').first().text(unitLabel);
         const co2Value_unit = Utils.getResultUnitCO2(unitLabel);
-        main_component.find('.co2-value-unit').first().text(co2Value_unit);
+        main_component.find('.co2-value-unit').text(co2Value_unit);
 
         amountInput.val(numberInput);//keep value in input
     });
@@ -689,7 +689,7 @@ async function display_result(htmlclass, data){
     main_component.find('.question-unit').first().text(selectedUnit_dropdownlist);
     main_component.find('.question-unit-preposition').first().text(preposition);
     const co2Value_unit = Utils.getResultUnitCO2(selectedUnit_dropdownlist);
-    main_component.find('.co2-value-unit').first().text(isPersonTab ? CONST.UNIT.TONNESCO2 : co2Value_unit);
+    main_component.find('.co2-value-unit').text(isPersonTab ? CONST.UNIT.TONNESCO2 : co2Value_unit);
 
     //recipe
     display_recipe_table(main_component,data.recipe);
