@@ -542,7 +542,7 @@ jQuery(document).ready(function($){
 
         console.log("recipeArray=",recipeArray)
         
-        recipeArray[0].value_emission = parseFloat(-9999999);
+        recipeArray[0].value_emission *= 9999999;
         console.log("after recipeArray=",recipeArray)
         let main_component = amountInput.closest("div.tile-wrapper");
         display_recipe_table(main_component, recipeArray);
