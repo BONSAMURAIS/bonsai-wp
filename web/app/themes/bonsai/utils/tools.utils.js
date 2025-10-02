@@ -142,28 +142,28 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 finalUnit = {ratio:1,label:CONST.UNIT.MJ};
                 break;
             case CONST.UNIT.ITEMS.toLowerCase():
-                finalUnit = CONST.UNIT.ITEMS;
+                finalUnit =  {ratio:1,label:CONST.UNIT.ITEMS};
                 break;
             case CONST.UNIT.EUR.toLowerCase():
-                finalUnit = CONST.UNIT.EUR;
+                finalUnit =  {ratio:1,label:CONST.UNIT.EUR};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
-                finalUnit = CONST.UNIT.KG;
+                finalUnit =  {ratio:1,label:CONST.UNIT.KG};
                 break;
         }
     }else{
         switch (unit_ref){
             case CONST.UNIT.TJ.toLowerCase():
-                finalUnit = CONST.UNIT.GJ;
+                finalUnit =  {ratio:1,label:CONST.UNIT.GJ};
                 break;
             case CONST.UNIT.ITEMS.toLowerCase():
-                finalUnit = CONST.UNIT.ITEMS;
+                finalUnit =  {ratio:1,label:CONST.UNIT.ITEMS};
                 break;
             case CONST.UNIT.EUR.toLowerCase():
-                finalUnit = CONST.UNIT.EUR;
+                finalUnit =  {ratio:1,label:CONST.UNIT.EUR};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
-                finalUnit = CONST.UNIT.TONNES;
+                finalUnit =  {ratio:1,label:CONST.UNIT.TONNES};
                 break;
         }
     }
