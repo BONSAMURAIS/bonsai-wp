@@ -473,6 +473,9 @@ jQuery(document).ready(function($){
             Utils.resizeTextToFit(text);
         });
 
+        let main_component = amountInput.closest("div.tile-wrapper");
+        main_component.find('.question-unit').first().text(unitLabel);
+
         amountInput.val(numberInput);//keep value in input
     });
 
