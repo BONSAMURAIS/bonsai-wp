@@ -2,8 +2,8 @@
     add_shortcode('secure_download', 'secure_static_download_shortcode');
     add_action('admin_post_nopriv_download_file', 'serve_static_file');
 
-    $filename = 'Template_PPF_v1.xlsx';
     function serve_static_file() {
+        $filename = 'Template_PPF_v1.xlsx';
         $filepath = __DIR__.'/../../../uploads/'.$filename;
 
         if (!file_exists($filepath)) {
@@ -32,6 +32,7 @@
 
     // Shortcode: [download-data-contribute-template-shortcode-wp]
     function secure_static_download_shortcode() {
+        $filename = 'Template_PPF_v1.xlsx';
         $url = admin_url('admin-post.php?action=download_file');
         return '<a href="' . esc_url($url) . '" download="'.$filename.'">Download</a>';
     }
