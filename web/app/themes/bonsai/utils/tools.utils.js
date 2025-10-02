@@ -94,7 +94,9 @@ export function getUnitOptions(dataArray, unit_ref){
             ];
         } else {
             unitList = [
-                {ratio:1,label:"MJ"},
+                {ratio:1,label:"kWh"},
+                {ratio:1e-3,label:"MJ"},
+                {ratio:1,label:"GJ"}, //ratio is 1 because the unit label changes too
             ];
         }
     } else if (unit_ref === CONST.UNIT.ITEMS){
@@ -111,7 +113,9 @@ export function getUnitOptions(dataArray, unit_ref){
         ]
     } else if (unit_ref == CONST.UNIT.TJ){ //for person footprint-type
         unitList = [
-            {ratio:1,label:"TJ"},
+            {ratio:1,label:"kWh"},
+            {ratio:1e-3,label:"MJ"},
+            {ratio:1,label:"GJ"}, //ratio is 1 because the unit label changes too
         ]
     }
 
