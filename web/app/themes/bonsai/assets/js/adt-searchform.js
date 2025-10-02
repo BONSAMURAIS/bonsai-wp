@@ -726,14 +726,7 @@ function display_recipe_table(main_component,recipeArray){
         }
 
         const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
-        let displayed_unit = recipe.unit_inflow;
-        if (displayed_unit){
-            if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
-                displayed_unit = CONST.UNIT.TONNES;
-            }else{
-                displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,displayed_unit);
-            }
-        }
+        let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow);
         console.log("recipe.value_inflow=",recipe.value_inflow)
         console.log("displayed_unit['ratio']=",displayed_unit['ratio'])
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
