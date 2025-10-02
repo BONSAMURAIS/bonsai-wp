@@ -684,7 +684,7 @@ async function display_result(htmlclass, data){
     }
     displayed_unit = displayed_unit.endsWith("s") ? displayed_unit.slice(0, -1) : displayed_unit;
     main_component.find('.product-unit').first().text(displayed_unit);
-    main_component.find('.question-unit').first().text(displayed_unit);
+    main_component.find('.question-unit').first().text(main_component.find('select.unit').find('option:selected').text());
     main_component.find('.question-unit-preposition').first().text(preposition);
 
     //recipe
