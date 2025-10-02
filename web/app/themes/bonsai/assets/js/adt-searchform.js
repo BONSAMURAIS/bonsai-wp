@@ -734,7 +734,9 @@ function display_recipe_table(main_component,recipeArray){
                 displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,displayed_unit);
             }
         }
-        rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow) + '</span>';
+        console.log("recipe.value_inflow=",recipe.value_inflow)
+        console.log("displayed_unit['ratio']=",displayed_unit['ratio'])
+        rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
 
         rowMarkup += '</td>';
