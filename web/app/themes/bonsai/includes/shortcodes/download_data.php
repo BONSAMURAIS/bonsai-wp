@@ -59,8 +59,13 @@ function custom_download_form_shortcode() {
     </script>
     <style>  
         section#download-section{
-            width:70vw;
-            gap:1em;
+            width: 45vw;
+            gap: 1em;
+            display: flex;
+            flex-direction: column;
+            & > * {
+                border:1px solid black;
+            }
         }      
         button.download-btn{
             background-color: var(--fs-color-primary);
