@@ -322,7 +322,7 @@ function adt_get_product_footprint(){
     $countryCode = $_POST['footprint_location'];
     $country = $_POST['country'] ?? get_country_name_by_country_code();
     $type = $_POST['footprint_type'];
-    $type_label = $_POST['footprint_type_label'];
+    // $type_label = $_POST['footprint_type_label'];
     $year = $_POST['footprint_year'];
     $version = $_POST['database_version'];
     $metric = $_POST['metric'];
@@ -421,7 +421,7 @@ function adt_get_product_footprint(){
         'recipe' => $recipeData,
         'year' => $year,
         'footprint-type' => $type,
-        'footprint-type-label' => $type_label,
+        // 'footprint-type-label' => $type_label,
     ];
 
     $cachedFootprintArray = [

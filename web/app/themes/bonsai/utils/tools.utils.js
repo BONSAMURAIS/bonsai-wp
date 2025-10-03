@@ -8,9 +8,15 @@ export function capitalize(str) {
 }
 
 export function reformatValue(value){
-  const precise = Number.parseFloat(value).toPrecision(CONFIG.SIGNIFICANT_NB); // Keep 3 significant digits
-  const rounded = Number(precise); // Convert to number to remove scientific notation
-  return new Intl.NumberFormat(CONFIG.NUMBERFORMAT).format(rounded);
+
+    const precise = Number.parseFloat(value).toPrecision(CONFIG.SIGNIFICANT_NB); // Keep 3 significant digits
+    const rounded = Number(precise); // Convert to number to remove scientific notation
+    let result = new Intl.NumberFormat(CONFIG.NUMBERFORMAT).format(rounded);
+    if((Math.abs(value) < 1e-3 && value != 0) || Math.abs(value) > 1e9){
+        result = value.toExponential(CONFIG.SIGNIFICANT_NB-1);
+    }
+
+    return result;
 }
 
 export function displayLoading() {
@@ -68,46 +74,105 @@ export function getUnitOptions(dataArray, unit_ref){
 
     if (unit_ref === CONST.UNIT.DKK){
         unitList = [
-            {ratio:1e-6,label:"EUR"},
-            {ratio:1e-3,label:"kEUR"},
-            {ratio:1,label:"mEUR"},
-            {ratio:1,label:"DKK"},
-            {ratio:1e3,label:"kDKK"},
-            {ratio:1e6,label:"mDKK"}
+            {ratio:1e-6,label: CONST.UNIT.EUR},
+            {ratio:1e-3,label: CONST.UNIT.kEUR},
+            {ratio:1,label: CONST.UNIT.MEURO},
+            {ratio:1,label: CONST.UNIT.DKK},
+            {ratio:1e3,label:CONST.UNIT.kDKK},
+            {ratio:1e6,label:CONST.UNIT.mDKK}
         ];
     } else if (unit_ref === CONST.UNIT.TONNES) {
         unitList = [
-            {ratio:1,label:"kg"},
-            {ratio:1e-3,label:"g"},
-            {ratio:1e3,label:"tonne(s)"},
+            {ratio:1,label:CONST.UNIT.KG},
+            // {ratio:1e-3,label:"g"},
+            {ratio:1,label:CONST.UNIT.TONNES}, //ratio is 1 because the unit label changes too
         ];
     } else if (unit_ref === CONST.UNIT.MJ){
         if (dataArray.all_data[0].flow_code.includes('_elec') || dataArray.all_data[0].flow_code.includes('_POW')){
             unitList = [
-                {ratio:1,label:"kWh"},
+                {ratio:1,label:CONST.UNIT.KWH},
             ];
         } else {
             unitList = [
-                {ratio:1,label:"MJ"},
+                {ratio:1,label:CONST.UNIT.KWH},
+                {ratio:1e-3,label:CONST.UNIT.MJ},
+                {ratio:1,label:CONST.UNIT.GJ}, //ratio is 1 because the unit label changes too
             ];
         }
     } else if (unit_ref === CONST.UNIT.ITEMS){
         unitList = [
-            {ratio:1,label:"item(s)"},
+            {ratio:1,label:CONST.UNIT.ITEMS},
         ]
-    } else if (unit_ref === 'tonnes (service)'){
+    } else if (unit_ref === CONST.UNIT.TONNES_SERVICE){
         unitList = [
-            {ratio:1,label:"tonne(s)"}, //requested by Jannick Schmidt
+            {ratio:1,label:CONST.UNIT.TONNES}, //requested by Jannick Schmidt
         ]
     } else if (unit_ref == null){ //for person footprint-type
         unitList = [
-            {ratio:1,label:"Person Year"},
+            {ratio:1,label:CONST.UNIT.PERSON_YEAR},
         ]
     } else if (unit_ref == CONST.UNIT.TJ){ //for person footprint-type
         unitList = [
-            {ratio:1,label:"TJ"},
+            {ratio:1,label:CONST.UNIT.KWH},
+            {ratio:1e-3,label:CONST.UNIT.MJ},
+            {ratio:1,label:CONST.UNIT.GJ}, //ratio is 1 because the unit label changes too
         ]
     }
 
     return unitList;
+}
+
+export function getResultUnitCO2(unit_ref){
+    const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase()];
+    let finalUnit = unitList_for_kgco2.includes(unit_ref.toLowerCase()) ? CONST.UNIT.KGCO2 : CONST.UNIT.TONNESCO2;
+    return finalUnit;
+}
+export function getUnitContriAnalysis(selectedUnit, unit_ref){
+    if (unit_ref == null){
+        return ""
+    }
+    unit_ref = unit_ref.toLowerCase();
+    selectedUnit = selectedUnit.toLowerCase();
+    const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase()];
+    
+    let finalUnit = "";
+    if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){
+        switch (unit_ref){
+            case CONST.UNIT.TJ.toLowerCase():
+                finalUnit = {ratio:1,label:CONST.UNIT.MJ};
+                break;
+            case CONST.UNIT.ITEMS.toLowerCase():
+                finalUnit =  {ratio:1,label:CONST.UNIT.ITEMS};
+                break;
+            case CONST.UNIT.EUR.toLowerCase():
+                finalUnit =  {ratio:1,label:CONST.UNIT.EUR};
+                break;
+            case CONST.UNIT.TONNES.toLowerCase():
+            case CONST.UNIT.TONNES_SERVICE.toLowerCase():
+                finalUnit =  {ratio:1,label:CONST.UNIT.KG};
+                break;
+        }
+    }else{
+        switch (unit_ref){
+            case CONST.UNIT.TJ.toLowerCase():
+                finalUnit =  {ratio:1,label:CONST.UNIT.GJ};
+                break;
+            case CONST.UNIT.ITEMS.toLowerCase():
+                finalUnit =  {ratio:1,label:CONST.UNIT.ITEMS};
+                break;
+            case CONST.UNIT.EUR.toLowerCase():
+                finalUnit =  {ratio:1,label:CONST.UNIT.EUR};
+                break;
+            case CONST.UNIT.TONNES.toLowerCase():
+            case CONST.UNIT.TONNES_SERVICE.toLowerCase():
+                finalUnit =  {ratio:1,label:CONST.UNIT.TONNES};
+                break;
+        }
+    }
+
+    return finalUnit;
+}
+
+export function convertUnit(unit_ref){
+    //TODO
 }

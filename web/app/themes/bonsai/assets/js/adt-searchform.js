@@ -473,6 +473,13 @@ jQuery(document).ready(function($){
             Utils.resizeTextToFit(text);
         });
 
+        let main_component = amountInput.closest("div.tile-wrapper");
+        main_component.find('.question-unit').first().text(unitLabel);
+        const co2Value_unit = Utils.getResultUnitCO2(unitLabel);
+        main_component.find('.co2-value-unit').text(co2Value_unit);
+        const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
+        display_recipe_table(main_component, recipeArray);
+
         amountInput.val(numberInput);//keep value in input
     });
 
@@ -515,17 +522,20 @@ jQuery(document).ready(function($){
     $('input.quantity').on('input', function() {
         controlInput_value($(this));
         let amountInput = $(this);
+        let amountInputValue = amountInput.val() == '' ? 0 : amountInput.val();
         let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
                                 .find('p.co2-value');        // look inside for p.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
 
-        let unitSelect = amountInput.closest('div.unit-select-wrapper')      // go up to the div wrapping 
-                                .find('select.unit');        // look inside for p.co2-value
+
+
+        let unitSelect = amountInput.closest('div.unit-select-wrapper')
+                                .find('select.unit');
         const unitRatio = unitSelect.val();
         // let unitRatio_name = unitSelect.find('option:selected').text();
         // console.log("unitRatio , unitRatio_name = ", unitRatio, unitRatio_name)
-        
-        let calculatedValue = co2_result_value * amountInput.val() * unitRatio;
+
+        let calculatedValue = co2_result_value * amountInputValue * unitRatio;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
 
         co2_result.text(formattedCalculatedValue);
@@ -534,7 +544,20 @@ jQuery(document).ready(function($){
             Utils.resizeTextToFit(text);
         });
 
+        const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
+        for (let i = 0; i<recipeArray.length; i++){
+            recipeArray[i].value_emission *=  amountInputValue;
+            recipeArray[i].value_inflow *=  amountInputValue;
+            
+        }
+        let main_component = amountInput.closest("div.tile-wrapper");
+        display_recipe_table(main_component, recipeArray);
+
         amountInput.val(amountInput.val());//keep value in input
+        
+        let quantityQuestion = amountInput.closest('div.calculation-wrapper')
+                                .find('span.quantity-value');
+        quantityQuestion.text(amountInputValue);
     });
 
     //listener on click emissions-table items 
@@ -636,7 +659,6 @@ async function display_result(htmlclass, data){
     //set value
     main_component.find('.co2-value').first().text(Utils.reformatValue(data["value"]));
     main_component.find('.co2-value').first().data("normal_value",Utils.reformatValue(data["value"]));
-    main_component.find('.co2-value-unit').first().text(isPersonTab ? CONST.UNIT.TONNESCO2 : CONST.UNIT.KGCO2); //use of dataArray.unit_emission?
     let unit_options = main_component.find('select.unit'); 
     unit_options.empty();
     const unit_ref = data.unit_reference;
@@ -664,18 +686,26 @@ async function display_result(htmlclass, data){
         preposition = " in ";
     }
     displayed_unit = displayed_unit.endsWith("s") ? displayed_unit.slice(0, -1) : displayed_unit;
-    displayed_unit += preposition;
+    const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
     main_component.find('.product-unit').first().text(displayed_unit);
-    main_component.find('.question-unit').text(displayed_unit);
+    main_component.find('.question-unit').first().text(selectedUnit_dropdownlist);
+    main_component.find('.question-unit-preposition').first().text(preposition);
+    const co2Value_unit = Utils.getResultUnitCO2(selectedUnit_dropdownlist);
+    main_component.find('.co2-value-unit').text(isPersonTab ? CONST.UNIT.TONNESCO2 : co2Value_unit);
 
     //recipe
-    let tableMarkup = '';
-    let otherRowMarkup = '';
-    let rowMarkup = '';
-    let recipeArray = data.recipe;
+    display_recipe_table(main_component,data.recipe);
+    return true;
+}
+
+function display_recipe_table(main_component,recipeArray){
     if (recipeArray.error){
         return true;
     }
+
+    let tableMarkup = '';
+    let otherRowMarkup = '';
+    let rowMarkup = '';
 
     for (const recipe of recipeArray) {
         //preprocessing recipe data
@@ -691,16 +721,16 @@ async function display_result(htmlclass, data){
         rowMarkup += '<td class="input-flow">';
 
         
-        if (recipe.value_emission && recipe.value_emission !== NaN) {
-            recipe.value_emission = Utils.reformatValue(recipe.value_emission);
+        if ( (recipe.value_emission && recipe.value_emission !== NaN) || recipe.value_emission == 0) {
+            recipe.value_emission = Utils.reformatValue(parseFloat(recipe.value_emission));
         }
 
-        let displayed_unit = recipe.unit_inflow;
-        if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
-            displayed_unit = CONST.UNIT.TONNES;
-        }
-        rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow) + '</span>';
-        rowMarkup += '<span class="inflow-unit">' + (displayed_unit) + '</span>';
+        const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
+        let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow);
+        // console.log("recipe.value_inflow=",recipe.value_inflow)
+        // console.log("displayed_unit['ratio']=",displayed_unit['ratio'])
+        rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
+        rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
 
         rowMarkup += '</td>';
         rowMarkup += '<td class="emissions-value">' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';
@@ -747,8 +777,6 @@ async function display_result(htmlclass, data){
 
         table.find('tbody').append(rows);
     });
-
-    return true;
 }
 
 
