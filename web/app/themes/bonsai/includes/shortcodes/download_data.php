@@ -1,4 +1,7 @@
 <?php
+
+add_shortcode('download_form', 'custom_download_form_shortcode');
+
 function custom_download_form_shortcode() {
     ob_start();
     ?>
@@ -21,8 +24,8 @@ function custom_download_form_shortcode() {
           <input id="email" name="email" type="email" required style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; box-sizing:border-box;" />
         </div>
 
-        <button type="button" class="download-btn" data-action="download_f_csv" style="border-radius:99px; padding:10px 20px; margin-right:10px;">Download F CSV</button>
-        <button type="button" class="download-btn" data-action="download_c_csv" style="border-radius:99px; padding:10px 20px;">Download C CSV</button>
+        <button type="button" class="download-btn" data-action="download_footprint_csv" style="border-radius:99px; padding:10px 20px; margin-right:10px;">Download F CSV</button>
+        <button type="button" class="download-btn" data-action="download_contribution_csv" style="border-radius:99px; padding:10px 20px;">Download C CSV</button>
       </form>
     </div>
 
@@ -44,5 +47,5 @@ function custom_download_form_shortcode() {
     <?php
     return ob_get_clean();
 }
-add_shortcode('download_form', 'custom_download_form_shortcode');
+
 ?>
