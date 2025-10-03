@@ -24,7 +24,14 @@ function custom_download_form_shortcode() {
           <input id="email" name="email" type="email" required style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; box-sizing:border-box;" />
         </div>
 
+        <p>
+            <b>Footprint table</b><br/><i>Find the footprint for more than 1,000 products in over 40 countries based on CPA classification.</i>
+        </p>
         <button type="button" class="download-btn" data-action="download_footprint_csv" style="border-radius:99px; padding:10px 20px; margin-right:10px;">Download F CSV</button>
+
+        <p>
+            <b>Contribution table</b><br/><i>Find the tier 1 contributions of all the product footprints</i>.
+        </p>
         <button type="button" class="download-btn" data-action="download_contribution_csv" style="border-radius:99px; padding:10px 20px;">Download C CSV</button>
       </form>
     </div>
