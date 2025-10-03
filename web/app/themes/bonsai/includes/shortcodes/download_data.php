@@ -57,6 +57,13 @@ function custom_download_form_shortcode() {
       });
     });
     </script>
+    <style>        
+        button.download-btn{
+            background-color: var(--fs-color-primary);
+        }
+    </style>
+
+
     <?php
     return ob_get_clean();
 }
