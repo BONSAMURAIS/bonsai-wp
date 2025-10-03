@@ -97,13 +97,15 @@ function adt_download_footprint_csv(): void {
     $firstname = isset($_POST['firstname']) ? sanitize_text_field($_POST['firstname']) : '';
     $lastname  = isset($_POST['lastname']) ? sanitize_text_field($_POST['lastname']) : '';
     $email     = isset($_POST['email']) ? sanitize_email($_POST['email']) : '';
+    error_log("dl footprint firstname");
+    error_log($firstname);
+    error_log($lastname);
+    error_log($email);
 
     if (empty($firstname) || empty($lastname) || !is_email($email)) {
         wp_die('Invalid input');
     }
 
-    error_log("dl footprint firstname");
-    error_log($firstname);
 
 
     header('Content-Type: text/csv; charset=utf-8');
