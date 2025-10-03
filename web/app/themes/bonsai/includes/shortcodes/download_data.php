@@ -64,7 +64,9 @@ function custom_download_form_shortcode() {
             display: flex;
             flex-direction: column;
             & > * {
-                border:1px solid black;
+                border: 1px solid #ccc;
+                border-radius: 15px;
+                padding: 2em 4em;
             }
         }      
         button.download-btn{
