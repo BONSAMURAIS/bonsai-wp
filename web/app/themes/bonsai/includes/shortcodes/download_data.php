@@ -24,7 +24,7 @@ function custom_download_form_shortcode() {
             <input id="email" name="email" type="email" required style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; box-sizing:border-box;" />
         </div>
         
-        <div style="width:70vw">
+        <section id="download-section">
             <div>
                 <p>
                     <b>Footprint table</b><br/><i>Find the footprint for more than 1,000 products in over 40 countries based on CPA classification.</i>
@@ -38,7 +38,7 @@ function custom_download_form_shortcode() {
                 </p>
                 <button type="button" class="download-btn" data-action="download_contribution_csv" style="border-radius:99px; padding:10px 20px;">Download contribution table</button>
             </div>
-        </div>
+        </section>
       </form>
     </div>
 
@@ -57,7 +57,11 @@ function custom_download_form_shortcode() {
       });
     });
     </script>
-    <style>        
+    <style>  
+        section#download-section{
+            width:70vw;
+            gap:1em;
+        }      
         button.download-btn{
             background-color: var(--fs-color-primary);
         }
