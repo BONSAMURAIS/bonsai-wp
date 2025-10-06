@@ -42,21 +42,12 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                     </div>
                 </div>
-                <div>
-                    <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
-                    <div id="footprint-type" class="select">
-                        <div class="radio-choice">
-                            <input type="radio" id="production" name="footprint_type_extend" value="product" checked/>
-                            <label for="production">Cradle to gate</label>
-                        </div>
-                        <div class="radio-choice">
-                            <input type="radio" id="market" name="footprint_type_extend" value="market" />
-                            <label for="market">Cradle to consumer</label>
-                        </div>
-                        <div class="radio-choice" style="display: none;">
-                            <input type="radio" id="grave" name="footprint_type_extend" value="grave" />
-                            <label for="grave">Cradle to grave</label>
-                        </div>
+                <div class="switch-field-container-contri-analysis col medium-6 small-12 large-6">
+                    <div class="switch-field-container switch-field">
+                        <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
+                        <label for="basic-choice">Basic</label>
+                        <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
+                        <label for="advanced-choice">Advanced</label>
                     </div>
                 </div>
             </div>
@@ -141,25 +132,6 @@ add_shortcode( 'adt_searchform', function($atts) {
         <section id="co2-form-result">            
             <div class="divider">
             </div>
-            <section id="co2-form-result-header" class="col medium-12 small-12 large-12">
-                <div class="row">
-                    <div class="col medium-6 small-12 large-6">
-                        <h3>Climate Footprint</h3>
-                    </div>
-                    <div class="switch-field-container-contri-analysis col medium-6 small-12 large-6">
-                        <div class="switch-field-container switch-field">
-                            <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
-                            <label for="basic-choice">Basic</label>
-                            <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
-                            <label for="advanced-choice">Advanced</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="select-wrapper col medium-12 small-12 large-12">
-                    </div>
-                </div>        
-            </section>
             <section id="analysis-wrapper">
                 <div id="product-analysis" class="search-result">
                     <div id="product-analysis-content" class="tile-wrapper col medium-12 small-12 large-12">
