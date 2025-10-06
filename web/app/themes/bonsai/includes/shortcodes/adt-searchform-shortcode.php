@@ -157,29 +157,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
                 <div class="row">
                     <div class="select-wrapper col medium-12 small-12 large-12">
-                        <div class="medium-6 small-12 large-3">
-                            <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
-                            <label class="select" for="location">
-                                <select id="location">
-                                    <?php foreach($locationsArray as $location): ?>
-                                        <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <?= do_shortcode('[arrow_icon]')?>
-                            </label>
-                        </div>
-                        <div class="medium-6 small-12 large-3">
-                            <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
-                            <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
-                        </div>
-                        <div class="medium-6 small-12 large-3">
-                            <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
-                            <?= do_shortcode('[dropdown_list id="climatemetric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
-                        </div>
-                        <div class="medium-6 small-12 large-3">
-                            <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
-                            <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
-                        </div>
                     </div>
                 </div>        
             </section>
@@ -194,6 +171,32 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <div class="calculation-wrapper">
                                 <div class="choices">
                                     <p class="product-title"></p>
+                                    <div class="product-parameters">
+                                        <div class="medium-6 small-12 large-3">
+                                            <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
+                                            <label class="select" for="location">
+                                                <select id="location">
+                                                    <?php foreach($locationsArray as $location): ?>
+                                                        <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <?= do_shortcode('[arrow_icon]')?>
+                                            </label>
+                                        </div>
+                                        <div class="medium-6 small-12 large-3">
+                                            <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
+                                            <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
+                                        </div>
+                                        <div class="medium-6 small-12 large-3">
+                                            <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
+                                            <?= do_shortcode('[dropdown_list id="climatemetric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
+                                        </div>
+                                        <div class="medium-6 small-12 large-3">
+                                            <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
+                                            <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
+                                        </div>
+                                    </div>
+
                                     <div class="product-tag-wrapper">
                                         <span class="footprint-type"></span>
                                         <span class="climate-metric"></span>
