@@ -244,13 +244,19 @@ div.tooltip-wrapper {
 label.select {
     position: relative;
     margin-bottom: 0;
-    width: clamp(3em, 50%, 10em);
 
     svg {
         position: absolute;
         right: 20px;
         top: calc(50% - 8px);
         pointer-events: none;
+    }
+}
+
+div.product-parameters {
+    display: flex;
+    & > label.select{
+        width: clamp(3em, 50%, 10em);
     }
 }
 
