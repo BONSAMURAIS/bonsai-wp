@@ -195,6 +195,10 @@ add_shortcode( 'adt_searchform', function($atts) {
                                             <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
                                             <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
                                         </div>
+                                        <div class="medium-6 small-12 large-3">
+                                            <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
+                                            <?= do_shortcode('[dropdown_list id="footprint-type" filepath="'.__DIR__.'/../../dropdown_options/footprint_extend.json"]')?>
+                                        </div>
                                     </div>
 
                                     <div class="product-tag-wrapper">
