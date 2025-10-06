@@ -4,7 +4,8 @@
 
     function serve_static_file() {
         $filename = 'Template_PPF_v1.xlsx';
-        $filepath = __DIR__.'/../../../uploads/'.$filename;
+        $filepath = __DIR__.'/../../../../uploads/'.$filename;
+        error_log($filepath);
 
         if (!file_exists($filepath)) {
             wp_die('File not found.');
@@ -16,6 +17,8 @@
         if (!in_array($mime, $allowed_mimes)) {
             wp_die('File type not allowed.');
         }
+
+        error_log("start downloading");
 
         header('Content-Description: File Transfer');
         header('Content-Type: ' . $mime);
