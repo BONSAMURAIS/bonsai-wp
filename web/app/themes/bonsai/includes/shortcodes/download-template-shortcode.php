@@ -5,6 +5,7 @@
     function serve_static_file() {
         $filename = 'Template_PPF_v1.xlsx';
         $filepath = __DIR__.'/../../../uploads/'.$filename;
+        error_log($filepath);
 
         if (!file_exists($filepath)) {
             wp_die('File not found.');
