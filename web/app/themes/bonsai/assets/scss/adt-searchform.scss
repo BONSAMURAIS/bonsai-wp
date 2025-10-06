@@ -257,6 +257,12 @@ div.product-parameters {
     display: flex;
     & > label.select{
         width: clamp(3em, 50%, 10em);
+        border-style: solid;
+        border-width:thin;
+        font-size: 12px;
+        border: 1px solid black;
+        padding: 5px;
+        border-radius: 50px;
     }
 }
 
