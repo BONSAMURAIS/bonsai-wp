@@ -173,13 +173,13 @@ add_shortcode( 'adt_searchform', function($atts) {
                                         </div>
                                     </div>
 
-                                    <div class="product-tag-wrapper">
+                                    <!-- <div class="product-tag-wrapper">
                                         <span class="footprint-type"></span>
                                         <span class="climate-metric"></span>
                                         <span class="year"></span>
                                         <span class="country"></span>
                                         <span class="version"></span>
-                                    </div>
+                                    </div> -->
                                     <div class="unit-select-wrapper">
                                         <input type="text" class="quantity" id="quantity" value="1"/>
                                         <label class="select" for="unit">
