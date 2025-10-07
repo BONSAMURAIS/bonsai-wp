@@ -259,7 +259,7 @@ div.tooltip-wrapper {
     position: relative;
 }
 
-label.select > select:not(.unit) {
+label.select > select {
     position: relative;
     line-height: normal;
     -webkit-appearance: none;
@@ -268,7 +268,7 @@ label.select > select:not(.unit) {
     min-width: 9em;
     cursor: pointer;
     font-family: inherit;
-    font-size: 18px;
+    font-size: 9px;
     font-weight: 400;
     transition: all 150ms ease;
     padding: 0px 20px;
@@ -276,6 +276,10 @@ label.select > select:not(.unit) {
     border: 1px solid black;
     color: black;
     margin: 0 10px 0 0;
+    
+    &:not(.unit){
+        font-size: 18px;
+    }
 
     &:required:invalid {
         color: #5A667F;
