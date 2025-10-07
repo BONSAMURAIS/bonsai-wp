@@ -148,9 +148,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                                                 <select id="location">
                                                     <?php foreach($locationsArray as $location): ?>
                                                         <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </label>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </label>
                                         </div>
                                         <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
                                         <?= do_shortcode('[dropdown_list id="climatemetric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
