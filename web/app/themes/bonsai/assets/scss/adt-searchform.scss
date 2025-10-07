@@ -280,7 +280,7 @@ label.select > select {
         min-width: 9em;
     }
 
-    &[class^="year"]{
+    &[class^="year"],&[class^="database-version"]{
         min-width: 5em;
     }
 
