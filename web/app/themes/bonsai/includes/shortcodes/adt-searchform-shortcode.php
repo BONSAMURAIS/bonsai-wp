@@ -144,8 +144,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     <div class="product-parameters">
                                         <div class="arrow-wrapper">
                                             <label class="select" for="location">
+                                                <?= do_shortcode('[arrow_icon]')?>
                                                 <select id="location">
-                                                    <?= do_shortcode('[arrow_icon]')?>
                                                     <?php foreach($locationsArray as $location): ?>
                                                         <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
                                                         <?php endforeach; ?>
