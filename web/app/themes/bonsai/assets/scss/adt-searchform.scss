@@ -259,9 +259,8 @@ div.tooltip-wrapper {
     position: relative;
 }
 
-label.select {
+label.select > select {
     position: relative;
-    margin-bottom: 0;
     line-height: normal;
     -webkit-appearance: none;
     background: white;
