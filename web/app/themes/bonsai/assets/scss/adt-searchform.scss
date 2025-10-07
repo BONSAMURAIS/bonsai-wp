@@ -707,16 +707,6 @@ span.adt-close {
 }
 
 div.calculation-wrapper {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 55px;
-
-    @media only screen and (max-width: 468px) {
-        flex-direction: column;
-    }
-}
-
-div.choices {
     flex: 1 1 50%;
 
     display:grid;

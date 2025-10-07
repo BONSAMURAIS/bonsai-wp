@@ -139,64 +139,62 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 </span>
                             </div>
                             <div class="calculation-wrapper">
-                                <div class="choices">
-                                    <div class="product-info">
-                                        <p class="product-title"></p>
-                                        <div class="product-tag-wrapper">
-                                            <span class="tag footprint-type"></span>
-                                            <span class="tag climate-metric"></span>
-                                            <span class="tag year"></span>
-                                            <span class="tag country"></span>
-                                            <span class="tag version"></span>
-                                        </div>
+                                <div class="product-info">
+                                    <p class="product-title"></p>
+                                    <div class="product-tag-wrapper">
+                                        <span class="tag footprint-type"></span>
+                                        <span class="tag climate-metric"></span>
+                                        <span class="tag year"></span>
+                                        <span class="tag country"></span>
+                                        <span class="tag version"></span>
                                     </div>
-                                    <div class="product-result">
-                                        <div class="unit-select-wrapper">
-                                            <input type="text" class="quantity" id="quantity" value="1"/>
-                                            <label class="select" for="unit">
-                                                <select id="unit" class="unit">
-                                                </select>
-                                                <svg class="unit-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                                                </svg>
-                                            </label>
-                                        </div>
-                                        <p>produces</p>
-                                        <p>
-                                            <span class="co2-value"></span>
-                                            <span class="co2-value-unit"></span>
-                                        </p>
-                                        </div>
+                                </div>
+                                <div class="product-result">
+                                    <div class="unit-select-wrapper">
+                                        <input type="text" class="quantity" id="quantity" value="1"/>
+                                        <label class="select" for="unit">
+                                            <select id="unit" class="unit">
+                                            </select>
+                                            <svg class="unit-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                                            </svg>
+                                        </label>
                                     </div>
+                                    <p>produces</p>
+                                    <p>
+                                        <span class="co2-value"></span>
+                                        <span class="co2-value-unit"></span>
+                                    </p>
+                                    </div>
+                                </div>
 
-                                    <div class="product-parameters">
-                                        <div>
-                                            <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
-                                            <label class="select" for="location">
-                                                <select id="location">
-                                                    <?php foreach($locationsArray as $location): ?>
-                                                        <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                    <?= do_shortcode('[arrow_icon]')?>
-                                                </label>
-                                        </div>
-                                        <div>
-                                            <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
-                                            <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
-                                        </div>
-                                        <div>
-                                            <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
-                                            <?= do_shortcode('[dropdown_list id="climatemetric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
-                                        </div>
-                                        <div>
-                                            <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
-                                            <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
-                                        </div>
-                                        <div>
-                                            <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
-                                            <?= do_shortcode('[dropdown_list id="footprint-type" filepath="'.__DIR__.'/../../dropdown_options/footprint_extend.json"]')?>
-                                        </div>
+                                <div class="product-parameters">
+                                    <div>
+                                        <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
+                                        <label class="select" for="location">
+                                            <select id="location">
+                                                <?php foreach($locationsArray as $location): ?>
+                                                    <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <?= do_shortcode('[arrow_icon]')?>
+                                            </label>
+                                    </div>
+                                    <div>
+                                        <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
+                                        <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
+                                    </div>
+                                    <div>
+                                        <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
+                                        <?= do_shortcode('[dropdown_list id="climatemetric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
+                                    </div>
+                                    <div>
+                                        <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
+                                        <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
+                                    </div>
+                                    <div>
+                                        <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
+                                        <?= do_shortcode('[dropdown_list id="footprint-type" filepath="'.__DIR__.'/../../dropdown_options/footprint_extend.json"]')?>
                                     </div>
                                 </div>
                                 <div class="contribution-analysis" style="display: none;">

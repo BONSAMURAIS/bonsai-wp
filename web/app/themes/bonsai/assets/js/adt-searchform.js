@@ -461,8 +461,8 @@ jQuery(document).ready(function($){
         let amountInput = unitSelect.closest('.unit-select-wrapper')      // go up to the label wrapping <select>
                                     .find('input.quantity');        // look inside for input.amount
         let numberInput = amountInput.val();
-        let co2_result = unitSelect.closest('div.choices')      // go up to the div wrapping 
-                                    .find('p.co2-value');        // look inside for p.co2-value
+        let co2_result = unitSelect.closest('div.calculation-wrapper')      // go up to the div wrapping 
+                                    .find('span.co2-value');        // look inside for span.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
         let calculatedValue = co2_result_value * numberInput * unitRatio;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
@@ -523,8 +523,8 @@ jQuery(document).ready(function($){
         controlInput_value($(this));
         let amountInput = $(this);
         let amountInputValue = amountInput.val() == '' ? 0 : amountInput.val();
-        let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
-                                .find('p.co2-value');        // look inside for p.co2-value
+        let co2_result = amountInput.closest('div.calculation-wrapper')      // go up to the div wrapping 
+                                .find('span.co2-value');        // look inside for span.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
 
 
