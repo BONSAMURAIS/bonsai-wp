@@ -259,7 +259,7 @@ div.tooltip-wrapper {
     position: relative;
 }
 
-label.select > select {
+label.select > select:not(.unit) {
     position: relative;
     line-height: normal;
     -webkit-appearance: none;
