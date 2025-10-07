@@ -144,11 +144,11 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     <div class="product-parameters">
                                         <label class="select" for="location">
                                             <select id="location">
+                                                <?= do_shortcode('[arrow_icon]')?>
                                                 <?php foreach($locationsArray as $location): ?>
                                                     <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
                                                     <?php endforeach; ?>
                                                 </select>
-                                                <?= do_shortcode('[arrow_icon]')?>
                                             </label>
                                         <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
                                         <?= do_shortcode('[dropdown_list id="climatemetric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
