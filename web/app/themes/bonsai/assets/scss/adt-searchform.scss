@@ -21,10 +21,9 @@ div#initial-error-message {
 **/
 
 //divider
-div.divider {
+hr {
     margin:30px auto;
     width:75%;
-    height:1px;
     background-color: #E8EDED;
 }
 
@@ -1002,11 +1001,5 @@ div.product-parameters {
             left: 0;
             width: 100%;
         }
-    }
-}
-
-.single-shared_searches {
-    #divider, #co2-form-result{
-        display: block;
     }
 }
