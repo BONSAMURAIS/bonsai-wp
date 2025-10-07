@@ -491,6 +491,7 @@ div.tile {
         color: $secondary;
         font-weight: 600;
         margin-top: 15px;
+        text-align: end;
 
         &-unit {
             font-size: 20px;
@@ -515,16 +516,8 @@ div.co2-value-wrapper{
     }
 }
 
-p.co2-value {
-    width: fit-content;
+span.co2-value {
     font-size: 60px;
-    line-height: 70px;
-    color: $secondary;
-    font-weight: 600;
-}
-p.co2-value-unit {
-    font-size: 20px;
-    align-self: end;
 }
 
 //top right corner elements
