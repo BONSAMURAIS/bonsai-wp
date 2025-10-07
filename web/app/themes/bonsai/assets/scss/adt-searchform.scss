@@ -280,26 +280,27 @@ label.select > select {
         min-width: 9em;
     }
 
+    &:[class^="year"]{
+        min-width: 5em;
+    }
+
     &:required:invalid {
         color: #5A667F;
-    }
-    
-    option {
-        color: #223254;
-
-        &[value=""][disabled] {
-            display: none;
-        }
     }
     
     &:focus {
         outline: none;
         box-shadow: none;
-    }
-
-
+    }    
 }
 
+option {
+    color: #223254;
+
+    &[value=""][disabled] {
+        display: none;
+    }
+}
 div.arrow-wrapper{
     position: relative;
 }
