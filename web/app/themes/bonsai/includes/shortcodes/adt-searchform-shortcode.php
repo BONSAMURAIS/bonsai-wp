@@ -141,7 +141,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <div class="calculation-wrapper">
                                 <div class="product-info">
                                     <h2 class="product-title"></h2>
-                                    <p class="product-parameters">
+                                    <div class="product-parameters">
                                         <div>
                                             <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
                                             <label class="select" for="location">
@@ -169,7 +169,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                             <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
                                             <?= do_shortcode('[dropdown_list id="footprint-type" filepath="'.__DIR__.'/../../dropdown_options/footprint_extend.json"]')?>
                                         </div>
-                                    </p>
+                                    </div>
                                     <p class="tooltip-text">What do those boxes mean?</p>
                                 </div>
                                 <div class="product-result">
