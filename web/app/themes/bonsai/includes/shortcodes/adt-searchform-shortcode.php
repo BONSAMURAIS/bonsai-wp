@@ -142,7 +142,36 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </div>
                             <div class="calculation-wrapper">
                                 <div class="choices">
-                                    <p class="product-title"></p>
+                                    <div class="product-info">
+                                        <p class="product-title"></p>
+                                        <div class="product-tag-wrapper">
+                                            <span class="footprint-type"></span>
+                                            <span class="climate-metric"></span>
+                                            <span class="year"></span>
+                                            <span class="country"></span>
+                                            <span class="version"></span>
+                                        </div>
+                                    </div>
+                                    <div class="product-result">
+                                        <div class="unit-select-wrapper">
+                                            <input type="text" class="quantity" id="quantity" value="1"/>
+                                            <label class="select" for="unit">
+                                                <select id="unit" class="unit">
+                                                </select>
+                                                <svg class="unit-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
+                                                </svg>
+                                            </label>
+                                        </div>
+                                        <br/>
+                                        <p>produces</p>
+                                        <div class="co2-value-wrapper">
+                                            <p class="co2-value"></p>
+                                            <p class="co2-value-unit"></p>
+                                        </div>
+                                        </div>
+                                    </div>
+
                                     <div class="product-parameters">
                                         <div>
                                             <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
@@ -171,30 +200,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                                             <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
                                             <?= do_shortcode('[dropdown_list id="footprint-type" filepath="'.__DIR__.'/../../dropdown_options/footprint_extend.json"]')?>
                                         </div>
-                                    </div>
-
-                                    <!-- <div class="product-tag-wrapper">
-                                        <span class="footprint-type"></span>
-                                        <span class="climate-metric"></span>
-                                        <span class="year"></span>
-                                        <span class="country"></span>
-                                        <span class="version"></span>
-                                    </div> -->
-                                    <div class="unit-select-wrapper">
-                                        <input type="text" class="quantity" id="quantity" value="1"/>
-                                        <label class="select" for="unit">
-                                            <select id="unit" class="unit">
-                                            </select>
-                                            <svg class="unit-arrow" width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M1.66174 5.67766L2.66705 4.67236L8.49982 10.5051L14.3326 4.67236L15.3379 5.67767L8.49982 12.5157L1.66174 5.67766Z" fill="#031819"/>
-                                            </svg>
-                                        </label>
-                                    </div>
-                                    <br/>
-                                    <p>produces</p>
-                                    <div class="co2-value-wrapper">
-                                        <p class="co2-value"></p>
-                                        <p class="co2-value-unit"></p>
                                     </div>
                                 </div>
                                 <div class="contribution-analysis" style="display: none;">
