@@ -22,10 +22,10 @@
         }
 
         return '<label class="select" for="'.$a['id'].'">
+                '.do_shortcode('[arrow_icon]').'
                     <select id="'.$a['id'].'">
                     '.$options.'
                     </select>
-                    '.do_shortcode('[arrow_icon]').'
                 </label>';
     }
     add_shortcode('dropdown_list', 'generate_dropdown_list');
