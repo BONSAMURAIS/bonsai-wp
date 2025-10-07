@@ -28,7 +28,7 @@
                     '.$options.'
                     </select>
                 </label>
-                <div>';
+                </div>';
     }
     add_shortcode('dropdown_list', 'generate_dropdown_list');
 ?>
