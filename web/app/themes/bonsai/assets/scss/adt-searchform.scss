@@ -483,22 +483,6 @@ div.tile {
         gap: 5px;
         flex-wrap: wrap;
         width: 85%;
-
-        > * {
-            border-style: solid;
-            border-width:thin;
-            font-size: 12px;
-            border: 1px solid black;
-            padding: 5px;
-            border-radius: 50px;
-        }
-    }
-
-    &-tag {
-        font-size: 12px;
-        border: 1px solid black;
-        padding: 5px;
-        border-radius: 50px;
     }
 
     &-result {
@@ -512,6 +496,15 @@ div.tile {
             font-size: 20px;
         }
     }
+}
+
+span.tag  {
+    border-style: solid;
+    border-width:thin;
+    font-size: 12px;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 50px;
 }
 
 div.co2-value-wrapper{
