@@ -270,11 +270,10 @@ label.select > select {
     font-family: inherit;
     font-weight: 400;
     transition: all 150ms ease;
-    padding: 0px 20px;
+    padding: 0px 10px;
     border-radius: 50px;
     border: 1px solid black;
     color: black;
-    margin: 0 10px 0 0;
     
     &:not(.unit){
         font-size: 14px;
@@ -313,12 +312,13 @@ svg.select-arrow {
 }
 
 input[type=text].quantity{
-    width: 6.5em;
+    width: 5.5em;
+    font-size: 0.5em;
+    padding: unset;
     border: none;
     border-bottom: 1px solid black;
     background: transparent;
     outline: none;
-    font-size: 0.5em;
 }
 
 .select-wrapper {
