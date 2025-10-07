@@ -117,7 +117,6 @@ add_shortcode( 'adt_searchform', function($atts) {
         
         <section id="uncertainty-wrapper" style="display: none;">
             <hr />
-            </div>
             <p>How sure are we on the ranking of the two compared products on a scale from 0-100%?</p>
             <div id="uncertainty-bar">
                 <div id="uncertainty-bar-background">
