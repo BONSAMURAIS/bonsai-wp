@@ -162,12 +162,10 @@ add_shortcode( 'adt_searchform', function($atts) {
                                             </label>
                                         </div>
                                         <p>produces</p>
-                                        <div class="co2-value-wrapper">
-                                            <p>
-                                                <span class="co2-value"></span>
-                                                <span class="co2-value-unit"></span>
-                                            </p>
-                                        </div>
+                                        <p>
+                                            <span class="co2-value"></span>
+                                            <span class="co2-value-unit"></span>
+                                        </p>
                                         </div>
                                     </div>
 

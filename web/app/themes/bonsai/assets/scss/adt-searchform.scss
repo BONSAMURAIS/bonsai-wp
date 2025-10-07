@@ -508,14 +508,6 @@ span.tag  {
     border-radius: 50px;
 }
 
-div.co2-value-wrapper{
-    display: flex;
-    gap: 1em;
-    & > *{
-        margin-bottom:unset;
-    }
-}
-
 span.co2-value {
     font-size: 60px;
 }
