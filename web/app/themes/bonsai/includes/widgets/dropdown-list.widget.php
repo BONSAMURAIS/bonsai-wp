@@ -21,12 +21,14 @@
             $options .= '<option value="' . $id . '">' . $label . '</option>';
         }
 
-        return '<label class="select" for="'.$a['id'].'">
+        return '<div>
+                <label class="select" for="'.$a['id'].'">
                 '.do_shortcode('[arrow_icon]').'
                     <select id="'.$a['id'].'">
                     '.$options.'
                     </select>
-                </label>';
+                </label>
+                <div>';
     }
     add_shortcode('dropdown_list', 'generate_dropdown_list');
 ?>
