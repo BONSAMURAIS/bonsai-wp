@@ -307,11 +307,12 @@ select, input[type=number]{
 }
 
 input[type=text].quantity{
-    width: 2em;
+    width: 6.5em;
     border: none;
     border-bottom: 1px solid black;
     background: transparent;
     outline: none;
+    font-size: 0.5em;
 }
 
 input[type=number] {
@@ -571,6 +572,10 @@ span.adt-close {
     }
 }
 
+select.unit{
+    line-height: normal;
+}
+
 //btm right corner elements
 .result-buttons {
     display: flex;
@@ -756,7 +761,6 @@ div.product-parameters {
         border-radius: 50px;
     }
 }
-
 
 .emissions-table {
     font-size: 12px;
