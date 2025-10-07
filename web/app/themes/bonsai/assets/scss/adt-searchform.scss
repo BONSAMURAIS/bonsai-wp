@@ -17,6 +17,25 @@ div#initial-error-message {
 }
 
 /**
+* General: to remove some flatsome default css 
+**/
+input{
+    margin-bottom: unset;
+}
+input[type=text]{
+    border: unset;
+    box-shadow: unset;
+    font-size: unset;
+    height: unset;
+}
+
+p {
+    font-size: 20px;
+    margin-block-start: unset;
+    margin-block-end: unset;
+}
+
+/**
 * Widget
 **/
 
