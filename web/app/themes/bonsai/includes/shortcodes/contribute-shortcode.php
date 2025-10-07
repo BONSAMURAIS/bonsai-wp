@@ -9,7 +9,7 @@ function contribute_shortcode()
     ?>
 
     <div class="flex data-contri-search">
-        <a href="https://gitlab.com/bonsamurais/bonsai/clean/data_contribution/-/issues/new"
+        <a href="https://gitlab.com/bonsamurais/bonsai/clean/data_contribution/-/issues/new?related_item_id=undefined&type=ISSUE&description_template=Contribute"
             class="button primary data-contri-link" target="_blank">
             Upload
         </a>
