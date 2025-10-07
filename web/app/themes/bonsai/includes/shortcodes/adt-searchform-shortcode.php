@@ -140,14 +140,15 @@ add_shortcode( 'adt_searchform', function($atts) {
                             </div>
                             <div class="calculation-wrapper">
                                 <div class="product-info">
-                                    <p class="product-title"></p>
-                                    <div class="product-tag-wrapper">
+                                    <h2 class="product-title"></h2>
+                                    <p class="product-tag-wrapper">
                                         <span class="tag footprint-type"></span>
                                         <span class="tag climate-metric"></span>
                                         <span class="tag year"></span>
                                         <span class="tag country"></span>
                                         <span class="tag version"></span>
-                                    </div>
+                                    </p>
+                                    <p class="tooltip-text">What do those boxes mean?</p>
                                 </div>
                                 <div class="product-result">
                                     <div class="unit-select-wrapper">
