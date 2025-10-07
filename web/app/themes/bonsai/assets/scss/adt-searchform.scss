@@ -289,6 +289,10 @@ select, input[type=number], input[type=text].quantity {
 
 input[type=text].quantity{
     width: 10em;
+    border: none;
+    border-bottom: 1px solid black;
+    background: transparent;
+    outline: none;
 }
 
 input[type=number] {
