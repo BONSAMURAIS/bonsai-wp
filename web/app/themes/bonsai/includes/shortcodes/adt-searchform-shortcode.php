@@ -161,7 +161,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                                                 </svg>
                                             </label>
                                         </div>
-                                        <br/>
                                         <p>produces</p>
                                         <div class="co2-value-wrapper">
                                             <p class="co2-value"></p>
