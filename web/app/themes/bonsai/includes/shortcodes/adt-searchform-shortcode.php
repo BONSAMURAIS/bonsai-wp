@@ -129,10 +129,7 @@ add_shortcode( 'adt_searchform', function($atts) {
         </section>
 
         <div id="modal">
-            <div id="modal-content">
-                <span id="closeModal" class="close">&times;</span>
-                <p>This is a modal popup!</p>
-            </div>
+            <?= do_shortcode('[modalPopup]') ?> 
         </div>
 
         <section id="co2-form-result">            
