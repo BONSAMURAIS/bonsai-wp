@@ -70,7 +70,7 @@ jQuery(document).ready(function($){
     copyTile();
 
     //listener to modal page event
-    $('#openModal').click(function(e) {
+    $('.tooltip-text').click(function(e) {
         e.preventDefault();
         $('#modal').style.display = 'block';
     }); 
