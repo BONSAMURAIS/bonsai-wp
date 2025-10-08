@@ -283,11 +283,10 @@ div.tooltip-wrapper {
     position: relative;
 }
 
-label.select > select {
+label.select > select:not(.unit){
     position: relative;
     line-height: normal;
     -webkit-appearance: none;
-    background: white;
     box-shadow: 0 1px 3px -2px #9098A9;
     font-family: inherit; font-size: 18px; font-weight: 400;
     cursor: pointer;
@@ -297,23 +296,22 @@ label.select > select {
     border: 1px solid black; border-radius: 50px;
     color: black;
     
-    &:not(.unit){
-        font-size: 14px;
-        min-width: 9em;
-    }
-
     &[class^="year"],&[class^="database-version"]{
         min-width: 5em;
     }
 
-    &:required:invalid {
-        color: #5A667F;
-    }
-    
     &:focus {
         outline: none;
         box-shadow: none;
     }    
+}
+
+label.select > select.unit{
+    font-size: 14px;
+    min-width: 9em;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+
 }
 
 option {
