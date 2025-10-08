@@ -180,11 +180,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 <div class="product-result">
                                     <div class="unit-select-wrapper">
                                         <input type="text" class="quantity" id="quantity" value="1"/>
-                                        <div class="arrow-wrapper">
-                                            <label class="select" for="unit">
-                                                <select id="unit" class="unit"></select>
-                                            </label>
-                                        </div>
+                                        <label class="select" for="unit">
+                                            <select id="unit" class="unit"></select>
+                                        </label>
                                     </div>
                                     <p>produces</p>
                                     <p>

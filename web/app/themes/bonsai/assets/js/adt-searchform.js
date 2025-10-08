@@ -677,16 +677,6 @@ async function display_result(htmlclass, data){
     for (const unit of unitList){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
-    if (unitList.length>1){
-        jQuery('.unit-arrow').each(function(index, arrow) {
-            arrow.style.display = 'block';
-        })
-        main_component.find('select.unit').first().prop('disabled', false); 
-    }else{
-        jQuery('.unit-arrow').each(function(index, arrow) {
-            arrow.style.display = 'none';
-        })
-    }
     let displayed_unit = unit_ref;
     let preposition = " of ";
     if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
