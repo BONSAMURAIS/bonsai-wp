@@ -659,7 +659,12 @@ async function display_result(htmlclass, data){
     main_component.find('.footprint-type').first().text(data['footprint-type-label']);
     //endTODO hardcode replacement
     main_component.find('.climate-metric').first().text(data.metric);
-    main_component.find('.year').first().text(data["year"]);
+
+    main_component.find('.year').first().append($('<option>', {
+        text: data["year"],
+        value: data["year"],
+        selected: true
+    }));
     main_component.find('.country').first().text(data["country"]);
     const isPersonTab = data['flow_code'] == null;
     main_component.find('.emission-unit').first().text("in "+data['unit_emission']);
@@ -677,6 +682,7 @@ async function display_result(htmlclass, data){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
     unit_options.prop('disabled', unitList.length <= 1);
+    unit_options[].prop('selected', unitList.length <= 1);
 
     let displayed_unit = unit_ref;
     let preposition = " of ";
