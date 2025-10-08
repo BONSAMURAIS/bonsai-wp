@@ -72,11 +72,11 @@ jQuery(document).ready(function($){
     //listener to modal page event
     $('.tooltip-text').click(function(e) {
         e.preventDefault();
-        $('#modal').style.display = 'block';
+        $('#modal').show();
     }); 
     $('#closeModal').click(function(e) {
         e.preventDefault();
-        $('#modal').style.display = 'none';
+        $('#modal').hide();
     });
 
     $('#product-analysis-content .adt-close').remove(); // remove close btn
