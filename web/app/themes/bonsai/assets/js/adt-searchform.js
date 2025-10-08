@@ -676,6 +676,8 @@ async function display_result(htmlclass, data){
     for (const unit of unitList){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
+    unit_options.prop('disabled', unitList.length <= 1);
+
     let displayed_unit = unit_ref;
     let preposition = " of ";
     if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
