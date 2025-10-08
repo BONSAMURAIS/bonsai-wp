@@ -656,7 +656,7 @@ async function display_result(htmlclass, data){
         data['footprint-type'] = 'Cradle to grave';
         data['footprint-type-label'] ='Cradle to grave';
     }
-    main_component.find('.footprint-type').first().text(data['footprint-type-label']);
+    // main_component.find('.footprint-type').first().text(data['footprint-type-label']);
     //endTODO hardcode replacement
     main_component.find('.climate-metric').first().text(data.metric);
 
@@ -682,7 +682,7 @@ async function display_result(htmlclass, data){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
     unit_options.prop('disabled', unitList.length <= 1);
-    main_component.find('select.unit option:first').first().prop('selected', true);
+    unit_options.val(unitList[0]['value']);
 
     let displayed_unit = unit_ref;
     let preposition = " of ";
