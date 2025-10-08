@@ -128,6 +128,13 @@ add_shortcode( 'adt_searchform', function($atts) {
             </div>
         </section>
 
+        <div id="modal" class="modal">
+            <div class="modal-content">
+                <span id="closeModal" class="close">&times;</span>
+                <p>This is a modal popup!</p>
+            </div>
+        </div>
+
         <section id="co2-form-result">            
             <hr />
             <section id="analysis-wrapper">
@@ -162,7 +169,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
                                     <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
                                     <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
-                                    <p class="tooltip-text">What do those boxes mean?</p>
+                                    <a class="tooltip-text">What do those boxes mean?</a>
                                 </div>
                                 <div class="product-result">
                                     <div class="unit-select-wrapper">

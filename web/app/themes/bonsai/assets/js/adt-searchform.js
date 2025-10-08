@@ -69,6 +69,16 @@ jQuery(document).ready(function($){
 
     copyTile();
 
+    //listener to modal page event
+    $('#openModal').click(function(e) {
+        e.preventDefault();
+        $('#modal').style.display = 'block';
+    }); 
+    $('#closeModal').click(function(e) {
+        e.preventDefault();
+        $('#modal').style.display = 'none';
+    });
+
     $('#product-analysis-content .adt-close').remove(); // remove close btn
 
     $('button#search-icon').prop('disabled', true);
