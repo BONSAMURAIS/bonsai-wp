@@ -6,7 +6,11 @@
             '<div id="modal-content">
                 <span id="closeModal" class="close">&times;</span>
                 <p>Hurray</p>'
-                .do_shortcode('[block id="year-info-popup"]').
+                .do_shortcode('[block id="location-info-popup"]')
+                .do_shortcode('[block id="year-info-popup"]')
+                .do_shortcode('[block id="climate-metric-info-popup"]')
+                .do_shortcode('[block id="database-version-info-popup"]')
+                .do_shortcode('[block id="footprint-info-popup"]').
             '</div>';
     }
 
