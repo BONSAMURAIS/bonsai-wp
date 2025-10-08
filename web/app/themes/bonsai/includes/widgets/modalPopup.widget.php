@@ -4,8 +4,7 @@
 
         return 
             '<div id="modal-content">
-                <span id="closeModal" class="close">&times;</span>
-                <p>Hurray</p>'
+                <span id="closeModal" class="close">&times;</span>'
                 .'<p>'
                 .do_shortcode('[block id="location-info-popup"]')
                 .'</p>'
