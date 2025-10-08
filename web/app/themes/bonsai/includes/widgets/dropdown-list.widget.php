@@ -14,13 +14,16 @@
             return '<p>Invalid JSON data.</p>';
         }
 
+        error_log($attr['filepath']);
+        
         $options = '';
         foreach ($list_options as $option) {
             $id = isset($option['id']) ? esc_html($option['id']) : '';
             $label = isset($option['label']) ? esc_html(ucfirst($option['label'])) : '';
             $options .= '<option value="' . $id . '">' . $label . '</option>';
         }
-
+        error_log($options);
+        
         return '<div class="arrow-wrapper">
                     <label class="select" for="'.$a['id'].'">
                         <select class="'.$a['id'].'" id="'.$a['id'].'">
