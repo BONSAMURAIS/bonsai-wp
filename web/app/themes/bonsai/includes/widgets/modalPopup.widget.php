@@ -6,6 +6,7 @@
             '<div id="modal-content">
                 <span id="closeModal" class="close">&times;</span>
                 <p>Hurray</p>
+                [block id="year-info-popup"]
             </div>';
     }
 
