@@ -29,6 +29,10 @@ input[type=text]{
     height: unset;
 }
 
+select {
+    margin-bottom: unset;
+}
+
 p {
     font-size: 20px;
     margin-block-start: unset;
@@ -290,7 +294,6 @@ label.select > select:not(.unit){
     box-shadow: 0 1px 3px -2px #9098A9;
     font-family: inherit; font-size: 18px; font-weight: 400;
     cursor: pointer;
-    margin-bottom: unset;
     transition: all 150ms ease;
     padding: 0px 10px;
     border: 1px solid black; border-radius: 50px;
