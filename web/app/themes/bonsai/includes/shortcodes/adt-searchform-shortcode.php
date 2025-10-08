@@ -150,7 +150,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                                             <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
                                             <div class="arrow-wrapper">
                                                 <label class="select" for="location">
-                                                    <?= do_shortcode('[arrow_icon]')?>
                                                     <select class="location" id="location">
                                                     <?php foreach($locationsArray as $location): ?>
                                                         <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>

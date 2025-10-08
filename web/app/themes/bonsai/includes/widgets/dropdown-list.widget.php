@@ -23,7 +23,6 @@
 
         return '<div class="arrow-wrapper">
                     <label class="select" for="'.$a['id'].'">
-                    '.do_shortcode('[arrow_icon]').'
                         <select class="'.$a['id'].'" id="'.$a['id'].'">
                         '.$options.'
                         </select>
