@@ -660,7 +660,7 @@ async function display_result(htmlclass, data){
     //endTODO hardcode replacement
     main_component.find('.climate-metric').first().text(data.metric);
 
-    main_component.find('.year').first().append($('<option>', {
+    main_component.find('.year').first().append(jQuery('<option>', {
         text: data["year"],
         value: data["year"],
         selected: true
