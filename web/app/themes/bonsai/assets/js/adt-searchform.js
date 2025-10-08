@@ -605,7 +605,6 @@ jQuery(document).ready(function($){
     $('label.select').each(function() {
         let listOptions = $(this).find('option');
         if (listOptions.length <= 1){
-            $(this).children('svg').first().hide(); //hide arrow
             $(this).children('select').first().prop('disabled', true); //disable select
         }
     });
