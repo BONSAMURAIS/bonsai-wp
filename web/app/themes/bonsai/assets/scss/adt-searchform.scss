@@ -743,8 +743,7 @@ div.calculation-wrapper {
     flex: 1 1 50%;
 
     display:grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: 1.5fr 1fr;
 
     &:nth-child(2) {
         justify-items: flex-end;
