@@ -682,7 +682,7 @@ async function display_result(htmlclass, data){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
     unit_options.prop('disabled', unitList.length <= 1);
-    unit_options.first().prop('selected', true);
+    main_component.find('select.unit option:first').first().prop('selected', true);
 
     let displayed_unit = unit_ref;
     let preposition = " of ";
