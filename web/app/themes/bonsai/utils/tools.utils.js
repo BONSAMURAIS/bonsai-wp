@@ -101,7 +101,7 @@ export function getUnitOptions(dataArray, unit_ref){
         }
     } else if (unit_ref === CONST.UNIT.ITEMS){
         unitList = [
-            {ratio:1e-3,label:CONST.UNIT.ITEMS},
+            {ratio:1,label:CONST.UNIT.ITEMS},
         ]
     } else if (unit_ref === CONST.UNIT.TONNES_SERVICE){
         unitList = [
