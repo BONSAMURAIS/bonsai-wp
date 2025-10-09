@@ -283,6 +283,7 @@ div.tooltip-wrapper {
 .unit-select-wrapper {
     display: flex;
     gap: 10px;
+    justify-self: end;
     align-items: center;
     position: relative;
 }
