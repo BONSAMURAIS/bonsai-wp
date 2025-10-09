@@ -101,7 +101,7 @@ export function getUnitOptions(dataArray, unit_ref){
         }
     } else if (unit_ref === CONST.UNIT.ITEMS){
         unitList = [
-            {ratio:1,label:CONST.UNIT.ITEMS},
+            {ratio:1e-3,label:CONST.UNIT.ITEMS},
         ]
     } else if (unit_ref === CONST.UNIT.TONNES_SERVICE){
         unitList = [
@@ -111,11 +111,11 @@ export function getUnitOptions(dataArray, unit_ref){
         unitList = [
             {ratio:1,label:CONST.UNIT.PERSON_YEAR},
         ]
-    } else if (unit_ref == CONST.UNIT.TJ){ //for person footprint-type
+    } else if (unit_ref == CONST.UNIT.TJ){ 
         unitList = [
             {ratio:1,label:CONST.UNIT.KWH},
             {ratio:1e-3,label:CONST.UNIT.MJ},
-            {ratio:1,label:CONST.UNIT.GJ}, //ratio is 1 because the unit label changes too
+            {ratio:1e-3,label:CONST.UNIT.GJ}, //ratio is 1 because in TJ in backend
         ]
     }
 
@@ -155,7 +155,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     }else{
         switch (unit_ref){
             case CONST.UNIT.TJ.toLowerCase():
-                finalUnit =  {ratio:1000,label:CONST.UNIT.GJ};
+                finalUnit =  {ratio:1e-3,label:CONST.UNIT.GJ};
                 break;
             case CONST.UNIT.ITEMS.toLowerCase():
                 finalUnit =  {ratio:1,label:CONST.UNIT.ITEMS};
