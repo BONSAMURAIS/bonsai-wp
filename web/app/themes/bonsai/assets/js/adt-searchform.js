@@ -606,6 +606,7 @@ jQuery(document).ready(function($){
         let listOptions = $(this).find('option');
         if (listOptions.length <= 1){
             $(this).children('select').first().prop('disabled', true); //disable select
+            $(this).children('select').first().css('background', 'white'); //hide arrow
         }
     });
 
@@ -681,7 +682,10 @@ async function display_result(htmlclass, data){
     for (const unit of unitList){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
-    unit_options.prop('disabled', unitList.length <= 1);
+    if (unitList.length <= 1){
+        unit_options.prop('disabled', true);
+        unit_options.css('background', 'white');
+    }
 
     let displayed_unit = unit_ref;
     let preposition = " of ";
