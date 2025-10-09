@@ -281,6 +281,38 @@ function get_country_name_by_country_code(){
     return $countryName;
 }
 
+add_action('wp_ajax_get_prod_footprint_by_search', 'get_prod_footprint_by_search');
+add_action('wp_ajax_nopriv_get_prod_footprint_by_search', 'get_prod_footprint_by_search');
+
+function get_prod_footprint_by_search($name){
+    $url = $GLOBALS['APIURL']."/search/?q=".$name;
+    $response = wp_remote_get($url);
+    
+    // Check for errors
+    if (is_wp_error($response)) {
+        return wp_send_json_error(['Error: ' . $response->get_error_message()]);
+    }
+    
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+
+    if (isset($result['products']) && $result['products'] === 0) {
+        wp_send_json_error(['error' => 'Product not found']);
+    }
+
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return 'No footprints found or an error occurred.';
+    }
+
+    if (array_key_exists('detail', $result)) {
+        wp_send_json_error(['error' => $result['detail']], 503);
+    }
+
+    return $result;
+}
+
 function get_code_by_name($name){
     $url = $GLOBALS['APIURL']."/search/?q=".$name;
     $response = wp_remote_get($url);

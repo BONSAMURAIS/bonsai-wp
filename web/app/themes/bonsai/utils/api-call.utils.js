@@ -1,5 +1,37 @@
 import * as Utils from './tools.utils.js'; 
 
+export async function get_product_footprint_by_search(userSelection){
+    console.log("START get_product_footprint");
+    console.log("userSelect =",userSelection.to_string());
+    
+    return new Promise((resolve, reject) => { 
+        jQuery.ajax({
+            type: 'POST',
+            url: localize._ajax_url,
+            data: {
+                _ajax_nonce: localize._ajax_nonce,
+                action: 'get_prod_footprint_by_search',
+                title: userSelection.title,
+            },
+            beforeSend: Utils.showLoading(),
+            success: (response) => {
+                Utils.hideLoading();
+                console.log(response);
+                //localStorage.setItem('emission_contriAnalysis', JSON.stringify(response.data.recipe));
+                resolve(response.data);
+            },
+            error: (error) => {
+                Utils.hideLoading();
+                reject(error);  // Reject if there is an error
+                console.log("adt_get_product_info ERROR");
+                console.log(error);
+                jQuery('#initial-error-message').html('<p>'+error.responseJSON?.data.error+'</p>');
+                jQuery('#initial-error-message').slideDown('fast');
+            }
+        });
+    });
+}
+
 export async function get_product_footprint(userSelection){
     console.log("START get_product_footprint");
     console.log("userSelect =",userSelection.to_string());
