@@ -155,7 +155,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     }else{
         switch (unit_ref){
             case CONST.UNIT.TJ.toLowerCase():
-                finalUnit =  {ratio:1,label:CONST.UNIT.GJ};
+                finalUnit =  {ratio:1000,label:CONST.UNIT.GJ};
                 break;
             case CONST.UNIT.ITEMS.toLowerCase():
                 finalUnit =  {ratio:1,label:CONST.UNIT.ITEMS};
