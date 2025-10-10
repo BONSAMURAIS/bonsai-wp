@@ -217,14 +217,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                     </div>
                 </div>
-                <div id="compared-product-analysis" class="tile-wrapper" style="display: none;">
-                    <div id="add-btn" class="tile col medium-12 small-12 large-12">
-                        <a href="#">
-                            <p class="add">+</p>
-                            <p>Add to comparison</p>
-                        </a>
-                    </div>
-                </div>
             </section>
         </section>
     </div>
