@@ -310,7 +310,7 @@ function get_prod_footprint_by_search($name){
         wp_send_json_error(['error' => $result['detail']], 503);
     }
 
-    return $result;
+    return wp_send_json_success($result);
 }
 
 function get_code_by_name($name){
