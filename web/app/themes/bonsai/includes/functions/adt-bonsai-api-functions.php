@@ -287,6 +287,7 @@ add_action('wp_ajax_nopriv_get_prod_footprint_by_search', 'get_prod_footprint_by
 function get_prod_footprint_by_search($name){
     $url = $GLOBALS['APIURL']."/search/?q=".$name;
     $response = wp_remote_get($url);
+    error_log($url);
     
     // Check for errors
     if (is_wp_error($response)) {
@@ -295,6 +296,8 @@ function get_prod_footprint_by_search($name){
     
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
+    error_log($body);
+
     $result = json_decode($body, true);
 
     if (isset($result['products']) && $result['products'] === 0) {
