@@ -142,22 +142,6 @@ jQuery(document).ready(function($){
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
     $(searchform.products).each(function() {
-        if (this.code.toLowerCase() == "M_Beef_ons".toLowerCase() || this.code.toLowerCase() == "C_Beef_ons".toLowerCase() ){//|| this.code.toLowerCase() == "M_Beef_veal".toLowerCase() ){
-            return true;
-        }
-        if (chosenFootprintType === "product" && this.code.includes("M_")) {
-            return true;
-        }
-
-        if (chosenFootprintType === "market" 
-            && (this.code.includes('C_') || this.code.includes('EF_') || this.code.includes('A_'))
-        ) {
-            return true;
-        }
-        
-        if (this.code.startsWith('A_')) {
-            this.code = this.code.replace(/^A_/, 'C_');
-        }
         list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid}; //because title is unique
         list_product_title.add(this.title);
     });
