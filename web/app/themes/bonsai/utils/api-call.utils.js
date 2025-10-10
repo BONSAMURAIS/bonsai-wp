@@ -1,8 +1,7 @@
 import * as Utils from './tools.utils.js'; 
 
-export async function get_product_footprint_by_search(userSelection){
-    console.log("START get_product_footprint");
-    console.log("userSelect =",userSelection.to_string());
+export async function get_product_footprint_by_search(query){
+    console.log("START get_product_footprint_by_search");
     
     return new Promise((resolve, reject) => { 
         jQuery.ajax({
@@ -11,7 +10,7 @@ export async function get_product_footprint_by_search(userSelection){
             data: {
                 _ajax_nonce: localize._ajax_nonce,
                 action: 'get_prod_footprint_by_search',
-                query: userSelection.title,
+                query: query,
             },
             beforeSend: Utils.showLoading(),
             success: (response) => {

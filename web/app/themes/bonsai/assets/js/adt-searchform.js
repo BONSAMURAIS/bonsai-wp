@@ -215,7 +215,7 @@ jQuery(document).ready(function($){
         console.log('Start searching');
         let userSelection = new UserSelection;
         userSelection.get_from_form();
-        data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint_by_search(userSelection);
+        data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
 
         if(selectedValue === 'person'){
             data['title'] = "Emission per person";
@@ -598,7 +598,6 @@ function adt_dynamic_search_input(list_product, list_product_title)
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
     const $suggestions = jQuery('#suggestions');
-    const $submitBtn = jQuery('#search-icon');
     let currentIndex = -1;
     let suggestionSelected = false;
 
