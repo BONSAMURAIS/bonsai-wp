@@ -286,7 +286,7 @@ add_action('wp_ajax_nopriv_get_prod_footprint_by_search', 'get_prod_footprint_by
 
 function get_prod_footprint_by_search(){
 
-    $url = $GLOBALS['APIURL']."/search/?q=".$_POST['input_txt'];
+    $url = $GLOBALS['APIURL']."/search/?q=".$_POST['query'];
     $response = wp_remote_get($url);
     error_log($url);
     

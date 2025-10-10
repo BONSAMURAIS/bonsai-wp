@@ -11,7 +11,7 @@ export async function get_product_footprint_by_search(userSelection){
             data: {
                 _ajax_nonce: localize._ajax_nonce,
                 action: 'get_prod_footprint_by_search',
-                input_txt: userSelection.title,
+                query: userSelection.title,
             },
             beforeSend: Utils.showLoading(),
             success: (response) => {
