@@ -171,29 +171,11 @@ jQuery(document).ready(function($){
         list_product = {};
         list_product_title = new Set();
         $(searchform.products).each(function() {
-        if (this.code.toLowerCase() == "M_Beef_ons".toLowerCase() || this.code.toLowerCase() == "C_Beef_ons".toLowerCase() ){//|| this.code.toLowerCase() == "M_Beef_veal".toLowerCase() ){
-                return true;
-            }
-            if (chosenFootprintType === "product" && this.code.includes("M_")) {
-                return true;
-            } else if (
-                chosenFootprintType === "market" 
-                && (this.code.includes('C_') || this.code.includes('EF_') || this.code.includes('A_'))
-            ) {
-                return true;
-            }
-            
-            if (this.code.startsWith('A_')) {
-                this.code = this.code.replace(/^A_/, 'C_');
-            }
-
             list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid} //because title is unique
             list_product_title.add(this.title);
         });
 
         jQuery('#autocomplete-input').val('');
-
-        console.log("bou list_product_title=",list_product_title)
         adt_dynamic_search_input(list_product,list_product_title);
 
     });
@@ -340,8 +322,6 @@ jQuery(document).ready(function($){
         let unitSelect = amountInput.closest('div.unit-select-wrapper')
                                 .find('select.unit');
         const unitRatio = unitSelect.val();
-        // let unitRatio_name = unitSelect.find('option:selected').text();
-        // console.log("unitRatio , unitRatio_name = ", unitRatio, unitRatio_name)
 
         let calculatedValue = co2_result_value * amountInputValue * unitRatio;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
@@ -393,10 +373,6 @@ jQuery(document).ready(function($){
         } catch (err) {
             console.error('Error in async handler:', err);
         }
-
-        // // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
-        // const href = jQuery(this).attr('href');
-        // history.pushState(null, '', href);
     });
 
     //hide/display arrow
@@ -535,8 +511,6 @@ function display_recipe_table(main_component,recipeArray){
 
         const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
         let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow);
-        // console.log("recipe.value_inflow=",recipe.value_inflow)
-        // console.log("displayed_unit['ratio']=",displayed_unit['ratio'])
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
 
@@ -778,23 +752,6 @@ function adt_save_local_search_history(userSelection)
         localStorage.setItem("adt_search_history", JSON.stringify(searchHistory));
         jQuery(this).parent().remove();
     });
-
-    // jQuery('#search-history-list li').on('click', async function() {
-    //     let userSelection = new UserSelection;
-    //     let productTitle = jQuery(this).text();
-    //     let productCode = jQuery(this).data('code');
-    //     let productUuid = jQuery(this).data('uuid');
-    //     userSelection.set_product(productTitle,productCode,productUuid);
-    //     userSelection.get_from_form();
-
-    //     jQuery('#autocomplete-input').val(productTitle);
-
-    //     adt_push_parameter_to_url(userSelection);
-    //     let data_product = await API.get_product_footprint(userSelection);
-    //     updateTile(data_product);
-    //     adt_save_local_search_history(userSelection);
-
-    // });
 }
 
 function adt_initialize_local_search_history()
