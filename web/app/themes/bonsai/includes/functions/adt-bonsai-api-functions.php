@@ -284,8 +284,9 @@ function get_country_name_by_country_code(){
 add_action('wp_ajax_get_prod_footprint_by_search', 'get_prod_footprint_by_search');
 add_action('wp_ajax_nopriv_get_prod_footprint_by_search', 'get_prod_footprint_by_search');
 
-function get_prod_footprint_by_search($name){
-    $url = $GLOBALS['APIURL']."/search/?q=".$name;
+function get_prod_footprint_by_search(){
+
+    $url = $GLOBALS['APIURL']."/search/?q=".$_POST['input_txt'];
     $response = wp_remote_get($url);
     error_log($url);
     
