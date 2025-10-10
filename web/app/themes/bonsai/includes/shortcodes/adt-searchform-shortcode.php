@@ -138,10 +138,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <div id="product-analysis" class="search-result">
                     <div id="product-analysis-content" class="tile-wrapper col medium-12 small-12 large-12">
                         <div class="tile">
-                            <div class="tile-corner">
-                                <span class="adt-close">
-                                </span>
-                            </div>
                             <div class="calculation-wrapper">
                                 <div class="product-info">
                                     <h2 class="product-title"></h2>

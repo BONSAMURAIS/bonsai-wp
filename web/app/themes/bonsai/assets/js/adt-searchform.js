@@ -79,8 +79,6 @@ jQuery(document).ready(function($){
         $('#modal').hide();
     });
 
-    $('#product-analysis-content .adt-close').remove(); // remove close btn
-
     $('input[name="footprint_type"]').on('change',async function(){
         const isChecked = $(this).is(':checked');
         
