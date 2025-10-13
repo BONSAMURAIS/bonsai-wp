@@ -175,6 +175,8 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
 
 export function selectOptionByText(select_DOMelement, targetText) {
     console.log("select_DOMelement=",select_DOMelement)
+    console.log("select_DOMelement.options=",select_DOMelement.options)
+    console.log("select_DOMelement.options.length=",select_DOMelement.options.length)
     const options = select_DOMelement.options;
 
     for (let i = 0; i < options.length; i++) {
