@@ -531,6 +531,8 @@ div.tile {
 .product-info{
     display: flex;
     align-items: center;
+    position: relative;
+    top: -1em;
 }
 
 .product-title{
