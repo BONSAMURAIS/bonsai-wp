@@ -161,7 +161,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                                 <select id="unit" class="unit"></select>
                                             </label>
                                         </div>
-                                        <p>produces</p>
+                                        <p style="font-size: medium;">produces</p>
                                         <p>
                                             <span class="co2-value"></span>
                                             <span class="co2-value-unit"></span>
