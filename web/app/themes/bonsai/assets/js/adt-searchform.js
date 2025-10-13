@@ -637,8 +637,7 @@ function adt_dynamic_search_input(list_product, list_product_title)
                 e.preventDefault();
                 currentIndex = (currentIndex - 1 + $items.length) % $items.length;
                 markCurrentItem($items);
-            } 
-            else if (e.key === 'Enter') {
+            } else if (e.key === 'Enter') {
                 e.preventDefault();
             }
         }
