@@ -398,7 +398,7 @@ async function display_result(htmlclass, data){
     main_component.find('.product-title').first().attr("data-code",data['flow_code'] ?? "person");
     main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
     //set dropdown tags
-    Utils.selectOptionByText(main_component.find('.location').first(), data['country']);
+    Utils.selectOptionByText(main_component.find('.location').first()[0], data['country']);
 
     // main_component.find('.footprint-type').first().text(data['footprint-type-label']);
 
