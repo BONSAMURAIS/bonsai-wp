@@ -400,11 +400,10 @@ async function display_result(htmlclass, data){
     //set location list of dropdown
     for (const location in data['list_locations']){
         main_component.find('.location').first().append(jQuery('<option>', {
-            text: location,
-            value: location
+            text: location['name'],
+            value: location['code']
         }));
     }
-    Utils.selectOptionByText(main_component.find('.location').first()[0], data['country']);
     //set dropdown tags
     Utils.selectOptionByText(main_component.find('.location').first()[0], data['country']);
     Utils.selectOptionByText(main_component.find('.year').first()[0], data['year']);
