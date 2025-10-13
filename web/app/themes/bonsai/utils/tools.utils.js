@@ -173,6 +173,13 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     return finalUnit;
 }
 
-export function convertUnit(unit_ref){
-    //TODO
-}
+export function selectOptionByText(select_DOMelement, targetText) {
+    const options = select_DOMelement.options;
+
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].text === targetText) {
+        select.selectedIndex = i;
+        break;
+      }
+    }
+  }

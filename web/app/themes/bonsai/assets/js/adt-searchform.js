@@ -397,26 +397,11 @@ async function display_result(htmlclass, data){
     main_component.find('.product-title').text(Utils.capitalize(data["title"]));
     main_component.find('.product-title').first().attr("data-code",data['flow_code'] ?? "person");
     main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
-    //set tags
-    //TODO hardcode replacement
-    let dataCode = data['flow_code'];
-    if (dataCode){
-        if (dataCode.includes("M_")) {
-            data['footprint-type'] = 'Cradle to consumer';
-            data['footprint-type-label'] ='Cradle to consumer';
-        } else if (dataCode.includes('C_') || dataCode.includes('EF_') || dataCode.includes('A_')) {
-            data['footprint-type'] = 'Cradle to gate';
-            data['footprint-type-label'] = 'Cradle to gate';
-        } else if (dataCode.includes("F_")) {
-            data['footprint-type'] = 'Cradle to grave';
-            data['footprint-type-label'] = 'Cradle to grave';
-        }
-    }else{
-        data['footprint-type'] = 'Cradle to grave';
-        data['footprint-type-label'] ='Cradle to grave';
-    }
+    //set dropdown tags
+    Utils.selectOptionByText(main_component.find('.location').first(), data['country']);
+
     // main_component.find('.footprint-type').first().text(data['footprint-type-label']);
-    //endTODO hardcode replacement
+
     main_component.find('.climate-metric').first().text(data.metric);
 
     main_component.find('.year').first().append(jQuery('<option>', {
