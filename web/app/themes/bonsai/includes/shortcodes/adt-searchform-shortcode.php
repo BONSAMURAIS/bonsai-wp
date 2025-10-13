@@ -172,45 +172,45 @@ add_shortcode( 'adt_searchform', function($atts) {
                                         <a class="tooltip-text">What do those boxes mean?</a>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="contribution-analysis" style="display: none;">
-                                <p class="big-font emission-message">Where do emissions for 
-                                    <span class="quantity-value">1</span>
-                                    <span class="product-unit question-unit"></span>
-                                    <span class="product-unit question-unit-preposition"></span>
-                                    <span class="product-title question-location" style="font-size:inherit;"></span>
-                                    come from?
-                                </p>
-                                <table class="emissions-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Input name</th> <!-- flow_input -->
-                                            <th>Country</th> <!-- region_inflow -->
-                                            <th class="emissions-table-header-input">Input value</th> <!-- value_inflow + unit_inflow -->
-                                            <th class="emissions-table-header-emissions">Emissions <span class="emission co2-value-unit"></span></th> <!-- value_emission + unit_emission -->
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-        
-                                <div class="result-buttons">
-                                    <div class="button go-back show-for-small">
-                                        <a href="#" class="primary lowercase" style="border-radius:99px; font-size:10px;">
-                                            <i class="icon-angle-left" aria-hidden="true"></i>
-                                            <span>Go back</span>
-                                        </a>
+                                <div class="contribution-analysis" style="display: none;">
+                                    <p class="big-font emission-message">Where do emissions for 
+                                        <span class="quantity-value">1</span>
+                                        <span class="product-unit question-unit"></span>
+                                        <span class="product-unit question-unit-preposition"></span>
+                                        <span class="product-title question-location" style="font-size:inherit;"></span>
+                                        come from?
+                                    </p>
+                                    <table class="emissions-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Input name</th> <!-- flow_input -->
+                                                <th>Country</th> <!-- region_inflow -->
+                                                <th class="emissions-table-header-input">Input value</th> <!-- value_inflow + unit_inflow -->
+                                                <th class="emissions-table-header-emissions">Emissions <span class="emission co2-value-unit"></span></th> <!-- value_emission + unit_emission -->
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+            
+                                    <div class="result-buttons">
+                                        <div class="button go-back show-for-small">
+                                            <a href="#" class="primary lowercase" style="border-radius:99px; font-size:10px;">
+                                                <i class="icon-angle-left" aria-hidden="true"></i>
+                                                <span>Go back</span>
+                                            </a>
+                                        </div>
+                                        <div class="download hide-for-small">
+                                            <a href="#" class="button lowercase" style="border-radius:99px;">
+                                                <span>Download</span>
+                                                <i class="icon-dribbble" aria-hidden="true"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                    <div class="download hide-for-small">
-                                        <a href="#" class="button lowercase" style="border-radius:99px;">
-                                            <span>Download</span>
-                                            <i class="icon-dribbble" aria-hidden="true"></i>
-                                        </a>
+            
+                                    <div class="tooltip-wrapper">
+                                        <?= do_shortcode('[tooltip id="info-product" href="#info-product" label="Read more about the result" block_id="product-result-info-popup"]')?>
                                     </div>
-                                </div>
-        
-                                <div class="tooltip-wrapper">
-                                    <?= do_shortcode('[tooltip id="info-product" href="#info-product" label="Read more about the result" block_id="product-result-info-popup"]')?>
                                 </div>
                             </div>
                         </div>

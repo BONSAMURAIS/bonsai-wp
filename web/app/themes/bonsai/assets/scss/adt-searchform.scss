@@ -505,11 +505,11 @@ div.tile {
 
 .product {
     &-parameters {
-        margin-bottom: 30px;
         display: flex;
         gap: 0px 5px;
         flex-wrap: wrap;
-        width: 85%;
+        width: 65%;
+        height: min-content;
         & > label.select{
             width: clamp(3em, 50%, 10em);
         }
@@ -520,7 +520,6 @@ div.tile {
         line-height: 70px;
         color: $secondary;
         font-weight: 600;
-        margin-top: 15px;
         text-align: end;
 
         &-unit {
