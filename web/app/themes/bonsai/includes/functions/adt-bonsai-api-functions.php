@@ -314,7 +314,83 @@ function get_prod_footprint_by_search(){
         wp_send_json_error(['error' => $result['detail']], 503);
     }
 
+    error_log($body);
+    error_log($result["best_match"]["product"]["name"]);
+    error_log($result["best_match"]["product"]["code"]);
+
     return wp_send_json_success($result);
+}
+
+function get_footprint($productCode){
+    $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode;
+
+    // Check for errors
+    if (is_wp_error($response)) {
+        return wp_send_json_error(['Error: ' . $response->get_error_message()]);
+    }
+    
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+
+    if (isset($result['count']) && $result['count'] === 0) {
+        wp_send_json_error(['error' => 'Product not found']);
+    }
+
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return 'No footprints found or an error occurred.';
+    }
+
+    if (array_key_exists('detail', $result)) {
+        wp_send_json_error(['error' => $result['detail']], 503);
+    }
+
+    // get newest version of the footprint.
+    $footprints = $result['results'];
+    $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric);
+
+    if(!empty($productCode) & empty($footprintTitle) ){
+        $footprintTitle = get_product_name_by_code($productCode);
+    }
+
+    $footprint['value'] = convert_footprint_value($unit_reference,$footprint['value']);
+    if ($GLOBALS['UNIT']['ITEMS'] == strtoupper($unit_reference)){
+        $footprint['value'] *= 1000;
+    }
+            
+    $data = [
+        'title' => $footprintTitle,
+        'flow_code' => $productCode,
+        'chosen_country' => $countryCode,
+        'country' => $country,
+        "unit_reference" => $unit_reference,
+        "unit_emission" => $unit_emission,
+        'uuid' => $productUuid,
+        'version' => $newestVersion,
+        'all_data' => $footprint,
+        'id' => $footprint['id'],
+        'best_match' => get_code_by_name($productName),
+        'metric' => $metric,
+        // 'nace_related_code' => $footprint['nace_related_code'],
+        'region_code' => $footprint['region_code'],
+        'samples' => $footprint['samples'],
+        'value' => $footprint['value'],
+        'recipe' => $recipeData,
+        'year' => $year,
+        'footprint-type' => $type,
+        // 'footprint-type-label' => $type_label,
+    ];
+
+    $cachedFootprintArray = [
+        $productCode => $data,
+    ];
+
+    // Cache the locations for 24 hour (86400 seconds)
+    set_transient('adt_recipe_cache', $cachedFootprintArray, 86400);
+
+    wp_send_json_success($data);
+
 }
 
 function get_code_by_name($name){
