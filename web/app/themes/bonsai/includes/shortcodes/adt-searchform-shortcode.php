@@ -154,22 +154,24 @@ add_shortcode( 'adt_searchform', function($atts) {
                                         <?= do_shortcode('[dropdown_list id="footprint-type" filepath="'.__DIR__.'/../../dropdown_options/footprint_extend.json"]')?>
                                     </div>
                                     </div>
-                                </div>
-                                <div class="product-result">
-                                    <div class="unit-select-wrapper">
-                                        <input type="text" class="quantity" id="quantity" value="1"/>
-                                        <label class="select" for="unit">
-                                            <select id="unit" class="unit"></select>
-                                        </label>
+                                    <div class="product-result">
+                                        <div class="unit-select-wrapper">
+                                            <input type="text" class="quantity" id="quantity" value="1"/>
+                                            <label class="select" for="unit">
+                                                <select id="unit" class="unit"></select>
+                                            </label>
+                                        </div>
+                                        <p>produces</p>
+                                        <p>
+                                            <span class="co2-value"></span>
+                                            <span class="co2-value-unit"></span>
+                                        </p>
+                                        </div>
                                     </div>
-                                    <p>produces</p>
-                                    <p>
-                                        <span class="co2-value"></span>
-                                        <span class="co2-value-unit"></span>
-                                    </p>
+                                    <div>
+                                        <a class="tooltip-text">What do those boxes mean?</a>
                                     </div>
                                 </div>
-                                <a class="tooltip-text">What do those boxes mean?</a>
                             </div>
                             <div class="contribution-analysis" style="display: none;">
                                 <p class="big-font emission-message">Where do emissions for 
