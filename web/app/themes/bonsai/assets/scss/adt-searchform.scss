@@ -529,6 +529,11 @@ div.tile {
     }
 }
 
+.product-info{
+    display: flex;
+
+}
+
 span.tag  {
     border-style: solid;
     border-width:thin;
@@ -732,8 +737,7 @@ div.calculation-wrapper {
     flex: 1 1 50%;
 
     display:grid;
-    grid-template-rows: 1fr 4fr 1fr;
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: 0.1fr 1fr 0.1fr;
 
     &:nth-child(2) {
         justify-items: flex-end;
