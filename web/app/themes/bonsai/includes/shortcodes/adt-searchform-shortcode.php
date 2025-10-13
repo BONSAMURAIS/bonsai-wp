@@ -11,7 +11,7 @@ add_shortcode( 'adt_searchform', function($atts) {
     ]);
     
     $productsArray = adt_get_all_products_by_footprint();
-    $locationsArray = adt_get_locations();
+    // $locationsArray = adt_get_locations();
     $popularSearches = adt_get_popular_searches();
 
     $json_climate_metric = file_get_contents(__DIR__.'/../../dropdown_options/climate_metric.json');
@@ -133,9 +133,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                                             <div class="arrow-wrapper">
                                                 <label class="select" for="location">
                                                     <select class="location" id="location">
-                                                    <?php foreach($locationsArray as $location): ?>
-                                                        <option value="<?php echo $location['code']; ?>"><?php echo $location['name']; ?></option>
-                                                    <?php endforeach; ?>
                                                     </select>
                                                 </label>
                                             </div>

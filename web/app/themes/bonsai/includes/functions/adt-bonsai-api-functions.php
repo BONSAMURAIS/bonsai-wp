@@ -330,7 +330,7 @@ function get_prod_footprint_by_search(){
         'metric' => $footprint["metric"],
         'value' => $footprint['value'],
         'recipe' => $result["recipe"],
-        'list_locations' => $result["locations"],
+        'list_locations' => adt_get_locations(),//$result["locations"],
         'year' => $year,
         'footprint_type' => $footprint_type,
     ];
