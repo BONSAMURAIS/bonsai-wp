@@ -639,7 +639,7 @@ function adt_dynamic_search_input(list_product, list_product_title)
                 markCurrentItem($items);
             } else if (e.key === 'Enter' && jQuery('#autocomplete-input').val() !== '') {
                 e.preventDefault();
-                data = await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
+                let data = await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
 
                 if(selectedValue === 'person'){
                     data['title'] = "Emission per person";
