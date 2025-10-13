@@ -399,7 +399,7 @@ async function display_result(htmlclass, data){
     main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
     //set location list of dropdown
     for (const location in data['list_locations']){
-        main_component.find('.location').first().append(jQuery('<option>', {
+        main_component.find('.location').first()[0].append(jQuery('<option>', {
             text: location['name'],
             value: location['code']
         }));
