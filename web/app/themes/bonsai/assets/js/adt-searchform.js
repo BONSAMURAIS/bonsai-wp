@@ -399,17 +399,20 @@ async function display_result(htmlclass, data){
     main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
     //set dropdown tags
     Utils.selectOptionByText(main_component.find('.location').first()[0], data['country']);
+    Utils.selectOptionByText(main_component.find('.year').first()[0], data['year']);
+    Utils.selectOptionByText(main_component.find('.climatemetric').first()[0], data['metric']);
+    Utils.selectOptionByText(main_component.find('.database-version').first()[0], data['version']);
 
     // main_component.find('.footprint-type').first().text(data['footprint-type-label']);
 
-    main_component.find('.climate-metric').first().text(data.metric);
+    // main_component.find('.climate-metric').first().text(data.metric);
 
-    main_component.find('.year').first().append(jQuery('<option>', {
-        text: data["year"],
-        value: data["year"],
-        selected: true
-    }));
-    main_component.find('.country').first().text(data["country"]);
+    // main_component.find('.year').first().append(jQuery('<option>', {
+    //     text: data["year"],
+    //     value: data["year"],
+    //     selected: true
+    // }));
+    // main_component.find('.country').first().text(data["country"]);
     const isPersonTab = data['flow_code'] == null;
     main_component.find('.emission-unit').first().text("in "+data['unit_emission']);
     main_component.find('.question-location').text(isPersonTab ? data["country"] : Utils.capitalize(data["title"]));
