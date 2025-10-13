@@ -405,6 +405,7 @@ async function display_result(htmlclass, data){
         console.log("location['name']=",location['name'])
         location_dropdownElement.append(`<option value="${location['code']}">${location['name']}</option>`);
     }
+    console.log("location_dropdownElement=",location_dropdownElement);
     if (data['list_locations'].length <= 1){
         location_dropdownElement.prop('disabled', true);
         location_dropdownElement.css('background', 'white');
