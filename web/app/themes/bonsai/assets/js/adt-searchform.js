@@ -401,8 +401,6 @@ async function display_result(htmlclass, data){
     let location_dropdownElement = main_component.find('.location').first()[0];
     console.log("data['list_locations']=",data['list_locations'])
     for (const location of data['list_locations']){
-        console.log("location=",location)
-        console.log("location['name']=",location['name'])
         location_dropdownElement.append(`<option value="${location['code']}">${location['name']}</option>`);
     }
     console.log("location_dropdownElement=",location_dropdownElement);
