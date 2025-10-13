@@ -215,7 +215,7 @@ jQuery(document).ready(function($){
         console.log('Start searching');
         let userSelection = new UserSelection;
         userSelection.get_from_form();
-        data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
+        data = await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
 
         if(selectedValue === 'person'){
             data['title'] = "Emission per person";
