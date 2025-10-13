@@ -409,7 +409,7 @@ async function display_result(htmlclass, data){
         location_dropdownElement.css('background', 'white');
     }else {
         location_dropdownElement.prop('disabled', false);
-        location_dropdownElement.css('background', 'unset');
+        location_dropdownElement.css('background', '');
     }
     //set dropdown tags
     Utils.selectOptionByText(main_component.find('.location').first()[0], data['country']);
