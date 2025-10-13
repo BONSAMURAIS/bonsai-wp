@@ -314,7 +314,6 @@ function get_prod_footprint_by_search(){
         wp_send_json_error(['error' => $result['detail']], 503);
     }
 
-    error_log($body);
     error_log($result["best_match"]["product"]["name"]);
     error_log($result["best_match"]["product"]["code"]);
 
