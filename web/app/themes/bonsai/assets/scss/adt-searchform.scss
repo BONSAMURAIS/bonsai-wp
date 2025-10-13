@@ -515,8 +515,6 @@ div.tile {
         }
     }
 
-    
-
     &-result {
         font-size: 60px;
         color: $secondary;
@@ -532,7 +530,11 @@ div.tile {
 
 .product-info{
     display: flex;
+    align-items: center;
+}
 
+.product-title{
+    margin-bottom: unset;
 }
 
 span.tag  {
