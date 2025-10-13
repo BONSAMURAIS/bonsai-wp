@@ -507,7 +507,7 @@ div.tile {
     &-parameters {
         margin-bottom: 30px;
         display: flex;
-        gap: 5px;
+        gap: 0px 5px;
         flex-wrap: wrap;
         width: 85%;
         & > label.select{
