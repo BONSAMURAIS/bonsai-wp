@@ -125,8 +125,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div id="product-analysis-content" class="tile-wrapper col medium-12 small-12 large-12">
                         <div class="tile">
                             <div class="calculation-wrapper">
+                                <h2 class="product-title"></h2>
                                 <div class="product-info">
-                                    <h2 class="product-title"></h2>
                                     <div class="product-parameters">
                                         <div>
                                             <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
@@ -154,7 +154,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                                         <?= do_shortcode('[dropdown_list id="footprint-type" filepath="'.__DIR__.'/../../dropdown_options/footprint_extend.json"]')?>
                                     </div>
                                     </div>
-                                    <a class="tooltip-text">What do those boxes mean?</a>
                                 </div>
                                 <div class="product-result">
                                     <div class="unit-select-wrapper">
@@ -170,6 +169,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                                     </p>
                                     </div>
                                 </div>
+                                <a class="tooltip-text">What do those boxes mean?</a>
                             </div>
                             <div class="contribution-analysis" style="display: none;">
                                 <p class="big-font emission-message">Where do emissions for 
