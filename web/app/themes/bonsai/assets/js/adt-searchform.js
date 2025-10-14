@@ -433,6 +433,7 @@ async function display_result(htmlclass, data){
     for (const unit of unitList){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
+    console.log(unitList);
     if (unitList.length <= 1){
         unit_options.prop('disabled', true);
         unit_options.css('background', 'white');
