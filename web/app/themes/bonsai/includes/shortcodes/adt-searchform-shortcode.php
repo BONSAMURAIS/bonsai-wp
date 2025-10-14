@@ -120,7 +120,7 @@ add_shortcode( 'adt_searchform', function($atts) {
 
         <section id="co2-form-result">            
             <hr />
-            <div class="tile">
+            <div id="product-analysis-content" class="tile">
                 <h2 class="product-title"></h2>
                 <div class="product-info">
                     <div class="product-parameters">
