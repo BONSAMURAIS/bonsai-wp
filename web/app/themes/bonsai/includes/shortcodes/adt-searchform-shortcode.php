@@ -133,22 +133,22 @@ add_shortcode( 'adt_searchform', function($atts) {
                                 </label>
                             </div>
                         </div>
-                    <div>
-                        <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
-                        <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
-                    </div>
-                    <div>
-                        <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
-                        <?= do_shortcode('[dropdown_list id="climatemetric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
-                    </div>
-                    <div>
-                        <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
-                        <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
-                    </div>
-                    <div>
-                        <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
-                        <?= do_shortcode('[dropdown_list id="footprint-type" filepath="'.__DIR__.'/../../dropdown_options/footprint_extend.json"]')?>
-                    </div>
+                        <div>
+                            <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
+                            <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
+                        </div>
+                        <div>
+                            <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
+                            <?= do_shortcode('[dropdown_list id="climatemetric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
+                        </div>
+                        <div>
+                            <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
+                            <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
+                        </div>
+                        <div>
+                            <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
+                            <?= do_shortcode('[dropdown_list id="footprint-type" filepath="'.__DIR__.'/../../dropdown_options/footprint_extend.json"]')?>
+                        </div>
                     </div>
                     <div class="product-result">
                         <div class="unit-select-wrapper">
@@ -162,11 +162,10 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <span class="co2-value"></span>
                             <span class="co2-value-unit"></span>
                         </p>
-                        </div>
                     </div>
-                    <div>
-                        <a class="tooltip-text">What do those boxes mean?</a>
-                    </div>
+                </div>
+                <div>
+                    <a class="tooltip-text">What do those boxes mean?</a>
                 </div>
                 <div class="contribution-analysis" style="display: none;">
                     <p class="big-font emission-message">Where do emissions for 
@@ -210,6 +209,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
             </div>
         </section>
+        
     </div>
     <?php
     return ob_get_clean();
