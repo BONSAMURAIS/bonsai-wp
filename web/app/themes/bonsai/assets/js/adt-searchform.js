@@ -235,7 +235,7 @@ jQuery(document).ready(function($){
         let amountInput = unitSelect.closest('.unit-select-wrapper')      // go up to the label wrapping <select>
                                     .find('input.quantity');        // look inside for input.amount
         let numberInput = amountInput.val();
-        let co2_result = unitSelect.closest('div.calculation-wrapper')      // go up to the div wrapping 
+        let co2_result = unitSelect.closest('div.product-result')      // go up to the div wrapping 
                                     .find('span.co2-value');        // look inside for span.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
         let calculatedValue = co2_result_value * numberInput * unitRatio;
@@ -297,7 +297,7 @@ jQuery(document).ready(function($){
         controlInput_value($(this));
         let amountInput = $(this);
         let amountInputValue = amountInput.val() == '' ? 0 : amountInput.val();
-        let co2_result = amountInput.closest('div.calculation-wrapper')      // go up to the div wrapping 
+        let co2_result = amountInput.closest('div.product-result')      // go up to the div wrapping 
                                 .find('span.co2-value');        // look inside for span.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
 
@@ -322,12 +322,12 @@ jQuery(document).ready(function($){
             recipeArray[i].value_inflow *=  amountInputValue;
             
         }
-        let main_component = amountInput.closest("div.tile-wrapper");
+        let main_component = amountInput.closest("div.tile");
         display_recipe_table(main_component, recipeArray);
 
         amountInput.val(amountInput.val());//keep value in input
         
-        let quantityQuestion = amountInput.closest('div.calculation-wrapper')
+        let quantityQuestion = amountInput.closest('div.contribution-analysis')
                                 .find('span.quantity-value');
         quantityQuestion.text(amountInputValue);
     });
