@@ -120,103 +120,95 @@ add_shortcode( 'adt_searchform', function($atts) {
 
         <section id="co2-form-result">            
             <hr />
-            <section id="analysis-wrapper">
-                <div id="product-analysis" class="search-result">
-                    <div id="product-analysis-content" class="tile-wrapper col medium-12 small-12 large-12">
-                        <div class="tile">
-                            <div class="calculation-wrapper">
-                                <h2 class="product-title"></h2>
-                                <div class="product-info">
-                                    <div class="product-parameters">
-                                        <div>
-                                            <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
-                                            <div class="arrow-wrapper">
-                                                <label class="select" for="location">
-                                                    <select class="location" id="location">
-                                                    </select>
-                                                </label>
-                                            </div>
-                                        </div>
-                                    <div>
-                                        <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
-                                        <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
-                                    </div>
-                                    <div>
-                                        <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
-                                        <?= do_shortcode('[dropdown_list id="climatemetric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
-                                    </div>
-                                    <div>
-                                        <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
-                                        <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
-                                    </div>
-                                    <div>
-                                        <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
-                                        <?= do_shortcode('[dropdown_list id="footprint-type" filepath="'.__DIR__.'/../../dropdown_options/footprint_extend.json"]')?>
-                                    </div>
-                                    </div>
-                                    <div class="product-result">
-                                        <div class="unit-select-wrapper">
-                                            <input type="text" class="quantity" id="quantity" value="1"/>
-                                            <label class="select" for="unit">
-                                                <select id="unit" class="unit"></select>
-                                            </label>
-                                        </div>
-                                        <p style="font-size: medium;">produces</p>
-                                        <p>
-                                            <span class="co2-value"></span>
-                                            <span class="co2-value-unit"></span>
-                                        </p>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <a class="tooltip-text">What do those boxes mean?</a>
-                                    </div>
-                                </div>
-                                <div class="contribution-analysis" style="display: none;">
-                                    <p class="big-font emission-message">Where do emissions for 
-                                        <span class="quantity-value">1</span>
-                                        <span class="product-unit question-unit"></span>
-                                        <span class="product-unit question-unit-preposition"></span>
-                                        <span class="product-title question-location" style="font-size:inherit;"></span>
-                                        come from?
-                                    </p>
-                                    <table class="emissions-table">
-                                        <thead>
-                                            <tr>
-                                                <th>Input name</th> <!-- flow_input -->
-                                                <th>Country</th> <!-- region_inflow -->
-                                                <th class="emissions-table-header-input">Input value</th> <!-- value_inflow + unit_inflow -->
-                                                <th class="emissions-table-header-emissions">Emissions <span class="emission co2-value-unit"></span></th> <!-- value_emission + unit_emission -->
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-            
-                                    <div class="result-buttons">
-                                        <div class="button go-back show-for-small">
-                                            <a href="#" class="primary lowercase" style="border-radius:99px; font-size:10px;">
-                                                <i class="icon-angle-left" aria-hidden="true"></i>
-                                                <span>Go back</span>
-                                            </a>
-                                        </div>
-                                        <div class="download hide-for-small">
-                                            <a href="#" class="button lowercase" style="border-radius:99px;">
-                                                <span>Download</span>
-                                                <i class="icon-dribbble" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-            
-                                    <div class="tooltip-wrapper">
-                                        <?= do_shortcode('[tooltip id="info-product" href="#info-product" label="Read more about the result" block_id="product-result-info-popup"]')?>
-                                    </div>
-                                </div>
+            <div class="tile">
+                <h2 class="product-title"></h2>
+                <div class="product-info">
+                    <div class="product-parameters">
+                        <div>
+                            <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
+                            <div class="arrow-wrapper">
+                                <label class="select" for="location">
+                                    <select class="location" id="location">
+                                    </select>
+                                </label>
                             </div>
                         </div>
+                    <div>
+                        <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
+                        <?= do_shortcode('[dropdown_list id="year" filepath="'.__DIR__.'/../../dropdown_options/year.json"]')?>
+                    </div>
+                    <div>
+                        <?= do_shortcode('[tooltip id="info-climate-metric" href="#info-climate-metric" label="Climate metric" block_id="climate-metric-info-popup"]')?>
+                        <?= do_shortcode('[dropdown_list id="climatemetric" filepath="'.__DIR__.'/../../dropdown_options/climate_metric.json"]')?>
+                    </div>
+                    <div>
+                        <?= do_shortcode('[tooltip id="info-database-version" href="#info-database-version" label="Database version" block_id="database-version-info-popup"]')?>
+                        <?= do_shortcode('[dropdown_list id="database-version" filepath="'.__DIR__.'/../../dropdown_options/db_version.json"]')?>
+                    </div>
+                    <div>
+                        <?= do_shortcode('[tooltip id="info-footprint-type" href="#info-footprint-type" label="Footprint extent" block_id="footprint-info-popup"]')?>
+                        <?= do_shortcode('[dropdown_list id="footprint-type" filepath="'.__DIR__.'/../../dropdown_options/footprint_extend.json"]')?>
+                    </div>
+                    </div>
+                    <div class="product-result">
+                        <div class="unit-select-wrapper">
+                            <input type="text" class="quantity" id="quantity" value="1"/>
+                            <label class="select" for="unit">
+                                <select id="unit" class="unit"></select>
+                            </label>
+                        </div>
+                        <p style="font-size: medium;">produces</p>
+                        <p>
+                            <span class="co2-value"></span>
+                            <span class="co2-value-unit"></span>
+                        </p>
+                        </div>
+                    </div>
+                    <div>
+                        <a class="tooltip-text">What do those boxes mean?</a>
                     </div>
                 </div>
-            </section>
+                <div class="contribution-analysis" style="display: none;">
+                    <p class="big-font emission-message">Where do emissions for 
+                        <span class="quantity-value">1</span>
+                        <span class="product-unit question-unit"></span>
+                        <span class="product-unit question-unit-preposition"></span>
+                        <span class="product-title question-location" style="font-size:inherit;"></span>
+                        come from?
+                    </p>
+                    <table class="emissions-table">
+                        <thead>
+                            <tr>
+                                <th>Input name</th> <!-- flow_input -->
+                                <th>Country</th> <!-- region_inflow -->
+                                <th class="emissions-table-header-input">Input value</th> <!-- value_inflow + unit_inflow -->
+                                <th class="emissions-table-header-emissions">Emissions <span class="emission co2-value-unit"></span></th> <!-- value_emission + unit_emission -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+
+                    <div class="result-buttons">
+                        <div class="button go-back show-for-small">
+                            <a href="#" class="primary lowercase" style="border-radius:99px; font-size:10px;">
+                                <i class="icon-angle-left" aria-hidden="true"></i>
+                                <span>Go back</span>
+                            </a>
+                        </div>
+                        <div class="download hide-for-small">
+                            <a href="#" class="button lowercase" style="border-radius:99px;">
+                                <span>Download</span>
+                                <i class="icon-dribbble" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="tooltip-wrapper">
+                        <?= do_shortcode('[tooltip id="info-product" href="#info-product" label="Read more about the result" block_id="product-result-info-popup"]')?>
+                    </div>
+                </div>
+            </div>
         </section>
     </div>
     <?php
