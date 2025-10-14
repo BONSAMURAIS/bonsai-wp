@@ -437,6 +437,10 @@ async function display_result(htmlclass, data){
     if (unitList.length <= 1){
         unit_options.prop('disabled', true);
         unit_options.css('background', 'white');
+    }else{
+        unit_options.prop('disabled', false);
+        unit_options.css('background', '');
+
     }
 
     let displayed_unit = unit_ref;
