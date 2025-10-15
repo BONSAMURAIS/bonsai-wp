@@ -75,22 +75,21 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </div>
                 </div>
 
+                <section id="most-popular">
+                    <p>Most popular:</p>
+                    <ul>
+                        <?php foreach ($popularSearches as $popularSearch): ?>
+                            <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-choices="<?= $popularSearch->chosen_values ?>"><?= $popularSearch->search_phrase ?></button></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </section>
+
                 <datalist id="words">
                     <?php foreach($productsArray as $product): ?>
                         <option id="<?php echo $product['code'];?>" value="<?php echo $product['title'];?>">
                     <?php endforeach; ?>
                 </datalist>
             </div>
-
-            <section id="most-popular">
-                <!-- By other searches -->
-                <p>Most popular:</p>
-                <ul>
-                    <?php foreach ($popularSearches as $popularSearch): ?>
-                        <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-choices="<?= $popularSearch->chosen_values ?>"><?= $popularSearch->search_phrase ?></button></li>
-                    <?php endforeach; ?>
-                </ul>
-            </section>
         </form>
         
         <section id="uncertainty-wrapper" style="display: none;">
