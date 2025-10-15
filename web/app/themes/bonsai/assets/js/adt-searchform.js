@@ -247,7 +247,7 @@ jQuery(document).ready(function($){
             Utils.resizeTextToFit(text);
         });
 
-        let main_component = amountInput.closest("div.tile-wrapper");
+        let main_component = amountInput.closest("div.tile");
         main_component.find('.question-unit').first().text(unitLabel);
         const co2Value_unit = Utils.getResultUnitCO2(unitLabel);
         main_component.find('.co2-value-unit').text(co2Value_unit);
@@ -440,7 +440,6 @@ async function display_result(htmlclass, data){
     }else{
         unit_options.prop('disabled', false);
         unit_options.css('background', '');
-
     }
 
     let displayed_unit = unit_ref;
