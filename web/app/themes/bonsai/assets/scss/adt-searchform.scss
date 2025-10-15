@@ -277,7 +277,7 @@ div.tooltip-wrapper {
 
 label.select > select:not(.unit){
     position: relative;
-    height: 1.5em;
+    height: 2.5em;
     line-height: normal;
     -webkit-appearance: none;
     box-shadow: 0 1px 3px -2px #9098A9;
@@ -299,8 +299,7 @@ label.select > select:not(.unit){
 }
 
 label.select > select.unit{
-    font-size: 14px;
-    height: 3em;
+    font-size: 18px;
     min-width: 2em;
     border-bottom: 1px solid black;
     cursor: pointer;
@@ -506,7 +505,7 @@ div.tile {
 .product {
     &-parameters {
         display: flex;
-        gap: 0px 5px;
+        gap: 0px 15px;
         flex-wrap: wrap;
         width: 65%;
         height: min-content;
@@ -516,6 +515,8 @@ div.tile {
     }
 
     &-result {
+        position: relative;
+        top: 12px;
         font-size: 60px;
         color: $secondary;
         font-weight: 600;
