@@ -67,8 +67,6 @@ jQuery(document).ready(function($){
         init_form();
     }
 
-    copyTile();
-
     //listener to modal page event
     $('.tooltip-text').click(function(e) {
         e.preventDefault();
