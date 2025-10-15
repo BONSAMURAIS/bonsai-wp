@@ -42,14 +42,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </div>
                     </div>
                 </div>
-                <div class="switch-field-container-contri-analysis col medium-6 small-12 large-6">
-                    <div class="switch-field-container switch-field">
-                        <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
-                        <label for="basic-choice">Basic</label>
-                        <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
-                        <label for="advanced-choice">Advanced</label>
-                    </div>
-                </div>
             </div>
 
             <!-- Per person -->
@@ -121,7 +113,17 @@ add_shortcode( 'adt_searchform', function($atts) {
         <section id="co2-form-result">            
             <hr />
             <div id="product-analysis-content" class="tile">
-                <h2 class="product-title"></h2>
+                <div class="tile-header">
+                    <h2 class="product-title"></h2>
+                    <div class="switch-field-container-contri-analysis col medium-6 small-12 large-6">
+                        <div class="switch-field-container switch-field">
+                            <input type="radio" id="basic-choice" name="contri-analysis" value="basic" checked/>
+                            <label for="basic-choice">Basic</label>
+                            <input type="radio" id="advanced-choice" name="contri-analysis" value="advanced" />
+                            <label for="advanced-choice">Advanced</label>
+                        </div>
+                    </div>
+                </div>
                 <div class="product-info">
                     <div class="product-parameters">
                         <div>
