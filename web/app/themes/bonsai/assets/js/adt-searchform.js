@@ -177,7 +177,7 @@ jQuery(document).ready(function($){
         console.log("START popular/ history click")
         
         adt_push_parameter_to_url(userSelection);
-        let data = await API.get_product_footprint(userSelection);
+        let data = await API.get_product_footprint_by_search(productTitle);
 
         if(selectedValue === 'person'){
             data['title'] = "Emission per person";
