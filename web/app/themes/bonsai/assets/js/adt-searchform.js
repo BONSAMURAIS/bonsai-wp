@@ -161,7 +161,6 @@ jQuery(document).ready(function($){
 
         jQuery('#autocomplete-input').val('');
         adt_dynamic_search_input(list_product,list_product_title);
-
     });
 
     adt_dynamic_search_input(list_product,list_product_title);
@@ -183,7 +182,6 @@ jQuery(document).ready(function($){
         let data = await API.get_product_footprint(userSelection);
 
         if(selectedValue === 'person'){
-            // data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
             data['title'] = "Emission per person";
         }
 
