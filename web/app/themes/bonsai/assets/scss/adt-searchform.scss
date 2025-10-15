@@ -242,8 +242,7 @@ div.tooltip-wrapper {
 }
 
 .switch-field-container-contri-analysis {
-    display: flex;
-    justify-content: right;
+    padding: unset;
     @media only screen and (max-width: 468px) {
         justify-content: flex-end;
     }
@@ -483,6 +482,10 @@ input[name="search"] {
 /**
 * Section tile
 **/
+
+div.tile-header{
+    display: flex;
+}
 
 div.tile {
     padding: 30px 20px;
