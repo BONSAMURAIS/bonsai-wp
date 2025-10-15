@@ -485,10 +485,11 @@ input[name="search"] {
 
 div.tile-header{
     display: flex;
+    margin: 2em 0em;
 }
 
 div.tile {
-    padding: 30px 20px;
+    padding: 30px 40px;
     background-color: $grey;
     border-radius: 50px;
     text-align: left;
