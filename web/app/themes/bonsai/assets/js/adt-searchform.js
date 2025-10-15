@@ -403,7 +403,7 @@ async function display_result(htmlclass, data){
     if (data['list_locations'].length <= 1){
         location_dropdownElement.prop('disabled', true);
         location_dropdownElement.css('background', 'white');
-    }else {
+    }else{
         location_dropdownElement.prop('disabled', false);
         location_dropdownElement.css('background', '');
     }
@@ -412,10 +412,6 @@ async function display_result(htmlclass, data){
     Utils.selectOptionByText(main_component.find('.year').first()[0], data['year']);
     Utils.selectOptionByText(main_component.find('.climatemetric').first()[0], data['metric']);
     Utils.selectOptionByText(main_component.find('.database-version').first()[0], data['version']);
-
-    // main_component.find('.footprint-type').first().text(data['footprint-type-label']);
-    // main_component.find('.climate-metric').first().text(data.metric);
-    // main_component.find('.country').first().text(data["country"]);
     const isPersonTab = data['flow_code'] == null;
     main_component.find('.emission-unit').first().text("in "+data['unit_emission']);
     main_component.find('.question-location').text(isPersonTab ? data["country"] : Utils.capitalize(data["title"]));
