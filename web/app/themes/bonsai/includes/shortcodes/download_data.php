@@ -72,6 +72,10 @@ function custom_download_form_shortcode() {
         button.download-btn{
             background-color: var(--fs-color-primary);
         }
+      input:required + label::after {
+        content: " *";
+        color: red;
+      }
     </style>
 
 
