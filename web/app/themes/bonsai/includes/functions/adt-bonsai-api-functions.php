@@ -553,7 +553,7 @@ function adt_get_product_footprint(){
     error_log($countryCode);
     error_log($metric);
 
-    $data = call_product_footprint_api($productCode, $countryCode, $year, $version, $metric);
+    $data = call_product_footprint_api($productCode, $countryCode, $year, $version, $metric, $type);
     wp_send_json_success($data);
 }
 
