@@ -549,7 +549,9 @@ function adt_get_product_footprint(){
     $version = $_POST['database_version'];
     $metric = $_POST['metric'];
     error_log("get_product_footprint");
-    error_log($productCode, $countryCode, $version, $metric);
+    error_log($productCode);
+    error_log($countryCode);
+    error_log($metric);
 
     $data = call_product_footprint_api($productCode, $countryCode, $version, $metric);
     wp_send_json_success($data);
