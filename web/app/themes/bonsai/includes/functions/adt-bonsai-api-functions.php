@@ -410,7 +410,7 @@ function get_footprint($productCode){
 
 }
 
-function call_product_footprint_api(string $productCode, string $countryCode, string|int $year, ?string $version, ?string $metric, string $type){
+function call_product_footprint_api(string $productCode, string $countryCode, string|int $year, ?string $version, ?string $metric, ?string $type){
 
     // API URL
     $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
