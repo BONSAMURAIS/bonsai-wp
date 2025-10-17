@@ -429,12 +429,8 @@ input[name="search"] {
         display: inline-block;
 
         button {
-            padding: 0px 20px;
             border-radius: 50px;
             border: 1px solid black;
-            color: black;
-            margin: 0;
-            overflow: hidden;
             display: -webkit-box;
             position: relative;
             -webkit-line-clamp: 1; /* number of lines to show */
@@ -594,26 +590,26 @@ span.adt-close {
 #product-tab {
     margin: 20px 0;
     position: relative;
+}
 
-    button {
-        position: absolute;
-        right: 15px;
-        height: 100px;
-        margin: 0;
+button#btn-search {
+    position: absolute;
+    right: 15px;
+    height: 100px;
+    margin: 0;
 
-        svg {
-            display: flex;
-
-            @media only screen and (max-width: 468px) {
-                height: 26px;
-                width: 26px;
-            }
-        }
+    svg {
+        display: flex;
 
         @media only screen and (max-width: 468px) {
-            height: 45px;
-            right: 0;
+            height: 26px;
+            width: 26px;
         }
+    }
+
+    @media only screen and (max-width: 468px) {
+        height: 45px;
+        right: 0;
     }
 }
 
