@@ -410,7 +410,7 @@ function get_footprint($productCode){
 
 }
 
-function call_product_footprint_api(string $productCode, string $countryCode, ?string $version, ?string $metric){
+function call_product_footprint_api(string $productCode, string $countryCode, string|int $year, ?string $version, ?string $metric, string $type){
 
     // API URL
     $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
@@ -473,14 +473,14 @@ function call_product_footprint_api(string $productCode, string $countryCode, ?s
         'title' => $footprintTitle,
         'flow_code' => $productCode,
         'chosen_country' => $countryCode,
-        'country' => $country,
+        // 'country' => $country,
         "unit_reference" => $unit_reference,
         "unit_emission" => $unit_emission,
-        'uuid' => $productUuid,
+        // 'uuid' => $productUuid,
         'version' => $newestVersion,
         'all_data' => $footprint,
         'id' => $footprint['id'],
-        'best_match' => get_code_by_name($productName),
+        // 'best_match' => get_code_by_name($productName),
         'metric' => $metric,
         // 'nace_related_code' => $footprint['nace_related_code'],
         'region_code' => $footprint['region_code'],
@@ -553,7 +553,7 @@ function adt_get_product_footprint(){
     error_log($countryCode);
     error_log($metric);
 
-    $data = call_product_footprint_api($productCode, $countryCode, $version, $metric);
+    $data = call_product_footprint_api($productCode, $countryCode, $year, $version, $metric);
     wp_send_json_success($data);
 }
 
