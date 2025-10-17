@@ -13,8 +13,6 @@
         if (json_last_error() !== JSON_ERROR_NONE) {
             return '<p>Invalid JSON data.</p>';
         }
-
-        error_log($attr['filepath']);
         
         $options = '';
         foreach ($list_options as $option) {
