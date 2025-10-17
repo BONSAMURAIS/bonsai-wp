@@ -422,7 +422,6 @@ input[name="search"] {
 
     > * {
         margin-bottom: 0;
-        display: flex;
         flex-wrap: nowrap;
         max-width: 20%;
 
@@ -437,10 +436,8 @@ input[name="search"] {
     }
 
     ul li {
-        display: flex;
         gap: 10px;
         list-style: none;
-        margin: 0;
 
         button {
             padding: 0px 20px;
