@@ -119,6 +119,8 @@ jQuery(document).ready(function($){
             data['title'] = "Emission per person";
         }
         await display_result("#product-analysis-content",data);
+        adt_push_parameter_to_url(userSelection);
+
         adt_save_local_search_history(userSelection);
     });
 
@@ -186,6 +188,7 @@ jQuery(document).ready(function($){
 
         await display_result("#product-analysis-content",data);
         adt_save_local_search_history(userSelection);
+        adt_push_parameter_to_url(userSelection);
         console.log("END popular click")
     });
 
