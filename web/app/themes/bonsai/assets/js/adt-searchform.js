@@ -796,9 +796,9 @@ function adt_push_parameter_to_url(userSelection)
     const jsonString = JSON.stringify(allData);
     console.log("to url")
     console.log(jsonString)
-    const base64String = btoa(jsonString);  // base64 encode
+    // const base64String = btoa(jsonString);  // base64 encode
 
     // Add to URL
-    const getParameter = `?data=${base64String}`;
+    const getParameter = `?data=${jsonString}`;
     history.pushState(null, '', getParameter);
 }
