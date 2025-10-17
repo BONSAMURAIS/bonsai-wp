@@ -450,6 +450,7 @@ input[name="search"] {
             margin: 0;
             overflow: hidden;
             display: -webkit-box;
+            position: relative;
             -webkit-line-clamp: 1; /* number of lines to show */
             line-clamp: 1; 
             -webkit-box-orient: vertical;
