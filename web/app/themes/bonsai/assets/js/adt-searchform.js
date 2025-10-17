@@ -800,6 +800,7 @@ function adt_push_parameter_to_url(userSelection)
     // const base64String = btoa(jsonString);  // base64 encode
 
     // Add to URL
-    const getParameter = `?code=${allData.code}&year=${allData.year}&db_version=${allData.db_version}&country=${allData.country}&location=${allData.location}&climate_metric=${allData.climate_metric}&household_type=${allData.household_type}&income_group=${allData.income_group}`;
+    const queryString = new URLSearchParams(allData).toString(); 
+    const getParameter = `?${queryString}`;
     history.pushState(null, '', getParameter);
 }
