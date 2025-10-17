@@ -414,9 +414,14 @@ section#most-popular {
     align-items: center;
     padding: 2em;
 
-    & *{
+    //remove flatsome default settings
+    & * {
         margin: unset;
         padding: unset;
+    }
+
+    ul {
+        margin: 0em 1em;
     }
 
     ul li {
@@ -428,6 +433,7 @@ section#most-popular {
             border: 1px solid black;
             display: -webkit-box;
             position: relative;
+            padding: 0.1em 1em;
             -webkit-line-clamp: 1; /* number of lines to show */
             line-clamp: 1; 
             -webkit-box-orient: vertical;
