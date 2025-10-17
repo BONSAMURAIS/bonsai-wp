@@ -415,6 +415,7 @@ function call_product_footprint_api(string $productCode, string $countryCode, ?s
     // API URL
     $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
     $response = wp_remote_get($url);
+    error_log($url);
     
     // Check for errors
     if (is_wp_error($response)) {
@@ -423,6 +424,7 @@ function call_product_footprint_api(string $productCode, string $countryCode, ?s
     
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
+    error_log($body);
     $result = json_decode($body, true);
 
     if (isset($result['count']) && $result['count'] === 0) {
