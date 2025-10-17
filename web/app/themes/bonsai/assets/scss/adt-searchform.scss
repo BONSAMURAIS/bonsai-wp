@@ -409,10 +409,16 @@ input[name="search"] {
 /**
 * Section most-popular
 **/
-#most-popular {
+section#most-popular {
     display: flex;
     align-items: center;
-    
+    padding: 2em;
+
+    & > *{
+        margin: unset;
+        padding: unset;
+    }
+
     ul li {
         list-style: none;
         display: inline-block;
