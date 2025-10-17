@@ -6,6 +6,7 @@ import * as API from '../../utils/api-call.utils.js';
 // Makes sure to run the function when users go back and forth in browser
 window.addEventListener('popstate', async function(event) {
     const params = new URLSearchParams(window.location.search);
+    console.log("params=",params);
     const base64String = params.get('data');
 
     if (base64String) {
