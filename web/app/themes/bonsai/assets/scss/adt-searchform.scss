@@ -931,3 +931,30 @@ div.calculation-wrapper {
         width: 15px;
     }
 }
+
+/**
+* Screen size
+*/
+
+/* Extra small devices (phones, <576px) */
+@media (max-width: 575.98px) {
+    /* Styles for phones */
+    .product-info{
+        flex-direction:column;
+    }
+}
+
+/* Small devices (landscape phones, ≥576px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  /* Styles for small devices */
+}
+
+/* Medium devices (tablets, ≥768px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  /* Styles for tablets */
+}
+
+/* Large devices (desktops, ≥992px) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  /* Styles for desktops */
+}
