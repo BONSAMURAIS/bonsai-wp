@@ -13,6 +13,7 @@ add_shortcode( 'adt_searchform', function($atts) {
     $productsArray = adt_get_all_products_by_footprint();
     // $locationsArray = adt_get_locations();
     $popularSearches = adt_get_popular_searches();
+    error_log(json_encode($popularSearches[0]));
 
     $json_climate_metric = file_get_contents(__DIR__.'/../../dropdown_options/climate_metric.json');
     $list_climate_metric = json_decode($json_climate_metric, true);
@@ -79,7 +80,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <p>Most popular:</p>
                     <ul>
                         <?php foreach ($popularSearches as $popularSearch): ?>
-                            <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-choices="<?= $popularSearch->chosen_values ?>"><?= $popularSearch->search_phrase ?></button></li>
+                            <?php $chosenValues = json_decode($popularSearch->chosen_values, true); ?>
+                            <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-year="<?= $chosenValues['footprint_year'] ?>" data-location="<?= $chosenValues['footprint_location'] ?>" data-type="<?= $chosenValues['footprint_type'] ?>"><?= $popularSearch->search_phrase ?></button></li>
                         <?php endforeach; ?>
                     </ul>
                 </section>

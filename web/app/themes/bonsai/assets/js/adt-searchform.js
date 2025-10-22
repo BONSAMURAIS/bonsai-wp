@@ -1,4 +1,5 @@
 import UserSelection from '../../model/user_selection.js'; 
+import SearchParameters from '../../model/search_parameters.js'; 
 import * as CONST from '../../constants/constants.js'; 
 import * as Utils from '../../utils/tools.utils.js';
 import * as API from '../../utils/api-call.utils.js'; 
@@ -168,10 +169,13 @@ jQuery(document).ready(function($){
 
     $('#most-popular ul li button, #search-history-list li').on('click', async function(e) {
         e.preventDefault();
-        let searchparams = SearchParameters();
+        // let searchparams = new SearchParameters();
         let productTitle = $(this).text();
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
+        let product_location = $(this).data('location');
+        let product_year = $(this).data('year');
+        console.log("product_location=",product_location)
         userSelection.get_from_form();
         userSelection.set_product(productTitle,productCode,productUuid);
         let selectedValue = $('input[name="footprint_type"]:checked').val();
@@ -181,7 +185,7 @@ jQuery(document).ready(function($){
         console.log("START popular/ history click")
         
         adt_push_parameter_to_url(userSelection);
-        let data = await API.get_product_footprint_by_search(productTitle);
+        let data = await API.get_product_footprint(userSelection);
 
         if(selectedValue === 'person'){
             data['title'] = "Emission per person";

@@ -76,10 +76,12 @@ class UserSelection{
         }
     }
 
-    set_product(title,code,uuid){
+    set_product(title,code,uuid, year=2016, location="AU"){
         this.title = title;
         this.code = code;
         this.uuid = uuid;
+        this.year = year;
+        this.countryCode = location;
     }
 
     to_string() {
