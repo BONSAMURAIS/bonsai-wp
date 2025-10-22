@@ -6,6 +6,7 @@ import * as API from '../../utils/api-call.utils.js';
 // Makes sure to run the function when users go back and forth in browser
 window.addEventListener('popstate', async function(event) {
     const params = new URLSearchParams(window.location.search);
+    console.log("params=",params);
     const base64String = params.get('data');
 
     if (base64String) {
@@ -67,12 +68,15 @@ jQuery(document).ready(function($){
         init_form();
     }
 
-    copyTile();
-
-    $('#product-analysis-content .adt-close').remove(); // remove close btn
-
-    $('button#search-icon').prop('disabled', true);
-
+    //listener to modal page event
+    $('.tooltip-text').click(function(e) {
+        e.preventDefault();
+        $('#modal').show();
+    }); 
+    $('#closeModal').click(function(e) {
+        e.preventDefault();
+        $('#modal').hide();
+    });
 
     $('input[name="footprint_type"]').on('change',async function(){
         const isChecked = $(this).is(':checked');
@@ -101,7 +105,7 @@ jQuery(document).ready(function($){
         }
     });
 
-    $('#household-composition, #income-group, #location, #year, #climatemetric, #database-version').on('change', async function(){
+    $('#household-composition, #income-group, .location, .year, .climatemetric, .database-version').on('change', async function(){
         console.log("change ", jQuery(this).attr('id'));
         let userSelection = new UserSelection;
         userSelection.get_from_dropdown();
@@ -115,6 +119,8 @@ jQuery(document).ready(function($){
             data['title'] = "Emission per person";
         }
         await display_result("#product-analysis-content",data);
+        adt_push_parameter_to_url(userSelection);
+
         adt_save_local_search_history(userSelection);
     });
 
@@ -137,22 +143,6 @@ jQuery(document).ready(function($){
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
     $(searchform.products).each(function() {
-        if (this.code.toLowerCase() == "M_Beef_ons".toLowerCase() || this.code.toLowerCase() == "C_Beef_ons".toLowerCase() ){//|| this.code.toLowerCase() == "M_Beef_veal".toLowerCase() ){
-            return true;
-        }
-        if (chosenFootprintType === "product" && this.code.includes("M_")) {
-            return true;
-        }
-
-        if (chosenFootprintType === "market" 
-            && (this.code.includes('C_') || this.code.includes('EF_') || this.code.includes('A_'))
-        ) {
-            return true;
-        }
-        
-        if (this.code.startsWith('A_')) {
-            this.code = this.code.replace(/^A_/, 'C_');
-        }
         list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid}; //because title is unique
         list_product_title.add(this.title);
     });
@@ -166,37 +156,19 @@ jQuery(document).ready(function($){
         list_product = {};
         list_product_title = new Set();
         $(searchform.products).each(function() {
-        if (this.code.toLowerCase() == "M_Beef_ons".toLowerCase() || this.code.toLowerCase() == "C_Beef_ons".toLowerCase() ){//|| this.code.toLowerCase() == "M_Beef_veal".toLowerCase() ){
-                return true;
-            }
-            if (chosenFootprintType === "product" && this.code.includes("M_")) {
-                return true;
-            } else if (
-                chosenFootprintType === "market" 
-                && (this.code.includes('C_') || this.code.includes('EF_') || this.code.includes('A_'))
-            ) {
-                return true;
-            }
-            
-            if (this.code.startsWith('A_')) {
-                this.code = this.code.replace(/^A_/, 'C_');
-            }
-
             list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid} //because title is unique
             list_product_title.add(this.title);
         });
 
         jQuery('#autocomplete-input').val('');
-
-        console.log("bou list_product_title=",list_product_title)
         adt_dynamic_search_input(list_product,list_product_title);
-
     });
 
     adt_dynamic_search_input(list_product,list_product_title);
 
     $('#most-popular ul li button, #search-history-list li').on('click', async function(e) {
         e.preventDefault();
+        let searchparams = SearchParameters();
         let productTitle = $(this).text();
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
@@ -209,101 +181,19 @@ jQuery(document).ready(function($){
         console.log("START popular/ history click")
         
         adt_push_parameter_to_url(userSelection);
-        let data = await API.get_product_footprint(userSelection);
+        let data = await API.get_product_footprint_by_search(productTitle);
 
         if(selectedValue === 'person'){
-            // data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
             data['title'] = "Emission per person";
         }
 
         await display_result("#product-analysis-content",data);
         adt_save_local_search_history(userSelection);
+        adt_push_parameter_to_url(userSelection);
         console.log("END popular click")
     });
 
     adt_download_recipe_csv();
-
-    $('.share-icon').on('click', async function() {
-        e.preventDefault();
-        let productTitle = $('.search-result.basic .col:first-child p.product-title').text();
-        let productFootprint = $('input[name="footprint_type"]').val();
-        let FootprintView = $('input[name="contri-analysis"]').val();
-        let productFootprintType = $('.search-result > .col:first-child .footprint-type').attr('data-type');
-        let productCode = $('.search-result .col:first-child p.product-title').data('code');
-        let country = $('.search-result > .col:first-child .country').attr('data-country');
-        let year = $('.search-result > .col:first-child .year').attr('data-year');
-        let climateMetrics = $('.search-result > .col:first-child .climate-metrics').attr('data-climate-metrics');
-        let databaseVersion = $('.search-result > .col:first-child .version').attr('data-database-version');
-        let chosenAmount = $('.search-result > .col:first-child #amount').val();
-        let chosenUnit = $('.search-result > .col:first-child .unit').val();
-
-        let doesItCompare = false;
-
-        $('.search-result').each(function(){
-            if($(this).find('.adt-close').length > 0) {
-                doesItCompare = true;
-            }
-        });
-
-        let productTitleCompare = '';
-        let productCodeCompare = '';
-        let countryCompare = '';
-        let yearCompare = '';
-        let climateMetricsCompare = '';
-        let databaseVersionCompare = '';
-        let chosenAmountCompare = '';
-        let chosenUnitCompare = '';
-
-        if (doesItCompare) {
-            productTitleCompare = $('.search-result.basic .col:nth-child(2) p.product-title').text();
-            productCodeCompare = $('.search-result .col:nth-child(2) p.product-title').data('code');
-            countryCompare = $('.search-result > .col:nth-child(2) .country').attr('data-country');
-            yearCompare = $('.search-result > .col:nth-child(2) .year').attr('data-year');
-            climateMetricsCompare = $('.search-result > .col:nth-child(2) .climate-metrics').attr('data-climate-metrics');
-            databaseVersionCompare = $('.search-result > .col:nth-child(2) .version').attr('data-database-version');
-            chosenAmountCompare = $('.search-result > .col:nth-child(2) #amount').val();
-            chosenUnitCompare = $('.search-result > .col:nth-child(2) .unit').val();
-        }
-
-        data = {
-            title: productTitle,
-            content: productTitle,
-            footprint: productFootprint,
-            footprint_type: productFootprintType,
-            product_code: productCode,
-            footprint_country: country,
-            footprint_year: year,
-            footprint_climate_metrics: climateMetrics,
-            databaseVersion: databaseVersion,
-            amount_chosen: chosenAmount,
-            unit_chosen: chosenUnit,
-            title_compared: productTitleCompare,
-            content_compared: productTitleCompare,
-            footprint_compared: productFootprint,
-            footprint_type_compared: productFootprintType,
-            product_code_compared: productCodeCompare,
-            footprint_country_compared: countryCompare,
-            footprint_year_compared: yearCompare,
-            footprint_climate_metrics_compared: climateMetricsCompare,
-            amount_chosen_compared: chosenAmountCompare,
-            unit_chosen_compared: chosenUnitCompare,
-            footprint_view: FootprintView,
-        };
-
-        let search_hist = await API.save_search_history_on_click(data);
-
-        jQuery('#shared-search-box').fadeIn();
-        jQuery('#shared-search').val(search_hist);
-
-        jQuery('#copy-search').on('click', function() {
-            var $copyText = jQuery('#shared-search');
-            $copyText.select();
-            $copyText[0].setSelectionRange(0, 99999); // For mobile devices
-            document.execCommand('copy');
-
-            jQuery('#shared-search-box').fadeOut();
-        });
-    });
 
     adt_initialize_local_search_history();
 
@@ -326,23 +216,11 @@ jQuery(document).ready(function($){
         console.log('Start searching');
         let userSelection = new UserSelection;
         userSelection.get_from_form();
-        data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+        data = await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
 
-        if(selectedValue === 'person'){
-            data['title'] = "Emission per person";
-        }
-        adt_push_parameter_to_url(userSelection);
-        await display_result("#product-analysis-content",data);
-        console.log('END searching');
-    });
-    
-    // Search 
-    $('#btn-add-comparison, #add-btn').click(async function(e){
-        e.preventDefault();
-        let selectedValue = $('input[name="footprint_type"]:checked').val();
-        if (jQuery('#autocomplete-input').val() =="" && selectedValue != 'person'){
+        if (data.error){
             let error_msg = jQuery('#error-message');
-            error_msg.append("<p id='error-message-content' class='error-message-content-decorator'> Please search for a product or service </p>");
+            error_msg.append("<p id='error-message-content' class='error-message-content-decorator'> No product found for this search</p>");
             error_msg.slideDown('fast');
             setTimeout(function () {
                 error_msg.slideUp('slow');
@@ -351,106 +229,14 @@ jQuery(document).ready(function($){
             return
         }
         
-        console.log('Start searching for comparison');
-        let userSelection = new UserSelection;
-        userSelection.get_from_form();
-        console.log("userSelection=", userSelection.to_string());
-        
-        data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
         if(selectedValue === 'person'){
-            // data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
             data['title'] = "Emission per person";
         }
-        
-        let hasResult = await display_result("#compared-product-analysis-content",data);
-        
-        if (hasResult){
-            adt_push_parameter_to_url(userSelection);
-            $("#add-btn").hide();
-            $("#compared-product-analysis-content").show();
-            // $('#uncertainty-wrapper').slideDown();
-        }
-
-        console.log('END searching for comparison');
+        adt_push_parameter_to_url(userSelection);
+        await display_result("#product-analysis-content",data);
+        console.log('END searching');
     });
-
-    $(".adt-close").click(function(e){
-        e.preventDefault();
-        
-        // $('#uncertainty-wrapper').slideUp();
-        
-        let addBtn = $("#add-btn");
-        console.log("target e.target.closest(.tile)=",e.target.closest(".tile"))
-        if (!addBtn.is(':hidden')){
-            Utils.hide_search_results('#co2-form-result');
-            return;
-        }
-
-        let tile = $(e.target).closest(".tile-wrapper");
-        console.log("tile=",tile);
-        if (tile.attr("id")=="product-analysis-content"){
-            tile.empty();//issue here with the button basic-advanced: the elements are not recognized by the document
-            let copy = $("#compared-product-analysis-content").children().first();
-            removeSuffix(copy);
-            copy.appendTo("#"+tile.attr("id"));
-            $("#add-btn").show();
-            $("#compared-product-analysis-content").remove();
-            copyTile();
-
-            return;
-        }
-        tile.hide();
-        $("#add-btn").show();
-        // $("#compared-product-analysis-content").hide();
-    });
-
-    function removeSuffix(clone){
-        const suffix = '-compared';
-
-        clone.find('.switch-field-container-contri-analysis').first().children().each(function(){
-            if (jQuery(this).is('input')) {
-                let currentId = jQuery(this).attr('id');
-                if (currentId) {
-                    currentId = currentId.replace(suffix, "");
-                    jQuery(this).attr('id', currentId);
-                }
-            } else if (jQuery(this).is('label')) {
-                let currentFor = jQuery(this).attr('for');
-                if (currentFor) {
-                    currentFor = currentFor.replace(suffix, "");
-                    jQuery(this).attr('for', currentFor);
-                }
-            }
-        });
-        
-        clone.find('.unit-select-wrapper').children().each(function(){
-            if (jQuery(this).is('input') || jQuery(this).is('select')) {
-                let currentId = jQuery(this).attr('id');
-                console.log("currentId=",currentId)
-                if (currentId) {
-                    currentId = currentId.replace(suffix, "");
-                    jQuery(this).attr('id', currentId);
-                }
-            } else if (jQuery(this).is('label')) {
-                let currentFor = jQuery(this).attr('for');
-                if (currentFor) {
-                    currentFor = currentFor.replace(suffix, "");
-                    jQuery(this).attr('for', currentFor);
-                    jQuery(this).children().each(function(){
-                        if (jQuery(this).is('input') || jQuery(this).is('select')) {
-                            let currentId = jQuery(this).attr('id');
-                            console.log("currentId=",currentId);
-                            if (currentId) {
-                                currentId = currentId.replace(suffix, "");
-                                jQuery(this).attr('id', currentId);
-                            }
-                        }
-                    })
-                }
-            }
-        });
-    }
-
+    
     //observe on_change elements
     jQuery('#co2-form-result').find('select.unit').on('change', function () {
         console.log("change unit")
@@ -461,8 +247,8 @@ jQuery(document).ready(function($){
         let amountInput = unitSelect.closest('.unit-select-wrapper')      // go up to the label wrapping <select>
                                     .find('input.quantity');        // look inside for input.amount
         let numberInput = amountInput.val();
-        let co2_result = unitSelect.closest('div.choices')      // go up to the div wrapping 
-                                    .find('p.co2-value');        // look inside for p.co2-value
+        let co2_result = unitSelect.closest('div.product-result')      // go up to the div wrapping 
+                                    .find('span.co2-value');        // look inside for span.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
         let calculatedValue = co2_result_value * numberInput * unitRatio;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
@@ -473,7 +259,7 @@ jQuery(document).ready(function($){
             Utils.resizeTextToFit(text);
         });
 
-        let main_component = amountInput.closest("div.tile-wrapper");
+        let main_component = amountInput.closest("div.tile");
         main_component.find('.question-unit').first().text(unitLabel);
         const co2Value_unit = Utils.getResultUnitCO2(unitLabel);
         main_component.find('.co2-value-unit').text(co2Value_unit);
@@ -523,8 +309,8 @@ jQuery(document).ready(function($){
         controlInput_value($(this));
         let amountInput = $(this);
         let amountInputValue = amountInput.val() == '' ? 0 : amountInput.val();
-        let co2_result = amountInput.closest('div.choices')      // go up to the div wrapping 
-                                .find('p.co2-value');        // look inside for p.co2-value
+        let co2_result = amountInput.closest('div.product-result')      // go up to the div wrapping 
+                                .find('span.co2-value');        // look inside for span.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
 
 
@@ -532,8 +318,6 @@ jQuery(document).ready(function($){
         let unitSelect = amountInput.closest('div.unit-select-wrapper')
                                 .find('select.unit');
         const unitRatio = unitSelect.val();
-        // let unitRatio_name = unitSelect.find('option:selected').text();
-        // console.log("unitRatio , unitRatio_name = ", unitRatio, unitRatio_name)
 
         let calculatedValue = co2_result_value * amountInputValue * unitRatio;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
@@ -550,12 +334,12 @@ jQuery(document).ready(function($){
             recipeArray[i].value_inflow *=  amountInputValue;
             
         }
-        let main_component = amountInput.closest("div.tile-wrapper");
+        let main_component = amountInput.closest("div.tile");
         display_recipe_table(main_component, recipeArray);
 
         amountInput.val(amountInput.val());//keep value in input
         
-        let quantityQuestion = amountInput.closest('div.calculation-wrapper')
+        let quantityQuestion = amountInput.closest('div.contribution-analysis')
                                 .find('span.quantity-value');
         quantityQuestion.text(amountInputValue);
     });
@@ -585,18 +369,14 @@ jQuery(document).ready(function($){
         } catch (err) {
             console.error('Error in async handler:', err);
         }
-
-        // // Jump to new page, so you both can share the URL and go back in browser, if you want to go back to previous state
-        // const href = jQuery(this).attr('href');
-        // history.pushState(null, '', href);
     });
 
     //hide/display arrow
     $('label.select').each(function() {
         let listOptions = $(this).find('option');
         if (listOptions.length <= 1){
-            $(this).children('svg').first().hide(); //hide arrow
             $(this).children('select').first().prop('disabled', true); //disable select
+            $(this).children('select').first().css('background', 'white'); //hide arrow
         }
     });
 
@@ -629,29 +409,23 @@ async function display_result(htmlclass, data){
     main_component.find('.product-title').text(Utils.capitalize(data["title"]));
     main_component.find('.product-title').first().attr("data-code",data['flow_code'] ?? "person");
     main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
-    //set tags
-    //TODO hardcode replacement
-    let dataCode = data['flow_code'];
-    if (dataCode){
-        if (dataCode.includes("M_")) {
-            data['footprint-type'] = 'Cradle to consumer';
-            data['footprint-type-label'] ='Cradle to consumer';
-        } else if (dataCode.includes('C_') || dataCode.includes('EF_') || dataCode.includes('A_')) {
-            data['footprint-type'] = 'Cradle to gate';
-            data['footprint-type-label'] = 'Cradle to gate';
-        } else if (dataCode.includes("F_")) {
-            data['footprint-type'] = 'Cradle to grave';
-            data['footprint-type-label'] = 'Cradle to grave';
-        }
-    }else{
-        data['footprint-type'] = 'Cradle to grave';
-        data['footprint-type-label'] ='Cradle to grave';
+    //set location list of dropdown
+    let location_dropdownElement = main_component.find('.location').first();
+    for (const location of data['list_locations']){
+        location_dropdownElement.append(`<option value="${location['code']}">${location['name']}</option>`);
     }
-    main_component.find('.footprint-type').first().text(data['footprint-type-label']);
-    //endTODO hardcode replacement
-    main_component.find('.climate-metric').first().text(data.metric);
-    main_component.find('.year').first().text(data["year"]);
-    main_component.find('.country').first().text(data["country"]);
+    if (data['list_locations'].length <= 1){
+        location_dropdownElement.prop('disabled', true);
+        location_dropdownElement.css('background', 'white');
+    }else{
+        location_dropdownElement.prop('disabled', false);
+        location_dropdownElement.css('background', '');
+    }
+    //set dropdown tags
+    Utils.selectOptionByText(main_component.find('.location').first()[0], data['country']);
+    Utils.selectOptionByText(main_component.find('.year').first()[0], data['year']);
+    Utils.selectOptionByText(main_component.find('.climatemetric').first()[0], data['metric']);
+    Utils.selectOptionByText(main_component.find('.database-version').first()[0], data['version']);
     const isPersonTab = data['flow_code'] == null;
     main_component.find('.emission-unit').first().text("in "+data['unit_emission']);
     main_component.find('.question-location').text(isPersonTab ? data["country"] : Utils.capitalize(data["title"]));
@@ -667,16 +441,15 @@ async function display_result(htmlclass, data){
     for (const unit of unitList){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
-    if (unitList.length>1){
-        jQuery('.unit-arrow').each(function(index, arrow) {
-            arrow.style.display = 'block';
-        })
-        main_component.find('select.unit').first().prop('disabled', false); 
+    console.log(unitList);
+    if (unitList.length <= 1){
+        unit_options.prop('disabled', true);
+        unit_options.css('background', 'white');
     }else{
-        jQuery('.unit-arrow').each(function(index, arrow) {
-            arrow.style.display = 'none';
-        })
+        unit_options.prop('disabled', false);
+        unit_options.css('background', '');
     }
+
     let displayed_unit = unit_ref;
     let preposition = " of ";
     if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
@@ -727,8 +500,6 @@ function display_recipe_table(main_component,recipeArray){
 
         const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
         let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow);
-        // console.log("recipe.value_inflow=",recipe.value_inflow)
-        // console.log("displayed_unit['ratio']=",displayed_unit['ratio'])
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
 
@@ -777,67 +548,6 @@ function display_recipe_table(main_component,recipeArray){
 
         table.find('tbody').append(rows);
     });
-}
-
-
-//TODO to remove. kept for the moment because of the uncertainty
-async function adt_update_comparison_info(dataArray = null){
-    if (dataArray.all_data) {
-        for (const element of jQuery('.search-result .col:first-child')) {
-            for (const item of dataArray.all_data) {
-                if (item.unit_reference === defaultUnit) {
-                    valueForItems = item.value;
-
-                    // The original data is saved because it's needed for the uncertainty calculation
-                    let originalDataArray = JSON.parse(localStorage.getItem("footprint_original_state_data"));
-                    let originalSample = [];
-
-                    for (const originalItem of originalDataArray.all_data) {
-                        if (originalItem.unit_reference === defaultUnit) {
-                            originalSample = originalItem.samples;
-                        }
-                    }
-
-                    let comparisonSample = item.samples;
-
-                    // Because comparison is active also get the uncertainty of the comparison
-                    let numberUncertainty = await API.uncertainty_calculation(originalSample, comparisonSample);
-                    // convert number to percentage
-                    numberUncertainty = parseFloat(numberUncertainty) * 100;
-                    numberUncertainty = Math.round(numberUncertainty * 100) / 100; // Round to two decimal places
-
-                    let uncertaintyBar = jQuery('#uncertainty-bar-background');
-                    uncertaintyBar.css('width', numberUncertainty+'%');
-                    uncertaintyBar.attr('data-uncertainty', numberUncertainty+'%');
-
-                    jQuery('#uncertainty-wrapper').slideDown();
-
-                    let colorBar = "";
-                    if (numberUncertainty < 80) {
-                        colorBar = CONST.COLOR.GREEN;
-                    } else if (numberUncertainty >= 80 && numberUncertainty < 90) {
-                        colorBar = CONST.COLOR.YELLOW;
-                    } else {
-                        colorBar = CONST.COLOR.RED;
-                    }
-                    uncertaintyBar.css('background-color', colorBar);
-
-                    if (item.unit_reference === CONST.UNIT.TJ){
-                        if(item.description.includes('electricity')){
-                            console.log('ELECTRICITY is found');
-                            // convertedValueForItems = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.KWH, valueForItems);
-                        }else{
-                            console.log('does not contain electricity');
-                            // convertedValueForItems = await API.get_converted_number_by_units(CONST.UNIT.TJ, CONST.UNIT.MJ, valueForItems);
-                            convertedValueForItems = convertedValueForItems / 1000; // multiply by 1000 to convert from MJ per tonnes to MJ per kg
-                        }
-                        item.value = convertedValueForItems;
-                    }
-                    break;
-                }
-            }
-        }
-    }
 }
 
 // Download CSV
@@ -893,7 +603,6 @@ function adt_dynamic_search_input(list_product, list_product_title)
     const $input = jQuery('#autocomplete-input');
     const $suggestionsWrapper = jQuery('#suggestions-wrapper');
     const $suggestions = jQuery('#suggestions');
-    const $submitBtn = jQuery('#search-icon');
     let currentIndex = -1;
     let suggestionSelected = false;
 
@@ -940,9 +649,23 @@ function adt_dynamic_search_input(list_product, list_product_title)
                 e.preventDefault();
                 currentIndex = (currentIndex - 1 + $items.length) % $items.length;
                 markCurrentItem($items);
-            } 
-            else if (e.key === 'Enter') {
+            } else if (e.key === 'Enter' && jQuery('#autocomplete-input').val() !== '') {
                 e.preventDefault();
+                let data = await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
+                $suggestionsWrapper.hide();
+                if (data.error){
+                    let error_msg = jQuery('#error-message');
+                    error_msg.append("<p id='error-message-content' class='error-message-content-decorator'> No product found for this search</p>");
+                    error_msg.slideDown('fast');
+                    setTimeout(function () {
+                        error_msg.slideUp('slow');
+                        jQuery("#error-message-content").remove();
+                    }, CONST.ANIM.DURATION); //ici
+                    return
+                }
+                // adt_push_parameter_to_url(userSelection);
+                await display_result("#product-analysis-content",data);
+                jQuery(this).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
             }
         }
     });
@@ -1031,23 +754,6 @@ function adt_save_local_search_history(userSelection)
         localStorage.setItem("adt_search_history", JSON.stringify(searchHistory));
         jQuery(this).parent().remove();
     });
-
-    // jQuery('#search-history-list li').on('click', async function() {
-    //     let userSelection = new UserSelection;
-    //     let productTitle = jQuery(this).text();
-    //     let productCode = jQuery(this).data('code');
-    //     let productUuid = jQuery(this).data('uuid');
-    //     userSelection.set_product(productTitle,productCode,productUuid);
-    //     userSelection.get_from_form();
-
-    //     jQuery('#autocomplete-input').val(productTitle);
-
-    //     adt_push_parameter_to_url(userSelection);
-    //     let data_product = await API.get_product_footprint(userSelection);
-    //     updateTile(data_product);
-    //     adt_save_local_search_history(userSelection);
-
-    // });
 }
 
 function adt_initialize_local_search_history()
@@ -1114,9 +820,39 @@ function adt_push_parameter_to_url(userSelection)
     };
 
     const jsonString = JSON.stringify(allData);
+    console.log("to url")
+    console.log(jsonString)
     const base64String = btoa(jsonString);  // base64 encode
 
     // Add to URL
     const getParameter = `?data=${base64String}`;
+    history.pushState(null, '', getParameter);
+}
+
+function add_url_parameters(data)
+{
+    // Do this to make sure you can go back in browser
+    // Convert to base64
+    let params = {
+        title: data.title,
+        code: data.code,
+        climate_metric: data.climate_metric,
+        household_type: data.household_type,
+        income_group: data.income_group,
+        location: data.countryCode,
+        country: data.country,
+        footprint_type: data.footprint_type,
+        year: data.year,
+        db_version: data.db_version,
+    };
+
+    const jsonString = JSON.stringify(params);
+    console.log("to url")
+    console.log(jsonString)
+    // const base64String = btoa(jsonString);  // base64 encode
+
+    // Add to URL
+    const queryString = new URLSearchParams(params).toString(); 
+    const getParameter = `?${queryString}`;
     history.pushState(null, '', getParameter);
 }

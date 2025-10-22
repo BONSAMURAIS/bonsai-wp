@@ -281,9 +281,14 @@ function get_country_name_by_country_code(){
     return $countryName;
 }
 
-function get_code_by_name($name){
-    $url = $GLOBALS['APIURL']."/search/?q=".$name;
+add_action('wp_ajax_get_prod_footprint_by_search', 'get_prod_footprint_by_search');
+add_action('wp_ajax_nopriv_get_prod_footprint_by_search', 'get_prod_footprint_by_search');
+
+function get_prod_footprint_by_search(){
+
+    $url = $GLOBALS['APIURL']."/search/?q=".$_POST['query'];
     $response = wp_remote_get($url);
+    error_log($url);
     
     // Check for errors
     if (is_wp_error($response)) {
@@ -292,10 +297,14 @@ function get_code_by_name($name){
     
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
+    error_log($body);
+    
     $result = json_decode($body, true);
-
-    if (isset($result['products']) && $result['products'] === 0) {
-        wp_send_json_error(['error' => 'Country not found']);
+    
+    error_log(empty($result['products']));
+    if (isset($result['products']) && empty($result['products'])) {
+        error_log("dsadsadas");
+        wp_send_json_error(['error' => 'Product not found']);
     }
 
     // Handle potential errors in the response
@@ -307,48 +316,108 @@ function get_code_by_name($name){
         wp_send_json_error(['error' => $result['detail']], 503);
     }
 
-    $code = $result['best_match']['product']['code'];
-    return $code;
+    $best_match = $result["best_match"];
+    $footprint = $result["footprint"];
+    $year = 2016; //change when it appears in api
+    $footprint_type = "TODO"; //change when it appears in api
+
+    $data =  [
+        'title' => $best_match["product"]["name"],
+        'flow_code' => $best_match["product"]["code"],
+        'chosen_country' => $best_match["location"]["code"],
+        'country' => $best_match["location"]["name"],
+        "unit_reference" => $footprint["unit_reference"],
+        "unit_emission" => $footprint["unit_emission"],
+        'version' => $footprint["version"],
+        'metric' => $footprint["metric"],
+        'value' => $footprint['value'],
+        'recipe' => $result["recipe"],
+        'list_locations' => adt_get_locations(),//$result["locations"],
+        'year' => $year,
+        'footprint_type' => $footprint_type,
+    ];
+
+    return wp_send_json_success($data);
 }
 
-add_action('wp_ajax_get_country_name_by_code', 'get_country_name_by_code');
-add_action('wp_ajax_nopriv_get_country_name_by_code', 'get_country_name_by_code');
+function get_footprint($productCode){
+    $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode;
 
+    // Check for errors
+    if (is_wp_error($response)) {
+        return wp_send_json_error(['Error: ' . $response->get_error_message()]);
+    }
+    
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
 
-function adt_get_product_footprint(){
-    $productName = $_POST['title'];
-    $productCode = $_POST['code'] ?? get_code_by_name($productName);
-    $productUuid = $_POST['uuid'];
-    $countryCode = $_POST['footprint_location'];
-    $country = $_POST['country'] ?? get_country_name_by_country_code();
-    $type = $_POST['footprint_type'];
-    // $type_label = $_POST['footprint_type_label'];
-    $year = $_POST['footprint_year'];
-    $version = $_POST['database_version'];
-    $metric = $_POST['metric'];
-
-    // Check if the data is already cached
-    $cachedFootprints = get_transient('adt_recipe_cache');
-
-    if($productCode == null){
-        return wp_send_json_error(['Error: no code found for this product']);
+    if (isset($result['count']) && $result['count'] === 0) {
+        wp_send_json_error(['error' => 'Product not found']);
     }
 
-    // // If cache exists, return the cached data
-    // if ($cachedFootprints !== false) {
-    //     if (array_key_exists($productCode, $cachedFootprints) 
-    //         && $cachedFootprints[$productCode]['chosen_country'] === $countryCode
-    //         && $cachedFootprints[$productCode]['version'] === $version) {
-    //             wp_send_json_success($cachedFootprints[$productCode]);
-    //             die();
-    //         }
-    //     }
-        
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return 'No footprints found or an error occurred.';
+    }
+
+    if (array_key_exists('detail', $result)) {
+        wp_send_json_error(['error' => $result['detail']], 503);
+    }
+
+    // get newest version of the footprint.
+    $footprints = $result['results'];
+    $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric);
+
+    if(!empty($productCode) & empty($footprintTitle) ){
+        $footprintTitle = get_product_name_by_code($productCode);
+    }
+
+    $footprint['value'] = convert_footprint_value($unit_reference,$footprint['value']);
+    if ($GLOBALS['UNIT']['ITEMS'] == strtoupper($unit_reference)){
+        $footprint['value'] *= 1000;
+    }
+            
+    $data = [
+        'title' => $footprintTitle,
+        'flow_code' => $productCode,
+        'chosen_country' => $countryCode,
+        'country' => $country,
+        "unit_reference" => $unit_reference,
+        "unit_emission" => $unit_emission,
+        'uuid' => $productUuid,
+        'version' => $newestVersion,
+        'all_data' => $footprint,
+        'id' => $footprint['id'],
+        'best_match' => get_code_by_name($productName),
+        'metric' => $metric,
+        // 'nace_related_code' => $footprint['nace_related_code'],
+        'region_code' => $footprint['region_code'],
+        'samples' => $footprint['samples'],
+        'value' => $footprint['value'],
+        'recipe' => $recipeData,
+        'year' => $year,
+        'footprint-type' => $type,
+        // 'footprint-type-label' => $type_label,
+    ];
+
+    $cachedFootprintArray = [
+        $productCode => $data,
+    ];
+
+    // Cache the locations for 24 hour (86400 seconds)
+    set_transient('adt_recipe_cache', $cachedFootprintArray, 86400);
+
+    wp_send_json_success($data);
+
+}
+
+function call_product_footprint_api(string $productCode, string $countryCode, string $country, string|int $year, ?string $version, ?string $metric, ?string $type){
+
     // API URL
     $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
     $response = wp_remote_get($url);
-
-
+    error_log($url);
     
     // Check for errors
     if (is_wp_error($response)) {
@@ -357,6 +426,7 @@ function adt_get_product_footprint(){
     
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
+    error_log($body);
     $result = json_decode($body, true);
 
     if (isset($result['count']) && $result['count'] === 0) {
@@ -408,11 +478,11 @@ function adt_get_product_footprint(){
         'country' => $country,
         "unit_reference" => $unit_reference,
         "unit_emission" => $unit_emission,
-        'uuid' => $productUuid,
+        // 'uuid' => $productUuid,
         'version' => $newestVersion,
         'all_data' => $footprint,
         'id' => $footprint['id'],
-        'best_match' => get_code_by_name($productName),
+        // 'best_match' => get_code_by_name($productName),
         'metric' => $metric,
         // 'nace_related_code' => $footprint['nace_related_code'],
         'region_code' => $footprint['region_code'],
@@ -431,6 +501,61 @@ function adt_get_product_footprint(){
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_recipe_cache', $cachedFootprintArray, 86400);
 
+    return $data;
+
+}
+
+function get_code_by_name($name){
+    $url = $GLOBALS['APIURL']."/search/?q=".$name;
+    $response = wp_remote_get($url);
+    
+    // Check for errors
+    if (is_wp_error($response)) {
+        return wp_send_json_error(['Error: ' . $response->get_error_message()]);
+    }
+    
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+
+    if (isset($result['products']) && $result['products'] === 0) {
+        wp_send_json_error(['error' => 'Country not found']);
+    }
+
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return 'No footprints found or an error occurred.';
+    }
+
+    if (array_key_exists('detail', $result)) {
+        wp_send_json_error(['error' => $result['detail']], 503);
+    }
+
+    $code = $result['best_match']['product']['code'];
+    return $code;
+}
+
+add_action('wp_ajax_get_country_name_by_code', 'get_country_name_by_code');
+add_action('wp_ajax_nopriv_get_country_name_by_code', 'get_country_name_by_code');
+
+
+function adt_get_product_footprint(){
+    $productName = $_POST['title'];
+    $productCode = $_POST['code'] ?? get_code_by_name($productName);
+    $productUuid = $_POST['uuid'];
+    $countryCode = $_POST['footprint_location'];
+    $country = $_POST['country'] ?? get_country_name_by_country_code();
+    $type = $_POST['footprint_type'];
+    // $type_label = $_POST['footprint_type_label'];
+    $year = $_POST['footprint_year'];
+    $version = $_POST['database_version'];
+    $metric = $_POST['metric'];
+    error_log("get_product_footprint");
+    error_log($productCode);
+    error_log($countryCode);
+    error_log($metric);
+
+    $data = call_product_footprint_api($productCode, $countryCode, $country, $year, $version, $metric, $type);
     wp_send_json_success($data);
 }
 
@@ -447,6 +572,9 @@ function convert_footprint_value($unit,&$value){
         break;
         case $GLOBALS['UNIT']['HA_PER_YEAR']:
             $value *= 10;
+        break;
+        case $GLOBALS['UNIT']['ITEMS']:
+            $value *= 1e-3;
         break;
     }
     return $value;

@@ -111,11 +111,11 @@ export function getUnitOptions(dataArray, unit_ref){
         unitList = [
             {ratio:1,label:CONST.UNIT.PERSON_YEAR},
         ]
-    } else if (unit_ref == CONST.UNIT.TJ){ //for person footprint-type
+    } else if (unit_ref == CONST.UNIT.TJ){ 
         unitList = [
             {ratio:1,label:CONST.UNIT.KWH},
             {ratio:1e-3,label:CONST.UNIT.MJ},
-            {ratio:1,label:CONST.UNIT.GJ}, //ratio is 1 because the unit label changes too
+            {ratio:1e-3,label:CONST.UNIT.GJ}, //ratio is 1 because in TJ in backend
         ]
     }
 
@@ -155,7 +155,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     }else{
         switch (unit_ref){
             case CONST.UNIT.TJ.toLowerCase():
-                finalUnit =  {ratio:1,label:CONST.UNIT.GJ};
+                finalUnit =  {ratio:1e-3,label:CONST.UNIT.GJ};
                 break;
             case CONST.UNIT.ITEMS.toLowerCase():
                 finalUnit =  {ratio:1,label:CONST.UNIT.ITEMS};
@@ -173,6 +173,13 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     return finalUnit;
 }
 
-export function convertUnit(unit_ref){
-    //TODO
-}
+export function selectOptionByText(select_DOMelement, targetText) {
+    const options = select_DOMelement.options;
+
+    for (let i = 0; i < options.length; i++) {
+      if (options[i].text === targetText) {
+        select_DOMelement.selectedIndex = i;
+        break;
+      }
+    }
+  }

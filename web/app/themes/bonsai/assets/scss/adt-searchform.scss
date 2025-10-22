@@ -17,35 +17,68 @@ div#initial-error-message {
 }
 
 /**
+* General: to remove some flatsome default css 
+**/
+input{
+    margin-bottom: unset;
+}
+input[type=text]{
+    border: unset;
+    box-shadow: unset;
+    font-size: unset;
+    height: unset;
+}
+
+select {
+    margin-bottom: unset;
+}
+
+p {
+    font-size: 20px;
+    margin-block-start: unset;
+    margin-block-end: unset;
+}
+
+/**
 * Widget
 **/
 
 //divider
-div.divider {
+hr {
     margin:30px auto;
     width:75%;
-    height:1px;
     background-color: #E8EDED;
 }
 
-//magnifier icon
-#search-icon{
-    cursor: unset;
+//modal popup
+div#modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; 
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 9999;
 }
 
-//add btn
-p.add{
-    color: #C3F138;
-    line-height: 150px;
-    font-size: 150px;
-    margin: unset;
+div#modal-content {
+  background: rgb(255, 255, 255);
+  margin: 10% auto;
+  padding: 20px;
+  width: 45vw;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 5px; right: 10px;
+  cursor: pointer;
 }
 
 //tooltip
 div.tooltip {
     display: flex;
     justify-content: flex-start;
-    font-size: 10px;
+    font-size: 13px;
     margin-bottom: 5px;
 
     a {
@@ -209,8 +242,7 @@ div.tooltip-wrapper {
 }
 
 .switch-field-container-contri-analysis {
-    display: flex;
-    justify-content: right;
+    padding: unset;
     @media only screen and (max-width: 468px) {
         justify-content: flex-end;
     }
@@ -237,74 +269,72 @@ div.tooltip-wrapper {
 .unit-select-wrapper {
     display: flex;
     gap: 10px;
+    justify-self: end;
     align-items: center;
     position: relative;
 }
 
-label.select {
+label.select > select:not(.unit){
     position: relative;
-    margin-bottom: 0;
-
-    svg {
-        position: absolute;
-        right: 20px;
-        top: calc(50% - 8px);
-        pointer-events: none;
-    }
-}
-
-select, input[type=number], input[type=text].quantity {
+    height: 2.5em;
+    line-height: normal;
     -webkit-appearance: none;
-    background: white;
     box-shadow: 0 1px 3px -2px #9098A9;
-    min-width: 9em;
+    font-family: inherit; font-size: 18px; font-weight: 400;
     cursor: pointer;
-    font-family: inherit;
-    font-size: 18px;
-    font-weight: 400;
     transition: all 150ms ease;
-    padding: 0px 20px;
-    border-radius: 50px;
-    border: 1px solid black;
+    padding: 0px 10px;
+    border: 1px solid black; border-radius: 50px;
     color: black;
-    margin: 0 10px 0 0;
-
-    &:required:invalid {
-        color: #5A667F;
-    }
     
-    option {
-        color: #223254;
-
-        &[value=""][disabled] {
-            display: none;
-        }
+    &[class^="year"],&[class^="database-version"]{
+        min-width: 5em;
     }
-    
+
     &:focus {
         outline: none;
         box-shadow: none;
+    }    
+}
+
+label.select > select.unit{
+    font-size: 18px;
+    min-width: 2em;
+    border-bottom: 1px solid black;
+    cursor: pointer;
+    line-height: normal;
+}
+
+label.select > select.climatemetric{
+    width: 6em;
+}
+
+option {
+    color: #223254;
+
+    &[value=""][disabled] {
+        display: none;
     }
+}
+div.arrow-wrapper{
+    position: relative;
+}
+svg.select-arrow {
+    position: absolute;
+    right: 20px;
+    top: calc(50% - 8px);
+    pointer-events: none;
+    z-index:900;
 }
 
 input[type=text].quantity{
-    width: 10em;
-}
-
-input[type=number] {
-    border-color: $dark-grey;
-    width:35%;
-    /* Remove arrows in Chrome, Safari, Edge, and Opera */
-    &::-webkit-inner-spin-button,
-    &::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
-    
-    /* Remove arrows in Firefox */
-    & {
-        -moz-appearance: textfield;
-    }
+    width: 5.5em; height: 0.8em;
+    font-size: 0.5em;
+    padding: unset;
+    border: none;
+    border-bottom: 1px solid black;
+    background: transparent;
+    outline: none;
 }
 
 .select-wrapper {
@@ -379,47 +409,31 @@ input[name="search"] {
 /**
 * Section most-popular
 **/
-#most-popular {
+section#most-popular {
     display: flex;
     align-items: center;
+    padding: 2em;
 
-    @media only screen and (max-width: 468px) {
-        flex-direction: column;
-        ul {
-            margin-top: 15px;
-        }
+    //remove flatsome default settings
+    & * {
+        margin: unset;
+        padding: unset;
     }
 
-    > * {
-        margin-bottom: 0;
-        display: flex;
-        flex-wrap: nowrap;
-        max-width: 20%;
-
-        @media only screen and (max-width: 468px) {
-            flex-wrap: wrap;
-            max-width: 100%;
-        }
-    }
-    
     ul {
-        gap: 0.5em;
+        margin: 0em 1em;
     }
 
     ul li {
-        display: flex;
-        gap: 10px;
         list-style: none;
-        margin: 0;
+        display: inline-block;
 
         button {
-            padding: 0px 20px;
             border-radius: 50px;
             border: 1px solid black;
-            color: black;
-            margin: 0;
-            overflow: hidden;
             display: -webkit-box;
+            position: relative;
+            padding: 0.1em 1em;
             -webkit-line-clamp: 1; /* number of lines to show */
             line-clamp: 1; 
             -webkit-box-orient: vertical;
@@ -427,14 +441,6 @@ input[name="search"] {
             @media only screen and (max-width: 468px) {
                 font-size: 10px;
                 padding: 0px 10px;
-            }
-        }
-
-        &:first-of-type {
-            margin-left: 10px;
-
-            @media only screen and (max-width: 468px) {
-                margin-left: 0;
             }
         }
     }
@@ -446,15 +452,20 @@ input[name="search"] {
 
 #analysis-wrapper{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
 
 /**
 * Section tile
 **/
 
+div.tile-header{
+    display: flex;
+    margin: 2em 0em;
+}
+
 div.tile {
-    padding: 30px 20px;
+    padding: 30px 40px;
     background-color: $grey;
     border-radius: 50px;
     text-align: left;
@@ -472,76 +483,60 @@ div.tile {
 }
 
 .product {
-    &-title {
-        font-size: 30px;
-        color: $secondary;
-    }
-
-    &-tag-wrapper {
-        margin-bottom: 30px;
+    &-parameters {
         display: flex;
-        gap: 5px;
+        gap: 0px 15px;
         flex-wrap: wrap;
-        width: 85%;
-
-        > * {
-            border-style: solid;
-            border-width:thin;
-            font-size: 12px;
-            border: 1px solid black;
-            padding: 5px;
-            border-radius: 50px;
+        width: 65%;
+        height: min-content;
+        & > label.select{
+            width: clamp(3em, 50%, 10em);
         }
     }
 
-    &-tag {
-        font-size: 12px;
-        border: 1px solid black;
-        padding: 5px;
-        border-radius: 50px;
-    }
-
     &-result {
+        position: relative;
+        top: 12px;
         font-size: 60px;
-        line-height: 70px;
         color: $secondary;
         font-weight: 600;
-        margin-top: 15px;
+        text-align: end;
 
         &-unit {
             font-size: 20px;
         }
+        
     }
 }
 
-div.co2-value-wrapper{
+.product-info{
     display: flex;
-    gap: 1em;
-    & > *{
-        margin-bottom:unset;
-    }
+    align-items: center;
+    position: relative;
+    top: -1em;
 }
 
-p.co2-value {
-    width: fit-content;
-    font-size: 60px;
-    line-height: 70px;
-    color: $secondary;
-    font-weight: 600;
+.product-title{
+    margin-bottom: unset;
 }
-p.co2-value-unit {
-    font-size: 20px;
-    align-self: end;
+
+span.tag  {
+    border-style: solid;
+    border-width:thin;
+    font-size: 12px;
+    border: 1px solid black;
+    padding: 5px;
+    border-radius: 50px;
+}
+
+span.co2-value {
+    font-size: 60px;
 }
 
 //top right corner elements
 .tile-corner{
     position: absolute;
     right:3%;
-
-}
-
-.switch-field-wrapper-basic {
 
 }
 
@@ -588,26 +583,26 @@ span.adt-close {
 #product-tab {
     margin: 20px 0;
     position: relative;
+}
 
-    button {
-        position: absolute;
-        right: 15px;
-        height: 100px;
-        margin: 0;
+button#btn-search {
+    position: absolute;
+    right: 15px;
+    height: 100px;
+    margin: 0;
 
-        svg {
-            display: flex;
-
-            @media only screen and (max-width: 468px) {
-                height: 26px;
-                width: 26px;
-            }
-        }
+    svg {
+        display: flex;
 
         @media only screen and (max-width: 468px) {
-            height: 45px;
-            right: 0;
+            height: 26px;
+            width: 26px;
         }
+    }
+
+    @media only screen and (max-width: 468px) {
+        height: 45px;
+        right: 0;
     }
 }
 
@@ -724,27 +719,20 @@ span.adt-close {
     flex-direction: column;
 }
 
-.calculation-wrapper {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 55px;
+div.calculation-wrapper {
+    flex: 1 1 50%;
 
-    @media only screen and (max-width: 468px) {
-        flex-direction: column;
-    }
+    display:grid;
+    grid-template-rows: 0.1fr 1fr 0.1fr;
 
-    > * {
-        flex: 1 1 50%;
+    &:nth-child(2) {
+        justify-items: flex-end;
 
-        &:nth-child(2) {
-            justify-items: flex-end;
-
-            @media only screen and (max-width: 468px) {
-                display: flex;
-                flex-direction: row;
-                justify-items: flex-start;
-                align-items: flex-end;
-            }
+        @media only screen and (max-width: 468px) {
+            display: flex;
+            flex-direction: row;
+            justify-items: flex-start;
+            align-items: flex-end;
         }
     }
 }
@@ -944,50 +932,29 @@ span.adt-close {
     }
 }
 
-#shared-search-box {
-    position: fixed;
-    height: 100svh;
-    top: 0;
-    left: 0;
-    z-index: 99;
+/**
+* Screen size
+*/
 
-    .background {
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255,255,255, .75);
-    }
-
-    .shared-search-box-wrapper {
-        padding: 25px 0 25px 25px;
-        max-width: 320px;
-        display: flex;
-        position: fixed;
-        left: calc(50% - 160px);
-        top: 50%;
-        background: #F9F9F9;
-
-        > * {
-            margin: 0;
-        }
-
-        button#copy-search {
-            display: flex;
-            align-items: center;
-        }
-
-        &:after {
-            content: "";
-            color: $secondary;
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-        }
+/* Extra small devices (phones, <576px) */
+@media (max-width: 575.98px) {
+    /* Styles for phones */
+    .product-info{
+        flex-direction:column;
     }
 }
 
-.single-shared_searches {
-    #divider, #co2-form-result{
-        display: block;
-    }
+/* Small devices (landscape phones, ≥576px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  /* Styles for small devices */
+}
+
+/* Medium devices (tablets, ≥768px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  /* Styles for tablets */
+}
+
+/* Large devices (desktops, ≥992px) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  /* Styles for desktops */
 }

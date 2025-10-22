@@ -5,7 +5,7 @@ export const COLOR = {
 }
 
 export const ANIM = {
-	DURATION: 500
+	DURATION: 3000
 }
 
 export const UNIT = {
@@ -20,6 +20,8 @@ export const UNIT = {
 	mEUR: 'mEUR',
 	MEURO:'Meuro',
 	DKK:'DKK',
+	kDKK:'kDKK',
+	mDKK:'mDKK',
 	TJ:'TJ',
 	MJ:'MJ',
 	GJ:'GJ',

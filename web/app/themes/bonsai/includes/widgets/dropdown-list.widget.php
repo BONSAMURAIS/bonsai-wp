@@ -13,20 +13,21 @@
         if (json_last_error() !== JSON_ERROR_NONE) {
             return '<p>Invalid JSON data.</p>';
         }
-
+        
         $options = '';
         foreach ($list_options as $option) {
             $id = isset($option['id']) ? esc_html($option['id']) : '';
             $label = isset($option['label']) ? esc_html(ucfirst($option['label'])) : '';
             $options .= '<option value="' . $id . '">' . $label . '</option>';
         }
-
-        return '<label class="select" for="'.$a['id'].'">
-                    <select id="'.$a['id'].'">
-                    '.$options.'
-                    </select>
-                    '.do_shortcode('[arrow_icon]').'
-                </label>';
+                
+        return '<div class="arrow-wrapper">
+                    <label class="select" for="'.$a['id'].'">
+                        <select class="'.$a['id'].'" id="'.$a['id'].'">
+                        '.$options.'
+                        </select>
+                    </label>
+                </div>';
     }
     add_shortcode('dropdown_list', 'generate_dropdown_list');
 ?>

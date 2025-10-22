@@ -10,17 +10,17 @@ function custom_download_form_shortcode() {
         <input type="hidden" name="action" value="" />
 
         <div style="margin-bottom:15px;">
-          <label for="lastname" style="display:block; margin-bottom:5px; font-weight:bold; color:#333;">Lastname:</label>
-          <input id="lastname" name="lastname" type="text" required style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; box-sizing:border-box;" />
+          <label for="fullname" style="display:block; margin-bottom:5px; font-weight:bold; color:#333;">Full name</label>
+          <input id="fullname" name="fullname" type="text" required style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; box-sizing:border-box;" />
         </div>
 
         <div style="margin-bottom:15px;">
-          <label for="firstname" style="display:block; margin-bottom:5px; font-weight:bold; color:#333;">First name:</label>
-          <input id="firstname" name="firstname" type="text" required style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; box-sizing:border-box;" />
+          <label for="organisation" style="display:block; margin-bottom:5px; font-weight:bold; color:#333;">Organisation</label>
+          <input id="organisation" name="organisation" type="text" required style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; box-sizing:border-box;" />
         </div>
 
         <div style="margin-bottom:15px;">
-            <label for="email" style="display:block; margin-bottom:5px; font-weight:bold; color:#333;">Email:</label>
+            <label for="email" style="display:block; margin-bottom:5px; font-weight:bold; color:#333;">Email</label>
             <input id="email" name="email" type="email" required style="width:100%; padding:10px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; box-sizing:border-box;" />
         </div>
         
@@ -72,6 +72,10 @@ function custom_download_form_shortcode() {
         button.download-btn{
             background-color: var(--fs-color-primary);
         }
+      input:required + label::after {
+        content: " *";
+        color: red;
+      }
     </style>
 
 

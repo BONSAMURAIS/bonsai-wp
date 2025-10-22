@@ -1,19 +1,8 @@
-/*!
-    Theme Name:         Aalborg Universitet BONSAI
-    Theme URI:          https://lca.aau.dk/
-    Template:           flatsome
-    Description:        A WordPress-theme from Adtention A/S.
-    Version:            1.0
-    Author:             Adtention A/S
-    Author URI:         https://adtention.dk
-    Text Domain:        bonsai
-*/
-
 @import 'variables';
 @import 'accordion';
 @import 'archive-blog';
 
-#main, #wrapper {
+body, #main, #wrapper {
     background-color: #f9f9f9;
 }
 
@@ -46,7 +35,7 @@
     }
 }
 
-.h1, h1, h2, h3 {
+h1{
     font-size: 50px;
 
     @media only screen and (max-width: 468px) {
@@ -54,7 +43,7 @@
     }
 }
 
-.h2 {
+h2 {
     font-size: 40px;
 
     @media only screen and (max-width: 468px) {
@@ -62,15 +51,16 @@
     }
 }
 
-.h3 {
+h3 {
     font-size: 30px;
+    color: $secondary;
 
     @media only screen and (max-width: 468px) {
         font-size: 20px;
     }
 }
 
-.h4 {
+h4 {
     font-size: 24px;
 
     @media only screen and (max-width: 468px) {
@@ -149,7 +139,7 @@ button,
 input[type=button], 
 input[type=reset], 
 input[type=submit],
-label, legend {
+legend {
     font-weight: 400;
 }
 
