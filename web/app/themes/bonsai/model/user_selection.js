@@ -15,9 +15,9 @@ class UserSelection{
     
     get_from_url(){
         const params = new URLSearchParams(window.location.search);
-        // const base64String = params.get('data');
-        // const jsonString = atob(base64String);  // base64 decode
-        // const json = JSON.parse(jsonString);
+        const base64String = params.get('data');
+        const jsonString = atob(base64String);  // base64 decode
+        const json = JSON.parse(jsonString);
 
         this.title = json.title;
         this.code = json.code;

@@ -663,7 +663,7 @@ function adt_dynamic_search_input(list_product, list_product_title)
                     }, CONST.ANIM.DURATION); //ici
                     return
                 }
-                adt_push_parameter_to_url(userSelection);
+                // adt_push_parameter_to_url(userSelection);
                 await display_result("#product-analysis-content",data);
                 jQuery(this).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
             }
@@ -822,11 +822,10 @@ function adt_push_parameter_to_url(userSelection)
     const jsonString = JSON.stringify(allData);
     console.log("to url")
     console.log(jsonString)
-    // const base64String = btoa(jsonString);  // base64 encode
+    const base64String = btoa(jsonString);  // base64 encode
 
     // Add to URL
-    const queryString = new URLSearchParams(allData).toString(); 
-    const getParameter = `?${queryString}`;
+    const getParameter = `?data=${base64String}`;
     history.pushState(null, '', getParameter);
 }
 
