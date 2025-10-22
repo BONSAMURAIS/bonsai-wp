@@ -89,6 +89,9 @@ add_shortcode( 'adt_searchform', function($atts) {
                         <option id="<?php echo $product['code'];?>" value="<?php echo $product['title'];?>">
                     <?php endforeach; ?>
                 </datalist>
+
+                <div id="error-message">
+                </div>
             </div>
         </form>
         
