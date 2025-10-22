@@ -218,6 +218,17 @@ jQuery(document).ready(function($){
         userSelection.get_from_form();
         data = await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
 
+        if (data.products.length == 0){
+            let error_msg = jQuery('#error-message');
+            error_msg.append("<p id='error-message-content' class='error-message-content-decorator'> No product found for this search</p>");
+            error_msg.slideDown('fast');
+            setTimeout(function () {
+                error_msg.slideUp('slow');
+                jQuery("#error-message-content").remove();
+            }, CONST.ANIM.DURATION); //remove message after 0.5s
+            return
+        }
+        
         if(selectedValue === 'person'){
             data['title'] = "Emission per person";
         }
@@ -641,6 +652,16 @@ function adt_dynamic_search_input(list_product, list_product_title)
             } else if (e.key === 'Enter' && jQuery('#autocomplete-input').val() !== '') {
                 e.preventDefault();
                 let data = await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
+                if (data.products.length == 0){
+                    let error_msg = jQuery('#error-message');
+                    error_msg.append("<p id='error-message-content' class='error-message-content-decorator'> No product found for this search</p>");
+                    error_msg.slideDown('fast');
+                    setTimeout(function () {
+                        error_msg.slideUp('slow');
+                        jQuery("#error-message-content").remove();
+                    }, CONST.ANIM.DURATION); //remove message after 0.5s
+                    return
+                }
                 adt_push_parameter_to_url(userSelection);
                 await display_result("#product-analysis-content",data);
                 jQuery(this).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
@@ -805,6 +826,34 @@ function adt_push_parameter_to_url(userSelection)
 
     // Add to URL
     const queryString = new URLSearchParams(allData).toString(); 
+    const getParameter = `?${queryString}`;
+    history.pushState(null, '', getParameter);
+}
+
+function add_url_parameters(data)
+{
+    // Do this to make sure you can go back in browser
+    // Convert to base64
+    let params = {
+        title: data.title,
+        code: data.code,
+        climate_metric: data.climate_metric,
+        household_type: data.household_type,
+        income_group: data.income_group,
+        location: data.countryCode,
+        country: data.country,
+        footprint_type: data.footprint_type,
+        year: data.year,
+        db_version: data.db_version,
+    };
+
+    const jsonString = JSON.stringify(params);
+    console.log("to url")
+    console.log(jsonString)
+    // const base64String = btoa(jsonString);  // base64 encode
+
+    // Add to URL
+    const queryString = new URLSearchParams(params).toString(); 
     const getParameter = `?${queryString}`;
     history.pushState(null, '', getParameter);
 }
