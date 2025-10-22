@@ -5,7 +5,7 @@ export const COLOR = {
 }
 
 export const ANIM = {
-	DURATION: 500
+	DURATION: 3000
 }
 
 export const UNIT = {
