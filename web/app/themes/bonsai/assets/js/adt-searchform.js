@@ -218,7 +218,7 @@ jQuery(document).ready(function($){
         userSelection.get_from_form();
         data = await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
 
-        if (data.data.error){
+        if (data.error){
             let error_msg = jQuery('#error-message');
             error_msg.append("<p id='error-message-content' class='error-message-content-decorator'> No product found for this search</p>");
             error_msg.slideDown('fast');
