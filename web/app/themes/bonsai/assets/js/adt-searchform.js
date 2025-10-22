@@ -652,6 +652,7 @@ function adt_dynamic_search_input(list_product, list_product_title)
             } else if (e.key === 'Enter' && jQuery('#autocomplete-input').val() !== '') {
                 e.preventDefault();
                 let data = await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
+                $suggestionsWrapper.hide();
                 if (data.error){
                     let error_msg = jQuery('#error-message');
                     error_msg.append("<p id='error-message-content' class='error-message-content-decorator'> No product found for this search</p>");
@@ -659,13 +660,12 @@ function adt_dynamic_search_input(list_product, list_product_title)
                     setTimeout(function () {
                         error_msg.slideUp('slow');
                         jQuery("#error-message-content").remove();
-                    }, CONST.ANIM.DURATION); //remove message after 0.5s
+                    }, CONST.ANIM.DURATION); //ici
                     return
                 }
                 adt_push_parameter_to_url(userSelection);
                 await display_result("#product-analysis-content",data);
                 jQuery(this).css('border-radius', '50px').css('border-bottom', '1px solid #ddd');
-                $suggestionsWrapper.hide();
             }
         }
     });
