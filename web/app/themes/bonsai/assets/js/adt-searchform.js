@@ -1,4 +1,5 @@
 import UserSelection from '../../model/user_selection.js'; 
+import SearchParameters from '../../model/search_parameters.js'; 
 import * as CONST from '../../constants/constants.js'; 
 import * as Utils from '../../utils/tools.utils.js';
 import * as API from '../../utils/api-call.utils.js'; 
