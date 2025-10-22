@@ -300,9 +300,8 @@ function get_prod_footprint_by_search(){
     error_log($body);
     
     $result = json_decode($body, true);
-    error_log($result['products'] === 0);
 
-    if (isset($result['products']) && $result['products'] === 0) {
+    if (isset($result['products']) && empty($result['products'])) {
         wp_send_json_error(['error' => 'Product not found']);
     }
 
