@@ -218,7 +218,7 @@ jQuery(document).ready(function($){
         userSelection.get_from_form();
         data = await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
 
-        if (data.flow_code == null){
+        if (data.data.error){
             let error_msg = jQuery('#error-message');
             error_msg.append("<p id='error-message-content' class='error-message-content-decorator'> No product found for this search</p>");
             error_msg.slideDown('fast');
@@ -652,7 +652,7 @@ function adt_dynamic_search_input(list_product, list_product_title)
             } else if (e.key === 'Enter' && jQuery('#autocomplete-input').val() !== '') {
                 e.preventDefault();
                 let data = await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
-                if (data.flow_code == null){
+                if (data.error){
                     let error_msg = jQuery('#error-message');
                     error_msg.append("<p id='error-message-content' class='error-message-content-decorator'> No product found for this search</p>");
                     error_msg.slideDown('fast');
