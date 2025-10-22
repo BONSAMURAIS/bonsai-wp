@@ -173,6 +173,8 @@ jQuery(document).ready(function($){
         let productTitle = $(this).text();
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
+        let product_location = $(this).data('choices');
+        console.log("product_location"=,product_location)
         userSelection.get_from_form();
         userSelection.set_product(productTitle,productCode,productUuid);
         let selectedValue = $('input[name="footprint_type"]:checked').val();
