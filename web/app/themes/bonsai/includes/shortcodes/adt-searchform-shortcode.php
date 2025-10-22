@@ -13,7 +13,7 @@ add_shortcode( 'adt_searchform', function($atts) {
     $productsArray = adt_get_all_products_by_footprint();
     // $locationsArray = adt_get_locations();
     $popularSearches = adt_get_popular_searches();
-    error_log($popularSearches[0]);
+    error_log(json_encode($popularSearches[0]));
 
     $json_climate_metric = file_get_contents(__DIR__.'/../../dropdown_options/climate_metric.json');
     $list_climate_metric = json_decode($json_climate_metric, true);
