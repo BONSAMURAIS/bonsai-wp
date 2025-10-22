@@ -169,7 +169,7 @@ jQuery(document).ready(function($){
 
     $('#most-popular ul li button, #search-history-list li').on('click', async function(e) {
         e.preventDefault();
-        let searchparams = SearchParameters();
+        let searchparams = new SearchParameters();
         let productTitle = $(this).text();
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
