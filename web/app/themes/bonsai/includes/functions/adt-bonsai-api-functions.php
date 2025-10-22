@@ -484,6 +484,7 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
         'all_data' => $footprint,
         'id' => $footprint['id'],
         // 'best_match' => get_code_by_name($productName),
+        'list_locations' => adt_get_locations(),//$result["locations"],
         'metric' => $metric,
         // 'nace_related_code' => $footprint['nace_related_code'],
         'region_code' => $footprint['region_code'],
