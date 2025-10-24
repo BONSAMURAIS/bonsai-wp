@@ -367,7 +367,7 @@ jQuery(document).ready(function($){
         userSelection.country = country;
         try {
             let data = await API.get_product_footprint(userSelection); //can only be footprint
-            const htmlclass = "#"+jQuery(this).closest(".tile-wrapper").attr('id');
+            const htmlclass = "#"+jQuery(this).closest(".tile").attr('id');
             await display_result(htmlclass,data);
             // adt_save_local_search_history(userSelection);
         } catch (err) {
@@ -426,6 +426,7 @@ async function display_result(htmlclass, data){
         location_dropdownElement.css('background', '');
     }
     //set dropdown tags
+    console.log(main_component)
     Utils.selectOptionByText(main_component.find('.location').first()[0], data['country']);
     Utils.selectOptionByText(main_component.find('.year').first()[0], data['year']);
     Utils.selectOptionByText(main_component.find('.climatemetric').first()[0], data['metric']);
