@@ -426,6 +426,7 @@ async function display_result(htmlclass, data){
         location_dropdownElement.css('background', '');
     }
     //set dropdown tags
+    console.log(main_component)
     Utils.selectOptionByText(main_component.find('.location').first()[0], data['country']);
     Utils.selectOptionByText(main_component.find('.year').first()[0], data['year']);
     Utils.selectOptionByText(main_component.find('.climatemetric').first()[0], data['metric']);
