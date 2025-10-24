@@ -367,7 +367,7 @@ jQuery(document).ready(function($){
         userSelection.country = country;
         try {
             let data = await API.get_product_footprint(userSelection); //can only be footprint
-            const htmlclass = "#"+jQuery(this).closest(".tile-wrapper").attr('id');
+            const htmlclass = "#"+jQuery(this).closest(".tile").attr('id');
             await display_result(htmlclass,data);
             // adt_save_local_search_history(userSelection);
         } catch (err) {
