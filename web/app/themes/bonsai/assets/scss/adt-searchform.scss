@@ -297,16 +297,18 @@ label.select > select:not(.unit){
     }    
 }
 
-label.select > select.unit{
-    font-size: 18px;
-    min-width: 2em;
-    border-bottom: 1px solid black;
-    cursor: pointer;
-    line-height: normal;
-}
+label.select { 
+    & > select.unit{
+        font-size: 18px;
+        min-width: 2em;
+        border-bottom: 1px solid black;
+        cursor: pointer;
+        line-height: normal;
+    }
 
-label.select > select.climatemetric{
-    width: 8em;
+    & > select.climatemetric{
+        width: 8em;
+    }
 }
 
 option {
