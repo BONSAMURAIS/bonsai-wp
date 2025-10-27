@@ -132,12 +132,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div class="product-parameters">
                         <div>
                             <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
-                            <div class="arrow-wrapper">
-                                <label class="select" for="location">
-                                    <select class="location" id="location">
-                                    </select>
-                                </label>
-                            </div>
+                            <?= do_shortcode('[dropdown_list id="year" filepath=""]')?>
                         </div>
                         <div>
                             <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>
