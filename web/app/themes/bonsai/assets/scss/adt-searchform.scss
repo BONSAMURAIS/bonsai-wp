@@ -112,8 +112,12 @@ div.tooltip-wrapper {
     }
 }
 
-// loading icon
+//description
+p.tab-desc{
+    margin: 1em 0em;
+}
 
+// loading icon
   #loadingModal {
     position: fixed;
     top: 0;
