@@ -45,7 +45,7 @@ p {
 
 //divider
 hr {
-    margin:30px auto;
+    margin:1em auto;
     width:75%;
     background-color: #E8EDED;
 }
@@ -413,6 +413,7 @@ section#most-popular {
     display: flex;
     align-items: center;
     padding: 2em;
+    padding-bottom: 0.5em;
 
     //remove flatsome default settings
     & * {
@@ -939,6 +940,9 @@ div.calculation-wrapper {
 /* Extra small devices (phones, <576px) */
 @media (max-width: 575.98px) {
     /* Styles for phones */
+    hr {
+        margin:2em auto;
+    }
     .product-info{
         flex-direction:column;
     }
