@@ -45,7 +45,7 @@ p {
 
 //divider
 hr {
-    margin:1em auto;
+    margin:2em auto;
     width:75%;
     background-color: #E8EDED;
 }
@@ -941,7 +941,7 @@ div.calculation-wrapper {
 @media (max-width: 575.98px) {
     /* Styles for phones */
     hr {
-        margin:2em auto;
+        margin:1em auto;
     }
     .product-info{
         flex-direction:column;
