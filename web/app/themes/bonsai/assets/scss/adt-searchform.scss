@@ -313,6 +313,9 @@ label.select {
     & > select.climatemetric{
         width: 8em;
     }
+    & > select.footprint-type, & > select.location{
+        width: 11.5em;
+    }
 }
 
 option {
