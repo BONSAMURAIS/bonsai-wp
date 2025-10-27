@@ -94,7 +94,7 @@ export function getUnitOptions(dataArray, unit_ref){
             ];
         } else {
             unitList = [
-                {ratio:1,label:CONST.UNIT.KWH},
+                {ratio:1e-6/3.6,label:CONST.UNIT.KWH},
                 {ratio:1e-3,label:CONST.UNIT.MJ},
                 {ratio:1,label:CONST.UNIT.GJ}, //ratio is 1 because the unit label changes too
             ];
@@ -113,8 +113,8 @@ export function getUnitOptions(dataArray, unit_ref){
         ]
     } else if (unit_ref == CONST.UNIT.TJ){ 
         unitList = [
-            {ratio:1,label:CONST.UNIT.KWH},
-            {ratio:1e-3,label:CONST.UNIT.MJ},
+            {ratio:1e-6/3.6,label:CONST.UNIT.KWH},
+            {ratio:1e-6,label:CONST.UNIT.MJ},
             {ratio:1e-3,label:CONST.UNIT.GJ}, //ratio is 1 because in TJ in backend
         ]
     }
@@ -139,7 +139,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){
         switch (unit_ref){
             case CONST.UNIT.TJ.toLowerCase():
-                finalUnit = {ratio:1,label:CONST.UNIT.MJ};
+                finalUnit = {ratio:1e-3,label:CONST.UNIT.MJ};
                 break;
             case CONST.UNIT.ITEMS.toLowerCase():
                 finalUnit =  {ratio:1,label:CONST.UNIT.ITEMS};
