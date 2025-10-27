@@ -97,6 +97,7 @@ jQuery(document).ready(function($){
                 $('#grave').prop('checked', true).trigger('change');
                 let userSelection = new UserSelection;
                 userSelection.get_from_form();
+                userSelection.countryCode = "AU";
                 let data = await API.get_person_footprint(userSelection);
                 data['title'] = "Emission per person";
                 await display_result("#product-analysis-content",data);
