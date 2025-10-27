@@ -453,10 +453,15 @@ async function display_result(htmlclass, data){
         unit_options.prop('disabled', false);
         unit_options.css('background', '');
     }
-
+    
     if(data["unit_reference"]=="TJ"){
-
+        
         Utils.selectOptionByText(unit_options.first()[0],"kwh");
+        let selected = main_component.find('select.unit option:selected');
+        // main_component.find('.co2-value').first().data("normal_value",Utils.reformatValue(data["value"]));
+        console.log(selected.val())
+        console.log(selected.text())
+        // main_component.find('.co2-value').first().text(Utils.reformatValue(data["value"]));
     }
 
     let displayed_unit = data["unit_reference"];
