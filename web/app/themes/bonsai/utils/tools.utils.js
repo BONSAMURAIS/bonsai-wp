@@ -72,7 +72,7 @@ export function getUnitOptions(dataArray, unit_ref){
     //TODO rename hard coded unit with electricity
     let unitList = [];
 
-    if (unit_ref === CONST.UNIT.DKK){
+    if (unit_ref === CONST.UNIT.MEURO){
         unitList = [
             {ratio:1e-6,label: CONST.UNIT.EUR},
             {ratio:1e-3,label: CONST.UNIT.kEUR},
@@ -87,7 +87,7 @@ export function getUnitOptions(dataArray, unit_ref){
             // {ratio:1e-3,label:"g"},
             {ratio:1,label:CONST.UNIT.TONNES}, //ratio is 1 because the unit label changes too ( co2 eq in kg)
         ];
-    } else if (unit_ref === CONST.UNIT.MJ){
+    } else if (unit_ref === CONST.UNIT.MJ){ //
         if (dataArray.all_data[0].flow_code.includes('_elec') || dataArray.all_data[0].flow_code.includes('_POW')){
             unitList = [
                 {ratio:1,label:CONST.UNIT.KWH},
@@ -96,7 +96,7 @@ export function getUnitOptions(dataArray, unit_ref){
             unitList = [
                 {ratio:1/3.6,label:CONST.UNIT.KWH},
                 {ratio:1e-3,label:CONST.UNIT.MJ},
-                {ratio:1,label:CONST.UNIT.GJ}, //ratio is 1 because the unit label changes too
+                {ratio:1,label:CONST.UNIT.GJ},  //ratio is 1 because the unit label changes too ( co2 eq in kg)
             ];
         }
     } else if (unit_ref === CONST.UNIT.ITEMS){
