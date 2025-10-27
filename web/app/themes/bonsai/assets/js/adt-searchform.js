@@ -436,13 +436,12 @@ async function display_result(htmlclass, data){
     main_component.find('.question-location').text(isPersonTab ? data["country"] : Utils.capitalize(data["title"]));
     main_component.find('.version').first().text(data["version"]);
     //set value
-    main_component.find('.co2-value').first().text(Utils.reformatValue(data["value"]));
     main_component.find('.co2-value').first().data("normal_value",Utils.reformatValue(data["value"]));
+    main_component.find('.co2-value').first().data("normal_unit",data["data.unit_reference"]);
     let unit_options = main_component.find('select.unit'); 
     unit_options.empty();
-    const unit_ref = data.unit_reference;
     //set unitList
-    const unitList = Utils.getUnitOptions(data, unit_ref);
+    const unitList = Utils.getUnitOptions(data, data["data.unit_reference"]);
     for (const unit of unitList){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
@@ -455,7 +454,12 @@ async function display_result(htmlclass, data){
         unit_options.css('background', '');
     }
 
-    let displayed_unit = unit_ref;
+    if(data["data.unit_reference"]=="TJ"){
+
+        Utils.selectOptionByText(unit_options,"GJ");
+    }
+
+    let displayed_unit = data["data.unit_reference"];
     let preposition = " of ";
     if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
         displayed_unit = CONST.UNIT.TONNES;
