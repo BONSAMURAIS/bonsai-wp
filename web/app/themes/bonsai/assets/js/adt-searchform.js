@@ -709,7 +709,7 @@ function adt_dynamic_search_input(list_product, list_product_title)
         userSelection.set_product(text,code,uuid);
         
         adt_push_parameter_to_url(userSelection);
-        let data = await API.get_product_footprint(userSelection);
+        let data = await API.get_product_footprint_by_search(text);
         await display_result("#product-analysis-content",data);
         adt_save_local_search_history(userSelection);
     }
