@@ -71,6 +71,7 @@ function adt_get_person_footprint(){
         'version' => $version,
         'metric' => $metric,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
+        'list_locations' => adt_get_locations(),//$result["locations"],
         'recipe' => $recipes,
         'year' => $year,
     ];
@@ -210,4 +211,49 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
     $recipeResult = array_slice($recipeResult, 0, 20);
 
     return $recipeResult;
+}
+
+function adt_get_locations(): array{
+    // Check if the data is already cached
+    $cachedLocations = get_transient('adt_locations_cache');
+    
+    // If cache exists, return the cached data
+    if ($cachedLocations !== false) {
+        return $cachedLocations;
+    }
+
+    // API URL
+    $url = $GLOBALS['APIURL']."/locations/";
+    $response = wp_remote_get($url);
+
+    // Check for errors
+    if (is_wp_error($response)) {
+        return ['Error: ' . $response->get_error_message()];
+    }
+
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return ['We’re sorry, but there was a problem with an external service provider.  
+Please try again later, or contact support if the issue persists.'];
+    }
+
+    if (array_key_exists('detail', $result)) {
+        return wp_send_json_error(['Error: ' . $result['detail']]);
+    }
+
+    // Extract locations from the response
+    $locations = $result['results'];
+
+    usort($locations, function ($a, $b) {
+        return strcmp($a['name'], $b['name']);
+    });
+
+    // Cache the locations for 1 hour (3600 seconds)
+    set_transient('adt_locations_cache', $locations, 3600);
+
+    return $locations;
 }
