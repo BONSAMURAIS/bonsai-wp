@@ -83,9 +83,9 @@ export function getUnitOptions(dataArray, unit_ref){
         ];
     } else if (unit_ref === CONST.UNIT.TONNES) {
         unitList = [
-            {ratio:1,label:CONST.UNIT.KG},
+            {ratio:1,label:CONST.UNIT.KG},  //ratio is 1 because the unit label changes too ( co2 eq in kg)
             // {ratio:1e-3,label:"g"},
-            {ratio:1,label:CONST.UNIT.TONNES}, //ratio is 1 because the unit label changes too
+            {ratio:1,label:CONST.UNIT.TONNES}, //ratio is 1 because the unit label changes too ( co2 eq in kg)
         ];
     } else if (unit_ref === CONST.UNIT.MJ){
         if (dataArray.all_data[0].flow_code.includes('_elec') || dataArray.all_data[0].flow_code.includes('_POW')){
@@ -114,7 +114,7 @@ export function getUnitOptions(dataArray, unit_ref){
     } else if (unit_ref == CONST.UNIT.TJ){ 
         unitList = [
             {ratio:1e3*(3.6*1e-6),label:CONST.UNIT.KWH}, // tonnes to kg + TJ to kWh / 1 TJ = 3.6.10^6
-            {ratio:1e-6,label:CONST.UNIT.MJ},
+            {ratio:1e-3,label:CONST.UNIT.MJ}, //because co2 eq in kg
             {ratio:1e-3,label:CONST.UNIT.GJ}, //ratio is 1 because in TJ in backend
         ]
     }
