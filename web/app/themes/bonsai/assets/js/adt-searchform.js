@@ -456,7 +456,7 @@ async function display_result(htmlclass, data){
 
     if(data["unit_reference"]=="TJ"){
 
-        Utils.selectOptionByText(unit_options,"GJ");
+        Utils.selectOptionByText(unit_options.first()[0],"GJ");
     }
 
     let displayed_unit = data["unit_reference"];
