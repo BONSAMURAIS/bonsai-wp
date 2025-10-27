@@ -570,7 +570,7 @@ function convert_footprint_value($unit,&$value){
             $value *= 1000;
         break;
         case $GLOBALS['UNIT']['TJ']:
-            $value *= 1e6/3.6; //display in kwh
+            $value *= 1/3.6; //display in kwh
         break;
         case $GLOBALS['UNIT']['HA_PER_YEAR']:
             $value *= 10;
