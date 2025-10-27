@@ -515,9 +515,10 @@ function display_recipe_table(main_component,recipeArray){
         let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow);
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
-
+        
+        let default_selected_unit_ratio = main_component.find('select.unit option:selected').val(); //convert value in recipes
         rowMarkup += '</td>';
-        rowMarkup += '<td class="emissions-value">' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';
+        rowMarkup += '<td class="emissions-value">' + (recipe.value_emission ? default_selected_unit_ratio*recipe.value_emission : '') + '</td>';
         rowMarkup += '</tr>';
 
         if (recipe.flow_input != null && (recipe.flow_input.toLowerCase() === "other" || recipe.flow_input.toLowerCase() === "direct")){
