@@ -113,7 +113,7 @@ export function getUnitOptions(dataArray, unit_ref){
         ]
     } else if (unit_ref == CONST.UNIT.TJ){ 
         unitList = [
-            {ratio:1/3.6,label:CONST.UNIT.KWH},
+            {ratio:1e-3*(1e6/3.6),label:CONST.UNIT.KWH}, // tonnes to kg + TJ to kWh
             {ratio:1e-6,label:CONST.UNIT.MJ},
             {ratio:1e-3,label:CONST.UNIT.GJ}, //ratio is 1 because in TJ in backend
         ]
