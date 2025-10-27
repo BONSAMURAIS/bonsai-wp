@@ -283,7 +283,7 @@ label.select > select:not(.unit){
     font-family: inherit; font-size: 18px; font-weight: 400;
     cursor: pointer;
     transition: all 150ms ease;
-    padding: 0px 10px;
+    padding: 0px 0.8em;
     border: 1px solid black; border-radius: 50px;
     color: black;
     
@@ -329,6 +329,7 @@ svg.select-arrow {
 
 input[type=text].quantity{
     width: 5.5em; height: 0.8em;
+    min-width: none; max-width:5.5em;
     font-size: 0.5em;
     padding: unset;
     border: none;
@@ -485,7 +486,7 @@ div.tile {
 .product {
     &-parameters {
         display: flex;
-        gap: 0px 15px;
+        gap: 0px 1em;
         flex-wrap: wrap;
         width: 65%;
         height: min-content;
@@ -952,6 +953,13 @@ div.calculation-wrapper {
 /* Medium devices (tablets, ≥768px) */
 @media (min-width: 768px) and (max-width: 991.98px) {
   /* Styles for tablets */
+    label.select > select:not(.unit) {
+        font-size: 10px;
+    }
+
+    .product-parameters {
+        width: 90%;
+    }
 }
 
 /* Large devices (desktops, ≥992px) */
