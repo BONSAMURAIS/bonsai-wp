@@ -1,10 +1,10 @@
 [
     {
-        "id":"cradle to gate",
+        "id":"ctg",
         "label":"cradle to gate"
     },
     {
-        "id":"cradle to consumer",
+        "id":"ctc",
         "label":"cradle to consumer"
     }
 ]
