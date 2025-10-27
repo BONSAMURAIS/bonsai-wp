@@ -193,7 +193,6 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
             $recipe['value_emission'] = $recipe['value'];
         }
         error_log($recipe['unit_reference']);
-        $recipe['value_emission'] = convert_footprint_value($recipe['unit_reference'],$recipe['value_emission']);
     }
 
     //sort per value
@@ -372,11 +371,6 @@ function get_footprint($productCode){
     if(!empty($productCode) & empty($footprintTitle) ){
         $footprintTitle = get_product_name_by_code($productCode);
     }
-
-    $footprint['value'] = convert_footprint_value($unit_reference,$footprint['value']);
-    if ($GLOBALS['UNIT']['ITEMS'] == strtoupper($unit_reference)){
-        $footprint['value'] *= 1000;
-    }
             
     $data = [
         'title' => $footprintTitle,
@@ -465,11 +459,6 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
 
     if(!empty($productCode) & empty($footprintTitle) ){
         $footprintTitle = get_product_name_by_code($productCode);
-    }
-
-    $footprint['value'] = convert_footprint_value($unit_reference,$footprint['value']);
-    if ($GLOBALS['UNIT']['ITEMS'] == strtoupper($unit_reference)){
-        $footprint['value'] *= 1000;
     }
             
     $data = [
@@ -564,23 +553,6 @@ function adt_get_product_footprint(){
 add_action('wp_ajax_adt_get_product_footprint', 'adt_get_product_footprint');
 add_action('wp_ajax_nopriv_adt_get_product_footprint', 'adt_get_product_footprint');
 
-function convert_footprint_value($unit,&$value){
-    switch (strtoupper($unit)){
-        case $GLOBALS['UNIT']['MEURO']:
-            $value *= 1000;
-        break;
-        case $GLOBALS['UNIT']['TJ']:
-            $value *= 1/3.6; //display in kwh
-        break;
-        case $GLOBALS['UNIT']['HA_PER_YEAR']:
-            $value *= 10;
-        break;
-        case $GLOBALS['UNIT']['ITEMS']:
-            $value *= 1e-3;
-        break;
-    }
-    return $value;
-}
 
 function get_product_name_by_code_api(){
     $productCode = $_POST['code'];
