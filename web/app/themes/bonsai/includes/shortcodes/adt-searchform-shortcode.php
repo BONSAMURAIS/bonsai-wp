@@ -48,7 +48,7 @@ add_shortcode( 'adt_searchform', function($atts) {
             <!-- Per person -->
             <div id="person-tab" style="display: none;">
                 <div class="tab-desc">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+                    Explore per-person climate footprints by country, household type, and income level.
                 </div>
                 <div class="select-wrapper col medium-12 small-12 large-12">
                     <div class="medium-6 small-12 large-6">
@@ -65,7 +65,7 @@ add_shortcode( 'adt_searchform', function($atts) {
             <!-- Per product -->
             <div id="product-tab">
                 <div class="tab-desc">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.
+                    Search for climate footprint of a product or service per functional unit.
                 </div>
                 <input name="search" type="text" id="autocomplete-input" placeholder="Find climate footprint by product">
                 <?= do_shortcode('[search_icon]')?>
