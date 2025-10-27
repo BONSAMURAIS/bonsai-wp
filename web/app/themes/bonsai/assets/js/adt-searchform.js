@@ -461,7 +461,7 @@ async function display_result(htmlclass, data){
         // main_component.find('.co2-value').first().data("normal_value",Utils.reformatValue(data["value"]));
         console.log(selected.val())
         console.log(selected.text())
-        // main_component.find('.co2-value').first().text(Utils.reformatValue(data["value"]));
+        main_component.find('.co2-value').first().text(Utils.reformatValue(selected.val()*data["value"]));
     }
 
     let displayed_unit = data["unit_reference"];
