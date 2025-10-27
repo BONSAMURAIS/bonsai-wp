@@ -400,21 +400,17 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
         'country' => $country,
         "unit_reference" => $unit_reference,
         "unit_emission" => $unit_emission,
-        // 'uuid' => $productUuid,
         'version' => $newestVersion,
         'all_data' => $footprint,
         'id' => $footprint['id'],
-        // 'best_match' => get_code_by_name($productName),
         'list_locations' => adt_get_locations(),//$result["locations"],
         'metric' => $metric,
-        // 'nace_related_code' => $footprint['nace_related_code'],
         'region_code' => $footprint['region_code'],
         'samples' => $footprint['samples'],
         'value' => $footprint['value'],
         'recipe' => $recipeData,
         'year' => $year,
         'footprint-type' => $type,
-        // 'footprint-type-label' => $type_label,
     ];
 
     $cachedFootprintArray = [
@@ -465,7 +461,6 @@ add_action('wp_ajax_nopriv_get_country_name_by_code', 'get_country_name_by_code'
 function adt_get_product_footprint(){
     $productName = $_POST['title'];
     $productCode = $_POST['code'] ?? get_code_by_name($productName);
-    $productUuid = $_POST['uuid'];
     $countryCode = $_POST['footprint_location'];
     $country = $_POST['country'] ?? get_country_name_by_country_code();
     $scope = $_POST['footprint_type'];
