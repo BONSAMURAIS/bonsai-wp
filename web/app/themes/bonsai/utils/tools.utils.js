@@ -178,7 +178,7 @@ export function selectOptionByText(select_DOMelement, targetText) {
     const options = select_DOMelement.options;
 
     for (let i = 0; i < options.length; i++) {
-      if (options[i].text.toLowerCase() === targetText.toLowerCase()) {
+      if (options[i].text.toLowerCase() === String(targetText).toLowerCase()) {
         select_DOMelement.selectedIndex = i;
         break;
       }
