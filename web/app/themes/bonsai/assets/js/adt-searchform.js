@@ -454,15 +454,14 @@ async function display_result(htmlclass, data){
         unit_options.css('background', '');
     }
     
-    if(data["unit_reference"]=="TJ"){
-        
-        Utils.selectOptionByText(unit_options.first()[0],"kwh");
-        let selected = main_component.find('select.unit option:selected');
-        // main_component.find('.co2-value').first().data("normal_value",Utils.reformatValue(data["value"]));
-        console.log(selected.val())
-        console.log(selected.text())
-        main_component.find('.co2-value').first().text(Utils.reformatValue(selected.val()*data["value"]));
+    //display default unit and adapt the result value 
+    if(data["unit_reference"]==CONST.UNIT.TJ){
+        Utils.selectOptionByText(unit_options.first()[0],CONST.UNIT.KWH); //display as default 'kWh' for unit_ref = TJ
+    }else if (data["unit_reference"]==CONST.UNIT.TONNES){
+        Utils.selectOptionByText(unit_options.first()[0],CONST.UNIT.KG); //display as default 'kg' for unit_ref = tonnes
     }
+    let default_selected_unit_ratio = main_component.find('select.unit option:selected').val();
+    main_component.find('.co2-value').first().text(Utils.reformatValue(default_selected_unit_ratio*data["value"]));
 
     let displayed_unit = data["unit_reference"];
     let preposition = " of ";
