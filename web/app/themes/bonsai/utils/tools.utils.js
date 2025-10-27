@@ -85,7 +85,7 @@ export function getUnitOptions(dataArray, unit_ref){
         unitList = [
             {ratio:1,label:CONST.UNIT.KG},  //ratio is 1 because the unit label changes too ( co2 eq in kg)
             // {ratio:1e-3,label:"g"},
-            {ratio:1,label:CONST.UNIT.TONNES}, //ratio is 1 because the unit label changes too ( co2 eq in kg)
+            {ratio:1,label:CONST.UNIT.TONNES}, //ratio is 1 because the unit label changes too ( co2 eq in tonnes)
         ];
     } else if (unit_ref === CONST.UNIT.MJ){ //
         if (dataArray.all_data[0].flow_code.includes('_elec') || dataArray.all_data[0].flow_code.includes('_POW')){
@@ -96,7 +96,7 @@ export function getUnitOptions(dataArray, unit_ref){
             unitList = [
                 {ratio:1/3.6,label:CONST.UNIT.KWH},
                 {ratio:1e-3,label:CONST.UNIT.MJ},
-                {ratio:1,label:CONST.UNIT.GJ},  //ratio is 1 because the unit label changes too ( co2 eq in kg)
+                {ratio:1,label:CONST.UNIT.GJ},  //ratio is 1 because the unit label changes too ( co2 eq in tonnes)
             ];
         }
     } else if (unit_ref === CONST.UNIT.ITEMS){
