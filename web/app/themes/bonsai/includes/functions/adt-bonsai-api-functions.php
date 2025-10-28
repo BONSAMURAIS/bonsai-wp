@@ -419,9 +419,7 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
 
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_recipe_cache', $cachedFootprintArray, 86400);
-
     return $data;
-
 }
 
 function get_code_by_name($name){
