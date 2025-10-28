@@ -164,9 +164,10 @@ Please try again later, or contact support if the issue persists.'];
     return $locations;
 }
 
-function adt_get_product_recipe($productCode, $country, $version,$metric): array{
-    $url = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$country.'&version='.strtolower($version).'&metric='.strtoupper($metric);
+function adt_get_product_recipe($productCode, $country, $version,$metric, $scope): array{
+    $url = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$country.'&version='.strtolower($version).'&metric='.strtoupper($metric).'&scope='.strtoupper($scope);
     $response = wp_remote_get($url); // Get the whole recipe list for the product
+    error_log($url);
     
     // Check for errors
     if (is_wp_error($response)) {
@@ -193,7 +194,6 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
             $recipe['value_emission'] = $recipe['value'];
         }
         error_log($recipe['unit_reference']);
-        $recipe['value_emission'] = convert_footprint_value($recipe['unit_reference'],$recipe['value_emission']);
     }
 
     //sort per value
@@ -303,7 +303,6 @@ function get_prod_footprint_by_search(){
     
     error_log(empty($result['products']));
     if (isset($result['products']) && empty($result['products'])) {
-        error_log("dsadsadas");
         wp_send_json_error(['error' => 'Product not found']);
     }
 
@@ -340,83 +339,10 @@ function get_prod_footprint_by_search(){
     return wp_send_json_success($data);
 }
 
-function get_footprint($productCode){
-    $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode;
-
-    // Check for errors
-    if (is_wp_error($response)) {
-        return wp_send_json_error(['Error: ' . $response->get_error_message()]);
-    }
-    
-    // Retrieve and decode the response body
-    $body = wp_remote_retrieve_body($response);
-    $result = json_decode($body, true);
-
-    if (isset($result['count']) && $result['count'] === 0) {
-        wp_send_json_error(['error' => 'Product not found']);
-    }
-
-    // Handle potential errors in the response
-    if (empty($result)) {
-        return 'No footprints found or an error occurred.';
-    }
-
-    if (array_key_exists('detail', $result)) {
-        wp_send_json_error(['error' => $result['detail']], 503);
-    }
-
-    // get newest version of the footprint.
-    $footprints = $result['results'];
-    $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric);
-
-    if(!empty($productCode) & empty($footprintTitle) ){
-        $footprintTitle = get_product_name_by_code($productCode);
-    }
-
-    $footprint['value'] = convert_footprint_value($unit_reference,$footprint['value']);
-    if ($GLOBALS['UNIT']['ITEMS'] == strtoupper($unit_reference)){
-        $footprint['value'] *= 1000;
-    }
-            
-    $data = [
-        'title' => $footprintTitle,
-        'flow_code' => $productCode,
-        'chosen_country' => $countryCode,
-        'country' => $country,
-        "unit_reference" => $unit_reference,
-        "unit_emission" => $unit_emission,
-        'uuid' => $productUuid,
-        'version' => $newestVersion,
-        'all_data' => $footprint,
-        'id' => $footprint['id'],
-        'best_match' => get_code_by_name($productName),
-        'metric' => $metric,
-        'list_locations' => adt_get_locations(),//$result["locations"],
-        // 'nace_related_code' => $footprint['nace_related_code'],
-        'region_code' => $footprint['region_code'],
-        'samples' => $footprint['samples'],
-        'value' => $footprint['value'],
-        'recipe' => $recipeData,
-        'year' => $year,
-        'footprint-type' => $type,
-        // 'footprint-type-label' => $type_label,
-    ];
-
-    $cachedFootprintArray = [
-        $productCode => $data,
-    ];
-
-    // Cache the locations for 24 hour (86400 seconds)
-    set_transient('adt_recipe_cache', $cachedFootprintArray, 86400);
-
-    wp_send_json_success($data);
-
-}
-
-function call_product_footprint_api(string $productCode, string $countryCode, string $country, string|int $year, ?string $version, ?string $metric, ?string $type){
+function call_product_footprint_api(string $productCode, string $countryCode, string $country, string|int $year, ?string $version, string $scope, ?string $metric, ?string $type){
 
     // API URL
-    $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
+    $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric.'&scope='.$scope;
     $response = wp_remote_get($url);
     error_log($url);
     
@@ -461,15 +387,10 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
         $newestVersion = $version;
     }
 
-    $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric);
+    $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric,$scope);
 
     if(!empty($productCode) & empty($footprintTitle) ){
         $footprintTitle = get_product_name_by_code($productCode);
-    }
-
-    $footprint['value'] = convert_footprint_value($unit_reference,$footprint['value']);
-    if ($GLOBALS['UNIT']['ITEMS'] == strtoupper($unit_reference)){
-        $footprint['value'] *= 1000;
     }
             
     $data = [
@@ -479,21 +400,17 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
         'country' => $country,
         "unit_reference" => $unit_reference,
         "unit_emission" => $unit_emission,
-        // 'uuid' => $productUuid,
         'version' => $newestVersion,
         'all_data' => $footprint,
         'id' => $footprint['id'],
-        // 'best_match' => get_code_by_name($productName),
         'list_locations' => adt_get_locations(),//$result["locations"],
         'metric' => $metric,
-        // 'nace_related_code' => $footprint['nace_related_code'],
         'region_code' => $footprint['region_code'],
         'samples' => $footprint['samples'],
         'value' => $footprint['value'],
         'recipe' => $recipeData,
         'year' => $year,
         'footprint-type' => $type,
-        // 'footprint-type-label' => $type_label,
     ];
 
     $cachedFootprintArray = [
@@ -502,9 +419,7 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
 
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_recipe_cache', $cachedFootprintArray, 86400);
-
     return $data;
-
 }
 
 function get_code_by_name($name){
@@ -544,10 +459,9 @@ add_action('wp_ajax_nopriv_get_country_name_by_code', 'get_country_name_by_code'
 function adt_get_product_footprint(){
     $productName = $_POST['title'];
     $productCode = $_POST['code'] ?? get_code_by_name($productName);
-    $productUuid = $_POST['uuid'];
     $countryCode = $_POST['footprint_location'];
     $country = $_POST['country'] ?? get_country_name_by_country_code();
-    $type = $_POST['footprint_type'];
+    $scope = $_POST['footprint_type'];
     // $type_label = $_POST['footprint_type_label'];
     $year = $_POST['footprint_year'];
     $version = $_POST['database_version'];
@@ -557,30 +471,13 @@ function adt_get_product_footprint(){
     error_log($countryCode);
     error_log($metric);
 
-    $data = call_product_footprint_api($productCode, $countryCode, $country, $year, $version, $metric, $type);
+    $data = call_product_footprint_api($productCode, $countryCode, $country, $year, $version, $scope, $metric, $type);
     wp_send_json_success($data);
 }
 
 add_action('wp_ajax_adt_get_product_footprint', 'adt_get_product_footprint');
 add_action('wp_ajax_nopriv_adt_get_product_footprint', 'adt_get_product_footprint');
 
-function convert_footprint_value($unit,&$value){
-    switch (strtoupper($unit)){
-        case $GLOBALS['UNIT']['MEURO']:
-            $value *= 1000;
-        break;
-        // case $GLOBALS['UNIT']['TJ']:
-        //     $value *= 1000;
-        // break;
-        case $GLOBALS['UNIT']['HA_PER_YEAR']:
-            $value *= 10;
-        break;
-        case $GLOBALS['UNIT']['ITEMS']:
-            $value *= 1e-3;
-        break;
-    }
-    return $value;
-}
 
 function get_product_name_by_code_api(){
     $productCode = $_POST['code'];

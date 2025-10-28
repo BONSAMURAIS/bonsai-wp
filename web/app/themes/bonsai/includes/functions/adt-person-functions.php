@@ -71,6 +71,7 @@ function adt_get_person_footprint(){
         'version' => $version,
         'metric' => $metric,
         'unit_emission' => $footprintsArray[0]['unit_emission'],
+        'list_locations' => adt_get_locations(),//$result["locations"],
         'recipe' => $recipes,
         'year' => $year,
     ];

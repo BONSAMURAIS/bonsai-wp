@@ -97,6 +97,7 @@ jQuery(document).ready(function($){
                 $('#grave').prop('checked', true).trigger('change');
                 let userSelection = new UserSelection;
                 userSelection.get_from_form();
+                userSelection.countryCode = "AU";
                 let data = await API.get_person_footprint(userSelection);
                 data['title'] = "Emission per person";
                 await display_result("#product-analysis-content",data);
@@ -106,7 +107,7 @@ jQuery(document).ready(function($){
         }
     });
 
-    $('#household-composition, #income-group, .location, .year, .climatemetric, .database-version').on('change', async function(){
+    $('#household-composition, #income-group, .location, .year, .climatemetric, .database-version, .footprint-type').on('change', async function(){
         console.log("change ", jQuery(this).attr('id'));
         let userSelection = new UserSelection;
         userSelection.get_from_dropdown();
@@ -436,13 +437,12 @@ async function display_result(htmlclass, data){
     main_component.find('.question-location').text(isPersonTab ? data["country"] : Utils.capitalize(data["title"]));
     main_component.find('.version').first().text(data["version"]);
     //set value
-    main_component.find('.co2-value').first().text(Utils.reformatValue(data["value"]));
     main_component.find('.co2-value').first().data("normal_value",Utils.reformatValue(data["value"]));
+    main_component.find('.co2-value').first().data("normal_unit",data["unit_reference"]);
     let unit_options = main_component.find('select.unit'); 
     unit_options.empty();
-    const unit_ref = data.unit_reference;
     //set unitList
-    const unitList = Utils.getUnitOptions(data, unit_ref);
+    const unitList = Utils.getUnitOptions(data, data["unit_reference"]);
     for (const unit of unitList){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
     }
@@ -454,8 +454,17 @@ async function display_result(htmlclass, data){
         unit_options.prop('disabled', false);
         unit_options.css('background', '');
     }
+    
+    //display default unit and adapt the result value 
+    if(data["unit_reference"]==CONST.UNIT.TJ){
+        Utils.selectOptionByText(unit_options.first()[0],CONST.UNIT.KWH); //display as default 'kWh' for unit_ref = TJ
+    }else if (data["unit_reference"]==CONST.UNIT.TONNES){
+        Utils.selectOptionByText(unit_options.first()[0],CONST.UNIT.KG); //display as default 'kg' for unit_ref = tonnes
+    }
+    let default_selected_unit_ratio = main_component.find('select.unit option:selected').val();
+    main_component.find('.co2-value').first().text(Utils.reformatValue(default_selected_unit_ratio*data["value"]));
 
-    let displayed_unit = unit_ref;
+    let displayed_unit = data["unit_reference"];
     let preposition = " of ";
     if(displayed_unit == CONST.UNIT.TONNES_SERVICE){
         displayed_unit = CONST.UNIT.TONNES;
@@ -507,9 +516,10 @@ function display_recipe_table(main_component,recipeArray){
         let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow);
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
-
+        
+        let default_selected_unit_ratio = main_component.find('select.unit option:selected').val(); //convert value in recipes
         rowMarkup += '</td>';
-        rowMarkup += '<td class="emissions-value">' + (recipe.value_emission ? recipe.value_emission : '') + '</td>';
+        rowMarkup += '<td class="emissions-value">' + (recipe.value_emission ? default_selected_unit_ratio*recipe.value_emission : '') + '</td>';
         rowMarkup += '</tr>';
 
         if (recipe.flow_input != null && (recipe.flow_input.toLowerCase() === "other" || recipe.flow_input.toLowerCase() === "direct")){
@@ -700,7 +710,7 @@ function adt_dynamic_search_input(list_product, list_product_title)
         userSelection.set_product(text,code,uuid);
         
         adt_push_parameter_to_url(userSelection);
-        let data = await API.get_product_footprint(userSelection);
+        let data = await API.get_product_footprint_by_search(text);
         await display_result("#product-analysis-content",data);
         adt_save_local_search_history(userSelection);
     }
@@ -797,8 +807,7 @@ async function init_form(){
     let data = userSelection.footprint_type ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
 
     if(userSelection.footprint_type === 'person'){
-        // data['title'] = "Person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
-        data['title'] = "Emission per person";
+        data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
     }
     await display_result("#product-analysis-content",data);
     adt_save_local_search_history(userSelection);

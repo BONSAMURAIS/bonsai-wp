@@ -67,7 +67,7 @@ class UserSelection{
         this.household_type = jQuery('#household-composition option:selected').val();
         this.climate_metric = jQuery('#climatemetric option:selected').val();
         const typeValue = jQuery('input[name="footprint_type_extend"]:checked').val();
-        this.footprint_type = jQuery('input[name="footprint_type"]:checked').val(); //person or product
+        this.footprint_type = jQuery('#footprint-type option:selected').val(); //person or product
         this.footprint_type_label = 'Cradle to gate'; //typeValue= product or default
         if (typeValue == 'market') {
             this.footprint_type_label = 'Cradle to consumer';

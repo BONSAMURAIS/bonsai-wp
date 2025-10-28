@@ -47,6 +47,9 @@ add_shortcode( 'adt_searchform', function($atts) {
 
             <!-- Per person -->
             <div id="person-tab" style="display: none;">
+                <p class="tab-desc">
+                    Explore per-person climate footprints by country, household type, and income level.
+                </p>
                 <div class="select-wrapper col medium-12 small-12 large-12">
                     <div class="medium-6 small-12 large-6">
                         <?= do_shortcode('[tooltip id="info-household-composition" href="#info-household-composition" label="Household composition" block_id="household-composition-info-popup"]')?>
@@ -61,6 +64,9 @@ add_shortcode( 'adt_searchform', function($atts) {
 
             <!-- Per product -->
             <div id="product-tab">
+                <p class="tab-desc">
+                    Search for climate footprint of a product or service per functional unit.
+                </p>
                 <input name="search" type="text" id="autocomplete-input" placeholder="Find climate footprint by product">
                 <?= do_shortcode('[search_icon]')?>
                 <div id="initial-error-message" style="display: none;">
@@ -132,12 +138,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     <div class="product-parameters">
                         <div>
                             <?= do_shortcode('[tooltip id="info-location" href="#info-location" label="Location" block_id="location-info-popup"]')?>
-                            <div class="arrow-wrapper">
-                                <label class="select" for="location">
-                                    <select class="location" id="location">
-                                    </select>
-                                </label>
-                            </div>
+                            <?= do_shortcode('[dropdown_list id="location" filepath=""]')?>
                         </div>
                         <div>
                             <?= do_shortcode('[tooltip id="info-year" href="#info-year" label="Year" block_id="year-info-popup"]')?>

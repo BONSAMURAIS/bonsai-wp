@@ -45,7 +45,7 @@ p {
 
 //divider
 hr {
-    margin:30px auto;
+    margin:2em auto;
     width:75%;
     background-color: #E8EDED;
 }
@@ -112,8 +112,12 @@ div.tooltip-wrapper {
     }
 }
 
-// loading icon
+//description
+p.tab-desc{
+    margin: 1em 0em;
+}
 
+// loading icon
   #loadingModal {
     position: fixed;
     top: 0;
@@ -283,7 +287,7 @@ label.select > select:not(.unit){
     font-family: inherit; font-size: 18px; font-weight: 400;
     cursor: pointer;
     transition: all 150ms ease;
-    padding: 0px 10px;
+    padding: 0px 0.8em;
     border: 1px solid black; border-radius: 50px;
     color: black;
     
@@ -297,16 +301,21 @@ label.select > select:not(.unit){
     }    
 }
 
-label.select > select.unit{
-    font-size: 18px;
-    min-width: 2em;
-    border-bottom: 1px solid black;
-    cursor: pointer;
-    line-height: normal;
-}
+label.select { 
+    & > select.unit{
+        font-size: 18px;
+        min-width: 2em;
+        border-bottom: 1px solid black;
+        cursor: pointer;
+        line-height: normal;
+    }
 
-label.select > select.climatemetric{
-    width: 6em;
+    & > select.climatemetric{
+        width: 8em;
+    }
+    & > select.footprint-type, & > select.location{
+        width: 11.5em;
+    }
 }
 
 option {
@@ -316,9 +325,7 @@ option {
         display: none;
     }
 }
-div.arrow-wrapper{
-    position: relative;
-}
+
 svg.select-arrow {
     position: absolute;
     right: 20px;
@@ -329,6 +336,7 @@ svg.select-arrow {
 
 input[type=text].quantity{
     width: 5.5em; height: 0.8em;
+    min-width: none; max-width:5.5em;
     font-size: 0.5em;
     padding: unset;
     border: none;
@@ -413,6 +421,7 @@ section#most-popular {
     display: flex;
     align-items: center;
     padding: 2em;
+    padding-bottom: 0.5em;
 
     //remove flatsome default settings
     & * {
@@ -485,7 +494,7 @@ div.tile {
 .product {
     &-parameters {
         display: flex;
-        gap: 0px 15px;
+        gap: 0px 1em;
         flex-wrap: wrap;
         width: 65%;
         height: min-content;
@@ -939,8 +948,17 @@ div.calculation-wrapper {
 /* Extra small devices (phones, <576px) */
 @media (max-width: 575.98px) {
     /* Styles for phones */
+    hr {
+        margin:1em auto;
+    }
     .product-info{
         flex-direction:column;
+    }
+    .product-parameters {
+        width: 90%;
+    }
+    label.select > select:not(.unit) {
+        font-size: 10px;
     }
 }
 
@@ -952,6 +970,7 @@ div.calculation-wrapper {
 /* Medium devices (tablets, ≥768px) */
 @media (min-width: 768px) and (max-width: 991.98px) {
   /* Styles for tablets */
+
 }
 
 /* Large devices (desktops, ≥992px) */

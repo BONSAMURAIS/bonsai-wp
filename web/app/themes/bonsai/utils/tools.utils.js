@@ -43,18 +43,12 @@ export function show_search_results(id){
     jQuery(id).slideDown('slow', function(){
         // Might need something happening here
     });
-    jQuery('html, body').animate({
-        scrollTop: jQuery(id).offset().top - 90
-    }, CONST.ANIM.DURATION);
 }
 
 export function hide_search_results(id){
     jQuery(id).slideUp('slow', function(){
         // Might need something happening here
     });
-    jQuery('html, body').animate({
-        scrollTop: jQuery(id).offset().top - 90
-    }, CONST.ANIM.DURATION);
 }
 
 export function resizeTextToFit(text){
@@ -72,7 +66,7 @@ export function getUnitOptions(dataArray, unit_ref){
     //TODO rename hard coded unit with electricity
     let unitList = [];
 
-    if (unit_ref === CONST.UNIT.DKK){
+    if (unit_ref === CONST.UNIT.MEURO){
         unitList = [
             {ratio:1e-6,label: CONST.UNIT.EUR},
             {ratio:1e-3,label: CONST.UNIT.kEUR},
@@ -83,20 +77,20 @@ export function getUnitOptions(dataArray, unit_ref){
         ];
     } else if (unit_ref === CONST.UNIT.TONNES) {
         unitList = [
-            {ratio:1,label:CONST.UNIT.KG},
+            {ratio:1,label:CONST.UNIT.KG},  //ratio is 1 because the unit label changes too ( co2 eq in kg)
             // {ratio:1e-3,label:"g"},
-            {ratio:1,label:CONST.UNIT.TONNES}, //ratio is 1 because the unit label changes too
+            {ratio:1,label:CONST.UNIT.TONNES}, //ratio is 1 because the unit label changes too ( co2 eq in tonnes)
         ];
-    } else if (unit_ref === CONST.UNIT.MJ){
+    } else if (unit_ref === CONST.UNIT.MJ){ //
         if (dataArray.all_data[0].flow_code.includes('_elec') || dataArray.all_data[0].flow_code.includes('_POW')){
             unitList = [
                 {ratio:1,label:CONST.UNIT.KWH},
             ];
         } else {
             unitList = [
-                {ratio:1,label:CONST.UNIT.KWH},
+                {ratio:1/3.6,label:CONST.UNIT.KWH},
                 {ratio:1e-3,label:CONST.UNIT.MJ},
-                {ratio:1,label:CONST.UNIT.GJ}, //ratio is 1 because the unit label changes too
+                {ratio:1,label:CONST.UNIT.GJ},  //ratio is 1 because the unit label changes too ( co2 eq in tonnes)
             ];
         }
     } else if (unit_ref === CONST.UNIT.ITEMS){
@@ -113,8 +107,8 @@ export function getUnitOptions(dataArray, unit_ref){
         ]
     } else if (unit_ref == CONST.UNIT.TJ){ 
         unitList = [
-            {ratio:1,label:CONST.UNIT.KWH},
-            {ratio:1e-3,label:CONST.UNIT.MJ},
+            {ratio:1e3*(3.6*1e-6),label:CONST.UNIT.KWH}, // tonnes to kg + TJ to kWh / 1 TJ = 3.6.10^6
+            {ratio:1e-3,label:CONST.UNIT.MJ}, //because co2 eq in kg
             {ratio:1e-3,label:CONST.UNIT.GJ}, //ratio is 1 because in TJ in backend
         ]
     }
@@ -139,33 +133,33 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){
         switch (unit_ref){
             case CONST.UNIT.TJ.toLowerCase():
-                finalUnit = {ratio:1,label:CONST.UNIT.MJ};
+                finalUnit = {ratio:1e-3,label:CONST.UNIT.MJ};
                 break;
             case CONST.UNIT.ITEMS.toLowerCase():
-                finalUnit =  {ratio:1,label:CONST.UNIT.ITEMS};
+                finalUnit = {ratio:1,label:CONST.UNIT.ITEMS};
                 break;
             case CONST.UNIT.EUR.toLowerCase():
-                finalUnit =  {ratio:1,label:CONST.UNIT.EUR};
+                finalUnit = {ratio:1,label:CONST.UNIT.EUR};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
-                finalUnit =  {ratio:1,label:CONST.UNIT.KG};
+                finalUnit = {ratio:1,label:CONST.UNIT.KG};
                 break;
         }
     }else{
         switch (unit_ref){
             case CONST.UNIT.TJ.toLowerCase():
-                finalUnit =  {ratio:1e-3,label:CONST.UNIT.GJ};
+                finalUnit = {ratio:1e-3,label:CONST.UNIT.GJ};
                 break;
             case CONST.UNIT.ITEMS.toLowerCase():
-                finalUnit =  {ratio:1,label:CONST.UNIT.ITEMS};
+                finalUnit = {ratio:1,label:CONST.UNIT.ITEMS};
                 break;
             case CONST.UNIT.EUR.toLowerCase():
-                finalUnit =  {ratio:1,label:CONST.UNIT.EUR};
+                finalUnit = {ratio:1,label:CONST.UNIT.EUR};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
-                finalUnit =  {ratio:1,label:CONST.UNIT.TONNES};
+                finalUnit = {ratio:1,label:CONST.UNIT.TONNES};
                 break;
         }
     }
@@ -174,11 +168,10 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
 }
 
 export function selectOptionByText(select_DOMelement, targetText) {
-    console.log(select_DOMelement);
     const options = select_DOMelement.options;
 
     for (let i = 0; i < options.length; i++) {
-      if (options[i].text === targetText) {
+      if (options[i].text.toLowerCase() === String(targetText).toLowerCase()) {
         select_DOMelement.selectedIndex = i;
         break;
       }
