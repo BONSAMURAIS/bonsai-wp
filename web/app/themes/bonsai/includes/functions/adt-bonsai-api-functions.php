@@ -227,7 +227,7 @@ function get_country_name_by_code(){
     $result = json_decode($body, true);
 
     if (isset($result['count']) && $result['count'] === 0) {
-        wp_send_json_error(['error' => 'Country not found']);
+        wp_send_json_error(['error' => 'get_country_name_by_code Country not found']);
     }
 
     // Handle potential errors in the response
@@ -258,7 +258,7 @@ function get_country_name_by_country_code(){
     $result = json_decode($body, true);
 
     if (isset($result['count']) && $result['count'] === 0) {
-        wp_send_json_error(['error' => 'Country not found']);
+        wp_send_json_error(['error' => 'get_country_name_by_country_code Country not found']);
     }
 
     // Handle potential errors in the response
@@ -436,7 +436,7 @@ function get_code_by_name($name){
     $result = json_decode($body, true);
 
     if (isset($result['products']) && $result['products'] === 0) {
-        wp_send_json_error(['error' => 'Country not found']);
+        wp_send_json_error(['error' => 'get_code_by_name Country not found']);
     }
 
     // Handle potential errors in the response
