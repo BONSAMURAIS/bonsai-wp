@@ -519,8 +519,8 @@ function display_recipe_table(main_component,recipeArray){
         if (displayed_unit && displayed_unit['label']  !== null && displayed_unit['label']  !== undefined && displayed_unit['label']  !== '' && displayed_unit['label'].includes("tonnes")){
             displayed_unit['label'] =  displayed_unit['label'].replace("tonnes", "tonne")
         }
-        rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
-        rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
+        rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) ? Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) : '' + '</span>';
+        rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] ? displayed_unit['label'] : '' + '</span>';
         
         let default_selected_unit_ratio = main_component.find('select.unit option:selected').val(); //convert value in recipes
         rowMarkup += '</td>';
