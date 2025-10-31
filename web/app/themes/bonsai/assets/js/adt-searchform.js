@@ -514,6 +514,7 @@ function display_recipe_table(main_component,recipeArray){
 
         const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
         let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow);
+        displayed_unit = displayed_unit.endsWith("s") ? displayed_unit.slice(0, -1) : displayed_unit;
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
         
