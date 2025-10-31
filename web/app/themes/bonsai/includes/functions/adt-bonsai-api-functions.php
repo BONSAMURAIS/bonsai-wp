@@ -448,8 +448,8 @@ function retrieve_scope($productCode){
         wp_send_json_error(['error' => $result['detail']], 503);
     }
     $scope = "TODO";
-    if (isset($result['results']['scope'])) {
-        $scope = $result['results']['scope'];
+    if (isset($result['results'][0]['scope'])) {
+        $scope = $result['results'][0]['scope'];
     }
 
     return $scope;
