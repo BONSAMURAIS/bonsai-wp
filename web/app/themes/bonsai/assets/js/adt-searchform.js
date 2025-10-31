@@ -520,7 +520,7 @@ function display_recipe_table(main_component,recipeArray){
             displayed_unit['label'] =  displayed_unit['label'].replace("tonnes", "tonne")
         }
         let final_value_inflow = recipe.value_inflow;
-        if (final_value_inflow){
+        if (final_value_inflow !== null){
             final_value_inflow = Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio'])
         }else{
             final_value_inflow = "others"
