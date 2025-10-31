@@ -331,7 +331,7 @@ function get_prod_footprint_by_search(){
         'recipe' => $result["recipe"],
         'list_locations' => adt_get_locations(),//$result["locations"],
         'year' => $year,
-        'scope' => $best_match['scope'],
+        'scope' => $best_match["product"]['scope'],
     ];
 
     return wp_send_json_success($data);
