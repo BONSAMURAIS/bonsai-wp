@@ -385,7 +385,7 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
         $newestVersion = $version;
     }
 
-    $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric,$scope);
+    $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric);
 
     if(!empty($productCode) & empty($footprintTitle) ){
         $footprintTitle = get_product_name_by_code($productCode);
