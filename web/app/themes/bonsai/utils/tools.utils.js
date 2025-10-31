@@ -129,7 +129,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     selectedUnit = selectedUnit.toLowerCase();
     const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase()];
     
-    let finalUnit =  {ratio:1,label:""};
+    let finalUnit =  {ratio:1,label:"not defined"};
     if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){
         switch (unit_ref){
             case CONST.UNIT.TJ.toLowerCase():
