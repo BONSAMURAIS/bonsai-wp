@@ -30,6 +30,7 @@ function adt_get_person_footprint(){
 
     $final_demand_aux = "F_GOVE";
     $url = $GLOBALS['APIURL']."/footprint-country/?region_reference=".$countryCode."&version=".$version."&metric=".$metric."&household_type=".$household_type."&income_group=".$income_group."&final_demand=".$final_demand_aux; //TODO change if call with F_HOUS does not exist
+    error_log("person tab: url= {$url}");
     $response = wp_remote_get($url);
 
     // Check for errors
