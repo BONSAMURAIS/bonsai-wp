@@ -317,7 +317,6 @@ function get_prod_footprint_by_search(){
     $best_match = $result["best_match"];
     $footprint = $result["footprint"];
     $year = 2016; //change when it appears in api
-    $footprint_type = "TODO"; //change when it appears in api
 
     $data =  [
         'title' => $best_match["product"]["name"],
@@ -332,7 +331,7 @@ function get_prod_footprint_by_search(){
         'recipe' => $result["recipe"],
         'list_locations' => adt_get_locations(),//$result["locations"],
         'year' => $year,
-        'footprint_type' => $footprint_type,
+        'scope' => $best_match['scope'],
     ];
 
     return wp_send_json_success($data);
