@@ -123,13 +123,13 @@ export function getResultUnitCO2(unit_ref){
 }
 export function getUnitContriAnalysis(selectedUnit, unit_ref){
     if (unit_ref == null){
-        return ""
+        return {ratio:0,label:''};
     }
     unit_ref = unit_ref.toLowerCase();
     selectedUnit = selectedUnit.toLowerCase();
     const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase()];
     
-    let finalUnit =  {ratio:1,label:unit_ref};
+    let finalUnit = {ratio:1,label:unit_ref};
     if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){
         switch (unit_ref){
             case CONST.UNIT.TJ.toLowerCase():
