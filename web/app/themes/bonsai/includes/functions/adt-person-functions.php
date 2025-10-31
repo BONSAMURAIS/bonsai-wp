@@ -131,7 +131,7 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
     global $SEPARATOR;
     $recipeResult = [];
     
-    $url = $GLOBALS['APIURL'].'/recipes-country/?region_code='.$countryCode.'&version='.$version.'&metric='.$metric."&household_type=".$household_type."&income_group=".$income_group;
+    $url = $GLOBALS['APIURL'].'/recipes-country/?region_reference='.$countryCode.'&version='.$version.'&metric='.$metric."&household_type=".$household_type."&income_group=".$income_group;
     $recipeResponse = wp_remote_get($url);
     
     // Check for errors
@@ -172,7 +172,7 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
 
     // TODO: Throttled again for loading through the pages?
     for ($i = 1; $i <= $pages; $i++) {
-        $api_url = $GLOBALS['APIURL'].'/recipes-country/?page=' . $i . '&region_code='.$countryCode.'&version='.$version.'&metric='.$metric."&household_type=".$household_type."&income_group=".$income_group;
+        $api_url = $GLOBALS['APIURL'].'/recipes-country/?page=' . $i . '&region_reference='.$countryCode.'&version='.$version.'&metric='.$metric."&household_type=".$household_type."&income_group=".$income_group;
 
         $response = wp_remote_get($api_url);
         
