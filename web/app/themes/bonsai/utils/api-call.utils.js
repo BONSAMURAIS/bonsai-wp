@@ -162,26 +162,6 @@ export async function get_product_name_by_code_api(productCode) {
     })
 }
 
-export async function get_country_name_by_code(code) {
-    return new Promise((resolve, reject)=>{
-        jQuery.ajax({
-            type: 'POST',
-            url: localize._ajax_url,
-            data: {
-                _ajax_nonce: localize._ajax_nonce,
-                action: 'get_country_name_by_code',
-                code: code,
-            },
-            success: (response) => {
-                // console.log( response.data)
-                const country = response.data.count > 0 ? response.data.results[0].name : "NOT";
-                
-                resolve(country);
-    
-            }
-        });
-    })
-}
 
 export async function uncertainty_calculation(original, comparison){
     return new Promise((resolve, reject)=>{
