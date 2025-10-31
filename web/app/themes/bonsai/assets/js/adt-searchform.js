@@ -432,6 +432,9 @@ async function display_result(htmlclass, data){
     Utils.selectOptionByText(main_component.find('.year').first()[0], data['year']);
     Utils.selectOptionByText(main_component.find('.climatemetric').first()[0], data['metric']);
     Utils.selectOptionByText(main_component.find('.database-version').first()[0], data['version']);
+    main_component.find('.footprint-type').first()[0].prop('disabled', true);
+    main_component.find('.footprint-type').first()[0].css('background', 'white');
+
     const isPersonTab = data['flow_code'] == null;
     main_component.find('.emission-unit').first().text("in "+data['unit_emission']);
     main_component.find('.question-location').text(isPersonTab ? data["country"] : Utils.capitalize(data["title"]));
