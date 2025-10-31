@@ -473,7 +473,8 @@ async function display_result(htmlclass, data){
         preposition = " in ";
     }
     displayed_unit = displayed_unit.endsWith("s") ? displayed_unit.slice(0, -1) : displayed_unit;
-    const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
+    let selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
+    selectedUnit_dropdownlist = selectedUnit_dropdownlist.endsWith("s") ? selectedUnit_dropdownlist.slice(0, -1) : selectedUnit_dropdownlist;
     main_component.find('.product-unit').first().text(displayed_unit);
     main_component.find('.question-unit').first().text(selectedUnit_dropdownlist);
     main_component.find('.question-unit-preposition').first().text(preposition);
@@ -512,7 +513,9 @@ function display_recipe_table(main_component,recipeArray){
             recipe.value_emission = Utils.reformatValue(parseFloat(recipe.value_emission));
         }
 
-        const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
+        let selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
+        selectedUnit_dropdownlist = selectedUnit_dropdownlist.endsWith("s") ? selectedUnit_dropdownlist.slice(0, -1) : selectedUnit_dropdownlist;
+
         let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow);
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
