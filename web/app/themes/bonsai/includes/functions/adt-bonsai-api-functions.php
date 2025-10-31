@@ -340,7 +340,7 @@ function get_prod_footprint_by_search(){
 function call_product_footprint_api(string $productCode, string $countryCode, string $country, string|int $year, ?string $version, string $scope, ?string $metric){
 
     // API URL
-    $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric.'&scope='.$scope;
+    $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
     $response = wp_remote_get($url);
     error_log($url);
     
@@ -390,6 +390,8 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
     if(!empty($productCode) & empty($footprintTitle) ){
         $footprintTitle = get_product_name_by_code($productCode);
     }
+
+    $scope = retrieve_scope($productCode);
             
     $data = [
         'title' => $footprintTitle,
@@ -408,7 +410,7 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
         'value' => $footprint['value'],
         'recipe' => $recipeData,
         'year' => $year,
-        'scope' => "TODO",
+        'scope' => $scope,
     ];
 
     $cachedFootprintArray = [
@@ -418,6 +420,36 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
     // Cache the locations for 24 hour (86400 seconds)
     set_transient('adt_recipe_cache', $cachedFootprintArray, 86400);
     return $data;
+}
+
+function retrieve_scope($productCode){
+    $url = $GLOBALS['APIURL']."/products/?search=".$productCode;
+    $response = wp_remote_get($url);
+    
+    // Check for errors
+    if (is_wp_error($response)) {
+        return wp_send_json_error(['Error: ' . $response->get_error_message()]);
+    }
+    
+    // Retrieve and decode the response body
+    $body = wp_remote_retrieve_body($response);
+    $result = json_decode($body, true);
+
+    if (isset($result['products']) && $result['products'] === 0) {
+        wp_send_json_error(['error' => 'get_code_by_name Country not found']);
+    }
+
+    // Handle potential errors in the response
+    if (empty($result)) {
+        return 'No footprints found or an error occurred.';
+    }
+
+    if (array_key_exists('detail', $result)) {
+        wp_send_json_error(['error' => $result['detail']], 503);
+    }
+
+    $scope = $result['results']['scope'];
+    return $scope;
 }
 
 function get_code_by_name($name){
