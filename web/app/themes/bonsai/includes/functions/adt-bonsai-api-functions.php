@@ -451,7 +451,7 @@ function retrieve_scope($productCode){
     if (isset($result['results']['scope'])) {
         $scope = $result['results']['scope'];
     }
-    
+
     return $scope;
 }
 
@@ -494,7 +494,6 @@ function adt_get_product_footprint(){
     $productCode = $_POST['code'] ?? get_code_by_name($productName);
     $countryCode = $_POST['footprint_location'];
     $country = $_POST['country'] ?? get_country_name_by_country_code($countryCode);
-    $scope = $_POST['footprint_type'];
     // $type_label = $_POST['footprint_type_label'];
     $year = $_POST['footprint_year'];
     $version = $_POST['database_version'];
