@@ -266,7 +266,7 @@ jQuery(document).ready(function($){
 
         let main_component = amountInput.closest("div.tile");
         main_component.find('.question-unit').first().text(unitLabel);
-        const co2Value_unit = Utils.getResultUnitCO2(unitLabel);
+        const co2Value_unit = Utils.getResultUnitCO2(unitLabel).replace("tonnes", "tonne");;
         main_component.find('.co2-value-unit').text(co2Value_unit);
         const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
         display_recipe_table(main_component, recipeArray);
@@ -444,7 +444,7 @@ async function display_result(htmlclass, data){
     //set unitList
     const unitList = Utils.getUnitOptions(data, data["unit_reference"]);
     for (const unit of unitList){
-        unit_options.append(`<option value="${unit['ratio']}">${unit['label']}</option>`);
+        unit_options.append(`<option value="${unit['ratio']}">${unit['label'].replace("tonnes", "tonne")}</option>`);
     }
     console.log(unitList);
     if (unitList.length <= 1){
@@ -472,8 +472,9 @@ async function display_result(htmlclass, data){
         displayed_unit = CONST.UNIT.PERSON_YEAR;
         preposition = " in ";
     }
-    displayed_unit = displayed_unit.endsWith("s") ? displayed_unit.slice(0, -1) : displayed_unit;
-    const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
+    displayed_unit = displayed_unit.replace("tonnes", "tonne");
+    let selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
+    selectedUnit_dropdownlist = selectedUnit_dropdownlist.replace("tonnes", "tonne");
     main_component.find('.product-unit').first().text(displayed_unit);
     main_component.find('.question-unit').first().text(selectedUnit_dropdownlist);
     main_component.find('.question-unit-preposition').first().text(preposition);
@@ -513,8 +514,7 @@ function display_recipe_table(main_component,recipeArray){
         }
 
         const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
-        let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow);
-        displayed_unit['label'] = displayed_unit['label'].endsWith("s") ? displayed_unit['label'].slice(0, -1) : displayed_unit['label'];
+        const displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow).replace("tonnes", "tonne");
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
         
