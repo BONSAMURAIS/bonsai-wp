@@ -447,8 +447,11 @@ function retrieve_scope($productCode){
     if (array_key_exists('detail', $result)) {
         wp_send_json_error(['error' => $result['detail']], 503);
     }
-
-    $scope = $result['results']['scope'];
+    $scope = "TODO";
+    if (isset($result['results']['scope'])) {
+        $scope = $result['results']['scope'];
+    }
+    
     return $scope;
 }
 
