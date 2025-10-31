@@ -520,12 +520,12 @@ function display_recipe_table(main_component,recipeArray){
             displayed_unit['label'] =  displayed_unit['label'].replace("tonnes", "tonne")
         }
         let final_value_inflow = recipe.value_inflow;
-        if (final_value_inflow !== null){
+        if (final_value_inflow){
             final_value_inflow = Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio'])
         }else{
             final_value_inflow = "others"
         }
-        rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
+        rowMarkup += '<span class="inflow-value">' + final_value_inflow  + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
         
         let default_selected_unit_ratio = main_component.find('select.unit option:selected').val(); //convert value in recipes
