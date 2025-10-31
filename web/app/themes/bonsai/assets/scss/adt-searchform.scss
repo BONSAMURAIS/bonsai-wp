@@ -304,7 +304,7 @@ label.select > select:not(.unit){
 label.select { 
     & > select.unit{
         font-size: 18px;
-        min-width: 2em;
+        width: 8em;
         border-bottom: 1px solid black;
         cursor: pointer;
         line-height: normal;
