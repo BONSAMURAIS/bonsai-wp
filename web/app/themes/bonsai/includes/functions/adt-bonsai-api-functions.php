@@ -408,7 +408,7 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
         'value' => $footprint['value'],
         'recipe' => $recipeData,
         'year' => $year,
-        'footprint-type' => $type,
+        'scope' => "TODO",
     ];
 
     $cachedFootprintArray = [

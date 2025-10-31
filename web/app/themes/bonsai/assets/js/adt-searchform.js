@@ -432,6 +432,7 @@ async function display_result(htmlclass, data){
     Utils.selectOptionByText(main_component.find('.year').first()[0], data['year']);
     Utils.selectOptionByText(main_component.find('.climatemetric').first()[0], data['metric']);
     Utils.selectOptionByText(main_component.find('.database-version').first()[0], data['version']);
+    Utils.selectOptionByText(main_component.find('.footprint-type').first()[0], data['scope']);
     let dropdown_footprint_type = main_component.find('.footprint-type').first();
     dropdown_footprint_type.prop('disabled', true);
     dropdown_footprint_type.css('background', 'white');
