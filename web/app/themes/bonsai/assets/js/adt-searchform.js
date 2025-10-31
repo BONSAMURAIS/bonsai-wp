@@ -514,7 +514,7 @@ function display_recipe_table(main_component,recipeArray){
 
         const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
         let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow);
-        displayed_unit = String(displayed_unit).endsWith("s") ? String(displayed_unit).slice(0, -1) : displayed_unit;
+        displayed_unit['label'] = displayed_unit['label'].endsWith("s") ? displayed_unit['label'].slice(0, -1) : displayed_unit['label'];
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
         
