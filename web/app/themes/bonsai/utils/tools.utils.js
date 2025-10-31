@@ -159,7 +159,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
-                const unit_tonnes = CONST.UNIT.TONNES.replace("tonnes", "tonne")
+                const unit_tonnes = String(CONST.UNIT.TONNES).replace("tonnes", "tonne");
                 finalUnit = {ratio:1,label:unit_tonnes};
                 break;
         }
