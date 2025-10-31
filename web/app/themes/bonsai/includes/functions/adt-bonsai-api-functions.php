@@ -242,10 +242,9 @@ function get_country_name_by_code(){
     wp_send_json_success($result);
 }
 
-function get_country_name_by_country_code(){
-    $code = $_POST['footprint_location'];
+function get_country_name_by_country_code(string $countryCode){
     // API URL
-    $url = $GLOBALS['APIURL']."/locations/?search=".$code;
+    $url = $GLOBALS['APIURL']."/locations/?search=".$countryCode;
     $response = wp_remote_get($url);
     
     // Check for errors
@@ -460,7 +459,7 @@ function adt_get_product_footprint(){
     $productName = $_POST['title'];
     $productCode = $_POST['code'] ?? get_code_by_name($productName);
     $countryCode = $_POST['footprint_location'];
-    $country = $_POST['country'] ?? get_country_name_by_country_code();
+    $country = $_POST['country'] ?? get_country_name_by_country_code($countryCode);
     $scope = $_POST['footprint_type'];
     // $type_label = $_POST['footprint_type_label'];
     $year = $_POST['footprint_year'];
