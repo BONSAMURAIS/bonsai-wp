@@ -515,6 +515,7 @@ function display_recipe_table(main_component,recipeArray){
 
         const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
         let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow);
+        console.log(displayed_unit)
         displayed_unit['label'] = displayed_unit['label'].replace("tonnes", "tonne");
         rowMarkup += '<span class="inflow-value">' + Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
