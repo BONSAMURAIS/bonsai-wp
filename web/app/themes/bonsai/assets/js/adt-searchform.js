@@ -433,8 +433,9 @@ async function display_result(htmlclass, data){
     Utils.selectOptionByText(main_component.find('.climatemetric').first()[0], data['metric']);
     Utils.selectOptionByText(main_component.find('.database-version').first()[0], data['version']);
     console.log(main_component.find('.footprint-type').first()[0]);
-    main_component.find('.footprint-type').first()[0].prop('disabled', true);
-    main_component.find('.footprint-type').first()[0].css('background', 'white');
+    let dropdown_footprint_type = main_component.find('.footprint-type').first()[0];
+    dropdown_footprint_type.prop('disabled', true);
+    dropdown_footprint_type.css('background', 'white');
 
     const isPersonTab = data['flow_code'] == null;
     main_component.find('.emission-unit').first().text("in "+data['unit_emission']);
