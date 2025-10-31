@@ -391,7 +391,7 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
         $footprintTitle = get_product_name_by_code($productCode);
     }
 
-    $scope = retrieve_scope($productCode);
+    $scope = "SCOPE";//retrieve_scope($productCode);
             
     $data = [
         'title' => $footprintTitle,
