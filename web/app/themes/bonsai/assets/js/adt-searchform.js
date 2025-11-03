@@ -499,6 +499,8 @@ function display_recipe_table(main_component,recipeArray){
         return true;
     }
 
+    console.log(recipeArray)
+
     let tableMarkup = '';
     let otherRowMarkup = '';
     let rowMarkup = '';
