@@ -495,7 +495,7 @@ async function display_result(htmlclass, data){
 }
 
 function display_recipe_table(main_component,recipeArray){
-    if (recipeArray.error){
+    if (recipeArray && recipeArray.error){
         return true;
     }
 
