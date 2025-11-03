@@ -259,7 +259,8 @@ jQuery(document).ready(function($){
         console.log("co2_result_value=",co2_result_value)
         console.log("unitRatio=",unitRatio)
         console.log("unitLabel=",unitLabel)
-        let calculatedValue = co2_result_value * numberInput * unitRatio;
+        const co2_result_value_test = JSON.parse(localStorage.getItem('result_value'));
+        let calculatedValue = co2_result_value_test * numberInput * unitRatio;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
 
         co2_result.text(formattedCalculatedValue);
@@ -320,7 +321,9 @@ jQuery(document).ready(function($){
         let amountInputValue = amountInput.val() == '' ? 0 : amountInput.val();
         let co2_result = amountInput.closest('div.product-result')      // go up to the div wrapping 
                                 .find('span.co2-value');        // look inside for span.co2-value
-        const co2_result_value = parseFloat(co2_result.data('normal_value'));
+        const co2_result_value_test = parseFloat(co2_result.data('normal_value'));
+        const co2_result_value = localStorage.getItem('normal_value');
+        console.log(co2_result_value)
 
 
 
@@ -448,7 +451,10 @@ async function display_result(htmlclass, data){
     //set value
     console.log("testtest")
     console.log(data["value"])
+    localStorage.setItem('result_value', data["value"]);
+
     main_component.find('.co2-value').first().data("normal_value",Utils.reformatValue(data["value"]));
+
     console.log("normal_value=",main_component.find('.co2-value').first().data('normal_value'))
     main_component.find('.co2-value').first().data("normal_unit",data["unit_reference"]);
     let unit_options = main_component.find('select.unit'); 
@@ -476,7 +482,6 @@ async function display_result(htmlclass, data){
     let default_selected_unit_ratio = main_component.find('select.unit option:selected').val();
     console.log(default_selected_unit_ratio)
     main_component.find('.co2-value').first().text(Utils.reformatValue(default_selected_unit_ratio*data["value"]));
-    console.log("after normal_value=",main_component.find('.co2-value').first().data('normal_value'))
 
     let displayed_unit = data["unit_reference"];
     let preposition = " of ";
