@@ -255,6 +255,7 @@ jQuery(document).ready(function($){
         let co2_result = unitSelect.closest('div.product-result')      // go up to the div wrapping 
                                     .find('span.co2-value');        // look inside for span.co2-value
         const co2_result_value = parseFloat(co2_result.data('normal_value'));
+        console.log("co2_result=",co2_result)
         console.log("co2_result_value=",co2_result_value)
         console.log("unitRatio=",unitRatio)
         console.log("unitLabel=",unitLabel)
