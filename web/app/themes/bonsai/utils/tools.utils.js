@@ -68,12 +68,12 @@ export function getUnitOptions(dataArray, unit_ref){
 
     if (unit_ref === CONST.UNIT.MEURO){
         unitList = [
-            {ratio:1e-3,label: CONST.UNIT.EUR},//ratio is 1 because the unit label changes too ( co2 eq in kg)
+            {ratio:1e-3,label: CONST.UNIT.EUR},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
             {ratio:1e-3,label: CONST.UNIT.kEUR},
             {ratio:1,label: CONST.UNIT.MEURO},
-            {ratio:1,label: CONST.UNIT.DKK},
-            {ratio:1e3,label:CONST.UNIT.kDKK},
-            {ratio:1e6,label:CONST.UNIT.mDKK}
+            {ratio:7.4451*1e-3,label: CONST.UNIT.DKK},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
+            {ratio:7.4451*1e-3,label:CONST.UNIT.kDKK},//7.4451= rate exchange eur to dkk 2016
+            {ratio:7.4451*1,label:CONST.UNIT.mDKK}
         ];
     } else if (unit_ref === CONST.UNIT.TONNES) {
         unitList = [
