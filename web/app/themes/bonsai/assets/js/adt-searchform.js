@@ -469,6 +469,7 @@ async function display_result(htmlclass, data){
         Utils.selectOptionByText(unit_options.first()[0],CONST.UNIT.KG); //display as default 'kg' for unit_ref = tonnes
     }
     let default_selected_unit_ratio = main_component.find('select.unit option:selected').val();
+    console.log(default_selected_unit_ratio)
     main_component.find('.co2-value').first().text(Utils.reformatValue(default_selected_unit_ratio*data["value"]));
 
     let displayed_unit = data["unit_reference"];
