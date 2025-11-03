@@ -254,13 +254,8 @@ jQuery(document).ready(function($){
         let numberInput = amountInput.val();
         let co2_result = unitSelect.closest('div.product-result')      // go up to the div wrapping 
                                     .find('span.co2-value');        // look inside for span.co2-value
-        const co2_result_value = parseFloat(co2_result.data('normal_value'));
-        console.log("co2_result=",co2_result)
-        console.log("co2_result_value=",co2_result_value)
-        console.log("unitRatio=",unitRatio)
-        console.log("unitLabel=",unitLabel)
-        const co2_result_value_test = JSON.parse(localStorage.getItem('result_value'));
-        let calculatedValue = co2_result_value_test * numberInput * unitRatio;
+        const co2_result_value = localStorage.getItem('result_value');
+        let calculatedValue = co2_result_value * numberInput * unitRatio;
         let formattedCalculatedValue = Utils.reformatValue(calculatedValue);
 
         co2_result.text(formattedCalculatedValue);
@@ -321,11 +316,7 @@ jQuery(document).ready(function($){
         let amountInputValue = amountInput.val() == '' ? 0 : amountInput.val();
         let co2_result = amountInput.closest('div.product-result')      // go up to the div wrapping 
                                 .find('span.co2-value');        // look inside for span.co2-value
-        const co2_result_value_test = parseFloat(co2_result.data('normal_value'));
-        const co2_result_value = localStorage.getItem('normal_value');
-        console.log(co2_result_value)
-
-
+        const co2_result_value = localStorage.getItem('result_value');
 
         let unitSelect = amountInput.closest('div.unit-select-wrapper')
                                 .find('select.unit');
@@ -452,10 +443,6 @@ async function display_result(htmlclass, data){
     console.log("testtest")
     console.log(data["value"])
     localStorage.setItem('result_value', data["value"]);
-
-    main_component.find('.co2-value').first().data("normal_value",Utils.reformatValue(data["value"]));
-
-    console.log("normal_value=",main_component.find('.co2-value').first().data('normal_value'))
     main_component.find('.co2-value').first().data("normal_unit",data["unit_reference"]);
     let unit_options = main_component.find('select.unit'); 
     unit_options.empty();
