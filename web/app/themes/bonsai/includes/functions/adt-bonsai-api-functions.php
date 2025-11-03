@@ -181,6 +181,16 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
     $result = json_decode($body, true);
     $recipes = $result["results"];
 
+    // Handle potential errors in the response
+    if (empty($recipes)) {
+        return [
+            'error' => 'No recipes found or an error occurred.'
+        ];
+    }
+
+    $index_other = -1;
+    $counter = 0;
+
     foreach ($recipes as &$recipe) {
         if (!isset($recipe['inflow'])) {
             $recipe['inflow'] = $recipe['product_code'];
@@ -193,20 +203,20 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
         if (!isset($recipe['value_emission'])) {
             $recipe['value_emission'] = $recipe['value'];
         }
+        if ($recipe['inflow_name']== 'other'){
+            $index_other = $counter;
+        }
+        $counter++;
         error_log($recipe['unit_reference']);
     }
+    
+    $other_recipe = array_splice($array, $counter, 1);
 
     //sort per value
     usort($recipes, function ($a, $b) {
         return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
     });
-    
-    // Handle potential errors in the response
-    if (empty($recipes)) {
-        return [
-            'error' => 'No recipes found or an error occurred.'
-        ];
-    }
+    $recipes[] = $other_recipe;
     
     return $recipes;
 }
