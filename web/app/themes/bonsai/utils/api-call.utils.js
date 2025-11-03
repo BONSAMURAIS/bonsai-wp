@@ -17,7 +17,7 @@ export async function get_product_footprint_by_search(query){
                 Utils.hideLoading();
                 console.log("by search");
                 console.log(response);
-                //localStorage.setItem('emission_contriAnalysis', JSON.stringify(response.data.recipe));
+                localStorage.setItem('emission_contriAnalysis', JSON.stringify(response.data.recipe));
                 resolve(response.data);
             },
             error: (error) => {
