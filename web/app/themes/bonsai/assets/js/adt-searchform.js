@@ -432,6 +432,7 @@ async function display_result(htmlclass, data){
     Utils.selectOptionByText(main_component.find('.database-version').first()[0], data['version']);
     jQuery(main_component.find('.footprint-type').first()).val(data['scope']);
     let dropdown_footprint_type = main_component.find('.footprint-type').first();
+    const isPersonTab = data['flow_code'] == null;
     if (isPersonTab) {
         jQuery(dropdown_footprint_type.val("ctgr")); //cradle to grave by default
     }else{
@@ -440,7 +441,6 @@ async function display_result(htmlclass, data){
     dropdown_footprint_type.prop('disabled', true);
     dropdown_footprint_type.css('background', 'white');
 
-    const isPersonTab = data['flow_code'] == null;
     main_component.find('.emission-unit').first().text("in "+data['unit_emission']);
     main_component.find('.question-location').text(isPersonTab ? data["country"] : Utils.capitalize(data["title"]));
     main_component.find('.version').first().text(data["version"]);
