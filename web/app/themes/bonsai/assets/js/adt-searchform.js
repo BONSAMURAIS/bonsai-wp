@@ -443,7 +443,7 @@ async function display_result(htmlclass, data){
     console.log("testtest")
     console.log(data["value"])
     localStorage.setItem('result_value', data["value"]);
-    main_component.find('.co2-value').first().data("normal_unit",data["unit_reference"]);
+    localStorage.setItem('result_unit', data["unit_reference"]);
     let unit_options = main_component.find('select.unit'); 
     unit_options.empty();
     //set unitList
