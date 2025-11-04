@@ -144,8 +144,6 @@ jQuery(document).ready(function($){
     let list_product = {};
     let list_product_title = new Set();
 
-    let chosenFootprintType = $('input[name="footprint_type_extend"]:checked').val();
-
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
     $(searchform.products).each(function() {
         list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid}; //because title is unique
