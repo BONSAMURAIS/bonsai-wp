@@ -175,9 +175,6 @@ jQuery(document).ready(function($){
         let productTitle = $(this).text();
         let productCode = $(this).data('code');
         let productUuid = $(this).data('uuid');
-        let product_location = $(this).data('location');
-        let product_year = $(this).data('year');
-        console.log("product_location=",product_location)
         userSelection.get_from_form();
         userSelection.set_product(productTitle,productCode,productUuid);
         let selectedValue = $('input[name="footprint_type"]:checked').val();
@@ -455,7 +452,6 @@ async function display_result(htmlclass, data){
     for (const unit of unitList){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label'].replace("tonnes", "tonne")}</option>`);
     }
-    console.log(unitList);
     if (unitList.length <= 1){
         unit_options.prop('disabled', true);
         unit_options.css('background', 'white');
@@ -471,7 +467,6 @@ async function display_result(htmlclass, data){
         Utils.selectOptionByText(unit_options.first()[0],CONST.UNIT.KG); //display as default 'kg' for unit_ref = tonnes
     }
     let default_selected_unit_ratio = main_component.find('select.unit option:selected').val();
-    console.log(default_selected_unit_ratio)
     main_component.find('.co2-value').first().text(Utils.reformatValue(default_selected_unit_ratio*data["value"]));
 
     let displayed_unit = data["unit_reference"];
@@ -527,7 +522,6 @@ function display_recipe_table(main_component,recipeArray){
 
         const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
         let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow);
-        // console.log(displayed_unit)
         if (displayed_unit && displayed_unit['label']  !== null && displayed_unit['label']  !== undefined && displayed_unit['label']  !== '' && displayed_unit['label'].includes("tonnes")){
             displayed_unit['label'] =  displayed_unit['label'].replace("tonnes", "tonne")
         }
