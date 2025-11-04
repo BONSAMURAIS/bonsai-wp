@@ -98,6 +98,7 @@ jQuery(document).ready(function($){
                 let userSelection = new UserSelection;
                 userSelection.get_from_form();
                 userSelection.countryCode = "AU";//TOCHANGE
+                userSelection.country = "Australia";//TOCHANGE
                 userSelection.code = "person";//TOCHANGE
                 let data = await API.get_person_footprint(userSelection);
                 adt_push_parameter_to_url(userSelection);
