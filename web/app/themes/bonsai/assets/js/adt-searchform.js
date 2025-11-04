@@ -446,8 +446,6 @@ async function display_result(htmlclass, data){
     main_component.find('.question-location').text(isPersonTab ? data["country"] : Utils.capitalize(data["title"]));
     main_component.find('.version').first().text(data["version"]);
     //set value
-    console.log("testtest")
-    console.log(data["value"])
     localStorage.setItem('result_value', data["value"]);
     localStorage.setItem('result_unit', data["unit_reference"]);
     let unit_options = main_component.find('select.unit'); 
