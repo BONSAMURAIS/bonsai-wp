@@ -97,8 +97,10 @@ jQuery(document).ready(function($){
                 $('#grave').prop('checked', true).trigger('change');
                 let userSelection = new UserSelection;
                 userSelection.get_from_form();
-                userSelection.countryCode = "AU";
+                userSelection.countryCode = "AU";//TOCHANGE
+                userSelection.code = "person";//TOCHANGE
                 let data = await API.get_person_footprint(userSelection);
+                adt_push_parameter_to_url(userSelection);
                 data['title'] = "Emission per person";
                 await display_result("#product-analysis-content",data);
             } else {
@@ -823,9 +825,9 @@ async function init_form(){
     userSelection.get_from_url();
     console.log("init to_string()=",userSelection.to_string())
 
-    let data = userSelection.footprint_type ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+    let data = userSelection.code ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
 
-    if(userSelection.footprint_type === 'person'){
+    if(userSelection.code === 'person'){
         data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
     }
     await display_result("#product-analysis-content",data);
