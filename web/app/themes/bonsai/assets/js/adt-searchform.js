@@ -102,7 +102,7 @@ jQuery(document).ready(function($){
                 userSelection.code = "person";//TOCHANGE
                 let data = await API.get_person_footprint(userSelection);
                 adt_push_parameter_to_url(userSelection);
-                data['title'] = "Emission per person";
+                data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
                 await display_result("#product-analysis-content",data);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
@@ -121,7 +121,7 @@ jQuery(document).ready(function($){
         console.log("selectedValue=",selectedValue)
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
         if(selectedValue === 'person'){
-            data['title'] = "Emission per person";
+            data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
         }
         await display_result("#product-analysis-content",data);
         adt_push_parameter_to_url(userSelection);
@@ -192,7 +192,7 @@ jQuery(document).ready(function($){
         let data = await API.get_product_footprint(userSelection);
 
         if(selectedValue === 'person'){
-            data['title'] = "Emission per person";
+            data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
         }
 
         await display_result("#product-analysis-content",data);
@@ -238,7 +238,7 @@ jQuery(document).ready(function($){
         }
         
         if(selectedValue === 'person'){
-            data['title'] = "Emission per person";
+            data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
         }
         adt_push_parameter_to_url(userSelection);
         await display_result("#product-analysis-content",data);
@@ -829,7 +829,7 @@ async function init_form(){
     let data = userSelection.code ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
 
     if(userSelection.code === 'person'){
-        data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + " - " + userSelection.year;
+        data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
     }
     await display_result("#product-analysis-content",data);
     adt_save_local_search_history(userSelection);
