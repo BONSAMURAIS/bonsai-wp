@@ -29,7 +29,8 @@ function adt_get_person_footprint(){
     }
 
     $final_demand_aux = "F_GOVE";
-    $url = $GLOBALS['APIURL']."/footprint-country/?region_reference=".$countryCode."&version=".$version."&metric=".$metric."&household_type=".$household_type."&income_group=".$income_group."&final_demand=".$final_demand_aux; //TODO change if call with F_HOUS does not exist
+    $url = $GLOBALS['APIURL']."/footprint-country/?region_code=".$countryCode."&version=".$version."&metric=".$metric."&household_type=".$household_type."&income_group=".$income_group."&final_demand=".$final_demand_aux; //TODO change if call with F_HOUS does not exist
+    error_log("person tab: url= {$url}");
     $response = wp_remote_get($url);
 
     // Check for errors
@@ -89,7 +90,7 @@ function adt_get_person_footprint(){
 function get_total_value(string $countryCode, string $household_type, string $income_group, string $version, string $metric) : float {
     global $SEPARATOR;
     $total = 0;
-    $url = $GLOBALS['APIURL']."/footprint-country/?region_reference=".$countryCode."&version=".$version."&metric=".$metric."&household_type=".$household_type."&income_group=".$income_group;
+    $url = $GLOBALS['APIURL']."/footprint-country/?region_code=".$countryCode."&version=".$version."&metric=".$metric."&household_type=".$household_type."&income_group=".$income_group;
 
     $response = wp_remote_get($url);
     

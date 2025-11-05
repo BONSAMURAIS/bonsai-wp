@@ -68,12 +68,12 @@ export function getUnitOptions(dataArray, unit_ref){
 
     if (unit_ref === CONST.UNIT.MEURO){
         unitList = [
-            {ratio:1e-6,label: CONST.UNIT.EUR},
+            {ratio:1e-3,label: CONST.UNIT.EUR},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
             {ratio:1e-3,label: CONST.UNIT.kEUR},
             {ratio:1,label: CONST.UNIT.MEURO},
-            {ratio:1,label: CONST.UNIT.DKK},
-            {ratio:1e3,label:CONST.UNIT.kDKK},
-            {ratio:1e6,label:CONST.UNIT.mDKK}
+            {ratio:7.4451*1e-3,label: CONST.UNIT.DKK},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
+            {ratio:7.4451*1e-3,label:CONST.UNIT.kDKK},//7.4451= rate exchange eur to dkk 2016
+            {ratio:7.4451*1,label:CONST.UNIT.mDKK}
         ];
     } else if (unit_ref === CONST.UNIT.TONNES) {
         unitList = [
@@ -111,6 +111,10 @@ export function getUnitOptions(dataArray, unit_ref){
             {ratio:1e-3,label:CONST.UNIT.MJ}, //because co2 eq in kg
             {ratio:1e-3,label:CONST.UNIT.GJ}, //ratio is 1 because in TJ in backend
         ]
+    } else if (unit_ref === CONST.UNIT.HA_WEIGHTED){
+        unitList = [
+            {ratio:1,label:CONST.UNIT.HA_WEIGHTED}
+        ]
     }
 
     return unitList;
@@ -123,13 +127,13 @@ export function getResultUnitCO2(unit_ref){
 }
 export function getUnitContriAnalysis(selectedUnit, unit_ref){
     if (unit_ref == null){
-        return ""
+        return {ratio:0,label:''};
     }
     unit_ref = unit_ref.toLowerCase();
     selectedUnit = selectedUnit.toLowerCase();
     const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase()];
     
-    let finalUnit = "";
+    let finalUnit = {ratio:1,label:unit_ref};
     if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){
         switch (unit_ref){
             case CONST.UNIT.TJ.toLowerCase():

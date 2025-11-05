@@ -28,5 +28,6 @@ export const UNIT = {
 	KWH:'kWh',
  	ITEMS:'items',
 	HA_PER_YEAR:'ha*year',
+	HA_WEIGHTED:'ha-weighted',
 	M2_PER_YEAR:'m²*year'
 }
