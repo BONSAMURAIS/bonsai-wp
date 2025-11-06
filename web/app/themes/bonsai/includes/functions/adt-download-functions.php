@@ -133,7 +133,7 @@ function store_user_info(string $fullname, string $organisation, string $email){
     ];
 
     // Initialize cURL
-    $ch = curl_init($url);
+    $ch = curl_init($endpoint);
 
     // Encode the data as JSON
     $jsonData = json_encode($data);
