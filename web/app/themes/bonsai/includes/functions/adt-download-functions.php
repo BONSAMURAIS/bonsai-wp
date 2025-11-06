@@ -176,7 +176,7 @@ add_action('admin_post_nopriv_download_footprint_csv', 'adt_download_footprint_c
 
 // Contribution
 function adt_get_contribution_data_batch(int $page): array {
-    $endpoint = 'https://lca.aau.dk/api/recipes/?page=' . $page;
+    $endpoint = $GLOBALS['APIURL'].'/recipes/?page=' . $page;
     $response = wp_remote_get($endpoint);
 
     echo $page;
@@ -258,15 +258,14 @@ function adt_download_contribution_csv(): void {
         wp_die('No data available to download.');
     }
 
-    $firstname = isset($_POST['firstname']) ? sanitize_text_field($_POST['firstname']) : '';
-    $lastname  = isset($_POST['lastname']) ? sanitize_text_field($_POST['lastname']) : '';
+    $fullname = isset($_POST['fullname']) ? sanitize_text_field($_POST['fullname']) : '';
+    $organisation  = isset($_POST['organisation']) ? sanitize_text_field($_POST['organisation']) : '';
     $email     = isset($_POST['email']) ? sanitize_email($_POST['email']) : '';
 
-    if (empty($firstname) || empty($lastname) || !is_email($email)) {
+    if (empty($fullname) || empty($organisation) || !is_email($email)) {
         wp_die('Invalid input');
     }
 
-    error_log($firstname);
 
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename=contribution_data.csv');
@@ -282,6 +281,8 @@ function adt_download_contribution_csv(): void {
     }
 
     fclose($output);
+    store_user_info($fullname,$organisation,$email);
+
     exit;
 }
 
