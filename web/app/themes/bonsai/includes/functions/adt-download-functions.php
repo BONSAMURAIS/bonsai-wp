@@ -104,6 +104,12 @@ function adt_download_footprint_csv(): void {
         wp_die('Invalid input');
     }
 
+    error_log(gettype($fullname));
+    error_log($fullname);
+    error_log(gettype($organisation));
+    error_log($organisation);
+    error_log(gettype($email));
+    error_log($email);
     store_user_info($fullname,$organisation,$email);
 
     header('Content-Type: text/csv; charset=utf-8');
