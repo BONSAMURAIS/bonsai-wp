@@ -104,12 +104,6 @@ function adt_download_footprint_csv(): void {
         wp_die('Invalid input');
     }
 
-    error_log(gettype($fullname));
-    error_log($fullname);
-    error_log(gettype($organisation));
-    error_log($organisation);
-    error_log(gettype($email));
-    error_log($email);
     store_user_info($fullname,$organisation,$email);
 
     header('Content-Type: text/csv; charset=utf-8');
@@ -129,7 +123,7 @@ function adt_download_footprint_csv(): void {
     exit;
 }
 
-function store_user_info(str $fullname, str $organisation, str $email){
+function store_user_info(string $fullname, string $organisation, string $email){
     $endpoint = $GLOBALS['APIURL'].'/user/pre-register/';
 
     // Data to send
