@@ -104,7 +104,7 @@ function adt_download_footprint_csv(): void {
         wp_die('Invalid input');
     }
 
-    store_user_info($fullname,$organisation,$email);
+    
 
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename=footprint_data.csv');
@@ -120,6 +120,7 @@ function adt_download_footprint_csv(): void {
     }
 
     fclose($output);
+    store_user_info($fullname,$organisation,$email);
     exit;
 }
 
