@@ -2,9 +2,11 @@
 
 defined('ABSPATH') || exit;
 
+$GLOBALS['APIURL'] = $CONFIG['APIURL'];
+
 // Footprint
 function adt_get_footprint_data_batch(int $page): array {
-    $endpoint = 'https://lca.aau.dk/api/footprint/?page=' . $page;
+    $endpoint = $GLOBALS['APIURL'].'/footprint/?page=' . $page;
     $response = wp_remote_get($endpoint);
 
     echo $page;
@@ -102,6 +104,8 @@ function adt_download_footprint_csv(): void {
         wp_die('Invalid input');
     }
 
+    store_user_info($fullname,$organisation,$email);
+
     header('Content-Type: text/csv; charset=utf-8');
     header('Content-Disposition: attachment; filename=footprint_data.csv');
 
@@ -117,6 +121,50 @@ function adt_download_footprint_csv(): void {
 
     fclose($output);
     exit;
+}
+
+function store_user_info(str $fullname, str $organisation, str $email){
+    $endpoint = $GLOBALS['APIURL'].'/user/pre-register/';
+
+    // Data to send
+    $data = [
+        "email" => $email,
+        "name"  => $fullname
+    ];
+
+    // Initialize cURL
+    $ch = curl_init($url);
+
+    // Encode the data as JSON
+    $jsonData = json_encode($data);
+
+
+        // Set cURL options
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json',
+            'Accept: application/json'
+        ],
+        CURLOPT_POSTFIELDS => $jsonData
+    ]);
+
+    // Execute request
+    $response = curl_exec($ch);
+
+    // Check for errors
+    if (curl_errno($ch)) {
+        echo 'cURL Error: ' . curl_error($ch);
+    } else {
+        // Decode the API response (optional)
+        $decoded = json_decode($response, true);
+        print_r($decoded);
+    }
+
+    // Close connection
+    curl_close($ch);
+
 }
 
 // Handle the button click to trigger the CSV download
