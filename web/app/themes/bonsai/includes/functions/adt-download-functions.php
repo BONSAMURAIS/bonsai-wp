@@ -130,6 +130,7 @@ function store_user_info(string $fullname, string $organisation, string $email){
     // Data to send
     $data = [
         "email" => $email,
+        "organisation" => $organisation,
         "name"  => $fullname
     ];
 
