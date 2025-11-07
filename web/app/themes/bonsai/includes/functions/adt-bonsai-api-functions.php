@@ -220,7 +220,7 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
     usort($recipes, function ($a, $b) {
         return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
     });
-    $recipes[] = $other_recipe;
+    $recipes[] = $other_recipe[0];
     error_log(count($recipes));
     
     return $recipes;
@@ -367,7 +367,7 @@ function get_prod_footprint_by_search(){
     usort($recipes, function ($a, $b) {
         return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
     });
-    $recipes[] = $other_recipe;
+    $recipes[] = $other_recipe[0];
     error_log(count($recipes));   
     error_log(json_encode(($recipes)));   
 
