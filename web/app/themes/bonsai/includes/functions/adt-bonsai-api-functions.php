@@ -210,7 +210,7 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
         error_log($recipe['unit_reference']);
     }
     
-    $other_recipe = array_splice($recipes, $counter, 1);
+    $other_recipe = array_splice($recipes, $index_other, 1);
 
     //sort per value
     usort($recipes, function ($a, $b) {
@@ -346,12 +346,13 @@ function get_prod_footprint_by_search(){
         }
         if ($recipe['inflow_name']== 'other'){
             $index_other = $counter;
+            error_log("");
         }
         $counter++;
         error_log($recipe['unit_reference']);
     }
     
-    $other_recipe = array_splice($recipes, $counter, 1);
+    $other_recipe = array_splice($recipes, $index_other, 1);
 
     //sort per value
     usort($recipes, function ($a, $b) {
