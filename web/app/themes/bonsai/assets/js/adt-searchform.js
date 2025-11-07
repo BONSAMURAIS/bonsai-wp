@@ -677,12 +677,9 @@ function adt_dynamic_search_input(list_product, list_product_title)
                 currentIndex = (currentIndex - 1 + $items.length) % $items.length;
                 markCurrentItem($items);
             } else if (e.key === 'Enter' && jQuery('#autocomplete-input').val() !== '') {
-                console.log("test");
                 e.preventDefault();
-                console.log($items);
-                console.log("$items.eq(currentIndex)");
-                console.log($items.eq(currentIndex));
-                let data = await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
+                const selectedSuggestion = $items.eq(currentIndex);
+                let data = await API.get_product_footprint_by_search(selectedSuggestion.text());
                 $suggestionsWrapper.hide();
                 if (data.error){
                     let error_msg = jQuery('#error-message');
