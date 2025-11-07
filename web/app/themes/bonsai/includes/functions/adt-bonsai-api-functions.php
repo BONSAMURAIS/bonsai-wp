@@ -357,14 +357,18 @@ function get_prod_footprint_by_search(){
         error_log($recipe['unit_reference']);
     }
     
+    error_log($index_other);
+    error_log(count($recipes));
     $other_recipe = array_splice($recipes, $index_other, 1);
-
+    error_log(json_encode($other_recipe));
+    error_log(count($recipes));
+    
     //sort per value
     usort($recipes, function ($a, $b) {
         return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
     });
     $recipes[] = $other_recipe;
-    
+    error_log(count($recipes));   
 
     $data =  [
         'title' => $best_match["product"]["name"],
