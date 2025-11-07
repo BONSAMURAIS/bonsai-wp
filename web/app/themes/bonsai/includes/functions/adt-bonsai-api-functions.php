@@ -369,6 +369,7 @@ function get_prod_footprint_by_search(){
     });
     $recipes[] = $other_recipe;
     error_log(count($recipes));   
+    error_log(json_encode(($recipes)));   
 
     $data =  [
         'title' => $best_match["product"]["name"],
