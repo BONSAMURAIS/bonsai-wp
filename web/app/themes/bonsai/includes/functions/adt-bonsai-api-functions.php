@@ -328,6 +328,36 @@ function get_prod_footprint_by_search(){
     $footprint = $result["footprint"];
     $year = 2016; //change when it appears in api
 
+    $recipes = $result["recipe"];
+
+    foreach ($recipes as &$recipe) {
+        if (!isset($recipe['inflow'])) {
+            $recipe['inflow'] = $recipe['product_code'];
+        }
+    
+        if (!isset($recipe['region_inflow']) & isset($recipe['region_code'])) {
+            $recipe['region_inflow'] = $recipe['region_code'];
+        }   
+    
+        if (!isset($recipe['value_emission'])) {
+            $recipe['value_emission'] = $recipe['value'];
+        }
+        if ($recipe['inflow_name']== 'other'){
+            $index_other = $counter;
+        }
+        $counter++;
+        error_log($recipe['unit_reference']);
+    }
+    
+    $other_recipe = array_splice($recipes, $counter, 1);
+
+    //sort per value
+    usort($recipes, function ($a, $b) {
+        return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
+    });
+    $recipes[] = $other_recipe;
+    
+
     $data =  [
         'title' => $best_match["product"]["name"],
         'flow_code' => $best_match["product"]["code"],
@@ -338,7 +368,7 @@ function get_prod_footprint_by_search(){
         'version' => $footprint["version"],
         'metric' => $footprint["metric"],
         'value' => $footprint['value'],
-        'recipe' => $result["recipe"],
+        'recipe' => $recipes,
         'list_locations' => adt_get_locations(),//$result["locations"],
         'year' => $year,
         'scope' => $best_match["product"]['scope'],
