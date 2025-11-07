@@ -329,7 +329,8 @@ function get_prod_footprint_by_search(){
     $year = 2016; //change when it appears in api
 
     $recipes = $result["recipe"];
-    $counter=0;
+    $index_other = -1;
+    $counter = 0;
 
     foreach ($recipes as &$recipe) {
         if (!isset($recipe['inflow'])) {
