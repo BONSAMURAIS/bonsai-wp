@@ -678,6 +678,8 @@ function adt_dynamic_search_input(list_product, list_product_title)
                 markCurrentItem($items);
             } else if (e.key === 'Enter' && jQuery('#autocomplete-input').val() !== '') {
                 e.preventDefault();
+                console.log("$items.eq(currentIndex)");
+                console.log($items.eq(currentIndex));
                 let data = await API.get_product_footprint_by_search(jQuery('#autocomplete-input').val());
                 $suggestionsWrapper.hide();
                 if (data.error){
