@@ -531,7 +531,7 @@ function display_recipe_table(main_component,recipeArray){
         
         let default_selected_unit_ratio = main_component.find('select.unit option:selected').val(); //convert value in recipes
         rowMarkup += '</td>';
-        rowMarkup += '<td class="emissions-value">' + (recipe.value_emission ? default_selected_unit_ratio*recipe.value_emission : '') + '</td>';
+        rowMarkup += '<td class="emissions-value">' + (recipe.value_emission ? Utils.reformatValue(default_selected_unit_ratio*recipe.value_emission) : '') + '</td>';
         rowMarkup += '</tr>';
 
         if (recipe.flow_input != null && (recipe.flow_input.toLowerCase() === "other" || recipe.flow_input.toLowerCase() === "direct")){
