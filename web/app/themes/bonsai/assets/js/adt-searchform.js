@@ -267,7 +267,7 @@ jQuery(document).ready(function($){
         const co2Value_unit = Utils.getResultUnitCO2(unitLabel).replace("tonnes", "tonne");;
         main_component.find('.co2-value-unit').text(co2Value_unit);
         const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
-        display_recipe_table(main_component, recipeArray);
+        display_recipe_table(main_component, recipeArray,localStorage.getItem('unit_reference'));
 
         amountInput.val(numberInput);//keep value in input
     });
@@ -336,7 +336,7 @@ jQuery(document).ready(function($){
             
         }
         let main_component = amountInput.closest("div.tile");
-        display_recipe_table(main_component, recipeArray);
+        display_recipe_table(main_component, recipeArray,localStorage.getItem('unit_reference'));
 
         amountInput.val(amountInput.val());//keep value in input
         
@@ -487,11 +487,11 @@ async function display_result(htmlclass, data){
     main_component.find('.co2-value-unit').text(isPersonTab ? CONST.UNIT.TONNESCO2 : co2Value_unit);
 
     //recipe
-    display_recipe_table(main_component,data.recipe);
+    display_recipe_table(main_component,data.recipe, data["unit_reference"]);
     return true;
 }
 
-function display_recipe_table(main_component,recipeArray){
+function display_recipe_table(main_component,recipeArray,unit_reference){
     if (recipeArray && recipeArray.error){
         return true;
     }
@@ -521,7 +521,7 @@ function display_recipe_table(main_component,recipeArray){
         }
 
         const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
-        let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow);
+        let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow, unit_reference);
         if (displayed_unit && displayed_unit['label']  !== null && displayed_unit['label']  !== undefined && displayed_unit['label']  !== '' && displayed_unit['label'].includes("tonnes")){
             displayed_unit['label'] =  displayed_unit['label'].replace("tonnes", "tonne")
         }

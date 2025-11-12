@@ -68,12 +68,12 @@ export function getUnitOptions(dataArray, unit_ref){
 
     if (unit_ref === CONST.UNIT.MEURO){
         unitList = [
-            {ratio:1e-3,label: CONST.UNIT.EUR},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
+            {ratio:1e-3,label: CONST.UNIT.EUR},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)  1e6 * 1e-3 = 1e-3 
             {ratio:1e-3,label: CONST.UNIT.kEUR},
             {ratio:1,label: CONST.UNIT.mEUR},
-            {ratio:7.4451*1e-3,label: CONST.UNIT.DKK},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
-            {ratio:7.4451*1e-3,label:CONST.UNIT.kDKK},//7.4451= rate exchange eur to dkk 2016
-            {ratio:7.4451*1,label:CONST.UNIT.mDKK}
+            {ratio:CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3,label: CONST.UNIT.DKK},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
+            {ratio:CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3,label:CONST.UNIT.kDKK},
+            {ratio:CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1,label:CONST.UNIT.mDKK}
         ];
     } else if (unit_ref === CONST.UNIT.TONNES) {
         unitList = [
@@ -120,22 +120,22 @@ export function getUnitOptions(dataArray, unit_ref){
     return unitList;
 }
 
+const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase(), CONST.UNIT.DKK.toLowerCase()];
 export function getResultUnitCO2(unit_ref){
-    const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase()];
     let finalUnit = unitList_for_kgco2.includes(unit_ref.toLowerCase()) ? CONST.UNIT.KGCO2 : CONST.UNIT.TONNESCO2;
     return finalUnit;
 }
-export function getUnitContriAnalysis(selectedUnit, unit_ref){
-    if (unit_ref == null){
+export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference){
+    if (unit_inflow == null){
         return {ratio:0,label:''};
     }
-    unit_ref = unit_ref.toLowerCase();
+    unit_inflow = unit_inflow.toLowerCase();
+    unit_reference = unit_reference.toLowerCase();
     selectedUnit = selectedUnit.toLowerCase();
-    const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase()];
     
-    let finalUnit = {ratio:1,label:unit_ref};
-    if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){
-        switch (unit_ref){
+    let finalUnit = {ratio:1,label:unit_inflow};
+    if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){//emission in kg
+        switch (unit_inflow){
             case CONST.UNIT.TJ.toLowerCase():
                 finalUnit = {ratio:1e-3,label:CONST.UNIT.MJ};
                 break;
@@ -143,15 +143,27 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 finalUnit = {ratio:1,label:CONST.UNIT.ITEMS};
                 break;
             case CONST.UNIT.MEURO.toLowerCase():
-                finalUnit = {ratio:1,label:CONST.UNIT.kEUR};
+                let ratio = 0;
+                if (unit_reference===CONST.UNIT.MEURO.toLowerCase()){
+                    ratio = 1; 
+                    if (selectedUnit === CONST.UNIT.DKK.toLowerCase()){
+                        ratio /= CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
+                    }
+                }else{
+                    ratio = 1e3; // default: CONST.UNIT.EUR : =>  1e-6 * 1e3 = 1e3 : Meuro to Eur and Tonnes to kg. dont know why = 1
+                    if (selectedUnit === CONST.UNIT.DKK.toLowerCase()){
+                        ratio /= CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
+                    }
+                }
+                finalUnit = {ratio:ratio,label:CONST.UNIT.EUR};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
                 finalUnit = {ratio:1,label:CONST.UNIT.KG};
                 break;
         }
-    }else{
-        switch (unit_ref){
+    }else{//emission in tonnes
+        switch (unit_inflow){ 
             case CONST.UNIT.TJ.toLowerCase():
                 finalUnit = {ratio:1e-3,label:CONST.UNIT.GJ};
                 break;
@@ -159,7 +171,15 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 finalUnit = {ratio:1,label:CONST.UNIT.ITEMS};
                 break;
             case CONST.UNIT.MEURO.toLowerCase():
-                finalUnit = {ratio:1,label:CONST.UNIT.mEUR};
+                let ratio = 1; // default: CONST.UNIT.mEUR
+                if (selectedUnit === CONST.UNIT.kEUR.toLowerCase()){
+                    ratio = 1e-3;
+                } else if(selectedUnit === CONST.UNIT.kDKK.toLowerCase()){
+                    ratio = 1e-3/CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
+                } else if(selectedUnit === CONST.UNIT.mDKK.toLowerCase()){
+                    ratio = 1/CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
+                }
+                finalUnit = {ratio:ratio,label:CONST.UNIT.mEUR};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():

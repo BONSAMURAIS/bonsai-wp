@@ -18,6 +18,7 @@ export async function get_product_footprint_by_search(query){
                 console.log("by search");
                 console.log(response);
                 localStorage.setItem('emission_contriAnalysis', JSON.stringify(response.data.recipe));
+                localStorage.setItem('unit_reference', JSON.stringify(response.data.unit_reference));
                 resolve(response.data);
             },
             error: (error) => {
@@ -58,6 +59,8 @@ export async function get_product_footprint(userSelection){
             success: (response) => {
                 Utils.hideLoading();
                 localStorage.setItem('emission_contriAnalysis', JSON.stringify(response.data.recipe));
+                localStorage.setItem('unit_reference', JSON.stringify(response.data.unit_reference));
+
                 resolve(response.data);
             },
             error: (error) => {
@@ -101,6 +104,7 @@ export async function get_person_footprint(userSelection){
                 autocomplete_input.prop('disabled', false);
                 console.log("person_data response = ",response)
                 localStorage.setItem('emission_contriAnalysis', JSON.stringify(response.data.recipe));
+                // localStorage.setItem('unit_reference', JSON.stringify(response.data.unit_reference));
                 resolve(response.data);
                 
             },

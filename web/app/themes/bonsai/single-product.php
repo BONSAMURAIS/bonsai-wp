@@ -22,7 +22,6 @@ get_header(); ?>
                     <h2 class="big-title">Getting the data right</h2>
                     <p class="sub-heading">Find the footprint for the products</p>
                     [ux_html]
-
                     [adt_searchform]
                     [/ux_html]
                 [/col]
@@ -35,7 +34,7 @@ get_header(); ?>
                 [/col]
                 [col span="6" span__sm="12" padding="0px 0px 0px 50px" padding__sm="0px 40px 0px 40px" padding__md="0px 15px 0px 50px" margin="0px 0px 0px 0px" margin__sm="15px 0px 0px 0px" margin__md="0px 0px 0px 0px" align="left"]
                     <h3>Getting the data right</h3>
-                    Sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitar sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercita
+                    
                     [button text="Read more" letter_case="lowercase" padding="0px 30px 0px 30px" radius="99" class="mobile-right"]
                 [/col]
             [/row]
