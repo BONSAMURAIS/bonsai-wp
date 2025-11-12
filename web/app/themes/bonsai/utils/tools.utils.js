@@ -144,7 +144,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 break;
             case CONST.UNIT.MEURO.toLowerCase():
                 let ratio = 1e3; // default: CONST.UNIT.EUR
-                if (selectedUnit === CONST.UNIT.DKK){
+                if (selectedUnit === CONST.UNIT.DKK.toLowerCase()){
                     ratio = CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e3; // default: CONST.UNIT.EUR
                 }
                 finalUnit = {ratio:ratio,label:CONST.UNIT.EUR};
