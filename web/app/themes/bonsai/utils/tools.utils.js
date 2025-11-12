@@ -144,7 +144,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
             case CONST.UNIT.MEURO.toLowerCase():
                 let ratio = 1; // default: CONST.UNIT.EUR : =>  1e-6 * 1e3 = 1e3 : Meuro to Eur and Tonnes to kg. dont know why = 1
                 if (selectedUnit === CONST.UNIT.DKK.toLowerCase()){
-                    ratio *= CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
+                    ratio /= CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
                 }
                 finalUnit = {ratio:ratio,label:CONST.UNIT.EUR};
                 break;
