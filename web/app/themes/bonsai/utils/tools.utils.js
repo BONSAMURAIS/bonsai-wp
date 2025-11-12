@@ -121,7 +121,6 @@ export function getUnitOptions(dataArray, unit_ref){
 }
 
 const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase(), CONST.UNIT.DKK.toLowerCase()];
-const  = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase(), CONST.UNIT.DKK.toLowerCase()];
 export function getResultUnitCO2(unit_ref){
     let finalUnit = unitList_for_kgco2.includes(unit_ref.toLowerCase()) ? CONST.UNIT.KGCO2 : CONST.UNIT.TONNESCO2;
     return finalUnit;
