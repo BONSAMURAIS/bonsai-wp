@@ -69,7 +69,7 @@ export function getUnitOptions(dataArray, unit_ref){
     if (unit_ref === CONST.UNIT.MEURO){
         unitList = [
             {ratio:1e-3,label: CONST.UNIT.EUR},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
-            {ratio:1e3,label: CONST.UNIT.kEUR},
+            {ratio:1e-3,label: CONST.UNIT.kEUR},
             {ratio:1,label: CONST.UNIT.mEUR},
             {ratio:CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3,label: CONST.UNIT.DKK},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
             {ratio:CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3,label:CONST.UNIT.kDKK},
