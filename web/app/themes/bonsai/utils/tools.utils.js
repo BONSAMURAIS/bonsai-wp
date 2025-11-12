@@ -120,8 +120,8 @@ export function getUnitOptions(dataArray, unit_ref){
     return unitList;
 }
 
+const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase(), CONST.UNIT.DKK.toLowerCase()];
 export function getResultUnitCO2(unit_ref){
-    const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase()];
     let finalUnit = unitList_for_kgco2.includes(unit_ref.toLowerCase()) ? CONST.UNIT.KGCO2 : CONST.UNIT.TONNESCO2;
     return finalUnit;
 }
@@ -131,7 +131,6 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     }
     unit_ref = unit_ref.toLowerCase();
     selectedUnit = selectedUnit.toLowerCase();
-    const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase(), CONST.UNIT.DKK.toLowerCase()];
     
     let finalUnit = {ratio:1,label:unit_ref};
     if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){//emission in kg
