@@ -142,8 +142,8 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
             case CONST.UNIT.ITEMS.toLowerCase():
                 finalUnit = {ratio:1,label:CONST.UNIT.ITEMS};
                 break;
-            case CONST.UNIT.EUR.toLowerCase():
-                finalUnit = {ratio:1,label:CONST.UNIT.EUR};
+            case CONST.UNIT.MEURO.toLowerCase():
+                finalUnit = {ratio:1,label:CONST.UNIT.kEUR};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
