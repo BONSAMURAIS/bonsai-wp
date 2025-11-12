@@ -125,12 +125,12 @@ export function getResultUnitCO2(unit_ref){
     let finalUnit = unitList_for_kgco2.includes(unit_ref.toLowerCase()) ? CONST.UNIT.KGCO2 : CONST.UNIT.TONNESCO2;
     return finalUnit;
 }
-export function getUnitContriAnalysis(selectedUnit, unit_ref, unit_inflow){
+export function getUnitContriAnalysis(selectedUnit, unit_ref){
     if (unit_ref == null){
         return {ratio:0,label:''};
     }
     unit_ref = unit_ref.toLowerCase();
-    unit_inflow = unit_inflow.toLowerCase();
+    // unit_inflow = unit_inflow.toLowerCase();
     selectedUnit = selectedUnit.toLowerCase();
     
     let finalUnit = {ratio:1,label:unit_ref};
