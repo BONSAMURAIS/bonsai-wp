@@ -166,9 +166,9 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 if (selectedUnit === CONST.UNIT.kEUR.toLowerCase()){
                     ratio = 1e-3;
                 } else if(selectedUnit === CONST.UNIT.kDKK.toLowerCase()){
-                    ratio = CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3;
+                    ratio = 1e-3/CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
                 } else if(selectedUnit === CONST.UNIT.mDKK.toLowerCase()){
-                    ratio = CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1;
+                    ratio = 1/CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
                 }
                 finalUnit = {ratio:ratio,label:CONST.UNIT.mEUR};
                 break;
