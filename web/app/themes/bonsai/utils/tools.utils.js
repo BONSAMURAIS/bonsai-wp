@@ -70,7 +70,7 @@ export function getUnitOptions(dataArray, unit_ref){
         unitList = [
             {ratio:1e-3,label: CONST.UNIT.EUR},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
             {ratio:1e-3,label: CONST.UNIT.kEUR},
-            {ratio:1,label: CONST.UNIT.MEURO},
+            {ratio:1,label: CONST.UNIT.mEUR},
             {ratio:7.4451*1e-3,label: CONST.UNIT.DKK},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
             {ratio:7.4451*1e-3,label:CONST.UNIT.kDKK},//7.4451= rate exchange eur to dkk 2016
             {ratio:7.4451*1,label:CONST.UNIT.mDKK}
@@ -158,8 +158,8 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
             case CONST.UNIT.ITEMS.toLowerCase():
                 finalUnit = {ratio:1,label:CONST.UNIT.ITEMS};
                 break;
-            case CONST.UNIT.EUR.toLowerCase():
-                finalUnit = {ratio:1,label:CONST.UNIT.EUR};
+            case CONST.UNIT.MEURO.toLowerCase():
+                finalUnit = {ratio:1,label:CONST.UNIT.mEUR};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
