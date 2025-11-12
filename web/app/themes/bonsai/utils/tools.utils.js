@@ -164,11 +164,11 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 break;
             case CONST.UNIT.MEURO.toLowerCase():
                 let ratio = 1; // default: CONST.UNIT.mEUR
-                if (selectedUnit === CONST.UNIT.kEUR){
+                if (selectedUnit === CONST.UNIT.kEUR.toLowerCase()){
                     ratio = 1e3;
-                } else if(selectedUnit === CONST.UNIT.kDKK){
+                } else if(selectedUnit === CONST.UNIT.kDKK.toLowerCase()){
                     ratio = EUR_to_DKK_2016*1e3;
-                } else if(selectedUnit === CONST.UNIT.mDKK){
+                } else if(selectedUnit === CONST.UNIT.mDKK.toLowerCase()){
                     ratio = EUR_to_DKK_2016*1;
                 }
                 finalUnit = {ratio:ratio,label:CONST.UNIT.mEUR};
