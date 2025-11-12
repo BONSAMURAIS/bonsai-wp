@@ -68,7 +68,7 @@ export function getUnitOptions(dataArray, unit_ref){
 
     if (unit_ref === CONST.UNIT.MEURO){
         unitList = [
-            {ratio:1e-3,label: CONST.UNIT.EUR},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
+            {ratio:1e-3,label: CONST.UNIT.EUR},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)  1e6 * 1e-3 = 1e-3 
             {ratio:1e-3,label: CONST.UNIT.kEUR},
             {ratio:1,label: CONST.UNIT.mEUR},
             {ratio:CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3,label: CONST.UNIT.DKK},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
@@ -142,7 +142,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 finalUnit = {ratio:1,label:CONST.UNIT.ITEMS};
                 break;
             case CONST.UNIT.MEURO.toLowerCase():
-                let ratio = 1; // default: CONST.UNIT.EUR : =>  1e-6 * 1e3 = 1e3 : Meuro to Eur and Tonnes to kg. dont know why = 1
+                let ratio = 1e3; // default: CONST.UNIT.EUR : =>  1e-6 * 1e3 = 1e3 : Meuro to Eur and Tonnes to kg. dont know why = 1
                 if (selectedUnit === CONST.UNIT.DKK.toLowerCase()){
                     ratio /= CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
                 }
