@@ -8,6 +8,10 @@ export const ANIM = {
 	DURATION: 3000
 }
 
+export const RATE_EXCHANGE = {
+	EUR_to_DKK_2016: 7.4451 //7.4451 = rate exchange eur to dkk 2016
+}
+
 export const UNIT = {
 	KGCO2:'kg CO2eq',
 	TONNESCO2:'tonnes CO2eq',

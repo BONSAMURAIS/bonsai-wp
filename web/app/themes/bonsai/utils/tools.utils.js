@@ -71,9 +71,9 @@ export function getUnitOptions(dataArray, unit_ref){
             {ratio:1e-3,label: CONST.UNIT.EUR},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
             {ratio:1e-3,label: CONST.UNIT.kEUR},
             {ratio:1,label: CONST.UNIT.mEUR},
-            {ratio:7.4451*1e-3,label: CONST.UNIT.DKK},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
-            {ratio:7.4451*1e-3,label:CONST.UNIT.kDKK},//7.4451= rate exchange eur to dkk 2016
-            {ratio:7.4451*1,label:CONST.UNIT.mDKK}
+            {ratio:CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3,label: CONST.UNIT.DKK},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
+            {ratio:CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3,label:CONST.UNIT.kDKK},
+            {ratio:CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1,label:CONST.UNIT.mDKK}
         ];
     } else if (unit_ref === CONST.UNIT.TONNES) {
         unitList = [
@@ -143,7 +143,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 finalUnit = {ratio:1,label:CONST.UNIT.ITEMS};
                 break;
             case CONST.UNIT.MEURO.toLowerCase():
-                finalUnit = {ratio:1,label:CONST.UNIT.kEUR};
+                finalUnit = {ratio:1e3,label:CONST.UNIT.EUR};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
