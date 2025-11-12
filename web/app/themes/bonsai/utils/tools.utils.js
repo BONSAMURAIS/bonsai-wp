@@ -131,7 +131,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     }
     unit_ref = unit_ref.toLowerCase();
     selectedUnit = selectedUnit.toLowerCase();
-    const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase()];
+    const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase(), CONST.UNIT.DKK.toLowerCase()];
     
     let finalUnit = {ratio:1,label:unit_ref};
     if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){
@@ -143,7 +143,11 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 finalUnit = {ratio:1,label:CONST.UNIT.ITEMS};
                 break;
             case CONST.UNIT.MEURO.toLowerCase():
-                finalUnit = {ratio:1e3,label:CONST.UNIT.EUR};
+                let ratio = 1e3; // default: CONST.UNIT.EUR
+                if (selectedUnit === CONST.UNIT.DKK){
+                    ratio = EUR_to_DKK_2016*1e3; // default: CONST.UNIT.EUR
+                }
+                finalUnit = {ratio:ratio,label:CONST.UNIT.EUR};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
@@ -159,7 +163,15 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 finalUnit = {ratio:1,label:CONST.UNIT.ITEMS};
                 break;
             case CONST.UNIT.MEURO.toLowerCase():
-                finalUnit = {ratio:1,label:CONST.UNIT.mEUR};
+                let ratio = 1; // default: CONST.UNIT.mEUR
+                if (selectedUnit === CONST.UNIT.kEUR){
+                    ratio = 1e3;
+                } else if(selectedUnit === CONST.UNIT.kDKK){
+                    ratio = EUR_to_DKK_2016*1e3;
+                } else if(selectedUnit === CONST.UNIT.mDKK){
+                    ratio = EUR_to_DKK_2016*1;
+                }
+                finalUnit = {ratio:ratio,label:CONST.UNIT.mEUR};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
