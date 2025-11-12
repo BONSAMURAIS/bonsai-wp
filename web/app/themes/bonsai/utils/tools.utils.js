@@ -134,7 +134,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
     const unitList_for_kgco2 = [CONST.UNIT.KG.toLowerCase(), CONST.UNIT.MJ.toLowerCase(), CONST.UNIT.KWH.toLowerCase(), CONST.UNIT.EUR.toLowerCase(), CONST.UNIT.DKK.toLowerCase()];
     
     let finalUnit = {ratio:1,label:unit_ref};
-    if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){
+    if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){//emission in kg
         switch (unit_ref){
             case CONST.UNIT.TJ.toLowerCase():
                 finalUnit = {ratio:1e-3,label:CONST.UNIT.MJ};
@@ -143,7 +143,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 finalUnit = {ratio:1,label:CONST.UNIT.ITEMS};
                 break;
             case CONST.UNIT.MEURO.toLowerCase():
-                let ratio = 1e-3; // default: CONST.UNIT.EUR : =>  1e6 * 1e-3 = 1e3 : Meuro to Eur and Tonnes to kg
+                let ratio = 1e-3; // default: CONST.UNIT.EUR : =>  1e-6 * 1e3 = 1e3 : Meuro to Eur and Tonnes to kg
                 if (selectedUnit === CONST.UNIT.DKK.toLowerCase()){
                     ratio = CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3;
                 }
@@ -154,8 +154,8 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 finalUnit = {ratio:1,label:CONST.UNIT.KG};
                 break;
         }
-    }else{
-        switch (unit_ref){
+    }else{//emission in tonnes
+        switch (unit_ref){ 
             case CONST.UNIT.TJ.toLowerCase():
                 finalUnit = {ratio:1e-3,label:CONST.UNIT.GJ};
                 break;
@@ -165,9 +165,9 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
             case CONST.UNIT.MEURO.toLowerCase():
                 let ratio = 1; // default: CONST.UNIT.mEUR
                 if (selectedUnit === CONST.UNIT.kEUR.toLowerCase()){
-                    ratio = 1e3;
+                    ratio = 1e-3;
                 } else if(selectedUnit === CONST.UNIT.kDKK.toLowerCase()){
-                    ratio = CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e3;
+                    ratio = CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3;
                 } else if(selectedUnit === CONST.UNIT.mDKK.toLowerCase()){
                     ratio = CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1;
                 }
