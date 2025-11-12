@@ -145,7 +145,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
             case CONST.UNIT.MEURO.toLowerCase():
                 let ratio = 1e3; // default: CONST.UNIT.EUR
                 if (selectedUnit === CONST.UNIT.DKK){
-                    ratio = EUR_to_DKK_2016*1e3; // default: CONST.UNIT.EUR
+                    ratio = CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e3; // default: CONST.UNIT.EUR
                 }
                 finalUnit = {ratio:ratio,label:CONST.UNIT.EUR};
                 break;
@@ -167,9 +167,9 @@ export function getUnitContriAnalysis(selectedUnit, unit_ref){
                 if (selectedUnit === CONST.UNIT.kEUR.toLowerCase()){
                     ratio = 1e3;
                 } else if(selectedUnit === CONST.UNIT.kDKK.toLowerCase()){
-                    ratio = EUR_to_DKK_2016*1e3;
+                    ratio = CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e3;
                 } else if(selectedUnit === CONST.UNIT.mDKK.toLowerCase()){
-                    ratio = EUR_to_DKK_2016*1;
+                    ratio = CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1;
                 }
                 finalUnit = {ratio:ratio,label:CONST.UNIT.mEUR};
                 break;
