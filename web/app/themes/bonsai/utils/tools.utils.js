@@ -144,7 +144,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
                 break;
             case CONST.UNIT.MEURO.toLowerCase():
                 let ratio = 0;
-                if (unit_reference===CONST.UNIT.MEURO){
+                if (unit_reference===CONST.UNIT.MEURO.toLowerCase()){
                     ratio = 1; 
                     if (selectedUnit === CONST.UNIT.DKK.toLowerCase()){
                         ratio /= CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
