@@ -5,6 +5,7 @@ from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from utils.singleton import Singleton
 from core.config import db_engine, db_user, db_pwd, db_host, db_port, db_name,logging_level
+from core import Base
 from models import * #necessary to import models to create tables in db
 
 logger = logging.getLogger(__name__)
@@ -29,6 +30,8 @@ class DBMS(metaclass=Singleton):
             logger.debug(f"{db_engine}://{db_user}:{db_pwd}@{db_host}:{db_port}/{db_name}")
             self.engine:Engine = create_engine(f"{db_engine}://{db_user}:{db_pwd}@{db_host}:{db_port}/{db_name}")
             self.sessionLocal = sessionmaker(bind=self.engine, autoflush=False)
+            logger.info("Creating tables if they do not exist")
+            Base.metadata.create_all(self.engine)
         except Exception as e:
             logger.error('Unable to access database', repr(e))
 
