@@ -4,7 +4,7 @@ from typing import Generator
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from utils.singleton import Singleton
-from core.config import db_user, db_pwd, db_host, db_port, db_name,logging_level
+from core.config import db_engine, db_user, db_pwd, db_host, db_port, db_name,logging_level
 from models import * #necessary to import models to create tables in db
 
 logger = logging.getLogger(__name__)
@@ -26,8 +26,8 @@ class DBMS(metaclass=Singleton):
         Initialize a new DBMS instance
         """
         try:
-            logger.debug(f"postgresql://{db_user}:{db_pwd}@{db_host}:{db_port}/{db_name}")
-            self.engine:Engine = create_engine(f"postgresql://{db_user}:{db_pwd}@{db_host}:{db_port}/{db_name}")
+            logger.debug(f"{db_engine}://{db_user}:{db_pwd}@{db_host}:{db_port}/{db_name}")
+            self.engine:Engine = create_engine(f"{db_engine}://{db_user}:{db_pwd}@{db_host}:{db_port}/{db_name}")
             self.sessionLocal = sessionmaker(bind=self.engine, autoflush=False)
         except Exception as e:
             logger.error('Unable to access postgresql database', repr(e))
