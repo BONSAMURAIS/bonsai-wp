@@ -15,7 +15,9 @@ def upload_csvfile(df, model_class) -> None:
             _table_name = model_class.__tablename__
             _schema = model_class.__table_args__['schema']
             logger.debug(f"Truncate table {_schema}.{_table_name}")
-            session.execute(text(f'TRUNCATE TABLE {_schema}.{_table_name} RESTART IDENTITY CASCADE;'))
+            session.execute(text('SET FOREIGN_KEY_CHECKS = 0;'))
+            session.execute(text(f'TRUNCATE TABLE `{_schema}`.`{_table_name}`;'))
+            session.execute(text('SET FOREIGN_KEY_CHECKS = 1;'))
             session.commit()
 
             logger.debug(f"Insert data into table {_schema}.{_table_name}")

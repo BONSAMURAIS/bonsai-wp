@@ -30,7 +30,7 @@ class DBMS(metaclass=Singleton):
             self.engine:Engine = create_engine(f"{db_engine}://{db_user}:{db_pwd}@{db_host}:{db_port}/{db_name}")
             self.sessionLocal = sessionmaker(bind=self.engine, autoflush=False)
         except Exception as e:
-            logger.error('Unable to access postgresql database', repr(e))
+            logger.error('Unable to access database', repr(e))
 
     @contextmanager
     def get_session(self) -> Generator[Session, None, None]:

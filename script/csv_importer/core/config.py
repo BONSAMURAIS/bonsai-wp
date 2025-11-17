@@ -6,11 +6,11 @@ def str_to_bool(value):
 
 # env file
 # db
-db_engine = "mysql"
+db_engine = "mysql+pymysql"
 db_user = "postgres"
 db_pwd = "postgres"
 db_host = "localhost"
-db_port = 5432
+db_port = 3306
 db_name = "internal_db"
 logging_level = logging.INFO
 
