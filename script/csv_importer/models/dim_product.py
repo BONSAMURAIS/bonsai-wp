@@ -1,5 +1,5 @@
 from core import Base
-from sqlalchemy import Text
+from sqlalchemy import Text, String
 from sqlalchemy.orm import Mapped, mapped_column
 from core.config import db_name
 
@@ -22,7 +22,7 @@ class Dim_product(Base):
     __tablename__ = "dim_product"
     __table_args__ = {"schema": db_name }
 
-    code: Mapped[str] = mapped_column(Text, primary_key=True)
+    code: Mapped[str] = mapped_column(String(255), primary_key=True)
     uuid: Mapped[str] = mapped_column(Text)
     name: Mapped[str] = mapped_column(Text)
     description: Mapped[str] = mapped_column(Text, nullable=True)
