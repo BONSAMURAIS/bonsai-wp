@@ -68,7 +68,7 @@ jQuery(document).ready(function($){
     if (base64String) {
         init_form();
     }
-    
+
     $('input[name="footprint_type"]').on('change',async function(){
         const isChecked = $(this).is(':checked');
         
@@ -491,11 +491,12 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
             displayed_unit['label'] =  displayed_unit['label'].replace("tonnes", "tonne")
         }
         const value_inflow = recipe.value_inflow ? Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) : "others";
+        console.log("default_selected_unit_ratio=",displayed_unit['ratio'])
+        console.log("recipe.value_inflow=",recipe.value_inflow)
         rowMarkup += '<span class="inflow-value">' + value_inflow  + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
         
         let default_selected_unit_ratio = main_component.find('select.unit option:selected').val(); //convert value in recipes
-        console.log("default_selected_unit_ratio=",default_selected_unit_ratio)
         rowMarkup += '</td>';
         rowMarkup += '<td class="emissions-value">' + (recipe.value_emission ? Utils.reformatValue(default_selected_unit_ratio*recipe.value_emission) : '') + '</td>';
         rowMarkup += '</tr>';
