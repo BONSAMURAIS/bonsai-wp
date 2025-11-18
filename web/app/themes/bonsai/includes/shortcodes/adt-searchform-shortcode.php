@@ -111,10 +111,6 @@ add_shortcode( 'adt_searchform', function($atts) {
             </div>
         </section>
 
-        <div id="modal">
-            <?= do_shortcode('[modalPopup]') ?> 
-        </div>
-
         <section id="co2-form-result">            
             <hr />
             <div id="product-analysis-content" class="tile">
@@ -166,9 +162,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </p>
                     </div>
                 </div>
-                <!-- <div>
-                    <a class="tooltip-text">What do those boxes mean?</a>
-                </div> -->
                 <div class="contribution-analysis" style="display: none;">
                     <p class="big-font emission-message">Where do emissions for 
                         <span class="quantity-value">1</span>

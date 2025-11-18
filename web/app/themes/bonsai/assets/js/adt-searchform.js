@@ -68,17 +68,7 @@ jQuery(document).ready(function($){
     if (base64String) {
         init_form();
     }
-
-    //listener to modal page event
-    $('.tooltip-text').click(function(e) {
-        e.preventDefault();
-        $('#modal').show();
-    }); 
-    $('#closeModal').click(function(e) {
-        e.preventDefault();
-        $('#modal').hide();
-    });
-
+    
     $('input[name="footprint_type"]').on('change',async function(){
         const isChecked = $(this).is(':checked');
         
@@ -140,9 +130,6 @@ jQuery(document).ready(function($){
             $(".contribution-analysis").css('display',displayValue);
         }
     });
-
-    let list_product = {};
-    let list_product_title = new Set();
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17   
     adt_dynamic_search_input(searchform.products);
