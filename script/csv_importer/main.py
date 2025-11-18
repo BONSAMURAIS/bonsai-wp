@@ -5,8 +5,6 @@ from core.csv_importer import upload_csvfile
 from core.config import csv_url,logging_level
 from models.dim_product import Dim_product
 from io import StringIO
-from core.dbms import DBMS
-
 
 logger = logging.getLogger(__name__)
 
@@ -19,9 +17,7 @@ def main():
         logger.info("Start uploading csv into db")
         csv_data = StringIO(response.text)
         df = pd.read_csv(csv_data)
-        test = DBMS()
-        if (False):
-            upload_csvfile(df, Dim_product)
+        upload_csvfile(df, Dim_product)
     except Exception as e: 
         logger.error(e)
 
