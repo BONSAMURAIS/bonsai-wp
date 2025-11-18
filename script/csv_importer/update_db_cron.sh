@@ -1,6 +1,6 @@
 echo "START"
 echo "Virtual environment: activate"
-source venv/bin/activate
+. venv/bin/activate
 echo "Virtual environment: activated"
 echo "Start uploading data"
 python3 main.py
