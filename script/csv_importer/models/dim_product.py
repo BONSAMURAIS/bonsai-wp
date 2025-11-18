@@ -1,5 +1,5 @@
 from core import Base
-from sqlalchemy import Integer, Text
+from sqlalchemy import Text
 from sqlalchemy.orm import Mapped, mapped_column
 
 
@@ -25,7 +25,7 @@ class Dim_product(Base):
     uuid: Mapped[str] = mapped_column(Text)
     name: Mapped[str] = mapped_column(Text)
     description: Mapped[str] = mapped_column(Text, nullable=True)
-    cpa_category: Mapped[int] = mapped_column(Integer)
+    cpa_category: Mapped[str] = mapped_column(Text)
     scope: Mapped[str] = mapped_column(Text, nullable=True)
     created_by: Mapped[str] = mapped_column(Text)
     parent: Mapped[str] = mapped_column(Text, nullable=True)
