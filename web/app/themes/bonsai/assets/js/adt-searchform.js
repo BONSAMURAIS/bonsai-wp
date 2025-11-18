@@ -491,8 +491,6 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
             displayed_unit['label'] =  displayed_unit['label'].replace("tonnes", "tonne")
         }
         const value_inflow = recipe.value_inflow ? Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) : "others";
-        console.log("default_selected_unit_ratio=",displayed_unit['ratio'])
-        console.log("recipe.value_inflow=",recipe.value_inflow)
         rowMarkup += '<span class="inflow-value">' + value_inflow  + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
         

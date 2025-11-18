@@ -132,8 +132,6 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
     unit_inflow = unit_inflow.toLowerCase();
     unit_reference = unit_reference.toLowerCase();
     selectedUnit = selectedUnit.toLowerCase();
-
-    console.log("unit_inflow, unit_reference =",unit_inflow,unit_reference);
     
     let finalUnit = {ratio:1,label:unit_inflow};
     if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){//emission in kg
