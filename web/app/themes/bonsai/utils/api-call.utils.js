@@ -59,7 +59,7 @@ export async function get_product_footprint(userSelection){
             success: (response) => {
                 Utils.hideLoading();
                 localStorage.setItem('emission_contriAnalysis', JSON.stringify(response.data.recipe));
-                localStorage.setItem('unit_reference', JSON.stringify(response.data.unit_reference));
+                localStorage.setItem('unit_reference', response.data.unit_reference);
 
                 resolve(response.data);
             },
