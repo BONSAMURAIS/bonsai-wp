@@ -1,9 +1,5 @@
 import logging
 
-
-def str_to_bool(value):
-    return value.lower() in ("true", "1", "yes", "on")
-
 # env file
 # db
 db_engine = "mysql+pymysql"
