@@ -1,7 +1,7 @@
 from core import Base
 from sqlalchemy import Text, String
 from sqlalchemy.orm import Mapped, mapped_column
-from core.config import db_name
+from script.csv_importer.config import db_name
 
 
 class Dim_product(Base):
