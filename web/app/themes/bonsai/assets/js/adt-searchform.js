@@ -150,27 +150,6 @@ jQuery(document).ready(function($){
         list_product_title.add(this.title);
     });
     
-    // when radio button 'Cradle to consumer' is selected 
-    // If user chooses to change footprint type then get new data
-    $('input[name="footprint_type_extend"]').on('change', function() {
-        console.log("footprint_type_extend changed");
-        chosenFootprintType = $(this).val();
-        console.log("this=",this)
-        
-        list_product = {};
-        list_product_title = new Set();
-        $(searchform.products).each(function() {
-            console.log("----- this --------")
-            console.log(this)
-            console.log("----- end this --------")
-            list_product[this.title] = { code: this.code, name:this.name, uuid: this.uuid} //because title is unique
-            list_product_title.add(this.title);
-        });
-
-        jQuery('#autocomplete-input').val('');
-        adt_dynamic_search_input(list_product,list_product_title);
-    });
-
     adt_dynamic_search_input(list_product,list_product_title);
 
     $('#most-popular ul li button, #search-history-list li').on('click', async function(e) {
