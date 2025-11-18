@@ -146,7 +146,7 @@ jQuery(document).ready(function($){
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
     $(searchform.products).each(function() {
-        list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid}; //because title is unique
+        list_product[this.title] = { code: this.code, name:this.name, uuid: this.uuid}; //because title is unique
         list_product_title.add(this.title);
     });
     
@@ -155,11 +155,12 @@ jQuery(document).ready(function($){
     $('input[name="footprint_type_extend"]').on('change', function() {
         console.log("footprint_type_extend changed");
         chosenFootprintType = $(this).val();
+        console.log("this=",this)
         
         list_product = {};
         list_product_title = new Set();
         $(searchform.products).each(function() {
-            list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid} //because title is unique
+            list_product[this.title] = { code: this.code, name:this.name, uuid: this.uuid} //because title is unique
             list_product_title.add(this.title);
         });
 
