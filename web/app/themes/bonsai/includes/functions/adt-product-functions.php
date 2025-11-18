@@ -54,6 +54,7 @@ function adt_get_all_products_by_footprint(): array
     $table_name = "dim_product";
     $result = $wpdb->get_results( "SELECT name, code FROM $table_name" );
     error_log(gettype($result));
+    error_log(json_encode(($result[0])));
     foreach ( $result as $test ) {
         error_log($test->name);
         error_log($test->code);
