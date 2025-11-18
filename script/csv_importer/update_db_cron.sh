@@ -12,6 +12,7 @@ if [ "$answer" = "y" ]; then
     . $VENV_DIR/bin/activate
     echo "Installing requirements..."
     pip install -r requirements.txt
+    pip install pymysql
     deactivate
 else
   echo "Installation of virtual env 'venv' aborted!";
