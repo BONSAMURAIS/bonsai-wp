@@ -144,16 +144,8 @@ jQuery(document).ready(function($){
     let list_product = {};
     let list_product_title = new Set();
 
-    //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
-    $(searchform.products).each(function() {
-        list_product[this.title] = { code: this.code, name:this.name, uuid: this.uuid}; //because title is unique
-        list_product_title.add(this.title);
-        console.log("----- this --------")
-        console.log(this)
-        console.log("----- end this --------")
-    });
-    
-    adt_dynamic_search_input(list_product,list_product_title);
+    //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17   
+    adt_dynamic_search_input(searchform.products);
 
     $('#most-popular ul li button, #search-history-list li').on('click', async function(e) {
         e.preventDefault();
@@ -609,9 +601,9 @@ function adt_download_recipe_csv()
     });
 }
 
-function adt_dynamic_search_input(list_product, list_product_title) 
+function adt_dynamic_search_input(list_product) 
 {
-    const words = [...list_product_title];
+    const words = list_product.map(item => item.name);
     console.log("words=",words)
     console.log("list_product=",list_product)
     const $input = jQuery('#autocomplete-input');
@@ -623,7 +615,7 @@ function adt_dynamic_search_input(list_product, list_product_title)
     $input.on('input', function () {
         const query = $input.val().toLowerCase();
         const matches = words
-        .map((word, index) => ({ word, code: list_product[word]["code"], uuid: list_product[word]["uuid"] }))
+        .map((word, index) => ({ word}))
         .filter(item => item.word.toLowerCase().includes(query));
         $suggestions.empty();
         currentIndex = -1;
@@ -637,12 +629,9 @@ function adt_dynamic_search_input(list_product, list_product_title)
                 const $div = jQuery('<div>')
                     .text(match.word)
                     .addClass('suggestion-item')
-                    .attr('data-code', match.code)
-                    .attr('data-uuid', match.uuid)
                     .on('click', async function () {
                         $input.val(match.word);
-                        $input.attr("data-code",match.code);
-                        await selectSuggestion(match.word, match.code, match.uuid);
+                        await selectSuggestion(match.word, "match.code", "match.uuid");
                     });
                 $suggestions.append($div);
             });
