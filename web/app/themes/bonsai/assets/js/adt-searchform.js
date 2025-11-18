@@ -148,6 +148,9 @@ jQuery(document).ready(function($){
     $(searchform.products).each(function() {
         list_product[this.title] = { code: this.code, name:this.name, uuid: this.uuid}; //because title is unique
         list_product_title.add(this.title);
+        console.log("----- this --------")
+        console.log(this)
+        console.log("----- end this --------")
     });
     
     adt_dynamic_search_input(list_product,list_product_title);
