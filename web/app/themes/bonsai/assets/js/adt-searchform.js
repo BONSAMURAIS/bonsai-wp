@@ -160,6 +160,9 @@ jQuery(document).ready(function($){
         list_product = {};
         list_product_title = new Set();
         $(searchform.products).each(function() {
+            console.log("----- this --------")
+            console.log(this)
+            console.log("----- end this --------")
             list_product[this.title] = { code: this.code, name:this.name, uuid: this.uuid} //because title is unique
             list_product_title.add(this.title);
         });
