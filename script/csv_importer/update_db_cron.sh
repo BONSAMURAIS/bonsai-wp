@@ -1,4 +1,21 @@
 echo "START"
+
+read -p "Want to install virtual env named 'venv' in this project ? (y/n)" answer
+declare VENV_DIR=$(pwd)/venv
+if [ "$answer" = "y" ]; then
+  echo "Installing virtual env..."
+    if ! [ -d "$VENV_DIR" ]; then
+        python3 -m venv $VENV_DIR
+    fi
+
+    . $VENV_DIR/bin/activate
+    echo "Installing requirements..."
+    pip install -r requirements.txt
+    deactivate
+else
+  echo "Installation of virtual env 'venv' aborted!";
+fi
+
 echo "Virtual environment: activate"
 . venv/bin/activate
 echo "Virtual environment: activated"
