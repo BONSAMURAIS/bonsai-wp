@@ -93,7 +93,7 @@ add_shortcode( 'adt_searchform', function($atts) {
 
                 <datalist id="words">
                     <?php foreach($productsArray as $product): ?>
-                        <option id="<?php echo $product['code'];?>" value="<?php echo $product['name'];?>">
+                        <option id="<?= $product->code ?>" value="<?= $product->name ?>">
                     <?php endforeach; ?>
                 </datalist>
 
