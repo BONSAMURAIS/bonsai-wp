@@ -1,4 +1,5 @@
 import logging
+import numpy as np
 import pandas as pd
 import requests
 from core.csv_importer import upload_csvfile
@@ -17,6 +18,7 @@ def main():
         logger.info("Start uploading csv into db")
         csv_data = StringIO(response.text)
         df = pd.read_csv(csv_data)
+        df = df.replace({np.nan: None})
         upload_csvfile(df, Dim_product)
     except Exception as e: 
         logger.error(e)
