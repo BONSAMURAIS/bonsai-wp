@@ -4,7 +4,7 @@ from typing import Generator
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import sessionmaker, Session
 from utils.singleton import Singleton
-from script.csv_importer.config import db_engine, db_user, db_pwd, db_host, db_port, db_name,logging_level
+from ..config import db_engine, db_user, db_pwd, db_host, db_port, db_name,logging_level
 from core import Base
 from models import * #necessary to import models to create tables in db
 
