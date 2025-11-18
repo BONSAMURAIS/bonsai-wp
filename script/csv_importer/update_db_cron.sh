@@ -1,7 +1,8 @@
 echo "START"
 
 read -p "Want to install virtual env named 'venv' in this project ? (y/n)" answer
-declare VENV_DIR=$(pwd)/venv
+VENV_DIR=$(pwd)/venv
+export VENV_DIR
 if [ "$answer" = "y" ]; then
   echo "Installing virtual env..."
     if ! [ -d "$VENV_DIR" ]; then
