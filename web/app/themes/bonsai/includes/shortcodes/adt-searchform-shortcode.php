@@ -11,11 +11,7 @@ add_shortcode( 'adt_searchform', function($atts) {
     ]);
     
     $productsArray = adt_get_all_products_by_footprint();
-    error_log("oooooooooo");
-    error_log(json_encode(($productsArray[0])));
-    error_log("oooooooooo");
     $popularSearches = adt_get_popular_searches();
-    error_log(json_encode($popularSearches[0]));
 
     wp_localize_script('adt-searchform-script', 'searchform', [
         'products' => $productsArray,
