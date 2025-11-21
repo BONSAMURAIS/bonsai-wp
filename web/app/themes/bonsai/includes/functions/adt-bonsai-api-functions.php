@@ -148,7 +148,7 @@ Please try again later, or contact support if the issue persists.'];
     }
 
     if (array_key_exists('detail', $result)) {
-        return wp_send_json_error(['Error: ' . $result['detail']]);
+        return ['Error: ' . $result['detail']];
     }
 
     // Extract locations from the response

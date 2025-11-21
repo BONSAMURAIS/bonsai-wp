@@ -69,16 +69,6 @@ jQuery(document).ready(function($){
         init_form();
     }
 
-    //listener to modal page event
-    $('.tooltip-text').click(function(e) {
-        e.preventDefault();
-        $('#modal').show();
-    }); 
-    $('#closeModal').click(function(e) {
-        e.preventDefault();
-        $('#modal').hide();
-    });
-
     $('input[name="footprint_type"]').on('change',async function(){
         const isChecked = $(this).is(':checked');
         
@@ -141,33 +131,8 @@ jQuery(document).ready(function($){
         }
     });
 
-    let list_product = {};
-    let list_product_title = new Set();
-
-    //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17
-    $(searchform.products).each(function() {
-        list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid}; //because title is unique
-        list_product_title.add(this.title);
-    });
-    
-    // when radio button 'Cradle to consumer' is selected 
-    // If user chooses to change footprint type then get new data
-    $('input[name="footprint_type_extend"]').on('change', function() {
-        console.log("footprint_type_extend changed");
-        chosenFootprintType = $(this).val();
-        
-        list_product = {};
-        list_product_title = new Set();
-        $(searchform.products).each(function() {
-            list_product[this.title] = { code: this.code, content:this.content, uuid: this.uuid} //because title is unique
-            list_product_title.add(this.title);
-        });
-
-        jQuery('#autocomplete-input').val('');
-        adt_dynamic_search_input(list_product,list_product_title);
-    });
-
-    adt_dynamic_search_input(list_product,list_product_title);
+    //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17   
+    adt_dynamic_search_input(searchform.products);
 
     $('#most-popular ul li button, #search-history-list li').on('click', async function(e) {
         e.preventDefault();
@@ -267,7 +232,7 @@ jQuery(document).ready(function($){
         const co2Value_unit = Utils.getResultUnitCO2(unitLabel).replace("tonnes", "tonne");;
         main_component.find('.co2-value-unit').text(co2Value_unit);
         const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
-        display_recipe_table(main_component, recipeArray,localStorage.getItem('unit_reference'));
+        display_recipe_table(main_component, recipeArray, JSON.parse(localStorage.getItem('unit_reference')));
 
         amountInput.val(numberInput);//keep value in input
     });
@@ -336,7 +301,7 @@ jQuery(document).ready(function($){
             
         }
         let main_component = amountInput.closest("div.tile");
-        display_recipe_table(main_component, recipeArray,localStorage.getItem('unit_reference'));
+        display_recipe_table(main_component, recipeArray, JSON.parse(localStorage.getItem('unit_reference')));
 
         amountInput.val(amountInput.val());//keep value in input
         
@@ -622,9 +587,9 @@ function adt_download_recipe_csv()
     });
 }
 
-function adt_dynamic_search_input(list_product, list_product_title) 
+function adt_dynamic_search_input(list_product) 
 {
-    const words = [...list_product_title];
+    const words = list_product.map(item => item.name);
     console.log("words=",words)
     console.log("list_product=",list_product)
     const $input = jQuery('#autocomplete-input');
@@ -636,7 +601,7 @@ function adt_dynamic_search_input(list_product, list_product_title)
     $input.on('input', function () {
         const query = $input.val().toLowerCase();
         const matches = words
-        .map((word, index) => ({ word, code: list_product[word]["code"], uuid: list_product[word]["uuid"] }))
+        .map((word, index) => ({ word}))
         .filter(item => item.word.toLowerCase().includes(query));
         $suggestions.empty();
         currentIndex = -1;
@@ -650,12 +615,9 @@ function adt_dynamic_search_input(list_product, list_product_title)
                 const $div = jQuery('<div>')
                     .text(match.word)
                     .addClass('suggestion-item')
-                    .attr('data-code', match.code)
-                    .attr('data-uuid', match.uuid)
                     .on('click', async function () {
                         $input.val(match.word);
-                        $input.attr("data-code",match.code);
-                        await selectSuggestion(match.word, match.code, match.uuid);
+                        await selectSuggestion(match.word, "match.code", "match.uuid");
                     });
                 $suggestions.append($div);
             });

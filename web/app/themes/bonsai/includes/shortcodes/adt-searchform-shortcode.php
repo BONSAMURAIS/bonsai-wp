@@ -11,12 +11,7 @@ add_shortcode( 'adt_searchform', function($atts) {
     ]);
     
     $productsArray = adt_get_all_products_by_footprint();
-    // $locationsArray = adt_get_locations();
     $popularSearches = adt_get_popular_searches();
-    error_log(json_encode($popularSearches[0]));
-
-    $json_climate_metric = file_get_contents(__DIR__.'/../../dropdown_options/climate_metric.json');
-    $list_climate_metric = json_decode($json_climate_metric, true);
 
     wp_localize_script('adt-searchform-script', 'searchform', [
         'products' => $productsArray,
@@ -94,7 +89,7 @@ add_shortcode( 'adt_searchform', function($atts) {
 
                 <datalist id="words">
                     <?php foreach($productsArray as $product): ?>
-                        <option id="<?php echo $product['code'];?>" value="<?php echo $product['title'];?>">
+                        <option id="<?= $product->code ?>" value="<?= $product->name ?>">
                     <?php endforeach; ?>
                 </datalist>
 
@@ -115,10 +110,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <?= do_shortcode('[tooltip id="info-uncertainty" href="#info-uncertainty" label="read more about the uncertainty in the data" block_id="uncertainty-info-popup"]')?>
             </div>
         </section>
-
-        <div id="modal">
-            <?= do_shortcode('[modalPopup]') ?> 
-        </div>
 
         <section id="co2-form-result">            
             <hr />
@@ -171,9 +162,6 @@ add_shortcode( 'adt_searchform', function($atts) {
                         </p>
                     </div>
                 </div>
-                <!-- <div>
-                    <a class="tooltip-text">What do those boxes mean?</a>
-                </div> -->
                 <div class="contribution-analysis" style="display: none;">
                     <p class="big-font emission-message">Where do emissions for 
                         <span class="quantity-value">1</span>

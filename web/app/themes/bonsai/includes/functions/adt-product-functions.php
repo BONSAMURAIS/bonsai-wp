@@ -50,6 +50,14 @@ add_action('init', function(){
 
 function adt_get_all_products_by_footprint(): array
 {
+    global $wpdb;
+    $table_name = "dim_product";
+    $result = $wpdb->get_results( "SELECT name, code FROM $table_name" );
+    
+    return $result;
+}
+function adt_get_all_products_by_footprint_old(): array
+{
     $args = [
         'post_type' => 'product',
         'posts_per_page' => -1,
