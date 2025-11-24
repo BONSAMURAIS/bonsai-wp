@@ -279,8 +279,8 @@ p.tab-desc{
 }
 
 select:disabled { 
-    // background-color: #dedede;
-    background-color: blue;
+    background: unset;
+    background-color: #dedede;
 }
 
 label.select > select:not(.unit){
