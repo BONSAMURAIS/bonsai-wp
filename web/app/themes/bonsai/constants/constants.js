@@ -1,7 +1,8 @@
 export const COLOR = {
 	RED: "#EB594E",
 	YELLOW: "#F5DA5A",
-	GREEN: "#C3F138"
+	GREEN: "#C3F138",
+	GREY: "#dedede"
 }
 
 export const ANIM = {

@@ -345,7 +345,7 @@ jQuery(document).ready(function($){
         let listOptions = $(this).find('option');
         if (listOptions.length <= 1){
             $(this).children('select').first().prop('disabled', true); //disable select
-            $(this).children('select').first().css('background', 'white'); //hide arrow
+            $(this).children('select').first().css('background', CONST.COLOR.GREY); //hide arrow
         }
     });
 
@@ -405,8 +405,8 @@ async function display_result(htmlclass, data){
         jQuery(dropdown_footprint_type).val(data['scope']);
     }
     dropdown_footprint_type.prop('disabled', true);
-    dropdown_footprint_type.css('background', 'white');
-
+    dropdown_footprint_type.css('background', CONST.COLOR.GREY);
+    
     main_component.find('.emission-unit').first().text("in "+data['unit_emission']);
     main_component.find('.question-location').text(isPersonTab ? data["country"] : Utils.capitalize(data["title"]));
     main_component.find('.version').first().text(data["version"]);
