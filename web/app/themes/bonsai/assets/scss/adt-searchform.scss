@@ -278,10 +278,6 @@ p.tab-desc{
     position: relative;
 }
 
-select:disabled { 
-    background-color: #dedede;
-}
-
 label.select > select:not(.unit){
     position: relative;
     height: 2.5em;

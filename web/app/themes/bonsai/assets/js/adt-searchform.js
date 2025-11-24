@@ -345,6 +345,7 @@ jQuery(document).ready(function($){
         let listOptions = $(this).find('option');
         if (listOptions.length <= 1){
             $(this).children('select').first().prop('disabled', true); //disable select
+            $(this).children('select').first().css('background', '#dedede'); //hide arrow
         }
     });
 
