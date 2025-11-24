@@ -279,7 +279,8 @@ p.tab-desc{
 }
 
 select:disabled { 
-    background-color: #dedede;
+    // background-color: #dedede;
+    background-color: blue;
 }
 
 label.select > select:not(.unit){
