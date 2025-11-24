@@ -111,9 +111,9 @@ export function getUnitOptions(dataArray, unit_ref){
             {ratio:1e-3,label:CONST.UNIT.MJ}, //because co2 eq in kg
             {ratio:1e-3,label:CONST.UNIT.GJ}, //ratio is 1 because in TJ in backend
         ]
-    } else if (unit_ref === CONST.UNIT.HA_WEIGHTED){
+    } else if (unit_ref === CONST.UNIT.HA_PER_YEAR_WEIGHTED){
         unitList = [
-            {ratio:1,label:CONST.UNIT.HA_WEIGHTED}
+            {ratio:1,label:CONST.UNIT.HA_PER_YEAR_WEIGHTED}
         ]
     }
 
