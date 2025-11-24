@@ -112,6 +112,9 @@ jQuery(document).ready(function($){
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
         if(selectedValue === 'person'){
             data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
+        }else{
+
+            data['title'] = localStorage.getItem('prod_title');
         }
         await display_result("#product-analysis-content",data);
         adt_push_parameter_to_url(userSelection);
