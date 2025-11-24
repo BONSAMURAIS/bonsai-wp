@@ -107,7 +107,7 @@ jQuery(document).ready(function($){
         
         adt_push_parameter_to_url(userSelection);
         console.log("at change userSelection:", userSelection.to_string())
-        let selectedValue = jQuery('#product-analysis-content .product-title').attr('data-code');
+        let selectedValue = jQuery('#product-analysis-content .tile-header .product-title').attr('data-code');
         console.log("selectedValue=",selectedValue)
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
         if(selectedValue === 'person'){
