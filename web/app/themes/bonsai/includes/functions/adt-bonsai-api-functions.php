@@ -294,8 +294,8 @@ add_action('wp_ajax_get_prod_footprint_by_search', 'get_prod_footprint_by_search
 add_action('wp_ajax_nopriv_get_prod_footprint_by_search', 'get_prod_footprint_by_search');
 
 function get_prod_footprint_by_search(){
-
-    $url = $GLOBALS['APIURL']."/search/?q=".$_POST['query'];
+    $default_metric = "gwp100";
+    $url = $GLOBALS['APIURL']."/search/?q=".$_POST['query']."&metric=".$default_metric;
     $response = wp_remote_get($url);
     error_log($url);
     
