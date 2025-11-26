@@ -334,6 +334,7 @@ jQuery(document).ready(function($){
             let data = await API.get_product_footprint(userSelection); //can only be footprint
             const htmlclass = "#"+jQuery(this).closest(".tile").attr('id');
             await display_result(htmlclass,data);
+            jQuery('#autocomplete-input').val(productTitle);
             // adt_save_local_search_history(userSelection);
         } catch (err) {
             console.error('Error in async handler:', err);
