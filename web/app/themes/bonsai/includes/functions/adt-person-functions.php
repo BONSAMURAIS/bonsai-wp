@@ -10,7 +10,6 @@ function adt_get_person_footprint(){
     global $SEPARATOR;
     $country = $_POST['country'];
     $countryCode = $_POST['region_code'];
-    $act_code = $_POST['act_code'];
     $household_type = $_POST['household_type'];
     $income_group = $_POST['income_group'];
     $version = $_POST['version'];
@@ -65,7 +64,8 @@ function adt_get_person_footprint(){
 
     $data = [
         'id' => $footprintsArray[0]['id'],
-        'act_code' => $footprintsArray[0]['act_code'],
+        'household_type' => $household_type,
+        'income_group' => $income_group,
         'region_code' => $countryCode,
         'country' => $country,
         'value' => $value,
@@ -88,7 +88,6 @@ function adt_get_person_footprint(){
 }
 
 function get_total_value(string $countryCode, string $household_type, string $income_group, string $version, string $metric) : float {
-    global $SEPARATOR;
     $total = 0;
     $url = $GLOBALS['APIURL']."/footprint-country/?region_code=".$countryCode."&version=".$version."&metric=".$metric."&household_type=".$household_type."&income_group=".$income_group;
 
@@ -128,7 +127,6 @@ add_action('wp_ajax_nopriv_adt_get_person_footprint', 'adt_get_person_footprint'
 
 function adt_get_person_footprint_recipe(string $countryCode, string $household_type, string $income_group, string $version, string $metric) : array
 { //something off here
-    global $SEPARATOR;
     $recipeResult = [];
     
     $url = $GLOBALS['APIURL'].'/recipes-country/?region_reference='.$countryCode.'&version='.$version.'&metric='.$metric."&household_type=".$household_type."&income_group=".$income_group;
