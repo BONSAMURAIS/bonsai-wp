@@ -490,7 +490,6 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
         }
 
         const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
-        console.log("unit_reference=",unit_reference)
         let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow, unit_reference);
         if (displayed_unit && displayed_unit['label']  !== null && displayed_unit['label']  !== undefined && displayed_unit['label']  !== '' && displayed_unit['label'].includes("tonnes")){
             displayed_unit['label'] =  displayed_unit['label'].replace("tonnes", "tonne")
@@ -545,6 +544,9 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
 
         table.find('tbody').append(rows);
     });
+
+    //quick fix
+    jQuery('[data-code="direct"]').removeClass('link');
 }
 
 // Download CSV
