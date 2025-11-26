@@ -489,7 +489,7 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
         }
         let value_inflow = recipe.value_inflow ? Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) : "";
 
-        if (recipe.flow_input != null && (recipe.flow_input.toLowerCase() === "other" || recipe.flow_input.toLowerCase() === "direct")){
+        if (recipe.inflow != null && (recipe.inflow.toLowerCase() === "other" || recipe.inflow.toLowerCase() === "direct")){
             recipe.region_inflow = "";
             value_inflow = "";
             displayed_unit['label'] = "";
