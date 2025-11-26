@@ -101,7 +101,7 @@ export function getUnitOptions(dataArray, unit_ref){
         unitList = [
             {ratio:1,label:CONST.UNIT.TONNES}, //requested by Jannick Schmidt
         ]
-    } else if (unit_ref == null){ //for person footprint-type
+    } else if (unit_ref == null || unit_ref == CONST.UNIT.PERSON_YEAR){ //for person footprint-type
         unitList = [
             {ratio:1,label:CONST.UNIT.PERSON_YEAR},
         ]
