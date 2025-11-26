@@ -105,7 +105,7 @@ export async function get_person_footprint(userSelection){
                 autocomplete_input.prop('disabled', false);
                 console.log("person_data response = ",response)
                 localStorage.setItem('emission_contriAnalysis', JSON.stringify(response.data.recipe));
-                // localStorage.setItem('unit_reference', JSON.stringify(response.data.unit_reference));
+                response.data['unit_reference'] = "person year";
                 resolve(response.data);
                 
             },
