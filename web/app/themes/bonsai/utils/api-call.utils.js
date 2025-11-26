@@ -1,4 +1,5 @@
 import * as Utils from './tools.utils.js'; 
+import * as CONST from '../constants/constants.js'; 
 
 export async function get_product_footprint_by_search(query){
     console.log("START get_product_footprint_by_search");
@@ -106,7 +107,7 @@ export async function get_person_footprint(userSelection){
                 autocomplete_input.prop('disabled', false);
                 console.log("person_data response = ",response)
                 localStorage.setItem('emission_contriAnalysis', JSON.stringify(response.data.recipe));
-                response.data['unit_reference'] = "person year";
+                response.data['unit_reference'] = CONST.UNIT.PERSON_YEAR;
                 resolve(response.data);
                 
             },
