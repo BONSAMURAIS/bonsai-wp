@@ -547,6 +547,7 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
 
     //quick fix
     jQuery('[data-code="direct"]').removeClass('link');
+    jQuery('[data-code="other"]').removeClass('link');
 }
 
 // Download CSV
