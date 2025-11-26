@@ -512,6 +512,9 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
         //end Create rows
     };//end loop on recipeArray
 
+    //quick fix
+    jQuery('[data-code="direct"]').removeClass('link');
+
     // Append "other" row at the end if it exists
     tableMarkup += otherRowMarkup;
 
