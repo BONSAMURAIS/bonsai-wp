@@ -477,14 +477,7 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
         const jsonString = JSON.stringify(recipe);
         const base64String = btoa(jsonString);  // Convert to base64
         const getParameter = `?data=${base64String}`;
-        
-        //Create rows
-        rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
-        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.inflow+'" data-uuid="'+recipe.id+'" data-country-code="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + Utils.capitalize(recipe.inflow_name) + '</span></td>';
-        rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
-        rowMarkup += '<td class="input-flow">';
 
-        
         if ( (recipe.value_emission && recipe.value_emission !== NaN) || recipe.value_emission == 0) {
             recipe.value_emission = Utils.reformatValue(parseFloat(recipe.value_emission));
         }
@@ -496,10 +489,17 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
         }
         let value_inflow = recipe.value_inflow ? Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) : "";
 
-        if (recipe.inflow_name && ( recipe.inflow_name.toLowerCase() == "direct" || recipe.inflow_name.toLowerCase() == "other")){
+        if (recipe.flow_input != null && (recipe.flow_input.toLowerCase() === "other" || recipe.flow_input.toLowerCase() === "direct")){
+            recipe.region_inflow = "";
             value_inflow = "";
             displayed_unit['label'] = "";
         }
+        
+        //Create rows
+        rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
+        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.inflow+'" data-uuid="'+recipe.id+'" data-country-code="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + Utils.capitalize(recipe.inflow_name) + '</span></td>';
+        rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
+        rowMarkup += '<td class="input-flow">';
         rowMarkup += '<span class="inflow-value">' + value_inflow  + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
         
