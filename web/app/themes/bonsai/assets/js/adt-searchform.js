@@ -494,7 +494,12 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
         if (displayed_unit && displayed_unit['label']  !== null && displayed_unit['label']  !== undefined && displayed_unit['label']  !== '' && displayed_unit['label'].includes("tonnes")){
             displayed_unit['label'] =  displayed_unit['label'].replace("tonnes", "tonne")
         }
-        const value_inflow = recipe.value_inflow ? Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) : "others";
+        const value_inflow = recipe.value_inflow ? Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) : "";
+
+        if (recipe.inflow_name && ( recipe.inflow_name.toLowerCase() == "direct" || recipe.inflow_name.toLowerCase() == "other")){
+            value_inflow = "";
+            displayed_unit['label'] = "";
+        }
         rowMarkup += '<span class="inflow-value">' + value_inflow  + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
         
@@ -544,7 +549,6 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
 
         table.find('tbody').append(rows);
     });
-
     //quick fix
     jQuery('[data-code="direct"]').removeClass('link');
     jQuery('[data-code="other"]').removeClass('link');
