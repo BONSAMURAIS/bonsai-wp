@@ -513,6 +513,8 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
     };//end loop on recipeArray
 
     //quick fix
+    console.log("test");
+    console.log(jQuery('[data-code="direct"]'));
     jQuery('[data-code="direct"]').removeClass('link');
 
     // Append "other" row at the end if it exists
