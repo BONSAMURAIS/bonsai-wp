@@ -130,16 +130,13 @@ jQuery(document).ready(function($){
         let flexDir = 'row';
         let displayValue = 'none';
         if (isChecked) {
-            console.log(" $(#database-version)=", $("#database-version"))
             flexDir = 'column';
             displayValue = 'flex';
-            $("#database-version").val("v1.0.0");
+            $("#database-version").val("v2.0.0");
         }else{
             flexDir = 'row';
             displayValue = 'none';
-            console.log(" sadlsakj")
-            console.log(" $(#database-version)=", $("#database-version"))
-            $("#database-version").val("v2.0.0");
+            $("#database-version").val("v1.0.0");
         }
         $('#analysis-wrapper').css('flex-direction', flexDir);
         $(".contribution-analysis").css('display',displayValue);
