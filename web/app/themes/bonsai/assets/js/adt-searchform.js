@@ -123,23 +123,26 @@ jQuery(document).ready(function($){
     });
 
     $('input[name="contri-analysis"]').on('change', function(){
-        const isChecked = $(this).is(':checked');
-        console.log("contri analysis change")
         const value = $(this).val();
+        const isChecked = value === 'advanced';
+        console.log("contri analysis change")
         console.log("value=",value)
+        let flexDir = 'row';
+        let displayValue = 'none';
         if (isChecked) {
             console.log(" $(#database-version)=", $("#database-version"))
-            const flexDir = value == 'advanced' ? 'column' : 'row';
-            const displayValue = value == 'advanced' ? 'flex' : 'none';
-            $('#analysis-wrapper').css('flex-direction', flexDir);
-            $(".contribution-analysis").css('display',displayValue);
+            flexDir = 'column';
+            displayValue = 'flex';
             $("#database-version").val("v1.0.0");
         }else{
+            flexDir = 'row';
+            displayValue = 'none';
             console.log(" sadlsakj")
             console.log(" $(#database-version)=", $("#database-version"))
             $("#database-version").val("v2.0.0");
-            
         }
+        $('#analysis-wrapper').css('flex-direction', flexDir);
+        $(".contribution-analysis").css('display',displayValue);
     });
 
     //object searchform created by 'wp_localize_script' in adt-searchform-shortcode.php line 17   
