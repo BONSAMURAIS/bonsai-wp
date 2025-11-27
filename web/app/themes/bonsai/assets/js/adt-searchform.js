@@ -125,9 +125,9 @@ jQuery(document).ready(function($){
     $('input[name="contri-analysis"]').on('change', function(){
         const isChecked = $(this).is(':checked');
         console.log("contri analysis change")
+        const value = $(this).val();
+        console.log("value=",value)
         if (isChecked) {
-            const value = $(this).val();
-            console.log("value=",value)
             console.log(" $(#database-version)=", $("#database-version"))
             const flexDir = value == 'advanced' ? 'column' : 'row';
             const displayValue = value == 'advanced' ? 'flex' : 'none';
