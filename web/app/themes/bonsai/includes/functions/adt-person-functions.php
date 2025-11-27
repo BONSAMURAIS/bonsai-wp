@@ -127,7 +127,6 @@ add_action('wp_ajax_nopriv_adt_get_person_footprint', 'adt_get_person_footprint'
 function adt_get_person_footprint_recipe(string $countryCode, string $household_type, string $income_group, string $version, string $metric) : array
 { //something off here
     $recipeResult = [];
-    $version = "v1.0.0";//TODO to remove once v2.0.0 on
     $url = $GLOBALS['APIURL'].'/recipes-country/?region_reference='.$countryCode.'&version='.$version.'&metric='.$metric."&household_type=".$household_type."&income_group=".$income_group;
     $recipeResponse = wp_remote_get($url);
     

@@ -165,7 +165,6 @@ Please try again later, or contact support if the issue persists.'];
 }
 
 function adt_get_product_recipe($productCode, $country, $version,$metric): array{
-    $version = "v1.0.0";//TODO to remove once v2.0.0 on
 
     $url = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$country.'&version='.strtolower($version).'&metric='.strtoupper($metric);
     $response = wp_remote_get($url); // Get the whole recipe list for the product
