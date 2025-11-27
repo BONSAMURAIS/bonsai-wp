@@ -382,7 +382,7 @@ async function display_result(htmlclass, data){
     //set location list of dropdown
     let location_dropdownElement = main_component.find('.location').first();
     console.log(location_dropdownElement)
-    location_dropdownElement.options.length = 0;
+    console.log(location_dropdownElement.options)
     for (const location of data['list_locations']){
         location_dropdownElement.append(`<option value="${location['code']}">${location['name']}</option>`);
     }
