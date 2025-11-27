@@ -131,6 +131,10 @@ jQuery(document).ready(function($){
             const displayValue = value == 'advanced' ? 'flex' : 'none';
             $('#analysis-wrapper').css('flex-direction', flexDir);
             $(".contribution-analysis").css('display',displayValue);
+            $("#database-version").val("v1.0.0");
+        }else{
+            $("#database-version").val("v2.0.0");
+            
         }
     });
 
