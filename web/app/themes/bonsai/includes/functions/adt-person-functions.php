@@ -59,7 +59,13 @@ function adt_get_person_footprint(){
 
     $fdemand_categories = array('F_GOVE', 'F_HOUS', 'F_NPSH');
 
-    $value = get_total_value($countryCode,$household_type, $income_group,$version,$metric);
+    foreach ($fdemand_categories as $cat){
+        error_log("-------");
+        error_log($value);
+        error_log(get_total_value($countryCode,$cat, $income_group,$version,$metric));
+        $value += get_total_value($countryCode,$cat, $income_group,$version,$metric);
+    }
+
     $recipes = adt_get_person_footprint_recipe($countryCode,$household_type, $income_group,$version,$metric);
 
     $data = [
