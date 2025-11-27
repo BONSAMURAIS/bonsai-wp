@@ -421,12 +421,6 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
         $unit_emission = $footprint['unit_emission'];
     }
 
-    $newestVersion = adt_get_newest_version($versionArray);
-
-    if ($version) {
-        $newestVersion = $version;
-    }
-
     $recipeData = adt_get_product_recipe($productCode, $countryCode, $version, $metric);
 
     if(!empty($productCode) & empty($footprintTitle) ){
