@@ -436,7 +436,7 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
         'country' => $country,
         "unit_reference" => $unit_reference,
         "unit_emission" => $unit_emission,
-        'version' => $newestVersion,
+        'version' => $version,
         'all_data' => $footprint,
         'id' => $footprint['id'],
         'list_locations' => adt_get_locations(),//$result["locations"],
