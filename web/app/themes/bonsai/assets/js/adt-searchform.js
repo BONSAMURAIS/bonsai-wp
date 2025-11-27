@@ -132,7 +132,7 @@ jQuery(document).ready(function($){
         if (isChecked) {
             flexDir = 'column';
             displayValue = 'flex';
-            $("#database-version").val("v2.0.0");
+            $("#database-version").val("v1.0.0");
         }else{
             flexDir = 'row';
             displayValue = 'none';
