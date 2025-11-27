@@ -127,12 +127,16 @@ jQuery(document).ready(function($){
         console.log("contri analysis change")
         if (isChecked) {
             const value = $(this).val();
+            console.log("value=",value)
+            console.log(" $(#database-version)=", $("#database-version"))
             const flexDir = value == 'advanced' ? 'column' : 'row';
             const displayValue = value == 'advanced' ? 'flex' : 'none';
             $('#analysis-wrapper').css('flex-direction', flexDir);
             $(".contribution-analysis").css('display',displayValue);
             $("#database-version").val("v1.0.0");
         }else{
+            console.log(" sadlsakj")
+            console.log(" $(#database-version)=", $("#database-version"))
             $("#database-version").val("v2.0.0");
             
         }
