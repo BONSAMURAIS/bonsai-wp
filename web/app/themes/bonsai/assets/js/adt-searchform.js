@@ -124,7 +124,7 @@ jQuery(document).ready(function($){
 
     $('input[name="contri-analysis"]').on('change', function(){
         const isChecked = $(this).is(':checked');
-
+        console.log("contri analysis")
         if (isChecked) {
             const value = $(this).val();
             const flexDir = value == 'advanced' ? 'column' : 'row';
@@ -381,6 +381,7 @@ async function display_result(htmlclass, data){
     main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
     //set location list of dropdown
     let location_dropdownElement = main_component.find('.location').first();
+    location_dropdownElement.empty();
     for (const location of data['list_locations']){
         location_dropdownElement.append(`<option value="${location['code']}">${location['name']}</option>`);
     }
@@ -477,14 +478,7 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
         const jsonString = JSON.stringify(recipe);
         const base64String = btoa(jsonString);  // Convert to base64
         const getParameter = `?data=${base64String}`;
-        
-        //Create rows
-        rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
-        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.inflow+'" data-uuid="'+recipe.id+'" data-country-code="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + Utils.capitalize(recipe.inflow_name) + '</span></td>';
-        rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
-        rowMarkup += '<td class="input-flow">';
 
-        
         if ( (recipe.value_emission && recipe.value_emission !== NaN) || recipe.value_emission == 0) {
             recipe.value_emission = Utils.reformatValue(parseFloat(recipe.value_emission));
         }
@@ -494,7 +488,19 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
         if (displayed_unit && displayed_unit['label']  !== null && displayed_unit['label']  !== undefined && displayed_unit['label']  !== '' && displayed_unit['label'].includes("tonnes")){
             displayed_unit['label'] =  displayed_unit['label'].replace("tonnes", "tonne")
         }
-        const value_inflow = recipe.value_inflow ? Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) : "others";
+        let value_inflow = recipe.value_inflow ? Utils.reformatValue(recipe.value_inflow*displayed_unit['ratio']) : "";
+
+        if (recipe.inflow != null && (recipe.inflow.toLowerCase() === "other" || recipe.inflow.toLowerCase() === "direct")){
+            recipe.region_inflow = "";
+            value_inflow = "";
+            displayed_unit['label'] = "";
+        }
+        
+        //Create rows
+        rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
+        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.inflow+'" data-uuid="'+recipe.id+'" data-country-code="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + Utils.capitalize(recipe.inflow_name) + '</span></td>';
+        rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
+        rowMarkup += '<td class="input-flow">';
         rowMarkup += '<span class="inflow-value">' + value_inflow  + '</span>';
         rowMarkup += '<span class="inflow-unit">' + displayed_unit['label'] + '</span>';
         
@@ -544,9 +550,9 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
 
         table.find('tbody').append(rows);
     });
-
     //quick fix
     jQuery('[data-code="direct"]').removeClass('link');
+    jQuery('[data-code="other"]').removeClass('link');
 }
 
 // Download CSV

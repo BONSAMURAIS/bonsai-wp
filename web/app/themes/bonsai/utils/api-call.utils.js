@@ -79,8 +79,6 @@ export async function get_product_footprint(userSelection){
 }
 
 export async function get_person_footprint(userSelection){
-    let act_code = userSelection.income_group+"_"+userSelection.household_type; //fdemandCat will be prefixed in adt-person-functions.php
-    console.log("act_code=",act_code);
     console.log("userSelection=",userSelection.to_string());
     let autocomplete_input = jQuery('#autocomplete-input'); 
 
@@ -92,7 +90,6 @@ export async function get_person_footprint(userSelection){
                 _ajax_nonce: localize._ajax_nonce,
                 action: 'adt_get_person_footprint', //reference in adt-person-functions.php
                 version: userSelection.db_version,
-                act_code: act_code,
                 income_group: userSelection.income_group,
                 household_type: userSelection.household_type,
                 metric: userSelection.climate_metric,
