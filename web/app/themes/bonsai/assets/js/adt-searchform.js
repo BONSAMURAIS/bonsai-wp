@@ -136,7 +136,6 @@ jQuery(document).ready(function($){
         }else{
             flexDir = 'row';
             displayValue = 'none';
-            $("#database-version").val("v1.0.0");
         }
         $('#analysis-wrapper').css('flex-direction', flexDir);
         $(".contribution-analysis").css('display',displayValue);
