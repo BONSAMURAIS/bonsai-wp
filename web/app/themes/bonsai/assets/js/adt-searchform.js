@@ -381,6 +381,7 @@ async function display_result(htmlclass, data){
     main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
     //set location list of dropdown
     let location_dropdownElement = main_component.find('.location').first();
+    location_dropdownElement.options.length = 0;
     for (const location of data['list_locations']){
         location_dropdownElement.append(`<option value="${location['code']}">${location['name']}</option>`);
     }
