@@ -463,6 +463,8 @@ async function display_result(htmlclass, data){
 
 function display_recipe_table(main_component,recipeArray,unit_reference){
     if (recipeArray && recipeArray.error){
+        let recipeTable = main_component.find('.emissions-table').first();
+        recipeTable.find('tbody').empty();
         return true;
     }
 
