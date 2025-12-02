@@ -150,6 +150,7 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
                 $final_results[$product['inflow']]['value_inflow'] +=$product['value_inflow'];
                 $final_results[$product['inflow']]['value_emission'] +=$product['value_emission'];
             }else{
+                $final_results[$product['inflow']]['inflow'] = $product['inflow'];
                 $final_results[$product['inflow']]['inflow_name'] = $product['inflow_name'];
                 $final_results[$product['inflow']]['value_inflow'] = $product['value_inflow'];
                 $final_results[$product['inflow']]['value_emission'] = $product['value_emission'];
