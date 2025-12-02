@@ -367,7 +367,7 @@ async function display_result(htmlclass, data){
     let main_component = jQuery(htmlclass);
     //set title
     const isPersonTab = data['flow_code'] == null;
-    main_component.find('.product-title').text(isPersonTab ?"Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year : Utils.capitalize(data["title"]));
+    main_component.find('.product-title').text(isPersonTab ?"Emission per person in " + Utils.capitalize(data['country']) + ", " + data['year'] : Utils.capitalize(data["title"]));
     main_component.find('.product-title').first().attr("data-code",data['flow_code'] ?? "person");
     main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
     //set location list of dropdown
