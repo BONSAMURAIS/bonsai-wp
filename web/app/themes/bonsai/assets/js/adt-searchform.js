@@ -88,10 +88,11 @@ jQuery(document).ready(function($){
                 let userSelection = new UserSelection;
                 userSelection.get_from_form();
                 userSelection.countryCode = "AU";//TOCHANGE
-                userSelection.country = "Australia";//TOCHANGE
+                userSelection.country = "australia";//TOCHANGE
                 userSelection.code = "person";//TOCHANGE
                 let data = await API.get_person_footprint(userSelection);
-                adt_push_parameter_to_url(userSelection);
+                adt_push_parameter_to_url(userSelection);        console.log("userSelection.country=",userSelection.country)
+        console.log("Utils.capitalize(userSelection.country)=",Utils.capitalize(userSelection.country))
                 data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
                 await display_result("#product-analysis-content",data);
             } else {
@@ -110,6 +111,8 @@ jQuery(document).ready(function($){
         let selectedValue = jQuery('#product-analysis-content .tile-header .product-title').attr('data-code');
         console.log("selectedValue=",selectedValue)
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
+        console.log("userSelection.country=",userSelection.country)
+        console.log("Utils.capitalize(userSelection.country)=",Utils.capitalize(userSelection.country))
         if(selectedValue === 'person'){
             data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
         }else{
@@ -201,6 +204,8 @@ jQuery(document).ready(function($){
         }
         
         if(selectedValue === 'person'){
+                    console.log("userSelection.country=",userSelection.country)
+        console.log("Utils.capitalize(userSelection.country)=",Utils.capitalize(userSelection.country))
             data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
         }
         adt_push_parameter_to_url(userSelection);
