@@ -332,6 +332,8 @@ jQuery(document).ready(function($){
         userSelection.country = country;
         const db_version = jQuery(this).closest(".database-version").val();
         userSelection.db_version = db_version;
+        console.log("jQuery(this).closest(.database-version)=",jQuery(this).closest(".database-version"))
+        console.log("db_version=",db_version)
         try {
             let data = await API.get_product_footprint(userSelection); //can only be footprint
             const htmlclass = "#"+jQuery(this).closest(".tile").attr('id');
