@@ -91,9 +91,7 @@ jQuery(document).ready(function($){
                 userSelection.country = "australia";//TOCHANGE
                 userSelection.code = "person";//TOCHANGE
                 let data = await API.get_person_footprint(userSelection);
-                adt_push_parameter_to_url(userSelection);        console.log("userSelection.country=",userSelection.country)
-        console.log("Utils.capitalize(userSelection.country)=",Utils.capitalize(userSelection.country))
-                data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
+                adt_push_parameter_to_url(userSelection);
                 await display_result("#product-analysis-content",data);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
@@ -113,12 +111,7 @@ jQuery(document).ready(function($){
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
         console.log("userSelection.country=",userSelection.country)
         console.log("Utils.capitalize(userSelection.country)=",Utils.capitalize(userSelection.country))
-        if(selectedValue === 'person'){
-            data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
-        }else{
-
-            data['title'] = localStorage.getItem('prod_title');
-        }
+        data['title'] = localStorage.getItem('prod_title');
         await display_result("#product-analysis-content",data);
         adt_push_parameter_to_url(userSelection);
 
@@ -203,11 +196,6 @@ jQuery(document).ready(function($){
             return
         }
         
-        if(selectedValue === 'person'){
-                    console.log("userSelection.country=",userSelection.country)
-        console.log("Utils.capitalize(userSelection.country)=",Utils.capitalize(userSelection.country))
-            data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
-        }
         adt_push_parameter_to_url(userSelection);
         await display_result("#product-analysis-content",data);
         console.log('END searching');
@@ -383,6 +371,8 @@ async function display_result(htmlclass, data){
     let main_component = jQuery(htmlclass);
     //set title
     main_component.find('.product-title').text(Utils.capitalize(data["title"]));
+    const isPersonTab = data['flow_code'] == null;
+    main_component.find('.product-title').text(Utils.capitalize(data["title"]));
     main_component.find('.product-title').first().attr("data-code",data['flow_code'] ?? "person");
     main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
     //set location list of dropdown
@@ -406,7 +396,6 @@ async function display_result(htmlclass, data){
     Utils.selectOptionByText(main_component.find('.database-version').first()[0], data['version']);
     jQuery(main_component.find('.footprint-type').first()).val(data['scope']);
     let dropdown_footprint_type = main_component.find('.footprint-type').first();
-    const isPersonTab = data['flow_code'] == null;
     if (isPersonTab) {
         jQuery(dropdown_footprint_type.val("ctgr")); //cradle to grave by default
     }else{
@@ -802,9 +791,6 @@ async function init_form(){
 
     let data = userSelection.code ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
 
-    if(userSelection.code === 'person'){
-        data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
-    }
     await display_result("#product-analysis-content",data);
     adt_save_local_search_history(userSelection);
 
