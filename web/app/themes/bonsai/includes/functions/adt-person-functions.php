@@ -125,10 +125,13 @@ add_action('wp_ajax_adt_get_person_footprint', 'adt_get_person_footprint');
 add_action('wp_ajax_nopriv_adt_get_person_footprint', 'adt_get_person_footprint');
 
 function adt_get_person_footprint_recipe(string $countryCode, string $household_type, string $income_group, string $version, string $metric) : array
-{ //something off here
+{ 
     $recipeResult = [];
     $url = $GLOBALS['APIURL'].'/recipes-country/?region_reference='.$countryCode.'&version='.$version.'&metric='.$metric."&household_type=".$household_type."&income_group=".$income_group;
     $recipeResponse = wp_remote_get($url);
+
+    error_log("start loop");
+    error_log("url=".$url);
     
     // Check for errors
     if (is_wp_error($recipeResponse)) {
@@ -137,75 +140,118 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
         ];
     }
     
-    // Get the response body
-    $body = wp_remote_retrieve_body($recipeResponse);
-    $result = json_decode($body, true);
-
-    $productCount = $result['count'];
-
     if (empty($result)) {
         return ['No person recipe found or an error occurred.'];
     }
     
-    if (array_key_exists('detail', $result)) {
-        return ['Error: ' . $result['detail']];
-    }
+    // Get the response body
+    $body = wp_remote_retrieve_body($recipeResponse);
+    $result = json_decode($body, true);
+    
+    $final_results= [];
+    
+    do {
+        foreach ($result['results'] as $product) {
+            error_log("result['next']=".$$result['next']);
+            
+            if (isset($final_results[$product['inflow']])){
+                $final_results[$product['inflow']]['value_inflow'] +=$product['value_inflow'];
+                $final_results[$product['inflow']]['value_emission'] +=$product['value_emission'];
+            }else{
+                $final_results[$product['inflow']]['inflow_name'] = $product['inflow_name'];
+                $final_results[$product['inflow']]['value_inflow'] = $product['value_inflow'];
+                $final_results[$product['inflow']]['value_emission'] = $product['value_emission'];
+                $final_results[$product['inflow']]['unit_inflow'] = $product['unit_inflow'];
+                $final_results[$product['inflow']]['unit_emission'] = $product['unit_emission'];
 
-    if (!empty($result['results'])) {
-        foreach ($recipeResult as $recipe) {
-            foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
+            }
+        }
+        if (!empty($result['next'])) {
+            $recipeResponse = wp_remote_get($result['next']);
+            
+            // Check for errors
+            if (is_wp_error($recipeResponse)) {
+                return [
+                    'error_oui' => $recipeResponse->get_error_message()
+                ];
+            }
+            
+            // Get the response body
+            $body = wp_remote_retrieve_body($recipeResponse);
+            $result = json_decode($body, true);
+        }
+    }
+    while(isset($result['next']));
+
+    error_log("end loop");
+
+    $result = json_decode($body, true);
+
+    // $productCount = $result['count'];
+
+    // if (empty($result)) {
+    //     return ['No person recipe found or an error occurred.'];
+    // }
+    
+    // if (array_key_exists('detail', $result)) {
+    //     return ['Error: ' . $result['detail']];
+    // }
+
+    // if (!empty($result['results'])) {
+    //     foreach ($recipeResult as $recipe) {
+    //         foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
                 
-                if ($recipe["inflow"] == $new_recipe_val["inflow"]){
-                    $recipe["value_emission"] += $new_recipe_val["value_emission"];
-                    unset($result['results'][$new_recipe_key]);
-                }
-            }
-        }
-        $recipeResult = array_merge($recipeResult, $result['results']);
-    }
+    //             if ($recipe["inflow"] == $new_recipe_val["inflow"]){
+    //                 $recipe["value_emission"] += $new_recipe_val["value_emission"];
+    //                 unset($result['results'][$new_recipe_key]);
+    //             }
+    //         }
+    //     }
+    //     $recipeResult = array_merge($recipeResult, $result['results']);
+    // }
     
-    $pages = ceil($productCount / 100);
+    // $pages = ceil($productCount / 100);
 
-    // TODO: Throttled again for loading through the pages?
-    for ($i = 1; $i <= $pages; $i++) {
-        $api_url = $GLOBALS['APIURL'].'/recipes-country/?page=' . $i . '&region_reference='.$countryCode.'&version='.$version.'&metric='.$metric."&household_type=".$household_type."&income_group=".$income_group;
+    // // TODO: Throttled again for loading through the pages?
+    // for ($i = 1; $i <= $pages; $i++) {
+    //     $api_url = $GLOBALS['APIURL'].'/recipes-country/?page=' . $i . '&region_reference='.$countryCode.'&version='.$version.'&metric='.$metric."&household_type=".$household_type."&income_group=".$income_group;
 
-        $response = wp_remote_get($api_url);
+    //     $response = wp_remote_get($api_url);
         
-        if (is_wp_error($response)) {
-            continue;
-        }
+    //     if (is_wp_error($response)) {
+    //         continue;
+    //     }
         
-        $body = wp_remote_retrieve_body($response);
-        $result = json_decode($body, true);
+    //     $body = wp_remote_retrieve_body($response);
+    //     $result = json_decode($body, true);
         
-        if (!empty($result['results'])) {
-            foreach ($recipeResult as $recipe) {
-                foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
-                    if ($recipe["inflow"] == $new_recipe_val["inflow"]){
-                        $recipe["value_emission"] += $new_recipe_val["value_emission"];
-                        unset($result['results'][$new_recipe_key]);
-                        // break;
-                    }
+    //     if (!empty($result['results'])) {
+    //         foreach ($recipeResult as $recipe) {
+    //             foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
+    //                 if ($recipe["inflow"] == $new_recipe_val["inflow"]){
+    //                     $recipe["value_emission"] += $new_recipe_val["value_emission"];
+    //                     unset($result['results'][$new_recipe_key]);
+    //                     // break;
+    //                 }
     
-                }
-            }
-            $recipeResult = array_merge($recipeResult, $result['results']);
-        }            
-    }
+    //             }
+    //         }
+    //         $recipeResult = array_merge($recipeResult, $result['results']);
+    //     }            
+    // }
     
-    // Handle potential errors in the recipeResponse
-    if (empty($recipeResult)) {
-        return [
-            'error' => 'No recipes found or an error occurred.'
-        ];
-    }
+    // // Handle potential errors in the recipeResponse
+    // if (empty($recipeResult)) {
+    //     return [
+    //         'error' => 'No recipes found or an error occurred.'
+    //     ];
+    // }
 
-    //sort per value
-    usort($recipeResult, function ($a, $b) {
-        return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
-    });
-    $recipeResult = array_slice($recipeResult, 0, 20);
+    // //sort per value
+    // usort($recipeResult, function ($a, $b) {
+    //     return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
+    // });
+    // $recipeResult = array_slice($recipeResult, 0, 20);
 
-    return $recipeResult;
+    return $final_results;
 }
