@@ -181,70 +181,7 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
         return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
     });
 
-    // $result = json_decode($body, true);
-
-    // $productCount = $result['count'];
-
-    // if (empty($result)) {
-    //     return ['No person recipe found or an error occurred.'];
-    // }
-    
-    // if (array_key_exists('detail', $result)) {
-    //     return ['Error: ' . $result['detail']];
-    // }
-
-    // if (!empty($result['results'])) {
-    //     foreach ($recipeResult as $recipe) {
-    //         foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
-                
-    //             if ($recipe["inflow"] == $new_recipe_val["inflow"]){
-    //                 $recipe["value_emission"] += $new_recipe_val["value_emission"];
-    //                 unset($result['results'][$new_recipe_key]);
-    //             }
-    //         }
-    //     }
-    //     $recipeResult = array_merge($recipeResult, $result['results']);
-    // }
-    
-    // $pages = ceil($productCount / 100);
-
-    // // TODO: Throttled again for loading through the pages?
-    // for ($i = 1; $i <= $pages; $i++) {
-    //     $api_url = $GLOBALS['APIURL'].'/recipes-country/?page=' . $i . '&region_reference='.$countryCode.'&version='.$version.'&metric='.$metric."&household_type=".$household_type."&income_group=".$income_group;
-
-    //     $response = wp_remote_get($api_url);
-        
-    //     if (is_wp_error($response)) {
-    //         continue;
-    //     }
-        
-    //     $body = wp_remote_retrieve_body($response);
-    //     $result = json_decode($body, true);
-        
-    //     if (!empty($result['results'])) {
-    //         foreach ($recipeResult as $recipe) {
-    //             foreach ($result['results'] as $new_recipe_key => $new_recipe_val) {
-    //                 if ($recipe["inflow"] == $new_recipe_val["inflow"]){
-    //                     $recipe["value_emission"] += $new_recipe_val["value_emission"];
-    //                     unset($result['results'][$new_recipe_key]);
-    //                     // break;
-    //                 }
-    
-    //             }
-    //         }
-    //         $recipeResult = array_merge($recipeResult, $result['results']);
-    //     }            
-    // }
-    
-    // // Handle potential errors in the recipeResponse
-    // if (empty($recipeResult)) {
-    //     return [
-    //         'error' => 'No recipes found or an error occurred.'
-    //     ];
-    // }
-
-
-    // $recipeResult = array_slice($recipeResult, 0, 20);
+    $final_results = array_slice($final_results, 0, 20);
 
     return $final_results;
 }
