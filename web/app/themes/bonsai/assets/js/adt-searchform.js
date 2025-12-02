@@ -150,10 +150,6 @@ jQuery(document).ready(function($){
         adt_push_parameter_to_url(userSelection);
         let data = await API.get_product_footprint(userSelection);
 
-        if(selectedValue === 'person'){
-            data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
-        }
-
         await display_result("#product-analysis-content",data);
         adt_save_local_search_history(userSelection);
         adt_push_parameter_to_url(userSelection);
@@ -370,9 +366,8 @@ async function display_result(htmlclass, data){
     //summary information
     let main_component = jQuery(htmlclass);
     //set title
-    main_component.find('.product-title').text(Utils.capitalize(data["title"]));
     const isPersonTab = data['flow_code'] == null;
-    main_component.find('.product-title').text(Utils.capitalize(data["title"]));
+    main_component.find('.product-title').text(isPersonTab ?"Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year : Utils.capitalize(data["title"]));
     main_component.find('.product-title').first().attr("data-code",data['flow_code'] ?? "person");
     main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
     //set location list of dropdown
