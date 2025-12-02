@@ -175,6 +175,10 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
     while(isset($result['next']));
 
     error_log("end loop");
+        // //sort per value
+    usort($final_results, function ($a, $b) {
+        return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
+    });
 
     // $result = json_decode($body, true);
 
@@ -238,10 +242,7 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
     //     ];
     // }
 
-    // //sort per value
-    usort($recipeResult, function ($a, $b) {
-        return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
-    });
+
     // $recipeResult = array_slice($recipeResult, 0, 20);
 
     return $final_results;
