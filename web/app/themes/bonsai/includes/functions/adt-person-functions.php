@@ -40,10 +40,7 @@ function adt_get_person_footprint(){
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
-    
-    if (isset($result['count']) && $result['count'] === 0) {
-        wp_send_json_error(['error' => 'Footprint not found']);
-    }
+
     
     // Handle potential errors in the response
     if (empty($result)) {
@@ -100,10 +97,7 @@ function get_total_value(string $countryCode, string $household_type, string $in
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
-    
-    if (isset($result['count']) && $result['count'] === 0) {
-        wp_send_json_error(['error' => 'Footprint not found']);
-    }
+
     
     // Handle potential errors in the response
     if (empty($result)) {
@@ -129,9 +123,11 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
     $recipeResult = [];
     $url = $GLOBALS['APIURL'].'/recipes-country/?region_reference='.$countryCode.'&version='.$version.'&metric='.$metric."&household_type=".$household_type."&income_group=".$income_group;
     $recipeResponse = wp_remote_get($url);
-
-    error_log("start loop");
-    error_log("url=".$url);
+        // Get the response body
+        error_log("start loop");
+        error_log("url=".$url);
+    $body = wp_remote_retrieve_body($recipeResponse);
+    $result = json_decode($body, true);
     
     // Check for errors
     if (is_wp_error($recipeResponse)) {
@@ -140,13 +136,9 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
         ];
     }
     
-    if (empty($result)) {
+    if (!isset($recipeResponse['results'])) {
         return ['No person recipe found or an error occurred.'];
     }
-    
-    // Get the response body
-    $body = wp_remote_retrieve_body($recipeResponse);
-    $result = json_decode($body, true);
     
     $final_results= [];
     
@@ -163,7 +155,6 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
                 $final_results[$product['inflow']]['value_emission'] = $product['value_emission'];
                 $final_results[$product['inflow']]['unit_inflow'] = $product['unit_inflow'];
                 $final_results[$product['inflow']]['unit_emission'] = $product['unit_emission'];
-
             }
         }
         if (!empty($result['next'])) {
@@ -185,7 +176,7 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
 
     error_log("end loop");
 
-    $result = json_decode($body, true);
+    // $result = json_decode($body, true);
 
     // $productCount = $result['count'];
 
