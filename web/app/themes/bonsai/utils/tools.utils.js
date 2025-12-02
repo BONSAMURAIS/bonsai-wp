@@ -115,6 +115,10 @@ export function getUnitOptions(dataArray, unit_ref){
         unitList = [
             {ratio:1,label:CONST.UNIT.HA_PER_YEAR_WEIGHTED}
         ]
+    } else if (unit_ref === CONST.UNIT.HA_WEIGHTED){
+        unitList = [
+            {ratio:1,label:CONST.UNIT.HA_WEIGHTED}
+        ]
     }
 
     return unitList;
