@@ -123,9 +123,9 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
     $recipeResult = [];
     $url = $GLOBALS['APIURL'].'/recipes-country/?region_reference='.$countryCode.'&version='.$version.'&metric='.$metric."&household_type=".$household_type."&income_group=".$income_group;
     $recipeResponse = wp_remote_get($url);
-        // Get the response body
-        error_log("start loop");
-        error_log("url=".$url);
+    // Get the response body
+    error_log("start loop");
+    error_log("url=".$url);
     $body = wp_remote_retrieve_body($recipeResponse);
     $result = json_decode($body, true);
     
@@ -136,7 +136,7 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
         ];
     }
     
-    if (!isset($recipeResponse['results'])) {
+    if (!isset($result['results'])) {
         return ['No person recipe found or an error occurred.'];
     }
     
