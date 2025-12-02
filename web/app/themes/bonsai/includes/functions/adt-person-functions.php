@@ -27,39 +27,13 @@ function adt_get_person_footprint(){
         }
     }
 
-    $final_demand_aux = "F_GOVE";
-    $url = $GLOBALS['APIURL']."/footprint-country/?region_code=".$countryCode."&version=".$version."&metric=".$metric."&household_type=".$household_type."&income_group=".$income_group."&final_demand=".$final_demand_aux; //TODO change if call with F_HOUS does not exist
-    error_log("person tab: url= {$url}");
-    $response = wp_remote_get($url);
-
-    // Check for errors
-    if (is_wp_error($response)) {
-        return 'Error: ' . $response->get_error_message();
-    }
-    
-    // Retrieve and decode the response body
-    $body = wp_remote_retrieve_body($response);
-    $result = json_decode($body, true);
-
-    
-    // Handle potential errors in the response
-    if (empty($result)) {
-        return ['No footprints found or an error occurred.'];
-    }
-
-    if (array_key_exists('detail', $result)) {
-        wp_send_json_error(['error' => $result['detail']], 503);
-    }
-
-    // get newest version of the footprint.
-    $footprintsArray = $result['results'];
 
     $value = get_total_value($countryCode,$household_type, $income_group,$version,$metric);
 
     $recipes = adt_get_person_footprint_recipe($countryCode,$household_type, $income_group,$version,$metric);
 
     $data = [
-        'id' => $footprintsArray[0]['id'],
+        // 'id' => $footprintsArray[0]['id'],
         'household_type' => $household_type,
         'income_group' => $income_group,
         'region_code' => $countryCode,
@@ -67,7 +41,7 @@ function adt_get_person_footprint(){
         'value' => $value,
         'version' => $version,
         'metric' => $metric,
-        'unit_emission' => $footprintsArray[0]['unit_emission'],
+        'unit_emission' => "tonnes CO2eq",
         'list_locations' => adt_get_locations(),//$result["locations"],
         'recipe' => $recipes,
         'year' => $year,
@@ -98,7 +72,6 @@ function get_total_value(string $countryCode, string $household_type, string $in
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
 
-    
     // Handle potential errors in the response
     if (empty($result)) {
         return 'No footprints found or an error occurred.';
@@ -109,7 +82,7 @@ function get_total_value(string $countryCode, string $household_type, string $in
     }
 
     $footprintsArray = $result['results'];
-    foreach ($footprintsArray as $key => $footprint) {
+    foreach ($footprintsArray as $footprint) {
         $total += $footprint['value'];
     }
     return $total;
@@ -120,11 +93,9 @@ add_action('wp_ajax_nopriv_adt_get_person_footprint', 'adt_get_person_footprint'
 
 function adt_get_person_footprint_recipe(string $countryCode, string $household_type, string $income_group, string $version, string $metric) : array
 { 
-    $recipeResult = [];
     $url = $GLOBALS['APIURL'].'/recipes-country/?region_reference='.$countryCode.'&version='.$version.'&metric='.$metric."&household_type=".$household_type."&income_group=".$income_group;
     $recipeResponse = wp_remote_get($url);
     // Get the response body
-    error_log("start loop");
     error_log("url=".$url);
     $body = wp_remote_retrieve_body($recipeResponse);
     $result = json_decode($body, true);
@@ -144,7 +115,7 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
     
     do {
         foreach ($result['results'] as $product) {
-            error_log("result['next']=".$$result['next']);
+            // error_log("result['next']=".$$result['next']);
             
             if (isset($final_results[$product['inflow']])){
                 $final_results[$product['inflow']]['value_inflow'] +=$product['value_inflow'];
@@ -177,8 +148,7 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
     }
     while(isset($result['next']));
 
-    error_log("end loop");
-        // //sort per value
+    //sort per value
     usort($final_results, function ($a, $b) {
         return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
     });
