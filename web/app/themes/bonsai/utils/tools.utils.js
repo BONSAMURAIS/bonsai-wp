@@ -170,9 +170,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
     }else{//emission in tonnes
         switch (unit_inflow){ 
             case CONST.UNIT.TJ.toLowerCase():
-                console.log("ok")
-                finalUnit = {ratio:1e-6,label:CONST.UNIT.GJ};
-                console.log("finalUnit=", finalUnit)
+                finalUnit = {ratio:1e-3,label:CONST.UNIT.GJ};
                 break;
             case CONST.UNIT.ITEMS.toLowerCase():
                 finalUnit = {ratio:1,label:CONST.UNIT.ITEMS};
@@ -190,7 +188,13 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
-                finalUnit = {ratio:1,label:CONST.UNIT.TONNES};
+                ratio = 1; 
+                if (unit_reference===CONST.UNIT.TJ.toLowerCase()){
+                    if (selectedUnit === CONST.UNIT.GJ.toLowerCase()){
+                        ratio = 1e-3;
+                    }
+                }
+                finalUnit = {ratio:ratio,label:CONST.UNIT.TONNES};
                 break;
         }
     }
