@@ -109,7 +109,7 @@ export function getUnitOptions(dataArray, unit_ref){
         unitList = [
             {ratio:1e3*(3.6*1e-6),label:CONST.UNIT.KWH}, // tonnes to kg + TJ to kWh / 1 TJ = 3.6.10^6
             {ratio:1e-3,label:CONST.UNIT.MJ}, //because co2 eq in kg
-            {ratio:1e-3,label:CONST.UNIT.GJ}, //
+            {ratio:1e-3,label:CONST.UNIT.GJ}, //ratio is 1 because in TJ in backend
         ]
     } else if (unit_ref === CONST.UNIT.HA_PER_YEAR_WEIGHTED){
         unitList = [
@@ -169,7 +169,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
     }else{//emission in tonnes
         switch (unit_inflow){ 
             case CONST.UNIT.TJ.toLowerCase():
-                finalUnit = {ratio:1e-6,label:CONST.UNIT.GJ};
+                finalUnit = {ratio:1e-3,label:CONST.UNIT.GJ};
                 break;
             case CONST.UNIT.ITEMS.toLowerCase():
                 finalUnit = {ratio:1,label:CONST.UNIT.ITEMS};
