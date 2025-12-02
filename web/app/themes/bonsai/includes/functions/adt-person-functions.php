@@ -239,9 +239,9 @@ function adt_get_person_footprint_recipe(string $countryCode, string $household_
     // }
 
     // //sort per value
-    // usort($recipeResult, function ($a, $b) {
-    //     return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
-    // });
+    usort($recipeResult, function ($a, $b) {
+        return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
+    });
     // $recipeResult = array_slice($recipeResult, 0, 20);
 
     return $final_results;
