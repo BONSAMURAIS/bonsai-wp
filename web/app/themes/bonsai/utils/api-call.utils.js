@@ -63,7 +63,7 @@ export async function get_product_footprint(userSelection){
                 localStorage.setItem('emission_contriAnalysis', JSON.stringify(response.data.recipe));
                 localStorage.setItem('unit_reference', response.data.unit_reference);
                 response.data.title = response.data.title == "" ? userSelection.title : response.data.title;
-
+                localStorage.setItem('year', userSelection.year);
                 resolve(response.data);
             },
             error: (error) => {
@@ -104,6 +104,7 @@ export async function get_person_footprint(userSelection){
                 autocomplete_input.prop('disabled', false);
                 console.log("person_data response = ",response)
                 localStorage.setItem('emission_contriAnalysis', JSON.stringify(response.data.recipe));
+                localStorage.setItem('year', userSelection.year);
                 response.data['unit_reference'] = CONST.UNIT.PERSON_YEAR;
                 resolve(response.data);
                 

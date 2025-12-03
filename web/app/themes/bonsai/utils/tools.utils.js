@@ -70,18 +70,18 @@ export function parseIfJson(value) {
   }
 }
 
-export function getUnitOptions(dataArray, unit_ref){
+export function getUnitOptions(dataArray, unit_ref,year){
     //TODO rename hard coded unit with electricity
     let unitList = [];
 
     if (unit_ref === CONST.UNIT.MEURO){
         unitList = [
-            {ratio:1e-3,label: CONST.UNIT.EUR},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)  1e6 * 1e-3 = 1e-3 
-            {ratio:1e-3,label: CONST.UNIT.kEUR},
-            {ratio:1,label: CONST.UNIT.mEUR},
-            {ratio:1/CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3,label: CONST.UNIT.DKK},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
-            {ratio:1/CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3,label:CONST.UNIT.kDKK},
-            {ratio:1/CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1,label:CONST.UNIT.mDKK}
+            {ratio:1e-3,label: CONST.UNIT.EUR+year},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)  1e6 * 1e-3 = 1e-3 
+            {ratio:1e-3,label: CONST.UNIT.kEUR+year},
+            {ratio:1,label: CONST.UNIT.mEUR+year},
+            {ratio:1/CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3,label: CONST.UNIT.DKK+year},//ratio is 1e-3 because the unit label changes too ( co2 eq in kg)
+            {ratio:1/CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1e-3,label:CONST.UNIT.kDKK+year},
+            {ratio:1/CONST.RATE_EXCHANGE.EUR_to_DKK_2016*1,label:CONST.UNIT.mDKK+year}
         ];
     } else if (unit_ref === CONST.UNIT.TONNES) {
         unitList = [
@@ -137,7 +137,7 @@ export function getResultUnitCO2(unit_ref){
     let finalUnit = unitList_for_kgco2.includes(unit_ref.toLowerCase()) ? CONST.UNIT.KGCO2 : CONST.UNIT.TONNESCO2;
     return finalUnit;
 }
-export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference){
+export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference, year){
     if (unit_inflow == null){
         return {ratio:0,label:''};
     }
@@ -168,7 +168,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
                         ratio /= CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
                     }
                 }
-                finalUnit = {ratio:ratio,label:CONST.UNIT.EUR};
+                finalUnit = {ratio:ratio,label:CONST.UNIT.EUR + year};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
@@ -201,7 +201,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
                 } else if(selectedUnit === CONST.UNIT.mDKK.toLowerCase()){
                     ratio = 1/CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
                 }
-                finalUnit = {ratio:ratio,label:CONST.UNIT.mEUR};
+                finalUnit = {ratio:ratio,label:CONST.UNIT.mEUR.toUpperCase() + year};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
