@@ -796,6 +796,7 @@ async function init_form(){
     }else{
         data = await API.get_product_footprint(userSelection);
     }
+    data['year']=userSelection.year;
 
 
     await display_result("#product-analysis-content",data);
