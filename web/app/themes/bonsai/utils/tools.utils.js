@@ -172,7 +172,16 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
-                finalUnit = {ratio:1,label:CONST.UNIT.KG};
+                ratio=1;
+                if (unit_reference===CONST.UNIT.TJ.toLowerCase()){
+                    if (selectedUnit === CONST.UNIT.MJ.toLowerCase()){
+                        ratio = 1e-3;
+                    }else if (selectedUnit === CONST.UNIT.KWH.toLowerCase()){
+                        ratio = 1e-3*3.6;
+                    }
+                }
+                finalUnit = {ratio:ratio,label:CONST.UNIT.KG};
+
                 break;
         }
     }else{//emission in tonnes
@@ -200,10 +209,6 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
                 if (unit_reference===CONST.UNIT.TJ.toLowerCase()){
                     if (selectedUnit === CONST.UNIT.GJ.toLowerCase()){
                         ratio = 1e-3;
-                    }else if (selectedUnit === CONST.UNIT.MJ.toLowerCase()){
-                        ratio = 1e-3;
-                    }else if (selectedUnit === CONST.UNIT.KWH.toLowerCase()){
-                        ratio = 1e-3*3.6;
                     }
                 }
                 finalUnit = {ratio:ratio,label:CONST.UNIT.TONNES};
