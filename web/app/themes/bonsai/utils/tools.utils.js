@@ -62,6 +62,14 @@ export function resizeTextToFit(text){
     }
 }
 
+export function parseIfJson(value) {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return value; // not JSON → return original value
+  }
+}
+
 export function getUnitOptions(dataArray, unit_ref){
     //TODO rename hard coded unit with electricity
     let unitList = [];
@@ -115,6 +123,10 @@ export function getUnitOptions(dataArray, unit_ref){
         unitList = [
             {ratio:1,label:CONST.UNIT.HA_PER_YEAR_WEIGHTED}
         ]
+    } else if (unit_ref === CONST.UNIT.HA_WEIGHTED){
+        unitList = [
+            {ratio:1,label:CONST.UNIT.HA_WEIGHTED}
+        ]
     }
 
     return unitList;
@@ -132,6 +144,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
     unit_inflow = unit_inflow.toLowerCase();
     unit_reference = unit_reference.toLowerCase();
     selectedUnit = selectedUnit.toLowerCase();
+    console.log("unit_inflow, unit_ref, selecUni=",unit_inflow,unit_reference,selectedUnit);
     
     let finalUnit = {ratio:1,label:unit_inflow};
     if (unitList_for_kgco2.includes(selectedUnit.toLowerCase())){//emission in kg
@@ -159,7 +172,16 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
-                finalUnit = {ratio:1,label:CONST.UNIT.KG};
+                ratio=1;
+                if (unit_reference===CONST.UNIT.TJ.toLowerCase()){
+                    if (selectedUnit === CONST.UNIT.MJ.toLowerCase()){
+                        ratio = 1e-3;
+                    }else if (selectedUnit === CONST.UNIT.KWH.toLowerCase()){
+                        ratio = 1e-3*3.6;
+                    }
+                }
+                finalUnit = {ratio:ratio,label:CONST.UNIT.KG};
+
                 break;
         }
     }else{//emission in tonnes
@@ -183,7 +205,13 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
-                finalUnit = {ratio:1,label:CONST.UNIT.TONNES};
+                ratio = 1; 
+                if (unit_reference===CONST.UNIT.TJ.toLowerCase()){
+                    if (selectedUnit === CONST.UNIT.GJ.toLowerCase()){
+                        ratio = 1e-3;
+                    }
+                }
+                finalUnit = {ratio:ratio,label:CONST.UNIT.TONNES};
                 break;
         }
     }

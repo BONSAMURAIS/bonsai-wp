@@ -88,11 +88,10 @@ jQuery(document).ready(function($){
                 let userSelection = new UserSelection;
                 userSelection.get_from_form();
                 userSelection.countryCode = "AU";//TOCHANGE
-                userSelection.country = "Australia";//TOCHANGE
+                userSelection.country = "australia";//TOCHANGE
                 userSelection.code = "person";//TOCHANGE
                 let data = await API.get_person_footprint(userSelection);
                 adt_push_parameter_to_url(userSelection);
-                data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
                 await display_result("#product-analysis-content",data);
             } else {
                 $('#market').prop('checked', true).trigger('change'); // Fix applied here
@@ -110,12 +109,9 @@ jQuery(document).ready(function($){
         let selectedValue = jQuery('#product-analysis-content .tile-header .product-title').attr('data-code');
         console.log("selectedValue=",selectedValue)
         let data = (selectedValue === 'person') ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
-        if(selectedValue === 'person'){
-            data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
-        }else{
-
-            data['title'] = localStorage.getItem('prod_title');
-        }
+        console.log("userSelection.country=",userSelection.country)
+        console.log("Utils.capitalize(userSelection.country)=",Utils.capitalize(userSelection.country))
+        data['title'] = localStorage.getItem('prod_title');
         await display_result("#product-analysis-content",data);
         adt_push_parameter_to_url(userSelection);
 
@@ -153,10 +149,6 @@ jQuery(document).ready(function($){
         
         adt_push_parameter_to_url(userSelection);
         let data = await API.get_product_footprint(userSelection);
-
-        if(selectedValue === 'person'){
-            data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
-        }
 
         await display_result("#product-analysis-content",data);
         adt_save_local_search_history(userSelection);
@@ -200,9 +192,6 @@ jQuery(document).ready(function($){
             return
         }
         
-        if(selectedValue === 'person'){
-            data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
-        }
         adt_push_parameter_to_url(userSelection);
         await display_result("#product-analysis-content",data);
         console.log('END searching');
@@ -235,7 +224,7 @@ jQuery(document).ready(function($){
         const co2Value_unit = Utils.getResultUnitCO2(unitLabel).replace("tonnes", "tonne");;
         main_component.find('.co2-value-unit').text(co2Value_unit);
         const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
-        display_recipe_table(main_component, recipeArray, JSON.parse(localStorage.getItem('unit_reference')));
+        display_recipe_table(main_component, recipeArray, Utils.parseIfJson(localStorage.getItem('unit_reference')));
 
         amountInput.val(numberInput);//keep value in input
     });
@@ -304,7 +293,7 @@ jQuery(document).ready(function($){
             
         }
         let main_component = amountInput.closest("div.tile");
-        display_recipe_table(main_component, recipeArray, JSON.parse(localStorage.getItem('unit_reference')));
+        display_recipe_table(main_component, recipeArray, Utils.parseIfJson(localStorage.getItem('unit_reference')));
 
         amountInput.val(amountInput.val());//keep value in input
         
@@ -330,6 +319,7 @@ jQuery(document).ready(function($){
         userSelection.year = year;
         userSelection.countryCode = countryCode;
         userSelection.country = country;
+       userSelection.db_version = jQuery(this).closest(".tile").find(".database-version").val(); //keep version
         try {
             let data = await API.get_product_footprint(userSelection); //can only be footprint
             const htmlclass = "#"+jQuery(this).closest(".tile").attr('id');
@@ -376,7 +366,8 @@ async function display_result(htmlclass, data){
     //summary information
     let main_component = jQuery(htmlclass);
     //set title
-    main_component.find('.product-title').text(Utils.capitalize(data["title"]));
+    const isPersonTab = data['flow_code'] == null;
+    main_component.find('.product-title').text(isPersonTab ?"Emission per person in " + Utils.capitalize(data['country']) + ", " + data['year'] : Utils.capitalize(data["title"]));
     main_component.find('.product-title').first().attr("data-code",data['flow_code'] ?? "person");
     main_component.find('.product-title').first().attr("data-uuid",data['uuid']);
     //set location list of dropdown
@@ -400,7 +391,6 @@ async function display_result(htmlclass, data){
     Utils.selectOptionByText(main_component.find('.database-version').first()[0], data['version']);
     jQuery(main_component.find('.footprint-type').first()).val(data['scope']);
     let dropdown_footprint_type = main_component.find('.footprint-type').first();
-    const isPersonTab = data['flow_code'] == null;
     if (isPersonTab) {
         jQuery(dropdown_footprint_type.val("ctgr")); //cradle to grave by default
     }else{
@@ -796,9 +786,6 @@ async function init_form(){
 
     let data = userSelection.code ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
 
-    if(userSelection.code === 'person'){
-        data['title'] = "Emission per person in " + Utils.capitalize(userSelection.country) + ", " + userSelection.year;
-    }
     await display_result("#product-analysis-content",data);
     adt_save_local_search_history(userSelection);
 
