@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 echo "START"
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 if [ -n "$1" ]; then
     answer="$1"
 else
     read -p "Want to install virtual env named 'venv' in this project ? (y/n) " answer
 fi
 
-VENV_DIR=$(pwd)/venv
+VENV_DIR="$SCRIPT_DIR/venv"
 export VENV_DIR
 if [ "$answer" = "y" ]; then
   echo "Installing virtual env..."
@@ -25,10 +27,10 @@ else
 fi
 
 echo "Virtual environment: activate"
-. venv/bin/activate
+. $VENV_DIR/bin/activate
 echo "Virtual environment: activated"
 echo "Start uploading data"
-python3 main.py
+python3 $SCRIPT_DIR/main.py
 echo "Finish uploading data"
 echo "Virtual environment: deactivate"
 deactivate
