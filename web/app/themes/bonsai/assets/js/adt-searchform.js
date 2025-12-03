@@ -413,7 +413,7 @@ async function display_result(htmlclass, data){
     let unit_options = main_component.find('select.unit'); 
     unit_options.empty();
     //set unitList
-    const unitList = Utils.getUnitOptions(data, data["unit_reference"]);
+    const unitList = Utils.getUnitOptions(data, data["unit_reference"],data['year']);
     for (const unit of unitList){
         unit_options.append(`<option value="${unit['ratio']}">${unit['label'].replace("tonnes", "tonne")}</option>`);
     }
