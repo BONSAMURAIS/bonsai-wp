@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 echo "START"
 
-read -p "Want to install virtual env named 'venv' in this project ? (y/n)" answer
+if [ -n "$1" ]; then
+    answer="$1"
+else
+    read -p "Want to install virtual env named 'venv' in this project ? (y/n) " answer
+fi
+
 VENV_DIR=$(pwd)/venv
 export VENV_DIR
 if [ "$answer" = "y" ]; then
