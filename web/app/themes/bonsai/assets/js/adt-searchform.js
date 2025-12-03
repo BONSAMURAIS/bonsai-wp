@@ -227,7 +227,8 @@ jQuery(document).ready(function($){
         const co2Value_unit = Utils.getResultUnitCO2(unitLabel).replace("tonnes", "tonne");;
         main_component.find('.co2-value-unit').text(co2Value_unit);
         const recipeArray = JSON.parse(localStorage.getItem('emission_contriAnalysis'));
-        display_recipe_table(main_component, recipeArray, Utils.parseIfJson(localStorage.getItem('unit_reference')));
+        const year = JSON.parse(localStorage.getItem('year'));
+        display_recipe_table(main_component, recipeArray, Utils.parseIfJson(localStorage.getItem('unit_reference')),year);
 
         amountInput.val(numberInput);//keep value in input
     });
@@ -296,7 +297,8 @@ jQuery(document).ready(function($){
             
         }
         let main_component = amountInput.closest("div.tile");
-        display_recipe_table(main_component, recipeArray, Utils.parseIfJson(localStorage.getItem('unit_reference')));
+        const year = JSON.parse(localStorage.getItem('year'));
+        display_recipe_table(main_component, recipeArray, Utils.parseIfJson(localStorage.getItem('unit_reference')),year);
 
         amountInput.val(amountInput.val());//keep value in input
         
@@ -450,11 +452,11 @@ async function display_result(htmlclass, data){
     main_component.find('.co2-value-unit').text(isPersonTab ? CONST.UNIT.TONNESCO2 : co2Value_unit);
 
     //recipe
-    display_recipe_table(main_component,data.recipe, data["unit_reference"]);
+    display_recipe_table(main_component,data.recipe, data["unit_reference"],data["year"]);
     return true;
 }
 
-function display_recipe_table(main_component,recipeArray,unit_reference){
+function display_recipe_table(main_component,recipeArray,unit_reference,year){
     if (recipeArray && recipeArray.error){
         let recipeTable = main_component.find('.emissions-table').first();
         recipeTable.find('tbody').empty();
@@ -479,7 +481,7 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
         }
 
         const selectedUnit_dropdownlist = main_component.find('select.unit').find('option:selected').text();
-        let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow, unit_reference);
+        let displayed_unit = Utils.getUnitContriAnalysis(selectedUnit_dropdownlist,recipe.unit_inflow, unit_reference, year);
         if (displayed_unit && displayed_unit['label']  !== null && displayed_unit['label']  !== undefined && displayed_unit['label']  !== '' && displayed_unit['label'].includes("tonnes")){
             displayed_unit['label'] =  displayed_unit['label'].replace("tonnes", "tonne")
         }
@@ -493,7 +495,7 @@ function display_recipe_table(main_component,recipeArray,unit_reference){
         
         //Create rows
         rowMarkup = '<tr>';//country = recipe.region_inflow or recipe.region_reference?
-        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.inflow+'" data-uuid="'+recipe.id+'" data-country-code="'+recipe.region_inflow+'" data-year="'+"2016"+'" data-metric="'+recipe.metric+'">' + Utils.capitalize(recipe.inflow_name) + '</span></td>';
+        rowMarkup += '<td><span class="link" data-href="' +getParameter+ ' " data-code="'+recipe.inflow+'" data-uuid="'+recipe.id+'" data-country-code="'+recipe.region_inflow+'" data-year="'+year+'" data-metric="'+recipe.metric+'">' + Utils.capitalize(recipe.inflow_name) + '</span></td>';
         rowMarkup += '<td>' + (recipe.region_inflow || '') + '</td>';
         rowMarkup += '<td class="input-flow">';
         rowMarkup += '<span class="inflow-value">' + value_inflow  + '</span>';

@@ -137,7 +137,7 @@ export function getResultUnitCO2(unit_ref){
     let finalUnit = unitList_for_kgco2.includes(unit_ref.toLowerCase()) ? CONST.UNIT.KGCO2 : CONST.UNIT.TONNESCO2;
     return finalUnit;
 }
-export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference){
+export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference, year){
     if (unit_inflow == null){
         return {ratio:0,label:''};
     }
@@ -168,7 +168,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
                         ratio /= CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
                     }
                 }
-                finalUnit = {ratio:ratio,label:CONST.UNIT.EUR};
+                finalUnit = {ratio:ratio,label:CONST.UNIT.EUR + year};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
@@ -201,7 +201,7 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
                 } else if(selectedUnit === CONST.UNIT.mDKK.toLowerCase()){
                     ratio = 1/CONST.RATE_EXCHANGE.EUR_to_DKK_2016;
                 }
-                finalUnit = {ratio:ratio,label:CONST.UNIT.mEUR};
+                finalUnit = {ratio:ratio,label:CONST.UNIT.mEUR.toUpperCase() + year};
                 break;
             case CONST.UNIT.TONNES.toLowerCase():
             case CONST.UNIT.TONNES_SERVICE.toLowerCase():
