@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 echo "START"
 
 read -p "Want to install virtual env named 'venv' in this project ? (y/n)" answer
