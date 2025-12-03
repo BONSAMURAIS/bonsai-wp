@@ -62,6 +62,14 @@ export function resizeTextToFit(text){
     }
 }
 
+export function parseIfJson(value) {
+  try {
+    return JSON.parse(value);
+  } catch {
+    return value; // not JSON → return original value
+  }
+}
+
 export function getUnitOptions(dataArray, unit_ref){
     //TODO rename hard coded unit with electricity
     let unitList = [];
