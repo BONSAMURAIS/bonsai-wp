@@ -200,6 +200,10 @@ export function getUnitContriAnalysis(selectedUnit, unit_inflow, unit_reference)
                 if (unit_reference===CONST.UNIT.TJ.toLowerCase()){
                     if (selectedUnit === CONST.UNIT.GJ.toLowerCase()){
                         ratio = 1e-3;
+                    }else if (selectedUnit === CONST.UNIT.MJ.toLowerCase()){
+                        ratio = 1e-3;
+                    }else if (selectedUnit === CONST.UNIT.KWH.toLowerCase()){
+                        ratio = 1e-3*3.6;
                     }
                 }
                 finalUnit = {ratio:ratio,label:CONST.UNIT.TONNES};
