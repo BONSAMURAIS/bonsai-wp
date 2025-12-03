@@ -3,6 +3,7 @@ import SearchParameters from '../../model/search_parameters.js';
 import * as CONST from '../../constants/constants.js'; 
 import * as Utils from '../../utils/tools.utils.js';
 import * as API from '../../utils/api-call.utils.js'; 
+import db_versions from '../../dropdown_options/db_version.json';
 
 // Makes sure to run the function when users go back and forth in browser
 window.addEventListener('popstate', async function(event) {
@@ -90,6 +91,8 @@ jQuery(document).ready(function($){
                 userSelection.countryCode = "AU";//TOCHANGE
                 userSelection.country = "australia";//TOCHANGE
                 userSelection.code = "person";//TOCHANGE
+                const latestVersion = db_versions.reduce((a, b) => a.index > b.index ? a : b);
+                userSelection.db_version = latestVersion.id;
                 let data = await API.get_person_footprint(userSelection);
                 adt_push_parameter_to_url(userSelection);
                 await display_result("#product-analysis-content",data);
@@ -783,8 +786,15 @@ async function init_form(){
     let userSelection = new UserSelection;
     userSelection.get_from_url();
     console.log("init to_string()=",userSelection.to_string())
+    let data;
+    if (userSelection.code ==="person"){
+        const latestVersion = db_versions.reduce((a, b) => a.index > b.index ? a : b);
+        userSelection.db_version = latestVersion.id;
+        data =  await API.get_person_footprint(userSelection);
+    }else{
+        data = await API.get_product_footprint(userSelection);
+    }
 
-    let data = userSelection.code ==="person" ? await API.get_person_footprint(userSelection) : await API.get_product_footprint(userSelection);
 
     await display_result("#product-analysis-content",data);
     adt_save_local_search_history(userSelection);
