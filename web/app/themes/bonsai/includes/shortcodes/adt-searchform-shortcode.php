@@ -77,7 +77,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </div>
                 </div>
 
-                <section id="most-popular">
+                <!-- <section id="most-popular">
                     <p>Most popular:</p>
                     <ul>
                         <?php foreach ($popularSearches as $popularSearch): ?>
@@ -85,7 +85,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <li><button data-code="<?= $popularSearch->product_code ?>" data-uuid="<?= $popularSearch->product_uuid ?>" data-year="<?= $chosenValues['footprint_year'] ?>" data-location="<?= $chosenValues['footprint_location'] ?>" data-type="<?= $chosenValues['footprint_type'] ?>"><?= $popularSearch->search_phrase ?></button></li>
                         <?php endforeach; ?>
                     </ul>
-                </section>
+                </section> -->
 
                 <datalist id="words">
                     <?php foreach($productsArray as $product): ?>
