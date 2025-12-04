@@ -612,7 +612,8 @@ function adt_dynamic_search_input(list_product)
         const query = $input.val().toLowerCase();
         const matches = words
         .map((word, index) => ({ word}))
-        .filter(item => item.word.toLowerCase().includes(query));
+        .filter(item => item.word.toLowerCase().includes(query))
+        .sort((a, b) => a.word.localeCompare(b.word));
         $suggestions.empty();
         currentIndex = -1;
         suggestionSelected = false;
