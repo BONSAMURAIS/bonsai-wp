@@ -4,9 +4,21 @@ RUN apt-get update && apt-get install -y \
     mariadb-client \
     zip \
     unzip \
+    curl \
+    ca-certificates \
+    gnupg \
   && docker-php-ext-install -j$(nproc) \
     mysqli \
     pdo_mysql \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
+
+# Node.js + npm (choose an LTS; 20 is a safe default)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+  && apt-get update \
+  && apt-get install -y nodejs \
+  && node -v \
+  && npm -v \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
 

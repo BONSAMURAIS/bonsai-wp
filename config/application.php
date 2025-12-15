@@ -59,6 +59,8 @@ if (file_exists($root_dir . '/.env')) {
  * Default: production
  */
 define('WP_ENV', env('WP_ENV') ?: 'production');
+// Config::define('FS_METHOD', env('FS_METHOD') ?: 'direct');
+
 
 /**
  * Infer WP_ENVIRONMENT_TYPE based on WP_ENV

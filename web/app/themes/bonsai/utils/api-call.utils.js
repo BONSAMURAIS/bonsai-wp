@@ -25,13 +25,29 @@ export async function get_product_footprint_by_search(query){
 
                 resolve(response.data);
             },
-            error: (error) => {
+            error: (jqXHR, textStatus, errorThrown) => {
                 Utils.hideLoading();
-                reject(error);  // Reject if there is an error
-                console.log("adt_get_product_info ERROR");
-                console.log(error);
-                jQuery('#initial-error-message').html('<p>'+error.responseJSON?.data.error+'</p>');
-                jQuery('#initial-error-message').slideDown('fast');
+
+                console.log("ERROR adt_get_product_info ");
+
+                console.log("status:", textStatus);
+                console.log("errorThrown:", errorThrown);
+                console.log("jqXHR:", jqXHR);
+
+                // Try to extract a meaningful error message with safe fallbacks
+                const message =
+                    jqXHR?.responseJSON?.data?.error ||   // your custom WP JSON error
+                    jqXHR?.responseJSON?.message ||       // generic JSON error
+                    jqXHR?.responseText ||                // raw response body
+                    errorThrown ||                        // jQuery's error string
+                    "An unexpected error occurred while loading product information.";
+
+                jQuery('#initial-error-message')
+                    .html(`<p>${message}</p>`)
+                    .slideDown('fast');
+
+                // Reject the promise with the full jqXHR object so callers can inspect it
+                reject(jqXHR);
             }
         });
     });
@@ -68,16 +84,31 @@ export async function get_product_footprint(userSelection){
                 localStorage.setItem('year', userSelection.year);
                 resolve(response.data);
             },
-            error: (error) => {
+            error: (jqXHR, textStatus, errorThrown) => {
                 Utils.hideLoading();
-                reject(error);  // Reject if there is an error
+
                 console.log("adt_get_product_info ERROR");
-                console.log(error);
-                jQuery('#initial-error-message').html('<p>'+error.responseJSON?.data.error+'</p>');
-                jQuery('#initial-error-message').slideDown('fast');
+                console.log("status:", textStatus);
+                console.log("errorThrown:", errorThrown);
+                console.log("jqXHR:", jqXHR);
+
+                // Try to extract a meaningful error message with safe fallbacks
+                const message =
+                    jqXHR?.responseJSON?.data?.error ||   // your custom WP JSON error
+                    jqXHR?.responseJSON?.message ||       // generic JSON error
+                    jqXHR?.responseText ||                // raw response body
+                    errorThrown ||                        // jQuery's error string
+                    "An unexpected error occurred while loading product information.";
+
+                jQuery('#initial-error-message')
+                    .html(`<p>${message}</p>`)
+                    .slideDown('fast');
+
+                // Reject the promise with the full jqXHR object so callers can inspect it
+                reject(jqXHR);
             }
-        });
-    });
+                    });
+                });
 }
 
 export async function get_person_footprint(userSelection){
