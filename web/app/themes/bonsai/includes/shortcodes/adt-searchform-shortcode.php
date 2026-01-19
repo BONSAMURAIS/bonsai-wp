@@ -175,7 +175,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <tr>
                                 <th>Input name</th> <!-- flow_input -->
                                 <th>Country</th> <!-- region_inflow -->
-                                <th class="emissions-table-header-input">Input value</th> <!-- value_inflow + unit_inflow -->
+                                <th class="emissions-table-header-input">Input value</th>
+                                <th>Unit</th>
                                 <th class="emissions-table-header-emissions">Emissions <span class="emission co2-value-unit"></span></th> <!-- value_emission + unit_emission -->
                             </tr>
                         </thead>

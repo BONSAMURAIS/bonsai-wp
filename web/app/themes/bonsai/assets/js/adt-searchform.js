@@ -672,8 +672,11 @@ function display_recipe_table(
     rowMarkup += "<td>" + (recipe.region_inflow || "") + "</td>";
     rowMarkup += '<td class="input-flow">';
     rowMarkup += '<span class="inflow-value">' + value_inflow + "</span>";
+    rowMarkup += "</td>";
+    rowMarkup += '<td">';
     rowMarkup +=
       '<span class="inflow-unit">' + displayed_unit["label"] + "</span>";
+    rowMarkup += "</td>";
 
     let default_selected_unit_ratio = main_component
       .find("select.unit option:selected")
