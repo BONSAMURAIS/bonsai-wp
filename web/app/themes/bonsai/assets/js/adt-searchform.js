@@ -670,13 +670,14 @@ function display_recipe_table(
       Utils.capitalize(recipe.inflow_name) +
       "</span></td>";
     rowMarkup += "<td>" + (recipe.region_inflow || "") + "</td>";
-    rowMarkup += '<td class="input-flow">';
-    rowMarkup += '<span class="inflow-value">' + value_inflow + "</span>";
-    rowMarkup += "</td>";
-    rowMarkup += '<td">';
     rowMarkup +=
-      '<span class="inflow-unit">' + displayed_unit["label"] + "</span>";
-    rowMarkup += "</td>";
+      '<td class="input-flow"><span class="inflow-value">' +
+      value_inflow +
+      "</span></td>";
+    rowMarkup +=
+      '<td> <span class="inflow-unit">' +
+      displayed_unit["label"] +
+      "</span></td>";
 
     let default_selected_unit_ratio = main_component
       .find("select.unit option:selected")
