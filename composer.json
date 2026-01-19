@@ -44,7 +44,8 @@
     "wpackagist-plugin/classic-editor": "^1.6",
     "wpackagist-plugin/duplicate-post": "^4.5",
     "wpackagist-plugin/wordpress-seo": "^24.5",
-    "wpackagist-plugin/wordfence": "^8.0"
+    "wpackagist-plugin/wordfence": "^8.0",
+    "stripe/stripe-php": "^19.1"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
