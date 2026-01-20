@@ -20,6 +20,7 @@ export async function get_product_footprint_by_search(query) {
         console.log(response);
         localStorage.setItem("prod_title", response.data.title);
         localStorage.setItem("prod_country", response.data.chosen_country);
+        localStorage.setItem("version", response.data.version);
         localStorage.setItem(
           "emission_contriAnalysis",
           JSON.stringify(response.data.recipe),
@@ -77,6 +78,7 @@ export async function get_product_footprint(userSelection) {
         );
         localStorage.setItem("unit_reference", response.data.unit_reference);
         localStorage.setItem("prod_country", response.data.chosen_country);
+        localStorage.setItem("version", response.data.version);
         response.data.title =
           response.data.title == "" ? userSelection.title : response.data.title;
         localStorage.setItem("year", userSelection.year);

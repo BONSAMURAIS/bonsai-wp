@@ -751,12 +751,9 @@ function adt_download_recipe_csv() {
     jQuery(this).click(function (e) {
       e.preventDefault();
 
-      let productTitle = jQuery(this)
-        .closest(".tile")
-        .find(".product-title")
-        .text();
+      let productTitle = localStorage.getItem("prod_title");
       let country = localStorage.getItem("prod_country");
-      let version = jQuery(this).closest(".tile").find(".version").text();
+      let version = localStorage.getItem("version");
 
       let csvContent = "";
 
@@ -790,7 +787,7 @@ function adt_download_recipe_csv() {
       let url = URL.createObjectURL(blob);
       let a = jQuery("<a></a>")
         .attr("href", url)
-        .attr("download", productTitle + "_" + version + ".csv")
+        .attr("download", productTitle + "_" + country + "_" + version + ".csv")
         .appendTo("body");
 
       a[0].click();
