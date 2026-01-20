@@ -675,7 +675,7 @@ function display_recipe_table(
       value_inflow +
       "</span></td>";
     rowMarkup +=
-      '<td> <span class="inflow-unit">' +
+      "<td> <span class='inflow-unit'>" +
       displayed_unit["label"] +
       "</span></td>";
 
