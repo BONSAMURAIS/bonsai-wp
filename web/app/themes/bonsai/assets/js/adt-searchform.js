@@ -702,7 +702,7 @@ function display_recipe_table(
     } else {
       tableMarkup += rowMarkup; // Append all other rows normally
     }
-    //end Create rows
+    //end Create row
   } //end loop on recipeArray
 
   // Append "other" row at the end if it exists
