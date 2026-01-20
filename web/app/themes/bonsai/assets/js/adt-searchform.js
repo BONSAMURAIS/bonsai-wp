@@ -755,7 +755,7 @@ function adt_download_recipe_csv() {
         .closest(".tile")
         .find(".product-title")
         .text();
-      let country = jQuery(this).closest(".tile").find(".country").text();
+      let country = localStorage.getItem("prod_country");
       let version = jQuery(this).closest(".tile").find(".version").text();
 
       let csvContent = "";
