@@ -9,7 +9,7 @@ add_shortcode( 'adt_searchform', function($atts) {
         '_ajax_url'   => admin_url('admin-ajax.php'),
         '_ajax_nonce' => wp_create_nonce('_ajax_nonce'),
     ]);
-    
+
     $productsArray = adt_get_all_products_by_footprint();
     $popularSearches = adt_get_popular_searches();
 
@@ -18,7 +18,7 @@ add_shortcode( 'adt_searchform', function($atts) {
     ]);
 
     ob_start();
-    
+
     ?>
 
     <div id="main-content">
@@ -65,7 +65,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 <input name="search" type="text" id="autocomplete-input" placeholder="Find climate footprint by product">
                 <?= do_shortcode('[search_icon]')?>
                 <div id="initial-error-message" style="display: none;">
-                    <?= do_shortcode('[block id="nothing-found-error-message"  style="color: blue;"]') ?> 
+                    <?= do_shortcode('[block id="nothing-found-error-message"  style="color: blue;"]') ?>
                 </div>
                 <div id="suggestions-wrapper" style="display: none;">
                     <div id="search-history">
@@ -97,7 +97,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
             </div>
         </form>
-        
+
         <section id="uncertainty-wrapper" style="display: none;">
             <hr />
             <p>How sure are we on the ranking of the two compared products on a scale from 0-100%?</p>
@@ -111,7 +111,7 @@ add_shortcode( 'adt_searchform', function($atts) {
             </div>
         </section>
 
-        <section id="co2-form-result">            
+        <section id="co2-form-result">
             <hr />
             <div id="product-analysis-content" class="tile">
                 <div class="tile-header">
@@ -163,7 +163,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                     </div>
                 </div>
                 <div class="contribution-analysis" style="display: none;">
-                    <p class="big-font emission-message">Where do emissions for 
+                    <p class="big-font emission-message">Where do emissions for
                         <span class="quantity-value">1</span>
                         <span class="product-unit question-unit"></span>
                         <span class="product-unit question-unit-preposition"></span>
@@ -175,7 +175,8 @@ add_shortcode( 'adt_searchform', function($atts) {
                             <tr>
                                 <th>Input name</th> <!-- flow_input -->
                                 <th>Country</th> <!-- region_inflow -->
-                                <th class="emissions-table-header-input">Input value</th> <!-- value_inflow + unit_inflow -->
+                                <th class="emissions-table-header-input">Input value</th>
+                                <th>Unit</th>
                                 <th class="emissions-table-header-emissions">Emissions <span class="emission co2-value-unit"></span></th> <!-- value_emission + unit_emission -->
                             </tr>
                         </thead>
@@ -204,7 +205,7 @@ add_shortcode( 'adt_searchform', function($atts) {
                 </div>
             </div>
         </section>
-        
+
     </div>
     <?php
     return ob_get_clean();

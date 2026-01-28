@@ -89,7 +89,7 @@ jQuery(document).ready(function ($) {
 
       $('input[name="search"]').attr(
         "placeholder",
-        "Find footprint by " + value
+        "Find footprint by " + value,
       );
 
       $("#footprint-type .radio-choice").each(function () {
@@ -106,7 +106,7 @@ jQuery(document).ready(function ($) {
         userSelection.country = "australia"; //TOCHANGE
         userSelection.code = "person"; //TOCHANGE
         const latestVersion = db_versions.reduce((a, b) =>
-          a.index > b.index ? a : b
+          a.index > b.index ? a : b,
         );
         userSelection.db_version = latestVersion.id;
         let data = await API.get_person_footprint(userSelection);
@@ -119,7 +119,7 @@ jQuery(document).ready(function ($) {
   });
 
   $(
-    "#household-composition, #income-group, .location, .year, .climatemetric, .database-version, .footprint-type"
+    "#household-composition, #income-group, .location, .year, .climatemetric, .database-version, .footprint-type",
   ).on("change", async function () {
     console.log("change ", jQuery(this).attr("id"));
     let userSelection = new UserSelection();
@@ -128,7 +128,7 @@ jQuery(document).ready(function ($) {
     adt_push_parameter_to_url(userSelection);
     console.log("at change userSelection:", userSelection.to_string());
     let selectedValue = jQuery(
-      "#product-analysis-content .tile-header .product-title"
+      "#product-analysis-content .tile-header .product-title",
     ).attr("data-code");
     console.log("selectedValue=", selectedValue);
     let data =
@@ -138,7 +138,7 @@ jQuery(document).ready(function ($) {
     console.log("userSelection.country=", userSelection.country);
     console.log(
       "Utils.capitalize(userSelection.country)=",
-      Utils.capitalize(userSelection.country)
+      Utils.capitalize(userSelection.country),
     );
     data["title"] = localStorage.getItem("prod_title");
     await display_result("#product-analysis-content", data);
@@ -185,7 +185,7 @@ jQuery(document).ready(function ($) {
       adt_save_local_search_history(userSelection);
       adt_push_parameter_to_url(userSelection);
       console.log("END popular click");
-    }
+    },
   );
 
   adt_download_recipe_csv();
@@ -203,7 +203,7 @@ jQuery(document).ready(function ($) {
     ) {
       let error_msg = jQuery("#error-message");
       error_msg.append(
-        "<p id='error-message-content' class='error-message-content-decorator'> Please search for a product or service </p>"
+        "<p id='error-message-content' class='error-message-content-decorator'> Please search for a product or service </p>",
       );
       error_msg.slideDown("fast");
       setTimeout(function () {
@@ -217,13 +217,13 @@ jQuery(document).ready(function ($) {
     let userSelection = new UserSelection();
     userSelection.get_from_form();
     data = await API.get_product_footprint_by_search(
-      jQuery("#autocomplete-input").val()
+      jQuery("#autocomplete-input").val(),
     );
 
     if (data.error) {
       let error_msg = jQuery("#error-message");
       error_msg.append(
-        "<p id='error-message-content' class='error-message-content-decorator'> No product found for this search</p>"
+        "<p id='error-message-content' class='error-message-content-decorator'> No product found for this search</p>",
       );
       error_msg.slideDown("fast");
       setTimeout(function () {
@@ -268,18 +268,18 @@ jQuery(document).ready(function ($) {
       main_component.find(".question-unit").first().text(unitLabel);
       const co2Value_unit = Utils.getResultUnitCO2(unitLabel).replace(
         "tonnes",
-        "tonne"
+        "tonne",
       );
       main_component.find(".co2-value-unit").text(co2Value_unit);
       const recipeArray = JSON.parse(
-        localStorage.getItem("emission_contriAnalysis")
+        localStorage.getItem("emission_contriAnalysis"),
       );
       const year = JSON.parse(localStorage.getItem("year"));
       display_recipe_table(
         main_component,
         recipeArray,
         Utils.parseIfJson(localStorage.getItem("unit_reference")),
-        year
+        year,
       );
 
       amountInput.val(numberInput); //keep value in input
@@ -301,7 +301,7 @@ jQuery(document).ready(function ($) {
     if (parts[0].length > 6) {
       parts[0] = parts[0].substring(0, 6);
       OBJ.closest(".unit-select-wrapper").append(
-        '<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>'
+        '<span class="error-message" style="color: red; position:absolute; top:45px;">Maximum value exceeded</span>',
       );
       setTimeout(() => {
         jQuery(".error-message").fadeOut(CONST.ANIM.DURATION, function () {
@@ -347,7 +347,7 @@ jQuery(document).ready(function ($) {
     });
 
     const recipeArray = JSON.parse(
-      localStorage.getItem("emission_contriAnalysis")
+      localStorage.getItem("emission_contriAnalysis"),
     );
     for (let i = 0; i < recipeArray.length; i++) {
       recipeArray[i].value_emission *= amountInputValue;
@@ -359,7 +359,7 @@ jQuery(document).ready(function ($) {
       main_component,
       recipeArray,
       Utils.parseIfJson(localStorage.getItem("unit_reference")),
-      year
+      year,
     );
 
     amountInput.val(amountInput.val()); //keep value in input
@@ -425,7 +425,7 @@ async function display_result(htmlclass, data) {
   ) {
     if (jQuery("#error-message-content").length == 0) {
       error_msg.append(
-        "<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>"
+        "<p id='error-message-content' class='error-message-content-decorator' >Selected footprint doesn't exist in the database. Try selecting a different product, location or footprint type.</p>",
       );
     }
     error_msg.slideDown("fast");
@@ -450,7 +450,7 @@ async function display_result(htmlclass, data) {
             Utils.capitalize(data["country"]) +
             ", " +
             data["year"]
-        : Utils.capitalize(data["title"])
+        : Utils.capitalize(data["title"]),
     );
   main_component
     .find(".product-title")
@@ -462,7 +462,7 @@ async function display_result(htmlclass, data) {
   location_dropdownElement.empty();
   for (const location of data["list_locations"]) {
     location_dropdownElement.append(
-      `<option value="${location["code"]}">${location["name"]}</option>`
+      `<option value="${location["code"]}">${location["name"]}</option>`,
     );
   }
   if (data["list_locations"].length <= 1) {
@@ -476,19 +476,19 @@ async function display_result(htmlclass, data) {
   console.log(main_component);
   Utils.selectOptionByText(
     main_component.find(".location").first()[0],
-    data["country"]
+    data["country"],
   );
   Utils.selectOptionByText(
     main_component.find(".year").first()[0],
-    data["year"]
+    data["year"],
   );
   Utils.selectOptionByText(
     main_component.find(".climatemetric").first()[0],
-    data["metric"]
+    data["metric"],
   );
   Utils.selectOptionByText(
     main_component.find(".database-version").first()[0],
-    data["version"]
+    data["version"],
   );
   jQuery(main_component.find(".footprint-type").first()).val(data["scope"]);
   let dropdown_footprint_type = main_component.find(".footprint-type").first();
@@ -517,14 +517,11 @@ async function display_result(htmlclass, data) {
   const unitList = Utils.getUnitOptions(
     data,
     data["unit_reference"],
-    data["year"]
+    data["year"],
   );
   for (const unit of unitList) {
     unit_options.append(
-      `<option value="${unit["ratio"]}">${unit["label"].replace(
-        "tonnes",
-        "tonne"
-      )}</option>`
+      `<option value="${unit["ratio"]}">${unit["label"].replace("tonnes", "tonne")}</option>`,
     );
   }
   if (unitList.length <= 1) {
@@ -536,13 +533,8 @@ async function display_result(htmlclass, data) {
   }
 
   //display default unit and adapt the result value
-  if (
-    data["unit_reference"] == CONST.UNIT.TJ &&
-    data["flow_code"].includes("_elec")
-  ) {
-    Utils.selectOptionByText(unit_options.first()[0], CONST.UNIT.KWH); //display as default 'kWh' for unit_ref = TJ if electricity
-  } else if (data["unit_reference"] == CONST.UNIT.TJ) {
-    Utils.selectOptionByText(unit_options.first()[0], CONST.UNIT.MJ); //display as default 'MJ' for unit_ref = TJ
+  if (data["unit_reference"] == CONST.UNIT.TJ) {
+    Utils.selectOptionByText(unit_options.first()[0], CONST.UNIT.KWH); //display as default 'kWh' for unit_ref = TJ
   } else if (data["unit_reference"] == CONST.UNIT.TONNES) {
     Utils.selectOptionByText(unit_options.first()[0], CONST.UNIT.KG); //display as default 'kg' for unit_ref = tonnes
   }
@@ -569,7 +561,7 @@ async function display_result(htmlclass, data) {
     .text();
   selectedUnit_dropdownlist = selectedUnit_dropdownlist.replace(
     "tonnes",
-    "tonne"
+    "tonne",
   );
   main_component.find(".product-unit").first().text(displayed_unit);
   main_component.find(".question-unit").first().text(selectedUnit_dropdownlist);
@@ -584,7 +576,7 @@ async function display_result(htmlclass, data) {
     main_component,
     data.recipe,
     data["unit_reference"],
-    data["year"]
+    data["year"],
   );
   return true;
 }
@@ -593,7 +585,7 @@ function display_recipe_table(
   main_component,
   recipeArray,
   unit_reference,
-  year
+  year,
 ) {
   if (recipeArray && recipeArray.error) {
     let recipeTable = main_component.find(".emissions-table").first();
@@ -619,7 +611,7 @@ function display_recipe_table(
       recipe.value_emission == 0
     ) {
       recipe.value_emission = Utils.reformatValue(
-        parseFloat(recipe.value_emission)
+        parseFloat(recipe.value_emission),
       );
     }
 
@@ -631,7 +623,7 @@ function display_recipe_table(
       selectedUnit_dropdownlist,
       recipe.unit_inflow,
       unit_reference,
-      year
+      year,
     );
     if (
       displayed_unit &&
@@ -642,7 +634,7 @@ function display_recipe_table(
     ) {
       displayed_unit["label"] = displayed_unit["label"].replace(
         "tonnes",
-        "tonne"
+        "tonne",
       );
     }
     let value_inflow = recipe.value_inflow
@@ -678,10 +670,14 @@ function display_recipe_table(
       Utils.capitalize(recipe.inflow_name) +
       "</span></td>";
     rowMarkup += "<td>" + (recipe.region_inflow || "") + "</td>";
-    rowMarkup += '<td class="input-flow">';
-    rowMarkup += '<span class="inflow-value">' + value_inflow + "</span>";
     rowMarkup +=
-      '<span class="inflow-unit">' + displayed_unit["label"] + "</span>";
+      '<td class="input-flow"><span class="inflow-value">' +
+      value_inflow +
+      "</span></td>";
+    rowMarkup +=
+      "<td> <span class='inflow-unit'>" +
+      displayed_unit["label"] +
+      "</span></td>";
 
     let default_selected_unit_ratio = main_component
       .find("select.unit option:selected")
@@ -691,7 +687,7 @@ function display_recipe_table(
       '<td class="emissions-value">' +
       (recipe.value_emission
         ? Utils.reformatValue(
-            default_selected_unit_ratio * recipe.value_emission
+            default_selected_unit_ratio * recipe.value_emission,
           )
         : "") +
       "</td>";
@@ -706,7 +702,7 @@ function display_recipe_table(
     } else {
       tableMarkup += rowMarkup; // Append all other rows normally
     }
-    //end Create rows
+    //end Create row
   } //end loop on recipeArray
 
   // Append "other" row at the end if it exists
@@ -755,12 +751,9 @@ function adt_download_recipe_csv() {
     jQuery(this).click(function (e) {
       e.preventDefault();
 
-      let productTitle = jQuery(this)
-        .closest(".tile")
-        .find(".product-title")
-        .text();
-      let country = jQuery(this).closest(".tile").find(".country").text();
-      let version = jQuery(this).closest(".tile").find(".version").text();
+      let productTitle = localStorage.getItem("prod_title");
+      let country = localStorage.getItem("prod_country");
+      let version = localStorage.getItem("version");
 
       let csvContent = "";
 
@@ -792,7 +785,7 @@ function adt_download_recipe_csv() {
       let url = URL.createObjectURL(blob);
       let a = jQuery("<a></a>")
         .attr("href", url)
-        .attr("download", productTitle + "_" + version + ".csv")
+        .attr("download", productTitle + "_" + country + "_" + version + ".csv")
         .appendTo("body");
 
       a[0].click();
@@ -863,13 +856,13 @@ function adt_dynamic_search_input(list_product) {
         e.preventDefault();
         const selectedSuggestion = $items.eq(currentIndex);
         let data = await API.get_product_footprint_by_search(
-          selectedSuggestion.text()
+          selectedSuggestion.text(),
         );
         $suggestionsWrapper.hide();
         if (data.error) {
           let error_msg = jQuery("#error-message");
           error_msg.append(
-            "<p id='error-message-content' class='error-message-content-decorator'> No product found for this search</p>"
+            "<p id='error-message-content' class='error-message-content-decorator'> No product found for this search</p>",
           );
           error_msg.slideDown("fast");
           setTimeout(function () {
@@ -1020,7 +1013,7 @@ async function init_form() {
   let data;
   if (userSelection.code === "person") {
     const latestVersion = db_versions.reduce((a, b) =>
-      a.index > b.index ? a : b
+      a.index > b.index ? a : b,
     );
     userSelection.db_version = latestVersion.id;
     data = await API.get_person_footprint(userSelection);
