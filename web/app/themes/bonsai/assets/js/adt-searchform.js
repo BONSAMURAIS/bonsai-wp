@@ -765,8 +765,6 @@ function adt_download_recipe_csv() {
           jQuery(this)
             .find("th, td")
             .each(function () {
-              console.log("lbsdljsab");
-              console.log(this);
               let cellText = jQuery(this).text();
               // Escape double quotes by doubling them, and wrap in quotes if contains comma or quote
               if (cellText.includes(",") || cellText.includes('"')) {
