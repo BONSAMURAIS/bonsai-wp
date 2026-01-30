@@ -2,8 +2,6 @@
 
 defined('ABSPATH') || exit;
 
-use Roots\WPConfig\Config;
-
 $CONFIG = json_decode(file_get_contents(__DIR__.'/../../constants/config.json'), true);
 $GLOBALS['APIURL'] = $CONFIG['APIURL'];
 $GLOBALS['UNIT'] = $CONFIG['UNIT'];
@@ -59,7 +57,7 @@ function adt_get_bonsai_product_list() {
 
     foreach ($products as $product) {
         $uuid = $product['uuid'];
-        
+
         if (empty($uuid)) {
             continue;
         }
@@ -122,7 +120,7 @@ if (isset($_GET['get_future_bonsai_products'])) {
 function adt_get_locations(): array{
     // Check if the data is already cached
     $cachedLocations = get_transient('adt_locations_cache');
-    
+
     // If cache exists, return the cached data
     if ($cachedLocations !== false) {
         return $cachedLocations;
@@ -143,7 +141,7 @@ function adt_get_locations(): array{
 
     // Handle potential errors in the response
     if (empty($result)) {
-        return ['We’re sorry, but there was a problem with an external service provider.  
+        return ['We’re sorry, but there was a problem with an external service provider.
 Please try again later, or contact support if the issue persists.'];
     }
 
@@ -169,14 +167,14 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
     $url = $GLOBALS['APIURL'].'/recipes/?flow_reference='.$productCode.'&region_reference='.$country.'&version='.strtolower($version).'&metric='.strtoupper($metric);
     $response = wp_remote_get($url); // Get the whole recipe list for the product
     error_log($url);
-    
+
     // Check for errors
     if (is_wp_error($response)) {
         return [
             'error' => $response->get_error_message()
         ];
     }
-    
+
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
@@ -196,11 +194,11 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
         if (!isset($recipe['inflow'])) {
             $recipe['inflow'] = $recipe['product_code'];
         }
-    
+
         if (!isset($recipe['region_inflow']) & isset($recipe['region_code'])) {
             $recipe['region_inflow'] = $recipe['region_code'];
-        }   
-    
+        }
+
         if (!isset($recipe['value_emission'])) {
             $recipe['value_emission'] = $recipe['value'];
         }
@@ -210,15 +208,15 @@ function adt_get_product_recipe($productCode, $country, $version,$metric): array
         $counter++;
         error_log($recipe['unit_reference']);
     }
-    
+
     $other_recipe = array_splice($recipes, $index_other, 1);
-    
+
     //sort per value
     usort($recipes, function ($a, $b) {
         return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
     });
     $recipes[] = $other_recipe[0];
-    
+
     return $recipes;
 }
 
@@ -227,12 +225,12 @@ function get_country_name_by_code(){
     // API URL
     $url = $GLOBALS['APIURL']."/locations/?search=".$code;
     $response = wp_remote_get($url);
-    
+
     // Check for errors
     if (is_wp_error($response)) {
         return wp_send_json_error(['Error: ' . $response->get_error_message()]);
     }
-    
+
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
@@ -257,12 +255,12 @@ function get_country_name_by_country_code(string $countryCode){
     // API URL
     $url = $GLOBALS['APIURL']."/locations/?search=".$countryCode;
     $response = wp_remote_get($url);
-    
+
     // Check for errors
     if (is_wp_error($response)) {
         return wp_send_json_error(['Error: ' . $response->get_error_message()]);
     }
-    
+
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
@@ -299,18 +297,18 @@ function get_prod_footprint_by_search(){
     $url = $GLOBALS['APIURL']."/search/?q=".$_POST['query']."&metric=".$default_metric;
     $response = wp_remote_get($url);
     error_log($url);
-    
+
     // Check for errors
     if (is_wp_error($response)) {
         return wp_send_json_error(['Error: ' . $response->get_error_message()]);
     }
-    
+
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     error_log($body);
-    
+
     $result = json_decode($body, true);
-    
+
     error_log(empty($result['products']));
     if (isset($result['products']) && empty($result['products'])) {
         wp_send_json_error(['error' => 'Product not found']);
@@ -337,11 +335,11 @@ function get_prod_footprint_by_search(){
         if (!isset($recipe['inflow'])) {
             $recipe['inflow'] = $recipe['product_code'];
         }
-    
+
         if (!isset($recipe['region_inflow']) & isset($recipe['region_code'])) {
             $recipe['region_inflow'] = $recipe['region_code'];
-        }   
-    
+        }
+
         if (!isset($recipe['value_emission'])) {
             $recipe['value_emission'] = $recipe['value'];
         }
@@ -351,9 +349,9 @@ function get_prod_footprint_by_search(){
         $counter++;
         error_log($recipe['unit_reference']);
     }
-    
+
     $other_recipe = array_splice($recipes, $index_other, 1);
-    
+
     //sort per value
     usort($recipes, function ($a, $b) {
         return $b['value_emission'] <=> $a['value_emission']; //b before a for descending order
@@ -385,12 +383,12 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
     $url = $GLOBALS['APIURL']."/footprint/?flow_code=".$productCode."&region_code=".$countryCode."&version=".$version."&metric=".$metric;
     $response = wp_remote_get($url);
     error_log($url);
-    
+
     // Check for errors
     if (is_wp_error($response)) {
         return wp_send_json_error(['Error: ' . $response->get_error_message()]);
     }
-    
+
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     error_log($body);
@@ -428,7 +426,7 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
     }
 
     $scope = retrieve_scope($productCode);
-            
+
     $data = [
         'title' => $footprintTitle,
         'flow_code' => $productCode,
@@ -461,12 +459,12 @@ function call_product_footprint_api(string $productCode, string $countryCode, st
 function retrieve_scope($productCode){
     $url = $GLOBALS['APIURL']."/products/?search=".$productCode;
     $response = wp_remote_get($url);
-    
+
     // Check for errors
     if (is_wp_error($response)) {
         return wp_send_json_error(['Error: ' . $response->get_error_message()]);
     }
-    
+
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
@@ -494,12 +492,12 @@ function retrieve_scope($productCode){
 function get_code_by_name($name){
     $url = $GLOBALS['APIURL']."/search/?q=".$name;
     $response = wp_remote_get($url);
-    
+
     // Check for errors
     if (is_wp_error($response)) {
         return wp_send_json_error(['Error: ' . $response->get_error_message()]);
     }
-    
+
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
@@ -551,12 +549,12 @@ function get_product_name_by_code_api(){
     $productCode = $_POST['code'];
     $url = $GLOBALS['APIURL']."/products/?search=".$productCode;
     $response = wp_remote_get($url);
-    
+
     // Check for errors
     if (is_wp_error($response)) {
         return wp_send_json_error(['Error: ' . $response->get_error_message()]);
     }
-    
+
     // Retrieve and decode the response body
     $body = wp_remote_retrieve_body($response);
     $result = json_decode($body, true);
@@ -565,13 +563,13 @@ function get_product_name_by_code_api(){
         // wp_send_json_error(['error' => 'Product not found']);
         wp_send_json_success($productCode);
     }
-    
+
     // Handle potential errors in the response
     if (empty($result)) {
         // return 'No footprints found or an error occurred.';
         wp_send_json_success($productCode);
     }
-    
+
     if (array_key_exists('detail', $result)) {
         // wp_send_json_error(['error' => $result['detail']], 503);
         wp_send_json_success($productCode);
@@ -638,7 +636,7 @@ function roundToSignificantFigures($num, $sigFigs = 3) {
 
     // Calculate number of decimal places to display
     $decimals = max(0, $sigFigs - 1 - floor(log10(abs($rounded))));
-    
+
     // Format to the right number of decimal places
     return number_format($rounded, $decimals, '.', '');
 }
